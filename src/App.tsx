@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-import UpClassDashboard from "./pages/UpClassDashboard";
-import Calificaciones from "./pages/students/Calificaciones";
+import UpClassDashboard from "./views/UpClassDashboard";
+import Calificaciones from "./views/students/Calificaciones";
 
 function App() {
   return (

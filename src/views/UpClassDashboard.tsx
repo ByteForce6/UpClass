@@ -1,6 +1,6 @@
 import { useState } from "react";
-
-// Datos //
+import CatalogoCursos from "./students/CatalogoCursos";
+import CatalogoHorarios from "./students/CatalogoHorarios";
 
 const SCHEDULE = [
   { time: "07:00 am", dotColor: "teal", name: "Yoga matutino", meta: "Carla Reyes · 14 alumnos", badge: "green", badgeLabel: "En curso" },
@@ -30,6 +30,8 @@ const NAV_MAIN = [
   { icon: "ti-users", label: "Instructores", id: "instructores", badge: "8" },
   { icon: "ti-school", label: "Alumnos", id: "alumnos", badge: "142" },
   { icon: "ti-calendar-event", label: "Horarios", id: "horarios", badge: null },
+  { icon: "ti-book", label: "Catálogo cursos", id: "catalogoCursos", badge: null },
+  { icon: "ti-clock", label: "Horarios cursos", id: "catalogoHorarios", badge: null },
 ];
 
 const SETTINGS_SUBMENU = [
@@ -289,9 +291,9 @@ export default function UpClassDashboard() {
         </aside>
 
         {/* ── Contenido principal ── */}
-        < div className="uc-main" >
+        <div className="uc-main">
           {/* ── Topbar ── */}
-          < header className="uc-topbar" >
+          <header className="uc-topbar">
             <div>
               <div className="uc-topbar__title">Resumen general</div>
               <div className="uc-topbar__sub">Jueves, 14 de mayo de 2026</div>
@@ -305,40 +307,49 @@ export default function UpClassDashboard() {
                 Nueva clase
               </button>
             </div>
-          </header >
+          </header>
 
           {/* ── Scroll principal ── */}
-          < main className="uc-content" >
+          <main className="uc-content">
 
-            {/* Métricas */}
-            < div className="uc-metrics-grid" >
-              <MetricCard icon="ti-school" iconColor="#378ADD" label="Alumnos activos" value="142" />
-              <MetricCard icon="ti-users" iconColor="#1D9E75" label="Instructores" value="8" />
-              <MetricCard icon="ti-calendar-event" iconColor="#EF9F27" label="Clases hoy" value="11" />
-            </div >
+            {/* Vista inicio */}
+            {activeNav === "inicio" && (
+              <>
+                {/* Métricas */}
+                <div className="uc-metrics-grid">
+                  <MetricCard icon="ti-school" iconColor="#378ADD" label="Alumnos activos" value="142" />
+                  <MetricCard icon="ti-users" iconColor="#1D9E75" label="Instructores" value="8" />
+                  <MetricCard icon="ti-calendar-event" iconColor="#EF9F27" label="Clases hoy" value="11" />
+                </div>
 
-            {/* Acciones rápidas */}
-            < div className="uc-quick-actions" >
-              <QuickActionBtn iconClass="ti-user-plus" iconBgClass="uc-icon-bg--blue" label="Nuevo alumno" />
-              <QuickActionBtn iconClass="ti-user-plus" iconBgClass="uc-icon-bg--blue" label="Nuevo instructor" />
-              <QuickActionBtn iconClass="ti-calendar-plus" iconBgClass="uc-icon-bg--teal" label="Agendar clase" />
-              <QuickActionBtn iconClass="ti-chart-bar" iconBgClass="uc-icon-bg--purple" label="Ver reportes" />
-            </div >
+                {/* Acciones rápidas */}
+                <div className="uc-quick-actions">
+                  <QuickActionBtn iconClass="ti-user-plus" iconBgClass="uc-icon-bg--blue" label="Nuevo alumno" />
+                  <QuickActionBtn iconClass="ti-user-plus" iconBgClass="uc-icon-bg--blue" label="Nuevo instructor" />
+                  <QuickActionBtn iconClass="ti-calendar-plus" iconBgClass="uc-icon-bg--teal" label="Agendar clase" />
+                  <QuickActionBtn iconClass="ti-chart-bar" iconBgClass="uc-icon-bg--purple" label="Ver reportes" />
+                </div>
 
-            {/* Horario + Instructores */}
-            < div className="uc-grid-2col" >
-              <ScheduleCard />
-              <InstructorsCard />
-            </div >
+                {/* Horario + Instructores */}
+                <div className="uc-grid-2col">
+                  <ScheduleCard />
+                  <InstructorsCard />
+                </div>
 
-            {/* Alumnos */}
-            < div className="uc-grid-2col" >
-              <StudentsCard />
-            </div >
+                {/* Alumnos */}
+                <div className="uc-grid-2col">
+                  <StudentsCard />
+                </div>
+              </>
+            )}
 
-          </main >
-        </div >
-      </div >
+            {/* Vistas nuevas */}
+            {activeNav === "catalogoCursos"   && <CatalogoCursos />}
+            {activeNav === "catalogoHorarios" && <CatalogoHorarios />}
+
+          </main>
+        </div>
+      </div>
     </>
   );
 }
