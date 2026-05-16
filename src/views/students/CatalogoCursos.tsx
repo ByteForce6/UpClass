@@ -26,6 +26,7 @@ function getModalidadStyle(m: string): { bg: string; color: string } {
   return                         { bg: "#f5f2ed", color: "#555" };
 }
 
+
 // ─── Subcomponentes ───────────────────────────────────────────
 
 function BadgeModalidad({ tipo }: { tipo: string }) {
