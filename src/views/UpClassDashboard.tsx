@@ -10,6 +10,7 @@ const SCHEDULE = [
   { time: "04:00 pm", dotColor: "purple", name: "Dibujo y pintura", meta: "Luisa Fox · 12 alumnos", badge: "gray", badgeLabel: "Pendiente" },
 ];
 
+
 const INSTRUCTORS = [
   { initials: "CR", color: "teal", name: "Carla Reyes", specialty: "Yoga · Meditación", students: 14 },
   { initials: "PM", color: "blue", name: "Pedro Mora", specialty: "Inglés · Francés", students: 20 },

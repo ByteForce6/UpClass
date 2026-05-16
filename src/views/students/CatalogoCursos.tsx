@@ -27,6 +27,7 @@ function getModalidadClass(m: string) {
   return "cat-badge--muted";
 }
 
+
 // ─── Subcomponentes ───────────────────────────────────────────
 
 function BadgeCupo({ curso }: { curso: CursoCatalogo }) {

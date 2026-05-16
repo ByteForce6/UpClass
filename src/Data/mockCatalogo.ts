@@ -6,7 +6,7 @@ export const CURSOS_CATALOGO: CursoCatalogo[] = [
     id: 1,
     nombre:      "Diseño UX/UI Avanzado",
     instructor:  "Arq. Laura Méndez",
-    categoria:   "Diseño",
+    categoria:   "Diseño",    
     nivel:       "Avanzado",
     modalidad:   "Presencial",
     sala:        "Aula A-3",
