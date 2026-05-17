@@ -81,7 +81,7 @@ export default function Home() {
 
                     <div className="hero-buttons">
                         <button className="hero-primary">
-                            Comenzar
+                            Comienzar
                         </button>
 
                         <button className="hero-secondary">
