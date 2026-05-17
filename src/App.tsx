@@ -4,6 +4,8 @@ import CursosView from "./views/administrator/CursosView";
 import InstructoresView from "./views/administrator/InstructoresView";
 import AlumnosView from "./views/administrator/AlumnosView";
 import Calificaciones from "./views/students/Calificaciones";
+import Home from "./views/home";
+import Login from "./views/login";
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
       <Route path="/instructores" element={<InstructoresView />} />
       <Route path="/alumnos" element={<AlumnosView />} />
       <Route path="/students" element={<Calificaciones />} />
+      <Route path="/home" element={<Home />} />
+      <Route path="/login" element={<Login />} />
     </Routes>
   );
 }
