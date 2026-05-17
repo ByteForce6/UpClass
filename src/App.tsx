@@ -6,6 +6,8 @@ import AlumnosView from "./views/administrator/AlumnosView";
 import Calificaciones from "./views/students/Calificaciones";
 import Home from "./views/home";
 import Login from "./views/login";
+import { ProfesorIndex } from "./views/teachers/ProfesorIndex";
+import { CalificacionesView } from "./views/teachers/CalificacionesView";
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
       <Route path="/students" element={<Calificaciones />} />
       <Route path="/home" element={<Home />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/teacher" element={<ProfesorIndex />} />
+      <Route path="/teacher/calificaciones" element={<CalificacionesView />} />
     </Routes>
   );
 }
