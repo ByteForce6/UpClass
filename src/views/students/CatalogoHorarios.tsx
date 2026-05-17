@@ -1,24 +1,13 @@
-// views/VistaCatalogoHorarios.tsx
-// ─────────────────────────────────────────────────────────────
-// Página: horarios de todos los cursos disponibles.
-// Permite al alumno explorar qué días/horas tienen cada curso
-// ANTES de inscribirse (distinto a VistaHorarios que muestra
-// solo los cursos en los que ya está inscrito).
-//
-// Modos:
-//   - Semana → grilla visual por día con bloques interactivos
-//   - Lista  → tabla ordenada con barra de cupo
-//
-// Al hacer clic en un bloque/fila se abre un panel lateral
-// con el detalle completo y botón de inscripción.
-// ─────────────────────────────────────────────────────────────
-
-// ✅ Correcto
 import { useState } from "react";
 import type { CursoCatalogo } from "../../Types/index";
-import { CURSOS_CATALOGO, CATEGORIAS_CATALOGO, DIAS_SEMANA } from "../../Data/mockCatalogo";
+import {
+  CURSOS_CATALOGO,
+  CATEGORIAS_CATALOGO,
+  DIAS_SEMANA,
+} from "../../Data/mockCatalogo";
 import "../../Styles/catalogo.css";
-// ─── Helpers puros ────────────────────────────────────────────
+
+// ─── Helpers ──────────────────────────────────────────────────
 
 function cupoLibre(c: CursoCatalogo): number {
   return c.cupoTotal - c.cupoOcupado;
@@ -27,19 +16,17 @@ function cupoLibre(c: CursoCatalogo): number {
 function getCupoStatus(c: CursoCatalogo) {
   const libre = cupoLibre(c);
   const pct   = libre / c.cupoTotal;
-  if (libre === 0) return { label: "Lleno",              bg: "#fff5f5", color: "#9b1c1c" };
-  if (pct <= 0.2)  return { label: `${libre} lugar${libre > 1 ? "es" : ""}`, bg: "#fff8ed", color: "#7a3c00" };
-  return               { label: `${libre} lugares`,     bg: "#f0faf5", color: "#1a6b3c" };
+  if (libre === 0) return { label: "Lleno",   bg: "#fff5f5", color: "#9b1c1c", bar: "#e53e3e" };
+  if (pct <= 0.2)  return { label: `${libre} lugar${libre > 1 ? "es" : ""}`, bg: "#fff8ed", color: "#7a3c00", bar: "#f59e0b" };
+  return               { label: `${libre} lugares`, bg: "#f0faf5", color: "#1a6b3c", bar: "#22c55e" };
 }
 
-// Cursos que tienen sesión un día específico
 function cursosDelDia(dia: string, lista: CursoCatalogo[]): CursoCatalogo[] {
   return lista.filter((c) => c.dias.includes(dia));
 }
 
-// ─── Subcomponentes ───────────────────────────────────────────
+// ─── Bloque en calendario ─────────────────────────────────────
 
-// Bloque en la vista de semana
 function BloqueCalendario({
   curso,
   seleccionado,
@@ -51,6 +38,7 @@ function BloqueCalendario({
 }) {
   const libre = cupoLibre(curso);
   const lleno = libre === 0;
+  const st    = getCupoStatus(curso);
 
   return (
     <div
@@ -58,27 +46,27 @@ function BloqueCalendario({
       onClick={() => !lleno && onSelect(curso.id)}
       style={{
         borderLeftColor: lleno ? "#e0dbd4" : curso.color,
-        background: seleccionado ? `${curso.color}12` : "#fafaf9",
-        outline: seleccionado ? `1px solid ${curso.color}` : "1px solid transparent",
+        background: seleccionado ? `${curso.color}10` : "#fff",
+        outline: seleccionado ? `1px solid ${curso.color}40` : "1px solid transparent",
       }}
     >
       <p className="cal-bloque-hora">{curso.horaInicio}–{curso.horaFin}</p>
       <p className="cal-bloque-nombre">
-        {/* Mostramos solo las primeras 3 palabras para no desbordar */}
         {curso.nombre.split(" ").slice(0, 3).join(" ")}
       </p>
       <p className="cal-bloque-sala">{curso.sala}</p>
       <span
         className="cal-bloque-cupo"
-        style={{ color: lleno ? "#ccc" : curso.color }}
+        style={{ color: lleno ? "#ccc" : st.color }}
       >
-        {lleno ? "LLENO" : `${libre} lugares`}
+        {lleno ? "LLENO" : st.label}
       </span>
     </div>
   );
 }
 
-// Panel lateral de detalle al seleccionar un curso
+// ─── Panel lateral de detalle ─────────────────────────────────
+
 function PanelDetalle({
   cursoId,
   onClose,
@@ -94,7 +82,12 @@ function PanelDetalle({
   return (
     <div className="cal-panel">
       <div className="cal-panel-top">
-        <span className="cat-badge cat-badge--outline">{c.categoria}</span>
+        <span
+          className="cat-badge cat-badge--outline"
+          style={{ borderLeftColor: c.color, borderLeftWidth: 3 }}
+        >
+          {c.categoria}
+        </span>
         <button className="cal-panel-close" onClick={onClose}>×</button>
       </div>
 
@@ -102,6 +95,8 @@ function PanelDetalle({
         <h3 className="cal-panel-nombre">{c.nombre}</h3>
         <p className="cal-panel-instructor">{c.instructor}</p>
       </div>
+
+      <hr className="cal-panel-divider" />
 
       <div className="cal-panel-rows">
         {[
@@ -120,26 +115,19 @@ function PanelDetalle({
         ))}
       </div>
 
-      {/* Barra de cupo */}
+      <hr className="cal-panel-divider" />
+
       <div>
         <div className="cat-cupo-header">
-          <span className="cat-cupo-count">
-            {c.cupoOcupado}/{c.cupoTotal} inscritos
-          </span>
-          <span
-            className="cat-cupo-label"
-            style={{ background: st.bg, color: st.color }}
-          >
+          <span className="cat-cupo-count">{c.cupoOcupado}/{c.cupoTotal} inscritos</span>
+          <span className="cat-cupo-label" style={{ background: st.bg, color: st.color }}>
             {st.label}
           </span>
         </div>
         <div className="cat-progress-track">
           <div
             className="cat-progress-fill"
-            style={{
-              width: `${pct}%`,
-              background: libre === 0 ? "#e53e3e" : c.color,
-            }}
+            style={{ width: `${pct}%`, background: libre === 0 ? "#e53e3e" : c.color }}
           />
         </div>
       </div>
@@ -154,7 +142,8 @@ function PanelDetalle({
   );
 }
 
-// Fila en vista lista
+// ─── Fila en vista lista ──────────────────────────────────────
+
 function FilaHorario({
   curso,
   seleccionado,
@@ -182,22 +171,15 @@ function FilaHorario({
         <p className="cal-list-instructor">{curso.instructor} · {curso.sala}</p>
       </div>
 
-      {/* Mini barra de cupo */}
       <div>
-        <div className="cat-cupo-header" style={{ marginBottom: 5 }}>
+        <div className="cat-cupo-header" style={{ marginBottom: 6 }}>
           <span className="cat-cupo-count">{curso.cupoOcupado}/{curso.cupoTotal}</span>
-          <span
-            className="cat-cupo-label"
-            style={{ background: st.bg, color: st.color, fontSize: 10 }}
-          >
+          <span className="cat-cupo-label" style={{ background: st.bg, color: st.color, fontSize: 9 }}>
             {st.label}
           </span>
         </div>
         <div className="cat-progress-track" style={{ height: 3 }}>
-          <div
-            className="cat-progress-fill"
-            style={{ width: `${pct}%`, background: curso.color }}
-          />
+          <div className="cat-progress-fill" style={{ width: `${pct}%`, background: curso.color }} />
         </div>
       </div>
 
@@ -208,12 +190,11 @@ function FilaHorario({
 
 // ─── Vista principal ──────────────────────────────────────────
 
-export default function VistaCatalogoHorarios() {
+export default function CatalogoHorarios() {
   const [categoria,    setCategoria]    = useState<string>("Todas");
   const [modoSemana,   setModoSemana]   = useState<boolean>(true);
   const [seleccionado, setSeleccionado] = useState<number | null>(null);
 
-  // Alterna selección: clic en el mismo cierra el panel
   const handleSelect = (id: number) =>
     setSeleccionado((prev) => (prev === id ? null : id));
 
@@ -221,26 +202,24 @@ export default function VistaCatalogoHorarios() {
     (c) => categoria === "Todas" || c.categoria === categoria
   );
 
+  const categoriasFiltro = ["Todas", ...CATEGORIAS_CATALOGO.filter((c) => c !== "Todos")];
+
   return (
     <div className="cat-page">
 
-      {/* Encabezado */}
       <div className="cat-header">
         <p className="cat-kicker">Oferta académica</p>
-        <h2 className="cat-title">
-          Horarios <em>disponibles</em>
-        </h2>
+        <h2 className="cat-title">Horarios <em>disponibles</em></h2>
         <p className="cat-subtitle-text">
-          Ciclo Ene–Jun 2025 · Haz clic en un curso para ver el detalle e inscribirte
+          Ciclo Ene–Jun 2025 · Selecciona un curso para ver el detalle
         </p>
       </div>
 
-      {/* Stats rápidas */}
       <div className="cat-stats">
         {[
-          { val: String(filtrados.length),                                   label: "Cursos",        sub: "en oferta" },
-          { val: String(filtrados.reduce((a, c) => a + c.dias.length, 0)),   label: "Sesiones/sem.", sub: "en total" },
-          { val: String(filtrados.filter((c) => cupoLibre(c) > 0).length),   label: "Con cupo",      sub: "disponible" },
+          { val: String(filtrados.length),                                 label: "Cursos",        sub: "en oferta" },
+          { val: String(filtrados.reduce((a, c) => a + c.dias.length, 0)), label: "Sesiones/sem.", sub: "en total" },
+          { val: String(filtrados.filter((c) => cupoLibre(c) > 0).length), label: "Con cupo",      sub: "disponible" },
         ].map((s) => (
           <div key={s.label} className="cat-stat-card">
             <p className="cat-stat-val">{s.val}</p>
@@ -250,25 +229,18 @@ export default function VistaCatalogoHorarios() {
         ))}
       </div>
 
-      {/* Barra de filtros */}
       <div className="cat-toolbar">
         <div className="cat-filters">
-          {/* "Todas" es el valor neutro para esta vista */}
-          {["Todas", ...CATEGORIAS_CATALOGO.filter((c) => c !== "Todos")].map((cat) => (
+          {categoriasFiltro.map((cat) => (
             <button
               key={cat}
               className={`cat-filter-btn${categoria === cat ? " active" : ""}`}
-              onClick={() => {
-                setCategoria(cat);
-                setSeleccionado(null); // limpiar panel al cambiar filtro
-              }}
+              onClick={() => { setCategoria(cat); setSeleccionado(null); }}
             >
-              {cat}
+              <span>{cat}</span>
             </button>
           ))}
         </div>
-
-        {/* Toggle semana / lista */}
         <div className="cat-toggle-vista">
           <button
             className={`cat-toggle-btn${modoSemana ? " active" : ""}`}
@@ -285,10 +257,9 @@ export default function VistaCatalogoHorarios() {
         </div>
       </div>
 
-      {/* ── Modo semana ── */}
+      {/* ── Vista semana ── */}
       {modoSemana && (
         <div className="cal-layout">
-          {/* Grilla por día */}
           <div
             className="cal-grid"
             style={{ gridTemplateColumns: `repeat(${DIAS_SEMANA.length}, 1fr)` }}
@@ -301,7 +272,7 @@ export default function VistaCatalogoHorarios() {
                     <p className="cal-day-name">{dia.slice(0, 3)}</p>
                   </div>
                   {bloques.length === 0 ? (
-                    <p className="cal-empty" style={{ fontSize: 10, padding: "4px 0" }}>—</p>
+                    <p className="cal-empty">—</p>
                   ) : (
                     bloques.map((c) => (
                       <BloqueCalendario
@@ -317,7 +288,6 @@ export default function VistaCatalogoHorarios() {
             })}
           </div>
 
-          {/* Panel de detalle lateral */}
           {seleccionado !== null && (
             <PanelDetalle
               cursoId={seleccionado}
@@ -327,32 +297,31 @@ export default function VistaCatalogoHorarios() {
         </div>
       )}
 
-      {/* ── Modo lista ── */}
+      {/* ── Vista lista ── */}
       {!modoSemana && (
         <div className="cal-layout">
           <div style={{ flex: 1, minWidth: 0 }}>
-            {/* Cabecera de la tabla */}
-            <div className="cal-list-header">
-              {["Día / Hora", "Curso", "Cupo", "Precio"].map((h) => (
-                <p key={h} className="cal-list-th">{h}</p>
-              ))}
+            <div className="cal-list-wrap">
+              <div className="cal-list-header">
+                {["Día / Hora", "Curso", "Cupo", "Precio"].map((h) => (
+                  <p key={h} className="cal-list-th">{h}</p>
+                ))}
+              </div>
+              {filtrados.length === 0 ? (
+                <p className="cat-empty">No hay cursos con los filtros seleccionados.</p>
+              ) : (
+                filtrados.map((c) => (
+                  <FilaHorario
+                    key={c.id}
+                    curso={c}
+                    seleccionado={seleccionado === c.id}
+                    onSelect={handleSelect}
+                  />
+                ))
+              )}
             </div>
-
-            {filtrados.length === 0 ? (
-              <p className="cat-empty">No hay cursos con los filtros seleccionados.</p>
-            ) : (
-              filtrados.map((c) => (
-                <FilaHorario
-                  key={c.id}
-                  curso={c}
-                  seleccionado={seleccionado === c.id}
-                  onSelect={handleSelect}
-                />
-              ))
-            )}
           </div>
 
-          {/* Panel de detalle lateral también en modo lista */}
           {seleccionado !== null && (
             <PanelDetalle
               cursoId={seleccionado}

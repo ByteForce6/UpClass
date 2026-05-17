@@ -1,4 +1,3 @@
-
 import type { CursoCatalogo } from "../Types/index";
 
 export const CURSOS_CATALOGO: CursoCatalogo[] = [
@@ -130,8 +129,6 @@ export const CURSOS_CATALOGO: CursoCatalogo[] = [
   },
 ];
 
-// Listas de filtros derivadas del mock.
-// Cuando uses API, estas también pueden venir del backend.
 export const CATEGORIAS_CATALOGO = [
   "Todos",
   ...Array.from(new Set(CURSOS_CATALOGO.map((c) => c.categoria))),
