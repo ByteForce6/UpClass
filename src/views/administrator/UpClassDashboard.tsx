@@ -1,6 +1,9 @@
 import { useState } from "react";
-import CatalogoCursos from "./students/CatalogoCursos";
-import CatalogoHorarios from "./students/CatalogoHorarios";
+import ClasesView from "./CursosView";
+import InstructoresView from "./InstructoresView";
+import AlumnosView from "./AlumnosView";
+
+// Datos //
 
 const SCHEDULE = [
   { time: "07:00 am", dotColor: "teal", name: "Yoga matutino", meta: "Carla Reyes · 14 alumnos", badge: "green", badgeLabel: "En curso" },
@@ -29,9 +32,7 @@ const NAV_MAIN = [
   { icon: "ti-layout-dashboard", label: "Inicio", id: "inicio", badge: null },
   { icon: "ti-users", label: "Instructores", id: "instructores", badge: "8" },
   { icon: "ti-school", label: "Alumnos", id: "alumnos", badge: "142" },
-  { icon: "ti-calendar-event", label: "Horarios", id: "horarios", badge: null },
-  { icon: "ti-book", label: "Catálogo cursos", id: "catalogoCursos", badge: null },
-  { icon: "ti-clock", label: "Horarios cursos", id: "catalogoHorarios", badge: null },
+  { icon: "ti-book", label: "Cursos", id: "cursos", badge: "11" },
 ];
 
 const SETTINGS_SUBMENU = [
@@ -98,11 +99,12 @@ interface QuickActionBtnProps {
   iconClass: string;
   iconBgClass: string;
   label: string;
+  onClick?: () => void;
 }
 
-function QuickActionBtn({ iconClass, iconBgClass, label }: QuickActionBtnProps) {
+function QuickActionBtn({ iconClass, iconBgClass, label, onClick }: QuickActionBtnProps) {
   return (
-    <button className="uc-quick-action-btn">
+    <button className="uc-quick-action-btn" onClick={onClick}>
       <div className={`uc-quick-action-btn__icon ${iconBgClass}`}>
         <i className={`ti ${iconClass}`} aria-hidden="true" />
       </div>
@@ -291,9 +293,9 @@ export default function UpClassDashboard() {
         </aside>
 
         {/* ── Contenido principal ── */}
-        <div className="uc-main">
+        < div className="uc-main" >
           {/* ── Topbar ── */}
-          <header className="uc-topbar">
+          < header className="uc-topbar" >
             <div>
               <div className="uc-topbar__title">Resumen general</div>
               <div className="uc-topbar__sub">Jueves, 14 de mayo de 2026</div>
@@ -302,54 +304,52 @@ export default function UpClassDashboard() {
               <button className="uc-btn-icon" aria-label="Buscar">
                 <i className="ti ti-search" aria-hidden="true" />
               </button>
-              <button className="uc-btn-primary">
-                <i className="ti ti-plus" aria-hidden="true" />
-                Nueva clase
+              <button className="uc-btn-primary" onClick={() => setActiveNav("cursos")}>
+                Nuevo curso
               </button>
             </div>
-          </header>
+          </header >
 
           {/* ── Scroll principal ── */}
-          <main className="uc-content">
-
-            {/* Vista inicio */}
-            {activeNav === "inicio" && (
+          < main className="uc-content" >
+            {activeNav === "cursos" ? (
+              <ClasesView />
+            ) : activeNav === "instructores" ? (
+              <InstructoresView />
+            ) : activeNav === "alumnos" ? (
+              <AlumnosView />
+            ) : (
               <>
                 {/* Métricas */}
-                <div className="uc-metrics-grid">
+                < div className="uc-metrics-grid" >
                   <MetricCard icon="ti-school" iconColor="#378ADD" label="Alumnos activos" value="142" />
                   <MetricCard icon="ti-users" iconColor="#1D9E75" label="Instructores" value="8" />
                   <MetricCard icon="ti-calendar-event" iconColor="#EF9F27" label="Clases hoy" value="11" />
-                </div>
+                </div >
 
                 {/* Acciones rápidas */}
-                <div className="uc-quick-actions">
-                  <QuickActionBtn iconClass="ti-user-plus" iconBgClass="uc-icon-bg--blue" label="Nuevo alumno" />
-                  <QuickActionBtn iconClass="ti-user-plus" iconBgClass="uc-icon-bg--blue" label="Nuevo instructor" />
-                  <QuickActionBtn iconClass="ti-calendar-plus" iconBgClass="uc-icon-bg--teal" label="Agendar clase" />
+                < div className="uc-quick-actions" >
+                  <QuickActionBtn iconClass="ti-user-plus" iconBgClass="uc-icon-bg--blue" label="Alumnos" onClick={() => setActiveNav("alumnos")} />
+                  <QuickActionBtn iconClass="ti-user-plus" iconBgClass="uc-icon-bg--blue" label="Nuevo instructor" onClick={() => setActiveNav("instructores")} />
+                  <QuickActionBtn iconClass="ti ti-book" iconBgClass="uc-icon-bg--teal" label="Cursos" onClick={() => setActiveNav("cursos")}  />
                   <QuickActionBtn iconClass="ti-chart-bar" iconBgClass="uc-icon-bg--purple" label="Ver reportes" />
-                </div>
+                </div >
 
                 {/* Horario + Instructores */}
-                <div className="uc-grid-2col">
+                < div className="uc-grid-2col" >
                   <ScheduleCard />
                   <InstructorsCard />
-                </div>
+                </div >
 
                 {/* Alumnos */}
-                <div className="uc-grid-2col">
+                < div className="uc-grid-2col" >
                   <StudentsCard />
-                </div>
+                </div >
               </>
             )}
-
-            {/* Vistas nuevas */}
-            {activeNav === "catalogoCursos"   && <CatalogoCursos />}
-            {activeNav === "catalogoHorarios" && <CatalogoHorarios />}
-
-          </main>
-        </div>
-      </div>
+          </main >
+        </div >
+      </div >
     </>
   );
 }

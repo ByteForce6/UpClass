@@ -58,12 +58,12 @@ export default function ClasesView() {
                 {/* Header */}
                 <div className="ucv-clases-header">
                     <div>
-                        <div className="ucv-clases-header__title">Clases registradas</div>
-                        <div className="ucv-clases-header__sub">{CLASES_DATA.length} clases en total</div>
+                        <div className="ucv-clases-header__title">Cursos registrados</div>
+                        <div className="ucv-clases-header__sub">{CLASES_DATA.length} cursos en total</div>
                     </div>
                     <button className="ucv-btn-add">
                         <i className="ti ti-plus" aria-hidden="true" />
-                        Agregar clase
+                        Agregar curso
                     </button>
                 </div>
 
@@ -98,7 +98,7 @@ export default function ClasesView() {
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th className="ucv-th--sortable">Clase</th>
+                                    <th className="ucv-th--sortable">Curso</th>
                                     <th className="ucv-th--sortable">Instructor</th>
                                     <th>Horario</th>
                                     <th>Días</th>
@@ -111,7 +111,7 @@ export default function ClasesView() {
                                 {paginated.length === 0 ? (
                                     <tr>
                                         <td colSpan={8} style={{ textAlign: "center", color: "#aaa", padding: "32px" }}>
-                                            No se encontraron clases.
+                                            No se encontraron cursos.
                                         </td>
                                     </tr>
                                 ) : (
