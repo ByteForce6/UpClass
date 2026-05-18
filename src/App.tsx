@@ -4,8 +4,10 @@ import CursosView from "./views/administrator/CursosView";
 import InstructoresView from "./views/administrator/InstructoresView";
 import AlumnosView from "./views/administrator/AlumnosView";
 import Calificaciones from "./views/students/Calificaciones";
+import CatalogoCursos from "./views/students/CatalogoCursos";
 import Home from "./views/home";
 import Login from "./views/login";
+
 
 function App() {
   return (
@@ -17,6 +19,10 @@ function App() {
       <Route path="/students" element={<Calificaciones />} />
       <Route path="/home" element={<Home />} />
       <Route path="/login" element={<Login />} />
+
+      <Route path="/xd" element={<CatalogoCursos />} />
+
+      <Route path="*" element={<CatalogoCursos />} />
     </Routes>
   );
 }
