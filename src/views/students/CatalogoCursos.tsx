@@ -8,7 +8,6 @@ import {
 import "../../Styles/catalogo.css";
 
 // ─── Helpers ──────────────────────────────────────────────────
-
 function cupoLibre(c: CursoCatalogo): number {
   return c.cupoTotal - c.cupoOcupado;
 }
