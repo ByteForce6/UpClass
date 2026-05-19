@@ -644,7 +644,6 @@ button{border-radius:0!important;cursor:pointer;}
               </p>
             </div>
             <div className="uc-topbar-right">
-              <span className="uc-cycle-badge">Ciclo Ene–Jun 2025</span>
               <div className="uc-topbar-avatar">
                 <span>RM</span>
               </div>
