@@ -17,7 +17,7 @@ export default defineConfig({
         background_color: '#ffffff',
         display: 'standalone',
         orientation: 'portrait',
-        start_url: '/',
+        start_url: '/dist',
         screenshots: [
           {
             src: '/screenshot_horizontal.png',
