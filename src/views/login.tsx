@@ -72,44 +72,13 @@ export default function Login() {
 
                         {/* BOTÓN DINÁMICO */}
                         <button className="login-btn">
-                            {isRegister ? "Crear cuenta" : "Entrar"}
+                            Entrar
                         </button>
 
                     </form>
-                       {/* SWITCH LOGIN / REGISTER */}
-                    <div className="login-divider">
-                        <span>
-                            {isRegister
-                                ? "¿Ya tienes cuenta?"
-                                : "¿Aún no tienes cuenta?"}
-                        </span>
-                    </div>
-
-                    <button
-                        type="button"
-                        className="login-register-btn"
-                        onClick={() => setIsRegister(!isRegister)}
-                    >
-                        {isRegister ? "Iniciar sesión" : "Crear cuenta"}
-                    </button>
-                    {/* SOCIAL */}
-                    <div className="login-divider">
-                        <span>o continuar con</span>
-                    </div>
-
-                    <div className="login-socials">
-                        <button>
-                            <i className="ti ti-brand-google"></i>
-                            Google
-                        </button>
-                    </div>
-
-                   
 
                 </div>
-
             </div>
-
         </div>
     );
 }

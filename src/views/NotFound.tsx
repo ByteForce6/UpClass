@@ -1,5 +1,11 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import '../Styles/404.css';
+import '../Styles/home.css';
+
 export default function NotFound() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <>
       <div className="nf-shell">
@@ -16,9 +22,26 @@ export default function NotFound() {
           <span className="nf-deco-right-num">UP · CLASS</span>
         </div>
 
-        {/* Header */}
-        <header className="nf-header">
-          <a href="/" className="nf-brand">UP<em>CLASS</em></a>
+        {/* Navbar del Home */}
+        <header className="home-navbar">
+          <button
+            className="home-hamburger"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            ☰
+          </button>
+          <div className="home-logo">UpClass</div>
+
+          <nav className={`home-nav ${menuOpen ? "active" : ""}`}>
+            <a href="/#inicio">Inicio</a>
+            <a href="/#cursos">Cursos</a>
+            <a href="/#testimonios">Testimonios</a>
+            <a href="/#preguntas">Preguntas Frecuentes</a>
+          </nav>
+
+          <Link to="/login" className="home-login-btn">
+            Iniciar sesión
+          </Link>
         </header>
 
         {/* Centro */}
@@ -38,7 +61,6 @@ export default function NotFound() {
 
           <div className="nf-actions">
             <a href="/" className="nf-btn nf-btn--solid">← Volver al inicio</a>
-            {/* <a href="/admin" className="nf-btn nf-btn--line">Ir al dashboard</a> */}
           </div>
 
           <div className="nf-suggestions">
