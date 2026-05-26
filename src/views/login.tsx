@@ -4,7 +4,7 @@ import "../Styles/login.css";
 
 export default function Login() {
 
-    const [isRegister, setIsRegister] = useState(false);
+    const [isRegister] = useState(false);
 
     return (
 
