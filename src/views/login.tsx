@@ -29,7 +29,7 @@ export default function Login() {
 
                 <div className={`login-card ${isRegister ? "active" : ""}`}>
 
-                    <Link to="/home" className="login-back">
+                    <Link to="/" className="login-back">
                         ← Volver
                     </Link>
 
