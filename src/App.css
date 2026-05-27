@@ -1,0 +1,1128 @@
+.uc-root * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  height: 100vh;
+  overflow-y: auto;
+}
+
+/* ── Layout principal ── */
+.uc-root {
+  display: flex;
+  height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #F5F5F3;
+  color: #1A1A1A;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ── Sidebar ── */
+.uc-sidebar {
+  width: 220px;
+  min-width: 220px;
+  background: #ffffff;
+  border-right: 0.5px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: width 0.22s ease, min-width 0.22s ease;
+}
+
+.uc-sidebar--collapsed {
+  width: 58px;
+  min-width: 58px;
+}
+
+.uc-sidebar__logo {
+  padding: 20px 20px 16px;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 62px;
+  flex-shrink: 0;
+}
+
+.uc-sidebar--collapsed .uc-sidebar__logo {
+  padding: 0;
+  justify-content: center;
+}
+
+.uc-sidebar__logo-text {
+  overflow: hidden;
+  transition: opacity 0.15s ease, width 0.22s ease;
+  white-space: nowrap;
+}
+
+.uc-sidebar--collapsed .uc-sidebar__logo-text {
+  opacity: 0;
+  width: 0;
+}
+
+.uc-sidebar__logo-name {
+  font-size: 17px;
+  font-weight: 600;
+  color: #0F4C8A;
+  letter-spacing: -0.4px;
+}
+
+.uc-sidebar__logo-sub {
+  font-size: 11px;
+  color: #888;
+  margin-top: 2px;
+}
+
+/* ── Botón de colapso ── */
+.uc-sidebar__toggle {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: 0.5px solid rgba(0, 0, 0, 0.12);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #888;
+  font-size: 15px;
+  flex-shrink: 0;
+  transition: background 0.12s, color 0.12s, transform 0.22s ease;
+}
+
+.uc-sidebar__toggle:hover {
+  background: #F0F0EE;
+  color: #1A1A1A;
+}
+
+.uc-sidebar--collapsed .uc-sidebar__toggle {
+  transform: rotate(180deg);
+  margin: 0 auto;
+}
+
+.uc-sidebar__section {
+  padding: 14px 12px 4px;
+  overflow: hidden;
+}
+
+.uc-sidebar__section-label {
+  font-size: 10px;
+  color: #aaa;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  padding: 0 8px 6px;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: opacity 0.15s ease;
+}
+
+.uc-sidebar--collapsed .uc-sidebar__section-label {
+  opacity: 0;
+  height: 0;
+  padding: 0;
+}
+
+.uc-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #555;
+  transition: background 0.12s, color 0.12s;
+  margin-bottom: 2px;
+  user-select: none;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  white-space: nowrap;
+  position: relative;
+}
+
+.uc-nav-item:hover {
+  background: #F0F0EE;
+  color: #1A1A1A;
+}
+
+.uc-nav-item--active {
+  background: #EBF3FC;
+  color: #0F4C8A;
+  font-weight: 500;
+}
+
+.uc-nav-item__icon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.uc-nav-item__label {
+  overflow: hidden;
+  transition: opacity 0.15s ease, width 0.22s ease;
+  flex: 1;
+}
+
+.uc-sidebar--collapsed .uc-nav-item__label {
+  opacity: 0;
+  width: 0;
+  flex: 0;
+}
+
+.uc-nav-item__badge {
+  margin-left: auto;
+  background: #EBF3FC;
+  color: #0F4C8A;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 7px;
+  border-radius: 20px;
+  transition: opacity 0.15s ease;
+  flex-shrink: 0;
+}
+
+.uc-sidebar--collapsed .uc-nav-item__badge {
+  opacity: 0;
+  width: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* ── Tooltip en modo colapsado ── */
+.uc-sidebar--collapsed .uc-nav-item:hover::after {
+  content: attr(data-label);
+  position: fixed;
+  left: 68px;
+  background: #1A1A1A;
+  color: #fff;
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 999;
+  transform: translateY(-50%);
+  margin-top: 12px;
+}
+
+.uc-sidebar__footer {
+  margin-top: auto;
+  padding: 12px;
+  border-top: 0.5px solid rgba(0, 0, 0, 0.08);
+}
+
+.uc-sidebar--collapsed .uc-sidebar__footer {
+  padding: 12px 6px;
+}
+
+.uc-admin-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+}
+
+.uc-sidebar--collapsed .uc-admin-pill {
+  justify-content: center;
+  padding: 8px 4px;
+}
+
+.uc-admin-pill__info {
+  overflow: hidden;
+  transition: opacity 0.15s ease, width 0.22s ease;
+  white-space: nowrap;
+}
+
+.uc-sidebar--collapsed .uc-admin-pill__info {
+  opacity: 0;
+  width: 0;
+}
+
+/* ── Main ── */
+.uc-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── Topbar ── */
+.uc-topbar {
+  background: #ffffff;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.uc-topbar__title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1A1A1A;
+}
+
+.uc-topbar__sub {
+  font-size: 12px;
+  color: #888;
+  margin-top: 2px;
+}
+
+.uc-topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── Botones ── */
+.uc-btn-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 0.5px solid rgba(0, 0, 0, 0.12);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #555;
+  font-size: 17px;
+  transition: background 0.12s;
+}
+
+.uc-btn-icon:hover {
+  background: #F0F0EE;
+}
+
+.uc-btn-primary {
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 8px;
+  border: none;
+  background: #0F4C8A;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.12s;
+}
+
+.uc-btn-primary:hover {
+  background: #0D3F74;
+}
+
+/* ── Contenido ── */
+.uc-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 24px;
+}
+
+/* ── Métricas ── */
+.uc-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.uc-metric-card {
+  background: #ffffff;
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.uc-metric-card__label {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.uc-metric-card__value {
+  font-size: 26px;
+  font-weight: 600;
+  color: #1A1A1A;
+  line-height: 1;
+}
+
+.uc-metric-card__delta {
+  font-size: 11px;
+  margin-top: 7px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.uc-delta--up {
+  color: #2E6B0E;
+}
+
+.uc-delta--down {
+  color: #8B2020;
+}
+
+.uc-delta--neu {
+  color: #888;
+}
+
+/* ── Acciones rápidas ── */
+.uc-quick-actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.uc-quick-action-btn {
+  background: #ffffff;
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 14px 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: border-color 0.12s, background 0.12s;
+  width: 100%;
+}
+
+.uc-quick-action-btn:hover {
+  border-color: rgba(0, 0, 0, 0.2);
+  background: #FAFAFA;
+}
+
+.uc-quick-action-btn__icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+}
+
+.uc-quick-action-btn__label {
+  font-size: 11px;
+  color: #666;
+  text-align: center;
+}
+
+/* ── Grid 2 columnas ── */
+.uc-grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+/* ── Card genérica ── */
+.uc-card {
+  background: #ffffff;
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.uc-card__header {
+  padding: 13px 16px;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.uc-card__title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1A1A1A;
+}
+
+.uc-card__action {
+  font-size: 12px;
+  color: #0F4C8A;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.uc-card__body {
+  padding: 10px 16px;
+}
+
+/* ── Horario ── */
+.uc-schedule-row {
+  display: flex;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.06);
+  align-items: flex-start;
+}
+
+.uc-schedule-row:last-child {
+  border-bottom: none;
+}
+
+.uc-schedule-row__time {
+  font-size: 11px;
+  color: #aaa;
+  min-width: 66px;
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.uc-schedule-row__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+
+.uc-schedule-row__info {
+  flex: 1;
+}
+
+.uc-schedule-row__name {
+  font-size: 13px;
+  color: #1A1A1A;
+  font-weight: 500;
+}
+
+.uc-schedule-row__meta {
+  font-size: 11px;
+  color: #aaa;
+}
+
+/* ── Colores de punto ── */
+.uc-dot--blue {
+  background: #378ADD;
+}
+
+.uc-dot--teal {
+  background: #1D9E75;
+}
+
+.uc-dot--amber {
+  background: #EF9F27;
+}
+
+.uc-dot--coral {
+  background: #D85A30;
+}
+
+.uc-dot--purple {
+  background: #7F77DD;
+}
+
+/* ── Badges ── */
+.uc-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.uc-badge--green {
+  background: #E8F4DC;
+  color: #2E6B0E;
+}
+
+.uc-badge--amber {
+  background: #FDF0DA;
+  color: #7A4A00;
+}
+
+.uc-badge--blue {
+  background: #EBF3FC;
+  color: #0F4C8A;
+}
+
+.uc-badge--gray {
+  background: #F0F0EE;
+  color: #666;
+}
+
+/* ── Instructores ── */
+.uc-instructor-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.06);
+}
+
+.uc-instructor-row:last-child {
+  border-bottom: none;
+}
+
+.uc-instructor-row__meta {
+  margin-left: auto;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.uc-instructor-row__students {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1A1A1A;
+}
+
+.uc-instructor-row__rating {
+  font-size: 11px;
+  color: #9A6000;
+}
+
+/* ── Avatar ── */
+.uc-avatar {
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.uc-avatar--md {
+  width: 32px;
+  height: 32px;
+  font-size: 12px;
+}
+
+.uc-avatar--sm {
+  width: 30px;
+  height: 30px;
+  font-size: 11px;
+}
+
+.uc-avatar--blue {
+  background: #EBF3FC;
+  color: #0F4C8A;
+}
+
+.uc-avatar--teal {
+  background: #E1F5EE;
+  color: #0F6E56;
+}
+
+.uc-avatar--amber {
+  background: #FDF0DA;
+  color: #7A4A00;
+}
+
+.uc-avatar--coral {
+  background: #FAECE7;
+  color: #8A2E10;
+}
+
+.uc-avatar--purple {
+  background: #EEEDFE;
+  color: #4A40A8;
+}
+
+.uc-avatar__name {
+  font-size: 13px;
+  color: #1A1A1A;
+  font-weight: 500;
+}
+
+.uc-avatar__sub {
+  font-size: 11px;
+  color: #aaa;
+}
+
+/* ── Barras de ingresos ── */
+.uc-income-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 11px;
+}
+
+.uc-income-row:last-child {
+  margin-bottom: 0;
+}
+
+.uc-income-row__month {
+  font-size: 12px;
+  color: #888;
+  min-width: 28px;
+}
+
+.uc-income-row__bar-wrap {
+  flex: 1;
+  height: 7px;
+  background: #F0F0EE;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.uc-income-row__bar {
+  height: 100%;
+  border-radius: 20px;
+  background: #378ADD;
+}
+
+.uc-income-row__bar--current {
+  background: #0F4C8A;
+}
+
+.uc-income-row__amount {
+  font-size: 12px;
+  color: #1A1A1A;
+  font-weight: 500;
+  min-width: 56px;
+  text-align: right;
+}
+
+.uc-income-row__amount--current {
+  color: #0F4C8A;
+  font-weight: 700;
+}
+
+/* ── Tabla de alumnos ── */
+.uc-students-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.uc-students-table th {
+  font-size: 11px;
+  color: #aaa;
+  font-weight: 500;
+  text-align: left;
+  padding: 6px 8px;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
+}
+
+.uc-students-table td {
+  font-size: 12px;
+  color: #1A1A1A;
+  padding: 9px 8px;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.06);
+  vertical-align: middle;
+}
+
+.uc-students-table tr:last-child td {
+  border-bottom: none;
+}
+
+.uc-student-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: #1A1A1A;
+}
+
+.uc-student-since {
+  font-size: 10px;
+  color: #bbb;
+}
+
+/* ── Barra de progreso ── */
+.uc-progress-wrap {
+  width: 70px;
+  height: 5px;
+  background: #F0F0EE;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.uc-progress-fill {
+  height: 100%;
+  border-radius: 20px;
+}
+
+.uc-progress-pct {
+  font-size: 10px;
+  color: #bbb;
+  margin-top: 3px;
+}
+
+/* ── Colores de fondo para íconos de acciones rápidas ── */
+.uc-icon-bg--blue {
+  background: #EBF3FC;
+  color: #0F4C8A;
+}
+
+.uc-icon-bg--teal {
+  background: #E1F5EE;
+  color: #0F6E56;
+}
+
+.uc-icon-bg--amber {
+  background: #FDF0DA;
+  color: #7A4A00;
+}
+
+.uc-icon-bg--purple {
+  background: #EEEDFE;
+  color: #4A40A8;
+}
+
+/* Ajustes */
+.uc-nav-submenu {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.2s ease;
+}
+
+.uc-nav-submenu--open {
+  max-height: 300px;
+}
+
+.uc-nav-subitem {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 10px 7px 34px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  color: #666;
+  transition: background 0.12s, color 0.12s;
+  margin-bottom: 1px;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.uc-nav-subitem:hover {
+  background: #F0F0EE;
+  color: #1A1A1A;
+}
+
+.uc-nav-subitem--danger {
+  color: #8B2020;
+}
+
+.uc-nav-subitem--danger:hover {
+  background: #FDF0F0;
+  color: #8B2020;
+}
+
+.uc-nav-submenu__divider {
+  height: 0.5px;
+  background: rgba(0, 0, 0, 0.08);
+  margin: 4px 10px 4px 34px;
+}
+
+.uc-nav-item__chevron {
+  margin-left: auto;
+  font-size: 13px;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.uc-nav-item__chevron--open {
+  transform: rotate(180deg);
+}
+
+.uc-sidebar--collapsed .uc-nav-submenu {
+  display: none;
+}
+
+.uc-sidebar--collapsed .uc-nav-item__chevron {
+  display: none;
+}
+
+.ucv-clases-wrap {
+  padding: 24px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.ucv-clases-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.ucv-clases-header__title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1A1A1A;
+}
+
+.ucv-clases-header__sub {
+  font-size: 12px;
+  color: #888;
+  margin-top: 2px;
+}
+
+.ucv-btn-add {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: none;
+  background: #0F4C8A;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.12s;
+  white-space: nowrap;
+}
+
+.ucv-btn-add:hover {
+  background: #0D3F74;
+}
+
+.ucv-table-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.ucv-table-controls__left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #666;
+}
+
+.ucv-select {
+  height: 32px;
+  padding: 0 8px;
+  border: 0.5px solid rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+  font-size: 13px;
+  color: #1A1A1A;
+  background: #fff;
+  cursor: pointer;
+}
+
+.ucv-search-wrap {
+  position: relative;
+}
+
+.ucv-search-wrap i {
+  position: absolute;
+  left: 9px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aaa;
+  font-size: 15px;
+  pointer-events: none;
+}
+
+.ucv-search-input {
+  height: 32px;
+  padding: 0 10px 0 32px;
+  border: 0.5px solid rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+  font-size: 13px;
+  color: #1A1A1A;
+  background: #fff;
+  width: 200px;
+  outline: none;
+  transition: border-color 0.12s;
+}
+
+.ucv-search-input:focus {
+  border-color: #0F4C8A;
+}
+
+.ucv-table-card {
+  background: #fff;
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.ucv-table-scroll {
+  overflow-x: auto;
+}
+
+.ucv-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 680px;
+}
+
+.ucv-table thead {
+  background: #F7F7F5;
+}
+
+.ucv-table th {
+  font-size: 11px;
+  font-weight: 600;
+  color: #888;
+  text-align: left;
+  padding: 11px 14px;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.ucv-table th.ucv-th--sortable {
+  cursor: pointer;
+}
+
+.ucv-table th.ucv-th--sortable:hover {
+  color: #1A1A1A;
+}
+
+.ucv-table td {
+  font-size: 13px;
+  color: #1A1A1A;
+  padding: 12px 14px;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.06);
+  vertical-align: middle;
+}
+
+.ucv-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.ucv-table tbody tr:hover td {
+  background: #FAFAF8;
+}
+
+.ucv-clase-name {
+  font-weight: 500;
+  color: #1A1A1A;
+}
+
+.ucv-clase-salon {
+  font-size: 11px;
+  color: #aaa;
+  margin-top: 2px;
+}
+
+.ucv-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.ucv-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ucv-action-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  border: 0.5px solid rgba(0, 0, 0, 0.12);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background 0.12s, color 0.12s;
+}
+
+.ucv-action-btn--edit {
+  color: #0F4C8A;
+}
+
+.ucv-action-btn--edit:hover {
+  background: #EBF3FC;
+  border-color: #0F4C8A;
+}
+
+.ucv-action-btn--delete {
+  color: #8B2020;
+}
+
+.ucv-action-btn--delete:hover {
+  background: #FDF0F0;
+  border-color: #8B2020;
+}
+
+.ucv-action-btn--toggle {
+  color: #2E6B0E;
+}
+
+.ucv-action-btn--toggle:hover {
+  background: #E8F4DC;
+  border-color: #2E6B0E;
+}
+
+.ucv-table-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-top: 0.5px solid rgba(0, 0, 0, 0.08);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ucv-table-footer__info {
+  font-size: 12px;
+  color: #888;
+}
+
+.ucv-pagination {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ucv-page-btn {
+  height: 30px;
+  min-width: 30px;
+  padding: 0 8px;
+  border-radius: 6px;
+  border: 0.5px solid rgba(0, 0, 0, 0.12);
+  background: transparent;
+  font-size: 12px;
+  color: #555;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+
+.ucv-page-btn:hover:not(:disabled) {
+  background: #F0F0EE;
+}
+
+.ucv-page-btn--active {
+  background: #0F4C8A;
+  color: #fff;
+  border-color: #0F4C8A;
+  font-weight: 600;
+}
+
+.ucv-page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

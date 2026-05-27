@@ -1,0 +1,504 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background: #fff;
+  color: #111;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+/* ── ANIMACIONES ── */
+@keyframes drift {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-18px) rotate(1.5deg);
+  }
+
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ── NAVBAR ── */
+.home-navbar {
+  width: 100%;
+  height: 80px;
+  padding: 0 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid #e0e7f0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+.home-logo {
+  font-size: 28px;
+  font-weight: 700;
+  color: #0F4C8A;
+}
+
+.home-nav {
+  display: flex;
+  gap: 40px;
+}
+
+.home-nav a {
+  text-decoration: none;
+  color: #4b5563;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.home-nav a:hover {
+  color: #0F4C8A;
+}
+
+.home-login-btn {
+  border: none;
+  background: #0F4C8A;
+  color: white;
+  padding: 14px 24px;
+  border-radius: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  text-decoration: none;
+}
+
+.home-login-btn:hover {
+  background: #0b3b6c;
+}
+
+.home-hamburger {
+  display: none;
+  font-size: 30px;
+  cursor: pointer;
+  color: #0F4C8A;
+  background: none;
+  border: none;
+}
+
+/* ── SHELL ── */
+.nf-shell {
+  width: 100vw;
+  height: 100vh;
+  padding-top: 80px;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── SCANLINE ── */
+.nf-scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.06), transparent);
+  animation: scanline 4s linear infinite;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ── FONDO TIPOGRÁFICO ── */
+.nf-bg-num {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 700;
+  font-size: clamp(220px, 30vw, 420px);
+  color: transparent;
+  -webkit-text-stroke: 1px #dbeafe;
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  animation: fadeIn 1.2s ease both;
+  z-index: 0;
+}
+
+/* ── CENTRO ── */
+.nf-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 5;
+  padding: 24px 20px;
+  text-align: center;
+}
+
+/* ── BADGE ── */
+.nf-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #0F4C8A;
+  padding: 6px 16px;
+  margin-bottom: 32px;
+  animation: slideUp 0.55s 0.1s ease both;
+  opacity: 0;
+}
+
+.nf-badge__dot {
+  width: 6px;
+  height: 6px;
+  background: #0F4C8A;
+  border-radius: 50%;
+  animation: blink 1.4s infinite;
+}
+
+.nf-badge__text {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #0F4C8A;
+}
+
+/* ── NÚMERO ── */
+.nf-number {
+  font-weight: 700;
+  font-size: clamp(80px, 14vw, 160px);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: #0F4C8A;
+  margin-bottom: 8px;
+  animation:
+    slideUp 0.6s 0.15s ease both,
+    drift 6s 1.2s ease-in-out infinite;
+  opacity: 0;
+  position: relative;
+}
+
+.nf-number::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 2px;
+  background: #0F4C8A;
+}
+
+/* ── TÍTULO ── */
+.nf-title {
+  font-weight: 400;
+  font-size: clamp(22px, 3.5vw, 36px);
+  color: #0f172a;
+  margin: 28px 0 16px;
+  letter-spacing: -0.01em;
+  animation: slideUp 0.6s 0.25s ease both;
+  opacity: 0;
+}
+
+/* ── DESCRIPCIÓN ── */
+.nf-desc {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #6b7280;
+  max-width: 380px;
+  margin-bottom: 40px;
+  animation: slideUp 0.6s 0.35s ease both;
+  opacity: 0;
+}
+
+/* ── BOTONES ── */
+.nf-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: slideUp 0.6s 0.45s ease both;
+  opacity: 0;
+}
+
+.nf-btn {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 13px 28px;
+  border: 1.5px solid #0F4C8A;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.nf-btn--solid {
+  background: #0F4C8A;
+  color: #fff;
+}
+
+.nf-btn--solid:hover {
+  background: #0b3b6c;
+  border-color: #0b3b6c;
+}
+
+.nf-btn--line {
+  background: transparent;
+  color: #0F4C8A;
+}
+
+.nf-btn--line:hover {
+  background: #0F4C8A;
+  color: #fff;
+}
+
+/* ── LINKS SUGERIDOS ── */
+.nf-suggestions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 28px;
+  animation: slideUp 0.6s 0.55s ease both;
+  opacity: 0;
+}
+
+.nf-suggest-label {
+  font-size: 11px;
+  color: #bbb;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  align-self: center;
+}
+
+.nf-suggest-link {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #555;
+  text-decoration: none;
+  border-bottom: 1px solid #d0d0d0;
+  padding-bottom: 1px;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.nf-suggest-link:hover {
+  color: #0F4C8A;
+  border-color: #0F4C8A;
+}
+
+/* ── TICKER ── */
+.nf-ticker {
+  border-top: 1px solid #e0e7f0;
+  background: #f5f9ff;
+  overflow: hidden;
+  padding: 11px 0;
+  position: relative;
+  z-index: 5;
+  animation: fadeIn 1s 0.8s ease both;
+  opacity: 0;
+}
+
+.nf-ticker__track {
+  display: flex;
+  white-space: nowrap;
+  animation: marquee 18s linear infinite;
+}
+
+.nf-ticker__item {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ccc;
+  padding: 0 32px;
+}
+
+.nf-ticker__sep {
+  color: #ddd;
+  padding: 0 4px;
+  align-self: center;
+}
+
+/* ── DECORACIONES LATERALES ── */
+.nf-deco-left {
+  position: absolute;
+  left: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 3;
+  animation: fadeIn 1s 0.6s ease both;
+  opacity: 0;
+}
+
+.nf-deco-line {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, transparent, #d0d0d0, transparent);
+}
+
+.nf-deco-text {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #ccc;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+.nf-deco-right {
+  position: absolute;
+  right: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  animation: fadeIn 1s 0.7s ease both;
+  opacity: 0;
+}
+
+.nf-deco-right-num {
+  font-size: 11px;
+  font-weight: 700;
+  color: #e0e0e0;
+  letter-spacing: 0.08em;
+  writing-mode: vertical-rl;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .home-navbar {
+    padding: 0 20px;
+  }
+
+  .home-hamburger {
+    display: block;
+  }
+
+  .home-nav {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    background: white;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 30px;
+    display: none;
+    z-index: 99;
+  }
+
+  .home-nav.active {
+    display: flex;
+  }
+
+  .home-login-btn {
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+
+  .nf-deco-left,
+  .nf-deco-right {
+    display: none;
+  }
+
+  .nf-bg-num {
+    font-size: 180px;
+  }
+
+  .nf-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .nf-btn {
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .nf-bg-num {
+    display: none;
+  }
+}
