@@ -29,6 +29,9 @@ jobs:
           npm install
           npm run build --if-present
 
+      - name: Copy startup script to dist
+        run: cp startup.sh dist/ || true
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
