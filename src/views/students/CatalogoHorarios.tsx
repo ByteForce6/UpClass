@@ -5,7 +5,7 @@ import {
   CATEGORIAS_CATALOGO,
   DIAS_SEMANA,
 } from "../../Data/mockCatalogo";
-import "../../Styles/catalogo.css";
+import "../../Styles/Catalogo.css";
 
 // ─── Helpers ──────────────────────────────────────────────────
 
