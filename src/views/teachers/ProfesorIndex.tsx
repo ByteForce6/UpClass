@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "../../Styles/dashboardProfesor.css";
 
 export const ProfesorIndex = () => {
-
+  const [menuOpen, setMenuOpen] = useState(false);
 
   // Datos simulados para que el Dashboard tenga vida
   const estadisticas = [
