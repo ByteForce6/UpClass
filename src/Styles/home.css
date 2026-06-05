@@ -62,17 +62,12 @@ body{
 
 .home-login-btn{
   border:none;
-  background:#0F4C8A;
+  background:#0023FF;
   color:white;
-
   padding:14px 24px;
-
   border-radius:14px;
-
   font-weight:600;
-
   cursor:pointer;
-
   transition:0.3s;
 }
 
