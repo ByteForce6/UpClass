@@ -1,0 +1,10 @@
+type Estudiante @table {
+  matricula: String! @unique
+  nombreCompleto: String!
+  correo: String! @unique
+  telefono: String
+  direccion: String
+  fechaNacimiento: Date
+  activo: Boolean! @default(value: true)
+  fechaRegistro: Date! @default(expr: "request.time")
+}
