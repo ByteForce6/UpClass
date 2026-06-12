@@ -1,0 +1,111 @@
+extend type Estudiante {
+  """
+  Implicit metadata field that cannot be written. It provides extra information about query results.
+  """
+  _metadata: _Metadata @fdc_generated(from: "Estudiante", purpose: METADATA_FIELD)
+  """
+  ✨ Count the number of rows in the `Estudiante` table.
+  """
+  _count: Int! @fdc_generated(from: "Estudiante.", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Estudiante` table where the `activo` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  activo_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Estudiante.activo", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Estudiante` table where the `correo` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  correo_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Estudiante.correo", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Estudiante` table where the `direccion` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  direccion_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Estudiante.direccion", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Estudiante` table where the `fechaNacimiento` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  fechaNacimiento_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Estudiante.fechaNacimiento", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Estudiante` table where the `fechaRegistro` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  fechaRegistro_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Estudiante.fechaRegistro", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Estudiante` table where the `id` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  id_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Estudiante.id", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Estudiante` table where the `matricula` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  matricula_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Estudiante.matricula", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Estudiante` table where the `nombreCompleto` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  nombreCompleto_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Estudiante.nombreCompleto", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Estudiante` table where the `telefono` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  telefono_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Estudiante.telefono", purpose: QUERY_COUNT)
+  """
+  ✨ Minimum of the `fechaNacimiento` field in the `Estudiante` table.
+  """
+  fechaNacimiento_min: Date @fdc_generated(from: "Estudiante.fechaNacimiento", purpose: QUERY_MIN)
+  """
+  ✨ Minimum of the `fechaRegistro` field in the `Estudiante` table.
+  """
+  fechaRegistro_min: Date @fdc_generated(from: "Estudiante.fechaRegistro", purpose: QUERY_MIN)
+  """
+  ✨ Maximum of the `fechaNacimiento` field in the `Estudiante` table.
+  """
+  fechaNacimiento_max: Date @fdc_generated(from: "Estudiante.fechaNacimiento", purpose: QUERY_MAX)
+  """
+  ✨ Maximum of the `fechaRegistro` field in the `Estudiante` table.
+  """
+  fechaRegistro_max: Date @fdc_generated(from: "Estudiante.fechaRegistro", purpose: QUERY_MAX)
+  """
+  A generated field that is used for caching results in SDKs.
+  """
+  _id: ID! @fdc_generated(from: "Estudiante.id", purpose: ENTITY_ID)
+}

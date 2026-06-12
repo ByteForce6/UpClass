@@ -1,0 +1,14 @@
+specVersion: "v1"
+serviceId: "upclass-78c13-service"
+location: "us-east4"
+
+schemas:
+  - source: "./schema"
+    datasource:
+      postgresql:
+        database: "upclass-78c13-database"
+        cloudSql:
+          instanceId: "upclass-78c13-instance"
+
+connectorDirs:
+  - "./example"

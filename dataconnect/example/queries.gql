@@ -1,0 +1,38 @@
+query BuscarEstudiantePorMatricula($matricula: String!)
+@auth(level: USER) {
+  estudiantes(
+    where: {
+      matricula: { eq: $matricula }
+    }
+  ) {
+    id
+    matricula
+    nombreCompleto
+    correo
+    activo
+  }
+}
+
+
+query BuscarEstudiantePorNombre($nombre: String!)
+@auth(level: USER) {
+  estudiantes(
+    where: {
+      nombreCompleto: { contains: $nombre }
+    }
+  ) {
+    matricula
+    nombreCompleto
+    correo
+  }
+}
+
+query ListarEstudiantes
+@auth(level: USER) {
+  estudiantes {
+    matricula
+    nombreCompleto
+    correo
+    activo
+  }
+}
