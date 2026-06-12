@@ -1,3 +1,149 @@
+extend type Asistencia {
+  """
+  Implicit metadata field that cannot be written. It provides extra information about query results.
+  """
+  _metadata: _Metadata @fdc_generated(from: "Asistencia", purpose: METADATA_FIELD)
+  """
+  ✨ Count the number of rows in the `Asistencia` table.
+  """
+  _count: Int! @fdc_generated(from: "Asistencia.", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Asistencia` table where the `asistenciaId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  asistenciaId_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Asistencia.asistenciaId", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Asistencia` table where the `estadoAsistencia` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  estadoAsistencia_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Asistencia.estadoAsistencia", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Asistencia` table where the `estudianteId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  estudianteId_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Asistencia.estudianteId", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Asistencia` table where the `fecha` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  fecha_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Asistencia.fecha", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Asistencia` table where the `id` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  id_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Asistencia.id", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Asistencia` table where the `instructorId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  instructorId_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Asistencia.instructorId", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Asistencia` table where the `materiaId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  materiaId_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Asistencia.materiaId", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Asistencia` table where the `observaciones` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  observaciones_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Asistencia.observaciones", purpose: QUERY_COUNT)
+  """
+  ✨ Sum the `asistenciaId` field in the `Asistencia` table.
+  """
+  asistenciaId_sum(
+    """
+    Set to true to sum the distinct values.
+    """
+    distinct: Boolean = false
+  ): Int @fdc_generated(from: "Asistencia.asistenciaId", purpose: QUERY_SUM)
+  """
+  ✨ Sum the `materiaId` field in the `Asistencia` table.
+  """
+  materiaId_sum(
+    """
+    Set to true to sum the distinct values.
+    """
+    distinct: Boolean = false
+  ): Int @fdc_generated(from: "Asistencia.materiaId", purpose: QUERY_SUM)
+  """
+  ✨ Average the `asistenciaId` field in the `Asistencia` table.
+  """
+  asistenciaId_avg(
+    """
+    Set to true to average the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "Asistencia.asistenciaId", purpose: QUERY_AVG)
+  """
+  ✨ Average the `materiaId` field in the `Asistencia` table.
+  """
+  materiaId_avg(
+    """
+    Set to true to average the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "Asistencia.materiaId", purpose: QUERY_AVG)
+  """
+  ✨ Minimum of the `asistenciaId` field in the `Asistencia` table.
+  """
+  asistenciaId_min: Int @fdc_generated(from: "Asistencia.asistenciaId", purpose: QUERY_MIN)
+  """
+  ✨ Minimum of the `fecha` field in the `Asistencia` table.
+  """
+  fecha_min: Date @fdc_generated(from: "Asistencia.fecha", purpose: QUERY_MIN)
+  """
+  ✨ Minimum of the `materiaId` field in the `Asistencia` table.
+  """
+  materiaId_min: Int @fdc_generated(from: "Asistencia.materiaId", purpose: QUERY_MIN)
+  """
+  ✨ Maximum of the `asistenciaId` field in the `Asistencia` table.
+  """
+  asistenciaId_max: Int @fdc_generated(from: "Asistencia.asistenciaId", purpose: QUERY_MAX)
+  """
+  ✨ Maximum of the `fecha` field in the `Asistencia` table.
+  """
+  fecha_max: Date @fdc_generated(from: "Asistencia.fecha", purpose: QUERY_MAX)
+  """
+  ✨ Maximum of the `materiaId` field in the `Asistencia` table.
+  """
+  materiaId_max: Int @fdc_generated(from: "Asistencia.materiaId", purpose: QUERY_MAX)
+  """
+  A generated field that is used for caching results in SDKs.
+  """
+  _id: ID! @fdc_generated(from: "Asistencia.id", purpose: ENTITY_ID)
+}
 extend type Curso {
   """
   ✨ List `Horario` objects in a one-to-many relationship (where `Horario`.`curso` is this object).
@@ -78,15 +224,6 @@ extend type Curso {
     distinct: Boolean = false
   ): Int! @fdc_generated(from: "Curso.estado", purpose: QUERY_COUNT)
   """
-  ✨ Count the number of rows in the `Curso` table where the `fechaRegistro` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  fechaRegistro_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "Curso.fechaRegistro", purpose: QUERY_COUNT)
-  """
   ✨ Count the number of rows in the `Curso` table where the `id` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
   """
   id_count(
@@ -104,15 +241,6 @@ extend type Curso {
     """
     distinct: Boolean = false
   ): Int! @fdc_generated(from: "Curso.instructor", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `Curso` table where the `nivelDificultad` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  nivelDificultad_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "Curso.nivelDificultad", purpose: QUERY_COUNT)
   """
   ✨ Count the number of rows in the `Curso` table where the `nombre` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
   """
@@ -154,23 +282,49 @@ extend type Curso {
   """
   cursoId_min: Int @fdc_generated(from: "Curso.cursoId", purpose: QUERY_MIN)
   """
-  ✨ Minimum of the `fechaRegistro` field in the `Curso` table.
-  """
-  fechaRegistro_min: Date @fdc_generated(from: "Curso.fechaRegistro", purpose: QUERY_MIN)
-  """
   ✨ Maximum of the `cursoId` field in the `Curso` table.
   """
   cursoId_max: Int @fdc_generated(from: "Curso.cursoId", purpose: QUERY_MAX)
-  """
-  ✨ Maximum of the `fechaRegistro` field in the `Curso` table.
-  """
-  fechaRegistro_max: Date @fdc_generated(from: "Curso.fechaRegistro", purpose: QUERY_MAX)
   """
   A generated field that is used for caching results in SDKs.
   """
   _id: ID! @fdc_generated(from: "Curso.id", purpose: ENTITY_ID)
 }
 extend type Estudiante {
+  """
+  ✨ List `Asistencia` objects in a one-to-many relationship (where `Asistencia`.`estudiante` is this object).
+  """
+  asistencias_on_estudiante(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Asistencia_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Asistencia_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: Asistencia_Having
+  ): [Asistencia!]! @fdc_generated(from: "Asistencia.estudiante", purpose: QUERY_MULTIPLE_ONE_TO_MANY)
   """
   Implicit metadata field that cannot be written. It provides extra information about query results.
   """
@@ -345,15 +499,6 @@ extend type Horario {
     distinct: Boolean = false
   ): Int! @fdc_generated(from: "Horario.fechaInicio", purpose: QUERY_COUNT)
   """
-  ✨ Count the number of rows in the `Horario` table where the `fechaRegistro` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  fechaRegistro_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "Horario.fechaRegistro", purpose: QUERY_COUNT)
-  """
   ✨ Count the number of rows in the `Horario` table where the `horaFin` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
   """
   horaFin_count(
@@ -460,10 +605,6 @@ extend type Horario {
   """
   fechaInicio_min: Date @fdc_generated(from: "Horario.fechaInicio", purpose: QUERY_MIN)
   """
-  ✨ Minimum of the `fechaRegistro` field in the `Horario` table.
-  """
-  fechaRegistro_min: Date @fdc_generated(from: "Horario.fechaRegistro", purpose: QUERY_MIN)
-  """
   ✨ Minimum of the `horarioId` field in the `Horario` table.
   """
   horarioId_min: Int @fdc_generated(from: "Horario.horarioId", purpose: QUERY_MIN)
@@ -484,10 +625,6 @@ extend type Horario {
   """
   fechaInicio_max: Date @fdc_generated(from: "Horario.fechaInicio", purpose: QUERY_MAX)
   """
-  ✨ Maximum of the `fechaRegistro` field in the `Horario` table.
-  """
-  fechaRegistro_max: Date @fdc_generated(from: "Horario.fechaRegistro", purpose: QUERY_MAX)
-  """
   ✨ Maximum of the `horarioId` field in the `Horario` table.
   """
   horarioId_max: Int @fdc_generated(from: "Horario.horarioId", purpose: QUERY_MAX)
@@ -495,4 +632,141 @@ extend type Horario {
   A generated field that is used for caching results in SDKs.
   """
   _id: ID! @fdc_generated(from: "Horario.id", purpose: ENTITY_ID)
+}
+extend type Instructor {
+  """
+  ✨ List `Asistencia` objects in a one-to-many relationship (where `Asistencia`.`instructor` is this object).
+  """
+  asistencias_on_instructor(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Asistencia_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Asistencia_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: Asistencia_Having
+  ): [Asistencia!]! @fdc_generated(from: "Asistencia.instructor", purpose: QUERY_MULTIPLE_ONE_TO_MANY)
+  """
+  Implicit metadata field that cannot be written. It provides extra information about query results.
+  """
+  _metadata: _Metadata @fdc_generated(from: "Instructor", purpose: METADATA_FIELD)
+  """
+  ✨ Count the number of rows in the `Instructor` table.
+  """
+  _count: Int! @fdc_generated(from: "Instructor.", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Instructor` table where the `activo` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  activo_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Instructor.activo", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Instructor` table where the `correo` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  correo_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Instructor.correo", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Instructor` table where the `especialidad` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  especialidad_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Instructor.especialidad", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Instructor` table where the `id` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  id_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Instructor.id", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Instructor` table where the `instructorId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  instructorId_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Instructor.instructorId", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Instructor` table where the `nombreCompleto` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  nombreCompleto_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Instructor.nombreCompleto", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Instructor` table where the `telefono` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  telefono_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Instructor.telefono", purpose: QUERY_COUNT)
+  """
+  ✨ Sum the `instructorId` field in the `Instructor` table.
+  """
+  instructorId_sum(
+    """
+    Set to true to sum the distinct values.
+    """
+    distinct: Boolean = false
+  ): Int @fdc_generated(from: "Instructor.instructorId", purpose: QUERY_SUM)
+  """
+  ✨ Average the `instructorId` field in the `Instructor` table.
+  """
+  instructorId_avg(
+    """
+    Set to true to average the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "Instructor.instructorId", purpose: QUERY_AVG)
+  """
+  ✨ Minimum of the `instructorId` field in the `Instructor` table.
+  """
+  instructorId_min: Int @fdc_generated(from: "Instructor.instructorId", purpose: QUERY_MIN)
+  """
+  ✨ Maximum of the `instructorId` field in the `Instructor` table.
+  """
+  instructorId_max: Int @fdc_generated(from: "Instructor.instructorId", purpose: QUERY_MAX)
+  """
+  A generated field that is used for caching results in SDKs.
+  """
+  _id: ID! @fdc_generated(from: "Instructor.id", purpose: ENTITY_ID)
 }

@@ -1,5 +1,24 @@
 extend type Query {
   """
+  ✨ Look up a single `Asistencia` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
+  """
+  asistencia(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Asistencia_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Asistencia_FirstRow
+  ): Asistencia @fdc_generated(from: "Asistencia", purpose: QUERY_SINGLE)
+  """
   ✨ Look up a single `Curso` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
   """
   curso(
@@ -56,6 +75,59 @@ extend type Query {
     """
     first: Horario_FirstRow
   ): Horario @fdc_generated(from: "Horario", purpose: QUERY_SINGLE)
+  """
+  ✨ Look up a single `Instructor` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
+  """
+  instructor(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Instructor_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Instructor_FirstRow
+  ): Instructor @fdc_generated(from: "Instructor", purpose: QUERY_SINGLE)
+  """
+  ✨ List `Asistencia` objects in the table and return selected fields, optionally filtered by `where` conditions
+  """
+  asistencias(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Asistencia_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Asistencia_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: Asistencia_Having
+  ): [Asistencia!]! @fdc_generated(from: "Asistencia", purpose: QUERY_MULTIPLE)
   """
   ✨ List `Curso` objects in the table and return selected fields, optionally filtered by `where` conditions
   """
@@ -158,4 +230,38 @@ extend type Query {
     """
     having: Horario_Having
   ): [Horario!]! @fdc_generated(from: "Horario", purpose: QUERY_MULTIPLE)
+  """
+  ✨ List `Instructor` objects in the table and return selected fields, optionally filtered by `where` conditions
+  """
+  instructors(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Instructor_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Instructor_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: Instructor_Having
+  ): [Instructor!]! @fdc_generated(from: "Instructor", purpose: QUERY_MULTIPLE)
 }

@@ -1,3 +1,17 @@
+extend type Asistencia {
+  """
+  ✨ Implicit primary key field. It's a UUID column default to a generated new value. See `@table` for how to customize it.
+  """
+  id: UUID! @default(expr: "uuidV4()") @fdc_generated(from: "Asistencia", purpose: IMPLICIT_KEY_FIELD)
+  """
+  ✨ Implicit foreign key field based on `Asistencia`.`estudiante`. It must match the value of `Estudiante`.`id`. See `@ref` for how to customize it.
+  """
+  estudianteId: UUID! @fdc_generated(from: "Asistencia.estudiante", purpose: IMPLICIT_REF_FIELD)
+  """
+  ✨ Implicit foreign key field based on `Asistencia`.`instructor`. It must match the value of `Instructor`.`id`. See `@ref` for how to customize it.
+  """
+  instructorId: UUID! @fdc_generated(from: "Asistencia.instructor", purpose: IMPLICIT_REF_FIELD)
+}
 extend type Curso {
   """
   ✨ Implicit primary key field. It's a UUID column default to a generated new value. See `@table` for how to customize it.
@@ -19,4 +33,10 @@ extend type Horario {
   ✨ Implicit foreign key field based on `Horario`.`curso`. It must match the value of `Curso`.`id`. See `@ref` for how to customize it.
   """
   cursoId: UUID! @fdc_generated(from: "Horario.curso", purpose: IMPLICIT_REF_FIELD)
+}
+extend type Instructor {
+  """
+  ✨ Implicit primary key field. It's a UUID column default to a generated new value. See `@table` for how to customize it.
+  """
+  id: UUID! @default(expr: "uuidV4()") @fdc_generated(from: "Instructor", purpose: IMPLICIT_KEY_FIELD)
 }

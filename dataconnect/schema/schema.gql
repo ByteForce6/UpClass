@@ -22,18 +22,13 @@ type Curso @table {
 
 type Horario @table {
   horarioId: Int! @unique
-
   curso: Curso!
-
   fechaInicio: Date!
   fechaFin: Date!
-
   horaInicio: String!
   horaFin: String!
-
   cupoMaximo: Int!
   cupoActual: Int! @default(value: 0)
-
   estado: String
 }
 

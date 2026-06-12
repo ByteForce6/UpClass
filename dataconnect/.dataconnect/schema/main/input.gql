@@ -1,4 +1,10 @@
 """
+✨ `Asistencia_KeyOutput` returns the primary key fields of table type `Asistencia`.
+
+It has the same format as `Asistencia_Key`, but is only used as mutation return value.
+"""
+scalar Asistencia_KeyOutput
+"""
 ✨ `Curso_KeyOutput` returns the primary key fields of table type `Curso`.
 
 It has the same format as `Curso_Key`, but is only used as mutation return value.
@@ -16,6 +22,419 @@ scalar Estudiante_KeyOutput
 It has the same format as `Horario_Key`, but is only used as mutation return value.
 """
 scalar Horario_KeyOutput
+"""
+✨ `Instructor_KeyOutput` returns the primary key fields of table type `Instructor`.
+
+It has the same format as `Instructor_Key`, but is only used as mutation return value.
+"""
+scalar Instructor_KeyOutput
+"""
+✨ Generated data input type for table 'Asistencia'. It includes all necessary fields for creating or upserting rows into table.
+"""
+input Asistencia_Data {
+  """
+  ✨ Generated from Field `Asistencia`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Asistencia`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Asistencia`.`estudianteId` of type `UUID!`
+  """
+  estudianteId: UUID
+  """
+  ✨ `_expr` server value variant of `estudianteId` (✨ Generated from Field `Asistencia`.`estudianteId` of type `UUID!`)
+  """
+  estudianteId_expr: UUID_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Asistencia`.`instructorId` of type `UUID!`
+  """
+  instructorId: UUID
+  """
+  ✨ `_expr` server value variant of `instructorId` (✨ Generated from Field `Asistencia`.`instructorId` of type `UUID!`)
+  """
+  instructorId_expr: UUID_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Asistencia`.`estudiante` of type `Estudiante!`
+  """
+  estudiante: Estudiante_Key @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Asistencia`.`instructor` of type `Instructor!`
+  """
+  instructor: Instructor_Key @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Asistencia`.`asistenciaId` of type `Int!`
+  """
+  asistenciaId: Int
+  """
+  ✨ `_expr` server value variant of `asistenciaId` (✨ Generated from Field `Asistencia`.`asistenciaId` of type `Int!`)
+  """
+  asistenciaId_expr: Int_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `asistenciaId` (✨ Generated from Field `Asistencia`.`asistenciaId` of type `Int!`)
+  """
+  asistenciaId_update: [Int_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Asistencia`.`estadoAsistencia` of type `String!`
+  """
+  estadoAsistencia: String
+  """
+  ✨ `_expr` server value variant of `estadoAsistencia` (✨ Generated from Field `Asistencia`.`estadoAsistencia` of type `String!`)
+  """
+  estadoAsistencia_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Asistencia`.`fecha` of type `Date!`
+  """
+  fecha: Date
+  """
+  ✨ `_date` server value variant of `fecha` (✨ Generated from Field `Asistencia`.`fecha` of type `Date!`)
+  """
+  fecha_date: Date_Relative @fdc_forbiddenInVariables
+  """
+  ✨ `_expr` server value variant of `fecha` (✨ Generated from Field `Asistencia`.`fecha` of type `Date!`)
+  """
+  fecha_expr: Date_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `fecha` (✨ Generated from Field `Asistencia`.`fecha` of type `Date!`)
+  """
+  fecha_update: [Date_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Asistencia`.`materiaId` of type `Int!`
+  """
+  materiaId: Int
+  """
+  ✨ `_expr` server value variant of `materiaId` (✨ Generated from Field `Asistencia`.`materiaId` of type `Int!`)
+  """
+  materiaId_expr: Int_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `materiaId` (✨ Generated from Field `Asistencia`.`materiaId` of type `Int!`)
+  """
+  materiaId_update: [Int_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Asistencia`.`observaciones` of type `String`
+  """
+  observaciones: String
+  """
+  ✨ `_expr` server value variant of `observaciones` (✨ Generated from Field `Asistencia`.`observaciones` of type `String`)
+  """
+  observaciones_expr: String_Expr @fdc_forbiddenInVariables
+}
+"""
+✨ Generated filter input type for table 'Asistencia'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input Asistencia_Filter {
+  """
+  Apply multiple filter conditions using `AND` logic.
+  """
+  _and: [Asistencia_Filter!]
+  """
+  Negate the result of the provided filter condition.
+  """
+  _not: Asistencia_Filter
+  """
+  Apply multiple filter conditions using `OR` logic.
+  """
+  _or: [Asistencia_Filter!]
+  """
+  ✨ Generated from Field `Asistencia`.`id` of type `UUID!`
+  """
+  id: UUID_Filter
+  """
+  ✨ Generated from Field `Asistencia`.`estudianteId` of type `UUID!`
+  """
+  estudianteId: UUID_Filter
+  """
+  ✨ Generated from Field `Asistencia`.`instructorId` of type `UUID!`
+  """
+  instructorId: UUID_Filter
+  """
+  ✨ Generated from Field `Asistencia`.`estudiante` of type `Estudiante!`
+  """
+  estudiante: Estudiante_Filter
+  """
+  ✨ Generated from Field `Asistencia`.`instructor` of type `Instructor!`
+  """
+  instructor: Instructor_Filter
+  """
+  ✨ Generated from Field `Asistencia`.`asistenciaId` of type `Int!`
+  """
+  asistenciaId: Int_Filter
+  """
+  ✨ Generated from Field `Asistencia`.`estadoAsistencia` of type `String!`
+  """
+  estadoAsistencia: String_Filter
+  """
+  ✨ Generated from Field `Asistencia`.`fecha` of type `Date!`
+  """
+  fecha: Date_Filter
+  """
+  ✨ Generated from Field `Asistencia`.`materiaId` of type `Int!`
+  """
+  materiaId: Int_Filter
+  """
+  ✨ Generated from Field `Asistencia`.`observaciones` of type `String`
+  """
+  observaciones: String_Filter
+}
+"""
+✨ Generated first-row input type for table 'Asistencia'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
+"""
+input Asistencia_FirstRow {
+  """
+  Order the result by the specified fields.
+  """
+  orderBy: [Asistencia_Order!]
+  """
+  Filters rows based on the specified conditions.
+  """
+  where: Asistencia_Filter
+}
+"""
+✨ Generated having input type for table 'Asistencia'. This input allows you to filter groups during aggregate queries using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input Asistencia_Having {
+  """
+  Apply multiple Having conditions using `AND` logic.
+  """
+  _and: [Asistencia_Having!]
+  """
+  Whether to apply DISTINCT to the aggregate function.
+  """
+  _distinct: Boolean
+  """
+  Negate the result of the provided Having condition.
+  """
+  _not: Asistencia_Having
+  """
+  Apply multiple Having conditions using `OR` logic.
+  """
+  _or: [Asistencia_Having!]
+  """
+  ✨ Generated from Field `Asistencia`.`_count` of type `Int!`
+  """
+  _count: Int_Filter
+  """
+  ✨ Generated from Field `Asistencia`.`asistenciaId_count` of type `Int!`
+  """
+  asistenciaId_count: Int_Filter
+  """
+  ✨ Generated from Field `Asistencia`.`estadoAsistencia_count` of type `Int!`
+  """
+  estadoAsistencia_count: Int_Filter
+  """
+  ✨ Generated from Field `Asistencia`.`estudianteId_count` of type `Int!`
+  """
+  estudianteId_count: Int_Filter
+  """
+  ✨ Generated from Field `Asistencia`.`fecha_count` of type `Int!`
+  """
+  fecha_count: Int_Filter
+  """
+  ✨ Generated from Field `Asistencia`.`id_count` of type `Int!`
+  """
+  id_count: Int_Filter
+  """
+  ✨ Generated from Field `Asistencia`.`instructorId_count` of type `Int!`
+  """
+  instructorId_count: Int_Filter
+  """
+  ✨ Generated from Field `Asistencia`.`materiaId_count` of type `Int!`
+  """
+  materiaId_count: Int_Filter
+  """
+  ✨ Generated from Field `Asistencia`.`observaciones_count` of type `Int!`
+  """
+  observaciones_count: Int_Filter
+  """
+  ✨ Generated from Field `Asistencia`.`asistenciaId_sum` of type `Int`
+  """
+  asistenciaId_sum: Int_Filter
+  """
+  ✨ Generated from Field `Asistencia`.`materiaId_sum` of type `Int`
+  """
+  materiaId_sum: Int_Filter
+  """
+  ✨ Generated from Field `Asistencia`.`asistenciaId_avg` of type `Float`
+  """
+  asistenciaId_avg: Float_Filter
+  """
+  ✨ Generated from Field `Asistencia`.`materiaId_avg` of type `Float`
+  """
+  materiaId_avg: Float_Filter
+  """
+  ✨ Generated from Field `Asistencia`.`asistenciaId_min` of type `Int`
+  """
+  asistenciaId_min: Int_Filter
+  """
+  ✨ Generated from Field `Asistencia`.`fecha_min` of type `Date`
+  """
+  fecha_min: Date_Filter
+  """
+  ✨ Generated from Field `Asistencia`.`materiaId_min` of type `Int`
+  """
+  materiaId_min: Int_Filter
+  """
+  ✨ Generated from Field `Asistencia`.`asistenciaId_max` of type `Int`
+  """
+  asistenciaId_max: Int_Filter
+  """
+  ✨ Generated from Field `Asistencia`.`fecha_max` of type `Date`
+  """
+  fecha_max: Date_Filter
+  """
+  ✨ Generated from Field `Asistencia`.`materiaId_max` of type `Int`
+  """
+  materiaId_max: Int_Filter
+}
+"""
+✨ Generated key input type for table 'Asistencia'. It represents the primary key fields used to uniquely identify a row in the table.
+"""
+input Asistencia_Key {
+  """
+  ✨ Generated from Field `Asistencia`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Asistencia`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+}
+"""
+✨ Generated list filter input type for table 'Asistencia'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
+"""
+input Asistencia_ListFilter {
+  """
+  The desired number of objects that match the condition (defaults to at least one).
+  """
+  count: Int_Filter = {gt:0}
+  """
+  Condition of the related objects to filter for.
+  """
+  exist: Asistencia_Filter
+}
+"""
+✨ Generated order input type for table 'Asistencia'. This input defines the sorting order of rows in query results based on one or more fields.
+"""
+input Asistencia_Order {
+  """
+  ✨ Generated from Field `Asistencia`.`id` of type `UUID!`
+  """
+  id: OrderDirection
+  """
+  ✨ Generated from Field `Asistencia`.`estudianteId` of type `UUID!`
+  """
+  estudianteId: OrderDirection
+  """
+  ✨ Generated from Field `Asistencia`.`instructorId` of type `UUID!`
+  """
+  instructorId: OrderDirection
+  """
+  ✨ Generated from Field `Asistencia`.`estudiante` of type `Estudiante!`
+  """
+  estudiante: Estudiante_Order
+  """
+  ✨ Generated from Field `Asistencia`.`instructor` of type `Instructor!`
+  """
+  instructor: Instructor_Order
+  """
+  ✨ Generated from Field `Asistencia`.`asistenciaId` of type `Int!`
+  """
+  asistenciaId: OrderDirection
+  """
+  ✨ Generated from Field `Asistencia`.`estadoAsistencia` of type `String!`
+  """
+  estadoAsistencia: OrderDirection
+  """
+  ✨ Generated from Field `Asistencia`.`fecha` of type `Date!`
+  """
+  fecha: OrderDirection
+  """
+  ✨ Generated from Field `Asistencia`.`materiaId` of type `Int!`
+  """
+  materiaId: OrderDirection
+  """
+  ✨ Generated from Field `Asistencia`.`observaciones` of type `String`
+  """
+  observaciones: OrderDirection
+  """
+  ✨ Generated from Field `Asistencia`.`_count` of type `Int!`
+  """
+  _count: OrderDirection
+  """
+  ✨ Generated from Field `Asistencia`.`asistenciaId_count` of type `Int!`
+  """
+  asistenciaId_count: OrderDirection
+  """
+  ✨ Generated from Field `Asistencia`.`estadoAsistencia_count` of type `Int!`
+  """
+  estadoAsistencia_count: OrderDirection
+  """
+  ✨ Generated from Field `Asistencia`.`estudianteId_count` of type `Int!`
+  """
+  estudianteId_count: OrderDirection
+  """
+  ✨ Generated from Field `Asistencia`.`fecha_count` of type `Int!`
+  """
+  fecha_count: OrderDirection
+  """
+  ✨ Generated from Field `Asistencia`.`id_count` of type `Int!`
+  """
+  id_count: OrderDirection
+  """
+  ✨ Generated from Field `Asistencia`.`instructorId_count` of type `Int!`
+  """
+  instructorId_count: OrderDirection
+  """
+  ✨ Generated from Field `Asistencia`.`materiaId_count` of type `Int!`
+  """
+  materiaId_count: OrderDirection
+  """
+  ✨ Generated from Field `Asistencia`.`observaciones_count` of type `Int!`
+  """
+  observaciones_count: OrderDirection
+  """
+  ✨ Generated from Field `Asistencia`.`asistenciaId_sum` of type `Int`
+  """
+  asistenciaId_sum: OrderDirection
+  """
+  ✨ Generated from Field `Asistencia`.`materiaId_sum` of type `Int`
+  """
+  materiaId_sum: OrderDirection
+  """
+  ✨ Generated from Field `Asistencia`.`asistenciaId_avg` of type `Float`
+  """
+  asistenciaId_avg: OrderDirection
+  """
+  ✨ Generated from Field `Asistencia`.`materiaId_avg` of type `Float`
+  """
+  materiaId_avg: OrderDirection
+  """
+  ✨ Generated from Field `Asistencia`.`asistenciaId_min` of type `Int`
+  """
+  asistenciaId_min: OrderDirection
+  """
+  ✨ Generated from Field `Asistencia`.`fecha_min` of type `Date`
+  """
+  fecha_min: OrderDirection
+  """
+  ✨ Generated from Field `Asistencia`.`materiaId_min` of type `Int`
+  """
+  materiaId_min: OrderDirection
+  """
+  ✨ Generated from Field `Asistencia`.`asistenciaId_max` of type `Int`
+  """
+  asistenciaId_max: OrderDirection
+  """
+  ✨ Generated from Field `Asistencia`.`fecha_max` of type `Date`
+  """
+  fecha_max: OrderDirection
+  """
+  ✨ Generated from Field `Asistencia`.`materiaId_max` of type `Int`
+  """
+  materiaId_max: OrderDirection
+}
 """
 ✨ Generated data input type for table 'Curso'. It includes all necessary fields for creating or upserting rows into table.
 """
@@ -57,29 +476,13 @@ input Curso_Data {
   """
   descripcion_expr: String_Expr @fdc_forbiddenInVariables
   """
-  ✨ Generated from Field `Curso`.`estado` of type `String!`
+  ✨ Generated from Field `Curso`.`estado` of type `String`
   """
   estado: String
   """
-  ✨ `_expr` server value variant of `estado` (✨ Generated from Field `Curso`.`estado` of type `String!`)
+  ✨ `_expr` server value variant of `estado` (✨ Generated from Field `Curso`.`estado` of type `String`)
   """
   estado_expr: String_Expr @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `Curso`.`fechaRegistro` of type `Date!`
-  """
-  fechaRegistro: Date
-  """
-  ✨ `_date` server value variant of `fechaRegistro` (✨ Generated from Field `Curso`.`fechaRegistro` of type `Date!`)
-  """
-  fechaRegistro_date: Date_Relative @fdc_forbiddenInVariables
-  """
-  ✨ `_expr` server value variant of `fechaRegistro` (✨ Generated from Field `Curso`.`fechaRegistro` of type `Date!`)
-  """
-  fechaRegistro_expr: Date_Expr @fdc_forbiddenInVariables
-  """
-  ✨ `_update` server value variant of `fechaRegistro` (✨ Generated from Field `Curso`.`fechaRegistro` of type `Date!`)
-  """
-  fechaRegistro_update: [Date_Update!] @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `Curso`.`instructor` of type `String`
   """
@@ -88,14 +491,6 @@ input Curso_Data {
   ✨ `_expr` server value variant of `instructor` (✨ Generated from Field `Curso`.`instructor` of type `String`)
   """
   instructor_expr: String_Expr @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `Curso`.`nivelDificultad` of type `String`
-  """
-  nivelDificultad: String
-  """
-  ✨ `_expr` server value variant of `nivelDificultad` (✨ Generated from Field `Curso`.`nivelDificultad` of type `String`)
-  """
-  nivelDificultad_expr: String_Expr @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `Curso`.`nombre` of type `String!`
   """
@@ -150,21 +545,13 @@ input Curso_Filter {
   """
   descripcion: String_Filter
   """
-  ✨ Generated from Field `Curso`.`estado` of type `String!`
+  ✨ Generated from Field `Curso`.`estado` of type `String`
   """
   estado: String_Filter
-  """
-  ✨ Generated from Field `Curso`.`fechaRegistro` of type `Date!`
-  """
-  fechaRegistro: Date_Filter
   """
   ✨ Generated from Field `Curso`.`instructor` of type `String`
   """
   instructor: String_Filter
-  """
-  ✨ Generated from Field `Curso`.`nivelDificultad` of type `String`
-  """
-  nivelDificultad: String_Filter
   """
   ✨ Generated from Field `Curso`.`nombre` of type `String!`
   """
@@ -232,10 +619,6 @@ input Curso_Having {
   """
   estado_count: Int_Filter
   """
-  ✨ Generated from Field `Curso`.`fechaRegistro_count` of type `Int!`
-  """
-  fechaRegistro_count: Int_Filter
-  """
   ✨ Generated from Field `Curso`.`id_count` of type `Int!`
   """
   id_count: Int_Filter
@@ -243,10 +626,6 @@ input Curso_Having {
   ✨ Generated from Field `Curso`.`instructor_count` of type `Int!`
   """
   instructor_count: Int_Filter
-  """
-  ✨ Generated from Field `Curso`.`nivelDificultad_count` of type `Int!`
-  """
-  nivelDificultad_count: Int_Filter
   """
   ✨ Generated from Field `Curso`.`nombre_count` of type `Int!`
   """
@@ -268,17 +647,9 @@ input Curso_Having {
   """
   cursoId_min: Int_Filter
   """
-  ✨ Generated from Field `Curso`.`fechaRegistro_min` of type `Date`
-  """
-  fechaRegistro_min: Date_Filter
-  """
   ✨ Generated from Field `Curso`.`cursoId_max` of type `Int`
   """
   cursoId_max: Int_Filter
-  """
-  ✨ Generated from Field `Curso`.`fechaRegistro_max` of type `Date`
-  """
-  fechaRegistro_max: Date_Filter
 }
 """
 ✨ Generated key input type for table 'Curso'. It represents the primary key fields used to uniquely identify a row in the table.
@@ -327,21 +698,13 @@ input Curso_Order {
   """
   descripcion: OrderDirection
   """
-  ✨ Generated from Field `Curso`.`estado` of type `String!`
+  ✨ Generated from Field `Curso`.`estado` of type `String`
   """
   estado: OrderDirection
-  """
-  ✨ Generated from Field `Curso`.`fechaRegistro` of type `Date!`
-  """
-  fechaRegistro: OrderDirection
   """
   ✨ Generated from Field `Curso`.`instructor` of type `String`
   """
   instructor: OrderDirection
-  """
-  ✨ Generated from Field `Curso`.`nivelDificultad` of type `String`
-  """
-  nivelDificultad: OrderDirection
   """
   ✨ Generated from Field `Curso`.`nombre` of type `String!`
   """
@@ -371,10 +734,6 @@ input Curso_Order {
   """
   estado_count: OrderDirection
   """
-  ✨ Generated from Field `Curso`.`fechaRegistro_count` of type `Int!`
-  """
-  fechaRegistro_count: OrderDirection
-  """
   ✨ Generated from Field `Curso`.`id_count` of type `Int!`
   """
   id_count: OrderDirection
@@ -382,10 +741,6 @@ input Curso_Order {
   ✨ Generated from Field `Curso`.`instructor_count` of type `Int!`
   """
   instructor_count: OrderDirection
-  """
-  ✨ Generated from Field `Curso`.`nivelDificultad_count` of type `Int!`
-  """
-  nivelDificultad_count: OrderDirection
   """
   ✨ Generated from Field `Curso`.`nombre_count` of type `Int!`
   """
@@ -407,17 +762,9 @@ input Curso_Order {
   """
   cursoId_min: OrderDirection
   """
-  ✨ Generated from Field `Curso`.`fechaRegistro_min` of type `Date`
-  """
-  fechaRegistro_min: OrderDirection
-  """
   ✨ Generated from Field `Curso`.`cursoId_max` of type `Int`
   """
   cursoId_max: OrderDirection
-  """
-  ✨ Generated from Field `Curso`.`fechaRegistro_max` of type `Date`
-  """
-  fechaRegistro_max: OrderDirection
 }
 """
 ✨ Generated data input type for table 'Estudiante'. It includes all necessary fields for creating or upserting rows into table.
@@ -511,6 +858,10 @@ input Estudiante_Data {
   ✨ `_expr` server value variant of `telefono` (✨ Generated from Field `Estudiante`.`telefono` of type `String`)
   """
   telefono_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Estudiante`.`asistencias_on_estudiante` of type `[Asistencia!]!`
+  """
+  asistencias_on_estudiante: [Asistencia_Data!]
 }
 """
 ✨ Generated filter input type for table 'Estudiante'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
@@ -564,6 +915,10 @@ input Estudiante_Filter {
   ✨ Generated from Field `Estudiante`.`telefono` of type `String`
   """
   telefono: String_Filter
+  """
+  ✨ Generated from Field `Estudiante`.`asistencias_on_estudiante` of type `[Asistencia!]!`
+  """
+  asistencias_on_estudiante: Asistencia_ListFilter
 }
 """
 ✨ Generated first-row input type for table 'Estudiante'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
@@ -827,11 +1182,11 @@ input Horario_Data {
   """
   cupoMaximo_update: [Int_Update!] @fdc_forbiddenInVariables
   """
-  ✨ Generated from Field `Horario`.`estado` of type `String!`
+  ✨ Generated from Field `Horario`.`estado` of type `String`
   """
   estado: String
   """
-  ✨ `_expr` server value variant of `estado` (✨ Generated from Field `Horario`.`estado` of type `String!`)
+  ✨ `_expr` server value variant of `estado` (✨ Generated from Field `Horario`.`estado` of type `String`)
   """
   estado_expr: String_Expr @fdc_forbiddenInVariables
   """
@@ -866,22 +1221,6 @@ input Horario_Data {
   ✨ `_update` server value variant of `fechaInicio` (✨ Generated from Field `Horario`.`fechaInicio` of type `Date!`)
   """
   fechaInicio_update: [Date_Update!] @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `Horario`.`fechaRegistro` of type `Date!`
-  """
-  fechaRegistro: Date
-  """
-  ✨ `_date` server value variant of `fechaRegistro` (✨ Generated from Field `Horario`.`fechaRegistro` of type `Date!`)
-  """
-  fechaRegistro_date: Date_Relative @fdc_forbiddenInVariables
-  """
-  ✨ `_expr` server value variant of `fechaRegistro` (✨ Generated from Field `Horario`.`fechaRegistro` of type `Date!`)
-  """
-  fechaRegistro_expr: Date_Expr @fdc_forbiddenInVariables
-  """
-  ✨ `_update` server value variant of `fechaRegistro` (✨ Generated from Field `Horario`.`fechaRegistro` of type `Date!`)
-  """
-  fechaRegistro_update: [Date_Update!] @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `Horario`.`horaFin` of type `String!`
   """
@@ -948,7 +1287,7 @@ input Horario_Filter {
   """
   cupoMaximo: Int_Filter
   """
-  ✨ Generated from Field `Horario`.`estado` of type `String!`
+  ✨ Generated from Field `Horario`.`estado` of type `String`
   """
   estado: String_Filter
   """
@@ -959,10 +1298,6 @@ input Horario_Filter {
   ✨ Generated from Field `Horario`.`fechaInicio` of type `Date!`
   """
   fechaInicio: Date_Filter
-  """
-  ✨ Generated from Field `Horario`.`fechaRegistro` of type `Date!`
-  """
-  fechaRegistro: Date_Filter
   """
   ✨ Generated from Field `Horario`.`horaFin` of type `String!`
   """
@@ -1038,10 +1373,6 @@ input Horario_Having {
   """
   fechaInicio_count: Int_Filter
   """
-  ✨ Generated from Field `Horario`.`fechaRegistro_count` of type `Int!`
-  """
-  fechaRegistro_count: Int_Filter
-  """
   ✨ Generated from Field `Horario`.`horaFin_count` of type `Int!`
   """
   horaFin_count: Int_Filter
@@ -1098,10 +1429,6 @@ input Horario_Having {
   """
   fechaInicio_min: Date_Filter
   """
-  ✨ Generated from Field `Horario`.`fechaRegistro_min` of type `Date`
-  """
-  fechaRegistro_min: Date_Filter
-  """
   ✨ Generated from Field `Horario`.`horarioId_min` of type `Int`
   """
   horarioId_min: Int_Filter
@@ -1121,10 +1448,6 @@ input Horario_Having {
   ✨ Generated from Field `Horario`.`fechaInicio_max` of type `Date`
   """
   fechaInicio_max: Date_Filter
-  """
-  ✨ Generated from Field `Horario`.`fechaRegistro_max` of type `Date`
-  """
-  fechaRegistro_max: Date_Filter
   """
   ✨ Generated from Field `Horario`.`horarioId_max` of type `Int`
   """
@@ -1181,7 +1504,7 @@ input Horario_Order {
   """
   cupoMaximo: OrderDirection
   """
-  ✨ Generated from Field `Horario`.`estado` of type `String!`
+  ✨ Generated from Field `Horario`.`estado` of type `String`
   """
   estado: OrderDirection
   """
@@ -1192,10 +1515,6 @@ input Horario_Order {
   ✨ Generated from Field `Horario`.`fechaInicio` of type `Date!`
   """
   fechaInicio: OrderDirection
-  """
-  ✨ Generated from Field `Horario`.`fechaRegistro` of type `Date!`
-  """
-  fechaRegistro: OrderDirection
   """
   ✨ Generated from Field `Horario`.`horaFin` of type `String!`
   """
@@ -1236,10 +1555,6 @@ input Horario_Order {
   ✨ Generated from Field `Horario`.`fechaInicio_count` of type `Int!`
   """
   fechaInicio_count: OrderDirection
-  """
-  ✨ Generated from Field `Horario`.`fechaRegistro_count` of type `Int!`
-  """
-  fechaRegistro_count: OrderDirection
   """
   ✨ Generated from Field `Horario`.`horaFin_count` of type `Int!`
   """
@@ -1297,10 +1612,6 @@ input Horario_Order {
   """
   fechaInicio_min: OrderDirection
   """
-  ✨ Generated from Field `Horario`.`fechaRegistro_min` of type `Date`
-  """
-  fechaRegistro_min: OrderDirection
-  """
   ✨ Generated from Field `Horario`.`horarioId_min` of type `Int`
   """
   horarioId_min: OrderDirection
@@ -1321,11 +1632,314 @@ input Horario_Order {
   """
   fechaInicio_max: OrderDirection
   """
-  ✨ Generated from Field `Horario`.`fechaRegistro_max` of type `Date`
-  """
-  fechaRegistro_max: OrderDirection
-  """
   ✨ Generated from Field `Horario`.`horarioId_max` of type `Int`
   """
   horarioId_max: OrderDirection
+}
+"""
+✨ Generated data input type for table 'Instructor'. It includes all necessary fields for creating or upserting rows into table.
+"""
+input Instructor_Data {
+  """
+  ✨ Generated from Field `Instructor`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Instructor`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Instructor`.`activo` of type `Boolean!`
+  """
+  activo: Boolean
+  """
+  ✨ `_expr` server value variant of `activo` (✨ Generated from Field `Instructor`.`activo` of type `Boolean!`)
+  """
+  activo_expr: Boolean_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Instructor`.`correo` of type `String!`
+  """
+  correo: String
+  """
+  ✨ `_expr` server value variant of `correo` (✨ Generated from Field `Instructor`.`correo` of type `String!`)
+  """
+  correo_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Instructor`.`especialidad` of type `String`
+  """
+  especialidad: String
+  """
+  ✨ `_expr` server value variant of `especialidad` (✨ Generated from Field `Instructor`.`especialidad` of type `String`)
+  """
+  especialidad_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Instructor`.`instructorId` of type `Int!`
+  """
+  instructorId: Int
+  """
+  ✨ `_expr` server value variant of `instructorId` (✨ Generated from Field `Instructor`.`instructorId` of type `Int!`)
+  """
+  instructorId_expr: Int_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `instructorId` (✨ Generated from Field `Instructor`.`instructorId` of type `Int!`)
+  """
+  instructorId_update: [Int_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Instructor`.`nombreCompleto` of type `String!`
+  """
+  nombreCompleto: String
+  """
+  ✨ `_expr` server value variant of `nombreCompleto` (✨ Generated from Field `Instructor`.`nombreCompleto` of type `String!`)
+  """
+  nombreCompleto_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Instructor`.`telefono` of type `String`
+  """
+  telefono: String
+  """
+  ✨ `_expr` server value variant of `telefono` (✨ Generated from Field `Instructor`.`telefono` of type `String`)
+  """
+  telefono_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Instructor`.`asistencias_on_instructor` of type `[Asistencia!]!`
+  """
+  asistencias_on_instructor: [Asistencia_Data!]
+}
+"""
+✨ Generated filter input type for table 'Instructor'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input Instructor_Filter {
+  """
+  Apply multiple filter conditions using `AND` logic.
+  """
+  _and: [Instructor_Filter!]
+  """
+  Negate the result of the provided filter condition.
+  """
+  _not: Instructor_Filter
+  """
+  Apply multiple filter conditions using `OR` logic.
+  """
+  _or: [Instructor_Filter!]
+  """
+  ✨ Generated from Field `Instructor`.`id` of type `UUID!`
+  """
+  id: UUID_Filter
+  """
+  ✨ Generated from Field `Instructor`.`activo` of type `Boolean!`
+  """
+  activo: Boolean_Filter
+  """
+  ✨ Generated from Field `Instructor`.`correo` of type `String!`
+  """
+  correo: String_Filter
+  """
+  ✨ Generated from Field `Instructor`.`especialidad` of type `String`
+  """
+  especialidad: String_Filter
+  """
+  ✨ Generated from Field `Instructor`.`instructorId` of type `Int!`
+  """
+  instructorId: Int_Filter
+  """
+  ✨ Generated from Field `Instructor`.`nombreCompleto` of type `String!`
+  """
+  nombreCompleto: String_Filter
+  """
+  ✨ Generated from Field `Instructor`.`telefono` of type `String`
+  """
+  telefono: String_Filter
+  """
+  ✨ Generated from Field `Instructor`.`asistencias_on_instructor` of type `[Asistencia!]!`
+  """
+  asistencias_on_instructor: Asistencia_ListFilter
+}
+"""
+✨ Generated first-row input type for table 'Instructor'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
+"""
+input Instructor_FirstRow {
+  """
+  Order the result by the specified fields.
+  """
+  orderBy: [Instructor_Order!]
+  """
+  Filters rows based on the specified conditions.
+  """
+  where: Instructor_Filter
+}
+"""
+✨ Generated having input type for table 'Instructor'. This input allows you to filter groups during aggregate queries using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input Instructor_Having {
+  """
+  Apply multiple Having conditions using `AND` logic.
+  """
+  _and: [Instructor_Having!]
+  """
+  Whether to apply DISTINCT to the aggregate function.
+  """
+  _distinct: Boolean
+  """
+  Negate the result of the provided Having condition.
+  """
+  _not: Instructor_Having
+  """
+  Apply multiple Having conditions using `OR` logic.
+  """
+  _or: [Instructor_Having!]
+  """
+  ✨ Generated from Field `Instructor`.`_count` of type `Int!`
+  """
+  _count: Int_Filter
+  """
+  ✨ Generated from Field `Instructor`.`activo_count` of type `Int!`
+  """
+  activo_count: Int_Filter
+  """
+  ✨ Generated from Field `Instructor`.`correo_count` of type `Int!`
+  """
+  correo_count: Int_Filter
+  """
+  ✨ Generated from Field `Instructor`.`especialidad_count` of type `Int!`
+  """
+  especialidad_count: Int_Filter
+  """
+  ✨ Generated from Field `Instructor`.`id_count` of type `Int!`
+  """
+  id_count: Int_Filter
+  """
+  ✨ Generated from Field `Instructor`.`instructorId_count` of type `Int!`
+  """
+  instructorId_count: Int_Filter
+  """
+  ✨ Generated from Field `Instructor`.`nombreCompleto_count` of type `Int!`
+  """
+  nombreCompleto_count: Int_Filter
+  """
+  ✨ Generated from Field `Instructor`.`telefono_count` of type `Int!`
+  """
+  telefono_count: Int_Filter
+  """
+  ✨ Generated from Field `Instructor`.`instructorId_sum` of type `Int`
+  """
+  instructorId_sum: Int_Filter
+  """
+  ✨ Generated from Field `Instructor`.`instructorId_avg` of type `Float`
+  """
+  instructorId_avg: Float_Filter
+  """
+  ✨ Generated from Field `Instructor`.`instructorId_min` of type `Int`
+  """
+  instructorId_min: Int_Filter
+  """
+  ✨ Generated from Field `Instructor`.`instructorId_max` of type `Int`
+  """
+  instructorId_max: Int_Filter
+}
+"""
+✨ Generated key input type for table 'Instructor'. It represents the primary key fields used to uniquely identify a row in the table.
+"""
+input Instructor_Key {
+  """
+  ✨ Generated from Field `Instructor`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Instructor`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+}
+"""
+✨ Generated list filter input type for table 'Instructor'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
+"""
+input Instructor_ListFilter {
+  """
+  The desired number of objects that match the condition (defaults to at least one).
+  """
+  count: Int_Filter = {gt:0}
+  """
+  Condition of the related objects to filter for.
+  """
+  exist: Instructor_Filter
+}
+"""
+✨ Generated order input type for table 'Instructor'. This input defines the sorting order of rows in query results based on one or more fields.
+"""
+input Instructor_Order {
+  """
+  ✨ Generated from Field `Instructor`.`id` of type `UUID!`
+  """
+  id: OrderDirection
+  """
+  ✨ Generated from Field `Instructor`.`activo` of type `Boolean!`
+  """
+  activo: OrderDirection
+  """
+  ✨ Generated from Field `Instructor`.`correo` of type `String!`
+  """
+  correo: OrderDirection
+  """
+  ✨ Generated from Field `Instructor`.`especialidad` of type `String`
+  """
+  especialidad: OrderDirection
+  """
+  ✨ Generated from Field `Instructor`.`instructorId` of type `Int!`
+  """
+  instructorId: OrderDirection
+  """
+  ✨ Generated from Field `Instructor`.`nombreCompleto` of type `String!`
+  """
+  nombreCompleto: OrderDirection
+  """
+  ✨ Generated from Field `Instructor`.`telefono` of type `String`
+  """
+  telefono: OrderDirection
+  """
+  ✨ Generated from Field `Instructor`.`_count` of type `Int!`
+  """
+  _count: OrderDirection
+  """
+  ✨ Generated from Field `Instructor`.`activo_count` of type `Int!`
+  """
+  activo_count: OrderDirection
+  """
+  ✨ Generated from Field `Instructor`.`correo_count` of type `Int!`
+  """
+  correo_count: OrderDirection
+  """
+  ✨ Generated from Field `Instructor`.`especialidad_count` of type `Int!`
+  """
+  especialidad_count: OrderDirection
+  """
+  ✨ Generated from Field `Instructor`.`id_count` of type `Int!`
+  """
+  id_count: OrderDirection
+  """
+  ✨ Generated from Field `Instructor`.`instructorId_count` of type `Int!`
+  """
+  instructorId_count: OrderDirection
+  """
+  ✨ Generated from Field `Instructor`.`nombreCompleto_count` of type `Int!`
+  """
+  nombreCompleto_count: OrderDirection
+  """
+  ✨ Generated from Field `Instructor`.`telefono_count` of type `Int!`
+  """
+  telefono_count: OrderDirection
+  """
+  ✨ Generated from Field `Instructor`.`instructorId_sum` of type `Int`
+  """
+  instructorId_sum: OrderDirection
+  """
+  ✨ Generated from Field `Instructor`.`instructorId_avg` of type `Float`
+  """
+  instructorId_avg: OrderDirection
+  """
+  ✨ Generated from Field `Instructor`.`instructorId_min` of type `Int`
+  """
+  instructorId_min: OrderDirection
+  """
+  ✨ Generated from Field `Instructor`.`instructorId_max` of type `Int`
+  """
+  instructorId_max: OrderDirection
 }

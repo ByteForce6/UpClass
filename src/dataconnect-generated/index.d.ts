@@ -11,6 +11,11 @@ export type DateString = string;
 
 
 
+export interface Asistencia_Key {
+  id: UUIDString;
+  __typename?: 'Asistencia_Key';
+}
+
 export interface BuscarEstudiantePorMatriculaData {
   estudiantes: ({
     id: UUIDString;
@@ -50,6 +55,11 @@ export interface Estudiante_Key {
 export interface Horario_Key {
   id: UUIDString;
   __typename?: 'Horario_Key';
+}
+
+export interface Instructor_Key {
+  id: UUIDString;
+  __typename?: 'Instructor_Key';
 }
 
 export interface ListarEstudiantesData {

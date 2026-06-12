@@ -1,5 +1,14 @@
 extend type Mutation {
   """
+  ✨ Insert a single `Asistencia` into the table and return its key. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  asistencia_insert(
+    """
+    Data object to insert into the table.
+    """
+    data: Asistencia_Data!
+  ): Asistencia_KeyOutput! @fdc_generated(from: "Asistencia", purpose: INSERT_SINGLE)
+  """
   ✨ Insert a single `Curso` into the table and return its key. Columns not specified in `data` will receive defaults (e.g. `null`).
   """
   curso_insert(
@@ -26,6 +35,24 @@ extend type Mutation {
     """
     data: Horario_Data!
   ): Horario_KeyOutput! @fdc_generated(from: "Horario", purpose: INSERT_SINGLE)
+  """
+  ✨ Insert a single `Instructor` into the table and return its key. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  instructor_insert(
+    """
+    Data object to insert into the table.
+    """
+    data: Instructor_Data!
+  ): Instructor_KeyOutput! @fdc_generated(from: "Instructor", purpose: INSERT_SINGLE)
+  """
+  ✨ Insert `Asistencia` objects into the table and return their keys. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  asistencia_insertMany(
+    """
+    List of data objects to insert into the table.
+    """
+    data: [Asistencia_Data!]!
+  ): [Asistencia_KeyOutput!]! @fdc_generated(from: "Asistencia", purpose: INSERT_MULTIPLE)
   """
   ✨ Insert `Curso` objects into the table and return their keys. Columns not specified in `data` will receive defaults (e.g. `null`).
   """
@@ -54,6 +81,24 @@ extend type Mutation {
     data: [Horario_Data!]!
   ): [Horario_KeyOutput!]! @fdc_generated(from: "Horario", purpose: INSERT_MULTIPLE)
   """
+  ✨ Insert `Instructor` objects into the table and return their keys. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  instructor_insertMany(
+    """
+    List of data objects to insert into the table.
+    """
+    data: [Instructor_Data!]!
+  ): [Instructor_KeyOutput!]! @fdc_generated(from: "Instructor", purpose: INSERT_MULTIPLE)
+  """
+  ✨ Insert or update a single `Asistencia` into the table, based on the primary key. Returns the key of the newly inserted or existing updated `Asistencia`.
+  """
+  asistencia_upsert(
+    """
+    Data object to insert or update if it already exists.
+    """
+    data: Asistencia_Data!
+  ): Asistencia_KeyOutput! @fdc_generated(from: "Asistencia", purpose: UPSERT_SINGLE)
+  """
   ✨ Insert or update a single `Curso` into the table, based on the primary key. Returns the key of the newly inserted or existing updated `Curso`.
   """
   curso_upsert(
@@ -81,6 +126,24 @@ extend type Mutation {
     data: Horario_Data!
   ): Horario_KeyOutput! @fdc_generated(from: "Horario", purpose: UPSERT_SINGLE)
   """
+  ✨ Insert or update a single `Instructor` into the table, based on the primary key. Returns the key of the newly inserted or existing updated `Instructor`.
+  """
+  instructor_upsert(
+    """
+    Data object to insert or update if it already exists.
+    """
+    data: Instructor_Data!
+  ): Instructor_KeyOutput! @fdc_generated(from: "Instructor", purpose: UPSERT_SINGLE)
+  """
+  ✨ Insert or update `Asistencia` objects into the table, based on the primary key. Returns the key of the newly inserted or existing updated `Asistencia`.
+  """
+  asistencia_upsertMany(
+    """
+    List of data objects to insert or update if it already exists.
+    """
+    data: [Asistencia_Data!]!
+  ): [Asistencia_KeyOutput!]! @fdc_generated(from: "Asistencia", purpose: UPSERT_MULTIPLE)
+  """
   ✨ Insert or update `Curso` objects into the table, based on the primary key. Returns the key of the newly inserted or existing updated `Curso`.
   """
   curso_upsertMany(
@@ -107,6 +170,39 @@ extend type Mutation {
     """
     data: [Horario_Data!]!
   ): [Horario_KeyOutput!]! @fdc_generated(from: "Horario", purpose: UPSERT_MULTIPLE)
+  """
+  ✨ Insert or update `Instructor` objects into the table, based on the primary key. Returns the key of the newly inserted or existing updated `Instructor`.
+  """
+  instructor_upsertMany(
+    """
+    List of data objects to insert or update if it already exists.
+    """
+    data: [Instructor_Data!]!
+  ): [Instructor_KeyOutput!]! @fdc_generated(from: "Instructor", purpose: UPSERT_MULTIPLE)
+  """
+  ✨ Update a single `Asistencia` based on `id`, `key` or `first`, setting columns specified in `data`. Returns the key of the updated `Asistencia` or `null` if not found.
+  """
+  asistencia_update(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Asistencia_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Asistencia_FirstRow
+
+    """
+    Data object containing fields to be updated.
+    """
+    data: Asistencia_Data!
+  ): Asistencia_KeyOutput @fdc_generated(from: "Asistencia", purpose: UPDATE_SINGLE)
   """
   ✨ Update a single `Curso` based on `id`, `key` or `first`, setting columns specified in `data`. Returns the key of the updated `Curso` or `null` if not found.
   """
@@ -180,6 +276,49 @@ extend type Mutation {
     data: Horario_Data!
   ): Horario_KeyOutput @fdc_generated(from: "Horario", purpose: UPDATE_SINGLE)
   """
+  ✨ Update a single `Instructor` based on `id`, `key` or `first`, setting columns specified in `data`. Returns the key of the updated `Instructor` or `null` if not found.
+  """
+  instructor_update(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Instructor_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Instructor_FirstRow
+
+    """
+    Data object containing fields to be updated.
+    """
+    data: Instructor_Data!
+  ): Instructor_KeyOutput @fdc_generated(from: "Instructor", purpose: UPDATE_SINGLE)
+  """
+  ✨ Update `Asistencia` objects matching `where` conditions (or `all`, if true) according to `data`. Returns the number of rows updated.
+  """
+  asistencia_updateMany(
+    """
+    Filter condition to specify which rows to update.
+    """
+    where: Asistencia_Filter
+
+    """
+    Set to true to update all rows.
+    """
+    all: Boolean = false
+
+    """
+    Data object containing fields to update.
+    """
+    data: Asistencia_Data!
+  ): Int! @fdc_generated(from: "Asistencia", purpose: UPDATE_MULTIPLE)
+  """
   ✨ Update `Curso` objects matching `where` conditions (or `all`, if true) according to `data`. Returns the number of rows updated.
   """
   curso_updateMany(
@@ -236,6 +375,44 @@ extend type Mutation {
     """
     data: Horario_Data!
   ): Int! @fdc_generated(from: "Horario", purpose: UPDATE_MULTIPLE)
+  """
+  ✨ Update `Instructor` objects matching `where` conditions (or `all`, if true) according to `data`. Returns the number of rows updated.
+  """
+  instructor_updateMany(
+    """
+    Filter condition to specify which rows to update.
+    """
+    where: Instructor_Filter
+
+    """
+    Set to true to update all rows.
+    """
+    all: Boolean = false
+
+    """
+    Data object containing fields to update.
+    """
+    data: Instructor_Data!
+  ): Int! @fdc_generated(from: "Instructor", purpose: UPDATE_MULTIPLE)
+  """
+  ✨ Delete a single `Asistencia` based on `id`, `key` or `first` and return its key (or `null` if not found).
+  """
+  asistencia_delete(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Asistencia_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Asistencia_FirstRow
+  ): Asistencia_KeyOutput @fdc_generated(from: "Asistencia", purpose: DELETE_SINGLE)
   """
   ✨ Delete a single `Curso` based on `id`, `key` or `first` and return its key (or `null` if not found).
   """
@@ -294,6 +471,39 @@ extend type Mutation {
     first: Horario_FirstRow
   ): Horario_KeyOutput @fdc_generated(from: "Horario", purpose: DELETE_SINGLE)
   """
+  ✨ Delete a single `Instructor` based on `id`, `key` or `first` and return its key (or `null` if not found).
+  """
+  instructor_delete(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Instructor_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Instructor_FirstRow
+  ): Instructor_KeyOutput @fdc_generated(from: "Instructor", purpose: DELETE_SINGLE)
+  """
+  ✨ Delete `Asistencia` objects matching `where` conditions (or `all`, if true). Returns the number of rows deleted.
+  """
+  asistencia_deleteMany(
+    """
+    Filter condition to specify which rows to delete.
+    """
+    where: Asistencia_Filter
+
+    """
+    Set to true to delete all rows.
+    """
+    all: Boolean = false
+  ): Int! @fdc_generated(from: "Asistencia", purpose: DELETE_MULTIPLE)
+  """
   ✨ Delete `Curso` objects matching `where` conditions (or `all`, if true). Returns the number of rows deleted.
   """
   curso_deleteMany(
@@ -335,4 +545,18 @@ extend type Mutation {
     """
     all: Boolean = false
   ): Int! @fdc_generated(from: "Horario", purpose: DELETE_MULTIPLE)
+  """
+  ✨ Delete `Instructor` objects matching `where` conditions (or `all`, if true). Returns the number of rows deleted.
+  """
+  instructor_deleteMany(
+    """
+    Filter condition to specify which rows to delete.
+    """
+    where: Instructor_Filter
+
+    """
+    Set to true to delete all rows.
+    """
+    all: Boolean = false
+  ): Int! @fdc_generated(from: "Instructor", purpose: DELETE_MULTIPLE)
 }
