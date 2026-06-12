@@ -1,0 +1,114 @@
+extend type Mutation {
+  """
+  ✨ Insert a single `Estudiante` into the table and return its key. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  estudiante_insert(
+    """
+    Data object to insert into the table.
+    """
+    data: Estudiante_Data!
+  ): Estudiante_KeyOutput! @fdc_generated(from: "Estudiante", purpose: INSERT_SINGLE)
+  """
+  ✨ Insert `Estudiante` objects into the table and return their keys. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  estudiante_insertMany(
+    """
+    List of data objects to insert into the table.
+    """
+    data: [Estudiante_Data!]!
+  ): [Estudiante_KeyOutput!]! @fdc_generated(from: "Estudiante", purpose: INSERT_MULTIPLE)
+  """
+  ✨ Insert or update a single `Estudiante` into the table, based on the primary key. Returns the key of the newly inserted or existing updated `Estudiante`.
+  """
+  estudiante_upsert(
+    """
+    Data object to insert or update if it already exists.
+    """
+    data: Estudiante_Data!
+  ): Estudiante_KeyOutput! @fdc_generated(from: "Estudiante", purpose: UPSERT_SINGLE)
+  """
+  ✨ Insert or update `Estudiante` objects into the table, based on the primary key. Returns the key of the newly inserted or existing updated `Estudiante`.
+  """
+  estudiante_upsertMany(
+    """
+    List of data objects to insert or update if it already exists.
+    """
+    data: [Estudiante_Data!]!
+  ): [Estudiante_KeyOutput!]! @fdc_generated(from: "Estudiante", purpose: UPSERT_MULTIPLE)
+  """
+  ✨ Update a single `Estudiante` based on `id`, `key` or `first`, setting columns specified in `data`. Returns the key of the updated `Estudiante` or `null` if not found.
+  """
+  estudiante_update(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Estudiante_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Estudiante_FirstRow
+
+    """
+    Data object containing fields to be updated.
+    """
+    data: Estudiante_Data!
+  ): Estudiante_KeyOutput @fdc_generated(from: "Estudiante", purpose: UPDATE_SINGLE)
+  """
+  ✨ Update `Estudiante` objects matching `where` conditions (or `all`, if true) according to `data`. Returns the number of rows updated.
+  """
+  estudiante_updateMany(
+    """
+    Filter condition to specify which rows to update.
+    """
+    where: Estudiante_Filter
+
+    """
+    Set to true to update all rows.
+    """
+    all: Boolean = false
+
+    """
+    Data object containing fields to update.
+    """
+    data: Estudiante_Data!
+  ): Int! @fdc_generated(from: "Estudiante", purpose: UPDATE_MULTIPLE)
+  """
+  ✨ Delete a single `Estudiante` based on `id`, `key` or `first` and return its key (or `null` if not found).
+  """
+  estudiante_delete(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Estudiante_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Estudiante_FirstRow
+  ): Estudiante_KeyOutput @fdc_generated(from: "Estudiante", purpose: DELETE_SINGLE)
+  """
+  ✨ Delete `Estudiante` objects matching `where` conditions (or `all`, if true). Returns the number of rows deleted.
+  """
+  estudiante_deleteMany(
+    """
+    Filter condition to specify which rows to delete.
+    """
+    where: Estudiante_Filter
+
+    """
+    Set to true to delete all rows.
+    """
+    all: Boolean = false
+  ): Int! @fdc_generated(from: "Estudiante", purpose: DELETE_MULTIPLE)
+}

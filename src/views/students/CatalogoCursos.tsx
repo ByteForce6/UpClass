@@ -5,10 +5,9 @@ import {
   CATEGORIAS_CATALOGO,
   MODALIDADES_CATALOGO,
 } from "../../Data/mockCatalogo";
-import "../../Styles/catalogo.css";
+import "../../Styles/Catalogo.css";
 
 // ─── Helpers ──────────────────────────────────────────────────
-
 function cupoLibre(c: CursoCatalogo): number {
   return c.cupoTotal - c.cupoOcupado;
 }

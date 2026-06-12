@@ -1,0 +1,365 @@
+"""
+✨ `Estudiante_KeyOutput` returns the primary key fields of table type `Estudiante`.
+
+It has the same format as `Estudiante_Key`, but is only used as mutation return value.
+"""
+scalar Estudiante_KeyOutput
+"""
+✨ Generated data input type for table 'Estudiante'. It includes all necessary fields for creating or upserting rows into table.
+"""
+input Estudiante_Data {
+  """
+  ✨ Generated from Field `Estudiante`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Estudiante`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Estudiante`.`activo` of type `Boolean!`
+  """
+  activo: Boolean
+  """
+  ✨ `_expr` server value variant of `activo` (✨ Generated from Field `Estudiante`.`activo` of type `Boolean!`)
+  """
+  activo_expr: Boolean_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Estudiante`.`correo` of type `String!`
+  """
+  correo: String
+  """
+  ✨ `_expr` server value variant of `correo` (✨ Generated from Field `Estudiante`.`correo` of type `String!`)
+  """
+  correo_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Estudiante`.`direccion` of type `String`
+  """
+  direccion: String
+  """
+  ✨ `_expr` server value variant of `direccion` (✨ Generated from Field `Estudiante`.`direccion` of type `String`)
+  """
+  direccion_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Estudiante`.`fechaNacimiento` of type `Date`
+  """
+  fechaNacimiento: Date
+  """
+  ✨ `_date` server value variant of `fechaNacimiento` (✨ Generated from Field `Estudiante`.`fechaNacimiento` of type `Date`)
+  """
+  fechaNacimiento_date: Date_Relative @fdc_forbiddenInVariables
+  """
+  ✨ `_expr` server value variant of `fechaNacimiento` (✨ Generated from Field `Estudiante`.`fechaNacimiento` of type `Date`)
+  """
+  fechaNacimiento_expr: Date_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `fechaNacimiento` (✨ Generated from Field `Estudiante`.`fechaNacimiento` of type `Date`)
+  """
+  fechaNacimiento_update: [Date_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Estudiante`.`fechaRegistro` of type `Date!`
+  """
+  fechaRegistro: Date
+  """
+  ✨ `_date` server value variant of `fechaRegistro` (✨ Generated from Field `Estudiante`.`fechaRegistro` of type `Date!`)
+  """
+  fechaRegistro_date: Date_Relative @fdc_forbiddenInVariables
+  """
+  ✨ `_expr` server value variant of `fechaRegistro` (✨ Generated from Field `Estudiante`.`fechaRegistro` of type `Date!`)
+  """
+  fechaRegistro_expr: Date_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `fechaRegistro` (✨ Generated from Field `Estudiante`.`fechaRegistro` of type `Date!`)
+  """
+  fechaRegistro_update: [Date_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Estudiante`.`matricula` of type `String!`
+  """
+  matricula: String
+  """
+  ✨ `_expr` server value variant of `matricula` (✨ Generated from Field `Estudiante`.`matricula` of type `String!`)
+  """
+  matricula_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Estudiante`.`nombreCompleto` of type `String!`
+  """
+  nombreCompleto: String
+  """
+  ✨ `_expr` server value variant of `nombreCompleto` (✨ Generated from Field `Estudiante`.`nombreCompleto` of type `String!`)
+  """
+  nombreCompleto_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Estudiante`.`telefono` of type `String`
+  """
+  telefono: String
+  """
+  ✨ `_expr` server value variant of `telefono` (✨ Generated from Field `Estudiante`.`telefono` of type `String`)
+  """
+  telefono_expr: String_Expr @fdc_forbiddenInVariables
+}
+"""
+✨ Generated filter input type for table 'Estudiante'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input Estudiante_Filter {
+  """
+  Apply multiple filter conditions using `AND` logic.
+  """
+  _and: [Estudiante_Filter!]
+  """
+  Negate the result of the provided filter condition.
+  """
+  _not: Estudiante_Filter
+  """
+  Apply multiple filter conditions using `OR` logic.
+  """
+  _or: [Estudiante_Filter!]
+  """
+  ✨ Generated from Field `Estudiante`.`id` of type `UUID!`
+  """
+  id: UUID_Filter
+  """
+  ✨ Generated from Field `Estudiante`.`activo` of type `Boolean!`
+  """
+  activo: Boolean_Filter
+  """
+  ✨ Generated from Field `Estudiante`.`correo` of type `String!`
+  """
+  correo: String_Filter
+  """
+  ✨ Generated from Field `Estudiante`.`direccion` of type `String`
+  """
+  direccion: String_Filter
+  """
+  ✨ Generated from Field `Estudiante`.`fechaNacimiento` of type `Date`
+  """
+  fechaNacimiento: Date_Filter
+  """
+  ✨ Generated from Field `Estudiante`.`fechaRegistro` of type `Date!`
+  """
+  fechaRegistro: Date_Filter
+  """
+  ✨ Generated from Field `Estudiante`.`matricula` of type `String!`
+  """
+  matricula: String_Filter
+  """
+  ✨ Generated from Field `Estudiante`.`nombreCompleto` of type `String!`
+  """
+  nombreCompleto: String_Filter
+  """
+  ✨ Generated from Field `Estudiante`.`telefono` of type `String`
+  """
+  telefono: String_Filter
+}
+"""
+✨ Generated first-row input type for table 'Estudiante'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
+"""
+input Estudiante_FirstRow {
+  """
+  Order the result by the specified fields.
+  """
+  orderBy: [Estudiante_Order!]
+  """
+  Filters rows based on the specified conditions.
+  """
+  where: Estudiante_Filter
+}
+"""
+✨ Generated having input type for table 'Estudiante'. This input allows you to filter groups during aggregate queries using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input Estudiante_Having {
+  """
+  Apply multiple Having conditions using `AND` logic.
+  """
+  _and: [Estudiante_Having!]
+  """
+  Whether to apply DISTINCT to the aggregate function.
+  """
+  _distinct: Boolean
+  """
+  Negate the result of the provided Having condition.
+  """
+  _not: Estudiante_Having
+  """
+  Apply multiple Having conditions using `OR` logic.
+  """
+  _or: [Estudiante_Having!]
+  """
+  ✨ Generated from Field `Estudiante`.`_count` of type `Int!`
+  """
+  _count: Int_Filter
+  """
+  ✨ Generated from Field `Estudiante`.`activo_count` of type `Int!`
+  """
+  activo_count: Int_Filter
+  """
+  ✨ Generated from Field `Estudiante`.`correo_count` of type `Int!`
+  """
+  correo_count: Int_Filter
+  """
+  ✨ Generated from Field `Estudiante`.`direccion_count` of type `Int!`
+  """
+  direccion_count: Int_Filter
+  """
+  ✨ Generated from Field `Estudiante`.`fechaNacimiento_count` of type `Int!`
+  """
+  fechaNacimiento_count: Int_Filter
+  """
+  ✨ Generated from Field `Estudiante`.`fechaRegistro_count` of type `Int!`
+  """
+  fechaRegistro_count: Int_Filter
+  """
+  ✨ Generated from Field `Estudiante`.`id_count` of type `Int!`
+  """
+  id_count: Int_Filter
+  """
+  ✨ Generated from Field `Estudiante`.`matricula_count` of type `Int!`
+  """
+  matricula_count: Int_Filter
+  """
+  ✨ Generated from Field `Estudiante`.`nombreCompleto_count` of type `Int!`
+  """
+  nombreCompleto_count: Int_Filter
+  """
+  ✨ Generated from Field `Estudiante`.`telefono_count` of type `Int!`
+  """
+  telefono_count: Int_Filter
+  """
+  ✨ Generated from Field `Estudiante`.`fechaNacimiento_min` of type `Date`
+  """
+  fechaNacimiento_min: Date_Filter
+  """
+  ✨ Generated from Field `Estudiante`.`fechaRegistro_min` of type `Date`
+  """
+  fechaRegistro_min: Date_Filter
+  """
+  ✨ Generated from Field `Estudiante`.`fechaNacimiento_max` of type `Date`
+  """
+  fechaNacimiento_max: Date_Filter
+  """
+  ✨ Generated from Field `Estudiante`.`fechaRegistro_max` of type `Date`
+  """
+  fechaRegistro_max: Date_Filter
+}
+"""
+✨ Generated key input type for table 'Estudiante'. It represents the primary key fields used to uniquely identify a row in the table.
+"""
+input Estudiante_Key {
+  """
+  ✨ Generated from Field `Estudiante`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Estudiante`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+}
+"""
+✨ Generated list filter input type for table 'Estudiante'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
+"""
+input Estudiante_ListFilter {
+  """
+  The desired number of objects that match the condition (defaults to at least one).
+  """
+  count: Int_Filter = {gt:0}
+  """
+  Condition of the related objects to filter for.
+  """
+  exist: Estudiante_Filter
+}
+"""
+✨ Generated order input type for table 'Estudiante'. This input defines the sorting order of rows in query results based on one or more fields.
+"""
+input Estudiante_Order {
+  """
+  ✨ Generated from Field `Estudiante`.`id` of type `UUID!`
+  """
+  id: OrderDirection
+  """
+  ✨ Generated from Field `Estudiante`.`activo` of type `Boolean!`
+  """
+  activo: OrderDirection
+  """
+  ✨ Generated from Field `Estudiante`.`correo` of type `String!`
+  """
+  correo: OrderDirection
+  """
+  ✨ Generated from Field `Estudiante`.`direccion` of type `String`
+  """
+  direccion: OrderDirection
+  """
+  ✨ Generated from Field `Estudiante`.`fechaNacimiento` of type `Date`
+  """
+  fechaNacimiento: OrderDirection
+  """
+  ✨ Generated from Field `Estudiante`.`fechaRegistro` of type `Date!`
+  """
+  fechaRegistro: OrderDirection
+  """
+  ✨ Generated from Field `Estudiante`.`matricula` of type `String!`
+  """
+  matricula: OrderDirection
+  """
+  ✨ Generated from Field `Estudiante`.`nombreCompleto` of type `String!`
+  """
+  nombreCompleto: OrderDirection
+  """
+  ✨ Generated from Field `Estudiante`.`telefono` of type `String`
+  """
+  telefono: OrderDirection
+  """
+  ✨ Generated from Field `Estudiante`.`_count` of type `Int!`
+  """
+  _count: OrderDirection
+  """
+  ✨ Generated from Field `Estudiante`.`activo_count` of type `Int!`
+  """
+  activo_count: OrderDirection
+  """
+  ✨ Generated from Field `Estudiante`.`correo_count` of type `Int!`
+  """
+  correo_count: OrderDirection
+  """
+  ✨ Generated from Field `Estudiante`.`direccion_count` of type `Int!`
+  """
+  direccion_count: OrderDirection
+  """
+  ✨ Generated from Field `Estudiante`.`fechaNacimiento_count` of type `Int!`
+  """
+  fechaNacimiento_count: OrderDirection
+  """
+  ✨ Generated from Field `Estudiante`.`fechaRegistro_count` of type `Int!`
+  """
+  fechaRegistro_count: OrderDirection
+  """
+  ✨ Generated from Field `Estudiante`.`id_count` of type `Int!`
+  """
+  id_count: OrderDirection
+  """
+  ✨ Generated from Field `Estudiante`.`matricula_count` of type `Int!`
+  """
+  matricula_count: OrderDirection
+  """
+  ✨ Generated from Field `Estudiante`.`nombreCompleto_count` of type `Int!`
+  """
+  nombreCompleto_count: OrderDirection
+  """
+  ✨ Generated from Field `Estudiante`.`telefono_count` of type `Int!`
+  """
+  telefono_count: OrderDirection
+  """
+  ✨ Generated from Field `Estudiante`.`fechaNacimiento_min` of type `Date`
+  """
+  fechaNacimiento_min: OrderDirection
+  """
+  ✨ Generated from Field `Estudiante`.`fechaRegistro_min` of type `Date`
+  """
+  fechaRegistro_min: OrderDirection
+  """
+  ✨ Generated from Field `Estudiante`.`fechaNacimiento_max` of type `Date`
+  """
+  fechaNacimiento_max: OrderDirection
+  """
+  ✨ Generated from Field `Estudiante`.`fechaRegistro_max` of type `Date`
+  """
+  fechaRegistro_max: OrderDirection
+}
