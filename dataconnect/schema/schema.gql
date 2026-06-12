@@ -8,3 +8,35 @@ type Estudiante @table {
   activo: Boolean! @default(value: true)
   fechaRegistro: Date! @default(expr: "request.time")
 }
+
+type Curso @table {
+  cursoId: Int! @unique
+  nombre: String!
+  descripcion: String
+  categoria: String
+  urlImagen: String
+  nivelDificultad: String
+  instructor: String
+  estado: String!
+  fechaRegistro: Date! @default(expr: "request.time")
+
+  horarios: [Horario!]!
+}
+
+type Horario @table {
+  horarioId: Int! @unique
+
+  curso: Curso!
+
+  fechaInicio: Date!
+  fechaFin: Date!
+
+  horaInicio: String!
+  horaFin: String!
+
+  cupoMaximo: Int!
+  cupoActual: Int! @default(value: 0)
+
+  estado: String!
+  fechaRegistro: Date! @default(expr: "request.time")
+}
