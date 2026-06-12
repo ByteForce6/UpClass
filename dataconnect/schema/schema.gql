@@ -15,12 +15,9 @@ type Curso @table {
   descripcion: String
   categoria: String
   urlImagen: String
-  nivelDificultad: String
   instructor: String
-  estado: String!
-  fechaRegistro: Date! @default(expr: "request.time")
+  estado: String
 
-  horarios: [Horario!]!
 }
 
 type Horario @table {
@@ -37,6 +34,5 @@ type Horario @table {
   cupoMaximo: Int!
   cupoActual: Int! @default(value: 0)
 
-  estado: String!
-  fechaRegistro: Date! @default(expr: "request.time")
+  estado: String
 }
