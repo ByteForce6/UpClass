@@ -36,3 +36,22 @@ type Horario @table {
 
   estado: String
 }
+
+type Instructor @table {
+  instructorId: Int! @unique
+  nombreCompleto: String!
+  correo: String! @unique
+  telefono: String
+  especialidad: String
+  activo: Boolean! @default(value: true)
+}
+
+type Asistencia @table {
+  asistenciaId: Int! @unique
+  instructor: Instructor!
+  estudiante: Estudiante!
+  materiaId: Int! # El identificador numérico de la materia
+  fecha: Date! @default(expr: "request.time")
+  estadoAsistencia: String! # Aquí se guarda: "Presente", "Falta" o "Retardo"
+  observaciones: String
+}
