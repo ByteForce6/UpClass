@@ -37,9 +37,19 @@ export interface BuscarEstudiantePorNombreVariables {
   nombre: string;
 }
 
+export interface Curso_Key {
+  id: UUIDString;
+  __typename?: 'Curso_Key';
+}
+
 export interface Estudiante_Key {
   id: UUIDString;
   __typename?: 'Estudiante_Key';
+}
+
+export interface Horario_Key {
+  id: UUIDString;
+  __typename?: 'Horario_Key';
 }
 
 export interface ListarEstudiantesData {

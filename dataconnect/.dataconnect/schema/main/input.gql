@@ -1,9 +1,424 @@
 """
+✨ `Curso_KeyOutput` returns the primary key fields of table type `Curso`.
+
+It has the same format as `Curso_Key`, but is only used as mutation return value.
+"""
+scalar Curso_KeyOutput
+"""
 ✨ `Estudiante_KeyOutput` returns the primary key fields of table type `Estudiante`.
 
 It has the same format as `Estudiante_Key`, but is only used as mutation return value.
 """
 scalar Estudiante_KeyOutput
+"""
+✨ `Horario_KeyOutput` returns the primary key fields of table type `Horario`.
+
+It has the same format as `Horario_Key`, but is only used as mutation return value.
+"""
+scalar Horario_KeyOutput
+"""
+✨ Generated data input type for table 'Curso'. It includes all necessary fields for creating or upserting rows into table.
+"""
+input Curso_Data {
+  """
+  ✨ Generated from Field `Curso`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Curso`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Curso`.`categoria` of type `String`
+  """
+  categoria: String
+  """
+  ✨ `_expr` server value variant of `categoria` (✨ Generated from Field `Curso`.`categoria` of type `String`)
+  """
+  categoria_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Curso`.`cursoId` of type `Int!`
+  """
+  cursoId: Int
+  """
+  ✨ `_expr` server value variant of `cursoId` (✨ Generated from Field `Curso`.`cursoId` of type `Int!`)
+  """
+  cursoId_expr: Int_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `cursoId` (✨ Generated from Field `Curso`.`cursoId` of type `Int!`)
+  """
+  cursoId_update: [Int_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Curso`.`descripcion` of type `String`
+  """
+  descripcion: String
+  """
+  ✨ `_expr` server value variant of `descripcion` (✨ Generated from Field `Curso`.`descripcion` of type `String`)
+  """
+  descripcion_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Curso`.`estado` of type `String!`
+  """
+  estado: String
+  """
+  ✨ `_expr` server value variant of `estado` (✨ Generated from Field `Curso`.`estado` of type `String!`)
+  """
+  estado_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Curso`.`fechaRegistro` of type `Date!`
+  """
+  fechaRegistro: Date
+  """
+  ✨ `_date` server value variant of `fechaRegistro` (✨ Generated from Field `Curso`.`fechaRegistro` of type `Date!`)
+  """
+  fechaRegistro_date: Date_Relative @fdc_forbiddenInVariables
+  """
+  ✨ `_expr` server value variant of `fechaRegistro` (✨ Generated from Field `Curso`.`fechaRegistro` of type `Date!`)
+  """
+  fechaRegistro_expr: Date_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `fechaRegistro` (✨ Generated from Field `Curso`.`fechaRegistro` of type `Date!`)
+  """
+  fechaRegistro_update: [Date_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Curso`.`instructor` of type `String`
+  """
+  instructor: String
+  """
+  ✨ `_expr` server value variant of `instructor` (✨ Generated from Field `Curso`.`instructor` of type `String`)
+  """
+  instructor_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Curso`.`nivelDificultad` of type `String`
+  """
+  nivelDificultad: String
+  """
+  ✨ `_expr` server value variant of `nivelDificultad` (✨ Generated from Field `Curso`.`nivelDificultad` of type `String`)
+  """
+  nivelDificultad_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Curso`.`nombre` of type `String!`
+  """
+  nombre: String
+  """
+  ✨ `_expr` server value variant of `nombre` (✨ Generated from Field `Curso`.`nombre` of type `String!`)
+  """
+  nombre_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Curso`.`urlImagen` of type `String`
+  """
+  urlImagen: String
+  """
+  ✨ `_expr` server value variant of `urlImagen` (✨ Generated from Field `Curso`.`urlImagen` of type `String`)
+  """
+  urlImagen_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Curso`.`horarios_on_curso` of type `[Horario!]!`
+  """
+  horarios_on_curso: [Horario_Data!]
+}
+"""
+✨ Generated filter input type for table 'Curso'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input Curso_Filter {
+  """
+  Apply multiple filter conditions using `AND` logic.
+  """
+  _and: [Curso_Filter!]
+  """
+  Negate the result of the provided filter condition.
+  """
+  _not: Curso_Filter
+  """
+  Apply multiple filter conditions using `OR` logic.
+  """
+  _or: [Curso_Filter!]
+  """
+  ✨ Generated from Field `Curso`.`id` of type `UUID!`
+  """
+  id: UUID_Filter
+  """
+  ✨ Generated from Field `Curso`.`categoria` of type `String`
+  """
+  categoria: String_Filter
+  """
+  ✨ Generated from Field `Curso`.`cursoId` of type `Int!`
+  """
+  cursoId: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`descripcion` of type `String`
+  """
+  descripcion: String_Filter
+  """
+  ✨ Generated from Field `Curso`.`estado` of type `String!`
+  """
+  estado: String_Filter
+  """
+  ✨ Generated from Field `Curso`.`fechaRegistro` of type `Date!`
+  """
+  fechaRegistro: Date_Filter
+  """
+  ✨ Generated from Field `Curso`.`instructor` of type `String`
+  """
+  instructor: String_Filter
+  """
+  ✨ Generated from Field `Curso`.`nivelDificultad` of type `String`
+  """
+  nivelDificultad: String_Filter
+  """
+  ✨ Generated from Field `Curso`.`nombre` of type `String!`
+  """
+  nombre: String_Filter
+  """
+  ✨ Generated from Field `Curso`.`urlImagen` of type `String`
+  """
+  urlImagen: String_Filter
+  """
+  ✨ Generated from Field `Curso`.`horarios_on_curso` of type `[Horario!]!`
+  """
+  horarios_on_curso: Horario_ListFilter
+}
+"""
+✨ Generated first-row input type for table 'Curso'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
+"""
+input Curso_FirstRow {
+  """
+  Order the result by the specified fields.
+  """
+  orderBy: [Curso_Order!]
+  """
+  Filters rows based on the specified conditions.
+  """
+  where: Curso_Filter
+}
+"""
+✨ Generated having input type for table 'Curso'. This input allows you to filter groups during aggregate queries using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input Curso_Having {
+  """
+  Apply multiple Having conditions using `AND` logic.
+  """
+  _and: [Curso_Having!]
+  """
+  Whether to apply DISTINCT to the aggregate function.
+  """
+  _distinct: Boolean
+  """
+  Negate the result of the provided Having condition.
+  """
+  _not: Curso_Having
+  """
+  Apply multiple Having conditions using `OR` logic.
+  """
+  _or: [Curso_Having!]
+  """
+  ✨ Generated from Field `Curso`.`_count` of type `Int!`
+  """
+  _count: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`categoria_count` of type `Int!`
+  """
+  categoria_count: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`cursoId_count` of type `Int!`
+  """
+  cursoId_count: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`descripcion_count` of type `Int!`
+  """
+  descripcion_count: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`estado_count` of type `Int!`
+  """
+  estado_count: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`fechaRegistro_count` of type `Int!`
+  """
+  fechaRegistro_count: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`id_count` of type `Int!`
+  """
+  id_count: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`instructor_count` of type `Int!`
+  """
+  instructor_count: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`nivelDificultad_count` of type `Int!`
+  """
+  nivelDificultad_count: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`nombre_count` of type `Int!`
+  """
+  nombre_count: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`urlImagen_count` of type `Int!`
+  """
+  urlImagen_count: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`cursoId_sum` of type `Int`
+  """
+  cursoId_sum: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`cursoId_avg` of type `Float`
+  """
+  cursoId_avg: Float_Filter
+  """
+  ✨ Generated from Field `Curso`.`cursoId_min` of type `Int`
+  """
+  cursoId_min: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`fechaRegistro_min` of type `Date`
+  """
+  fechaRegistro_min: Date_Filter
+  """
+  ✨ Generated from Field `Curso`.`cursoId_max` of type `Int`
+  """
+  cursoId_max: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`fechaRegistro_max` of type `Date`
+  """
+  fechaRegistro_max: Date_Filter
+}
+"""
+✨ Generated key input type for table 'Curso'. It represents the primary key fields used to uniquely identify a row in the table.
+"""
+input Curso_Key {
+  """
+  ✨ Generated from Field `Curso`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Curso`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+}
+"""
+✨ Generated list filter input type for table 'Curso'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
+"""
+input Curso_ListFilter {
+  """
+  The desired number of objects that match the condition (defaults to at least one).
+  """
+  count: Int_Filter = {gt:0}
+  """
+  Condition of the related objects to filter for.
+  """
+  exist: Curso_Filter
+}
+"""
+✨ Generated order input type for table 'Curso'. This input defines the sorting order of rows in query results based on one or more fields.
+"""
+input Curso_Order {
+  """
+  ✨ Generated from Field `Curso`.`id` of type `UUID!`
+  """
+  id: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`categoria` of type `String`
+  """
+  categoria: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`cursoId` of type `Int!`
+  """
+  cursoId: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`descripcion` of type `String`
+  """
+  descripcion: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`estado` of type `String!`
+  """
+  estado: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`fechaRegistro` of type `Date!`
+  """
+  fechaRegistro: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`instructor` of type `String`
+  """
+  instructor: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`nivelDificultad` of type `String`
+  """
+  nivelDificultad: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`nombre` of type `String!`
+  """
+  nombre: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`urlImagen` of type `String`
+  """
+  urlImagen: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`_count` of type `Int!`
+  """
+  _count: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`categoria_count` of type `Int!`
+  """
+  categoria_count: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`cursoId_count` of type `Int!`
+  """
+  cursoId_count: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`descripcion_count` of type `Int!`
+  """
+  descripcion_count: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`estado_count` of type `Int!`
+  """
+  estado_count: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`fechaRegistro_count` of type `Int!`
+  """
+  fechaRegistro_count: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`id_count` of type `Int!`
+  """
+  id_count: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`instructor_count` of type `Int!`
+  """
+  instructor_count: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`nivelDificultad_count` of type `Int!`
+  """
+  nivelDificultad_count: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`nombre_count` of type `Int!`
+  """
+  nombre_count: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`urlImagen_count` of type `Int!`
+  """
+  urlImagen_count: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`cursoId_sum` of type `Int`
+  """
+  cursoId_sum: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`cursoId_avg` of type `Float`
+  """
+  cursoId_avg: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`cursoId_min` of type `Int`
+  """
+  cursoId_min: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`fechaRegistro_min` of type `Date`
+  """
+  fechaRegistro_min: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`cursoId_max` of type `Int`
+  """
+  cursoId_max: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`fechaRegistro_max` of type `Date`
+  """
+  fechaRegistro_max: OrderDirection
+}
 """
 ✨ Generated data input type for table 'Estudiante'. It includes all necessary fields for creating or upserting rows into table.
 """
@@ -362,4 +777,555 @@ input Estudiante_Order {
   ✨ Generated from Field `Estudiante`.`fechaRegistro_max` of type `Date`
   """
   fechaRegistro_max: OrderDirection
+}
+"""
+✨ Generated data input type for table 'Horario'. It includes all necessary fields for creating or upserting rows into table.
+"""
+input Horario_Data {
+  """
+  ✨ Generated from Field `Horario`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Horario`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Horario`.`cursoId` of type `UUID!`
+  """
+  cursoId: UUID
+  """
+  ✨ `_expr` server value variant of `cursoId` (✨ Generated from Field `Horario`.`cursoId` of type `UUID!`)
+  """
+  cursoId_expr: UUID_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Horario`.`curso` of type `Curso!`
+  """
+  curso: Curso_Key @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Horario`.`cupoActual` of type `Int!`
+  """
+  cupoActual: Int
+  """
+  ✨ `_expr` server value variant of `cupoActual` (✨ Generated from Field `Horario`.`cupoActual` of type `Int!`)
+  """
+  cupoActual_expr: Int_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `cupoActual` (✨ Generated from Field `Horario`.`cupoActual` of type `Int!`)
+  """
+  cupoActual_update: [Int_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Horario`.`cupoMaximo` of type `Int!`
+  """
+  cupoMaximo: Int
+  """
+  ✨ `_expr` server value variant of `cupoMaximo` (✨ Generated from Field `Horario`.`cupoMaximo` of type `Int!`)
+  """
+  cupoMaximo_expr: Int_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `cupoMaximo` (✨ Generated from Field `Horario`.`cupoMaximo` of type `Int!`)
+  """
+  cupoMaximo_update: [Int_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Horario`.`estado` of type `String!`
+  """
+  estado: String
+  """
+  ✨ `_expr` server value variant of `estado` (✨ Generated from Field `Horario`.`estado` of type `String!`)
+  """
+  estado_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Horario`.`fechaFin` of type `Date!`
+  """
+  fechaFin: Date
+  """
+  ✨ `_date` server value variant of `fechaFin` (✨ Generated from Field `Horario`.`fechaFin` of type `Date!`)
+  """
+  fechaFin_date: Date_Relative @fdc_forbiddenInVariables
+  """
+  ✨ `_expr` server value variant of `fechaFin` (✨ Generated from Field `Horario`.`fechaFin` of type `Date!`)
+  """
+  fechaFin_expr: Date_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `fechaFin` (✨ Generated from Field `Horario`.`fechaFin` of type `Date!`)
+  """
+  fechaFin_update: [Date_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Horario`.`fechaInicio` of type `Date!`
+  """
+  fechaInicio: Date
+  """
+  ✨ `_date` server value variant of `fechaInicio` (✨ Generated from Field `Horario`.`fechaInicio` of type `Date!`)
+  """
+  fechaInicio_date: Date_Relative @fdc_forbiddenInVariables
+  """
+  ✨ `_expr` server value variant of `fechaInicio` (✨ Generated from Field `Horario`.`fechaInicio` of type `Date!`)
+  """
+  fechaInicio_expr: Date_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `fechaInicio` (✨ Generated from Field `Horario`.`fechaInicio` of type `Date!`)
+  """
+  fechaInicio_update: [Date_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Horario`.`fechaRegistro` of type `Date!`
+  """
+  fechaRegistro: Date
+  """
+  ✨ `_date` server value variant of `fechaRegistro` (✨ Generated from Field `Horario`.`fechaRegistro` of type `Date!`)
+  """
+  fechaRegistro_date: Date_Relative @fdc_forbiddenInVariables
+  """
+  ✨ `_expr` server value variant of `fechaRegistro` (✨ Generated from Field `Horario`.`fechaRegistro` of type `Date!`)
+  """
+  fechaRegistro_expr: Date_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `fechaRegistro` (✨ Generated from Field `Horario`.`fechaRegistro` of type `Date!`)
+  """
+  fechaRegistro_update: [Date_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Horario`.`horaFin` of type `String!`
+  """
+  horaFin: String
+  """
+  ✨ `_expr` server value variant of `horaFin` (✨ Generated from Field `Horario`.`horaFin` of type `String!`)
+  """
+  horaFin_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Horario`.`horaInicio` of type `String!`
+  """
+  horaInicio: String
+  """
+  ✨ `_expr` server value variant of `horaInicio` (✨ Generated from Field `Horario`.`horaInicio` of type `String!`)
+  """
+  horaInicio_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Horario`.`horarioId` of type `Int!`
+  """
+  horarioId: Int
+  """
+  ✨ `_expr` server value variant of `horarioId` (✨ Generated from Field `Horario`.`horarioId` of type `Int!`)
+  """
+  horarioId_expr: Int_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `horarioId` (✨ Generated from Field `Horario`.`horarioId` of type `Int!`)
+  """
+  horarioId_update: [Int_Update!] @fdc_forbiddenInVariables
+}
+"""
+✨ Generated filter input type for table 'Horario'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input Horario_Filter {
+  """
+  Apply multiple filter conditions using `AND` logic.
+  """
+  _and: [Horario_Filter!]
+  """
+  Negate the result of the provided filter condition.
+  """
+  _not: Horario_Filter
+  """
+  Apply multiple filter conditions using `OR` logic.
+  """
+  _or: [Horario_Filter!]
+  """
+  ✨ Generated from Field `Horario`.`id` of type `UUID!`
+  """
+  id: UUID_Filter
+  """
+  ✨ Generated from Field `Horario`.`cursoId` of type `UUID!`
+  """
+  cursoId: UUID_Filter
+  """
+  ✨ Generated from Field `Horario`.`curso` of type `Curso!`
+  """
+  curso: Curso_Filter
+  """
+  ✨ Generated from Field `Horario`.`cupoActual` of type `Int!`
+  """
+  cupoActual: Int_Filter
+  """
+  ✨ Generated from Field `Horario`.`cupoMaximo` of type `Int!`
+  """
+  cupoMaximo: Int_Filter
+  """
+  ✨ Generated from Field `Horario`.`estado` of type `String!`
+  """
+  estado: String_Filter
+  """
+  ✨ Generated from Field `Horario`.`fechaFin` of type `Date!`
+  """
+  fechaFin: Date_Filter
+  """
+  ✨ Generated from Field `Horario`.`fechaInicio` of type `Date!`
+  """
+  fechaInicio: Date_Filter
+  """
+  ✨ Generated from Field `Horario`.`fechaRegistro` of type `Date!`
+  """
+  fechaRegistro: Date_Filter
+  """
+  ✨ Generated from Field `Horario`.`horaFin` of type `String!`
+  """
+  horaFin: String_Filter
+  """
+  ✨ Generated from Field `Horario`.`horaInicio` of type `String!`
+  """
+  horaInicio: String_Filter
+  """
+  ✨ Generated from Field `Horario`.`horarioId` of type `Int!`
+  """
+  horarioId: Int_Filter
+}
+"""
+✨ Generated first-row input type for table 'Horario'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
+"""
+input Horario_FirstRow {
+  """
+  Order the result by the specified fields.
+  """
+  orderBy: [Horario_Order!]
+  """
+  Filters rows based on the specified conditions.
+  """
+  where: Horario_Filter
+}
+"""
+✨ Generated having input type for table 'Horario'. This input allows you to filter groups during aggregate queries using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input Horario_Having {
+  """
+  Apply multiple Having conditions using `AND` logic.
+  """
+  _and: [Horario_Having!]
+  """
+  Whether to apply DISTINCT to the aggregate function.
+  """
+  _distinct: Boolean
+  """
+  Negate the result of the provided Having condition.
+  """
+  _not: Horario_Having
+  """
+  Apply multiple Having conditions using `OR` logic.
+  """
+  _or: [Horario_Having!]
+  """
+  ✨ Generated from Field `Horario`.`_count` of type `Int!`
+  """
+  _count: Int_Filter
+  """
+  ✨ Generated from Field `Horario`.`cupoActual_count` of type `Int!`
+  """
+  cupoActual_count: Int_Filter
+  """
+  ✨ Generated from Field `Horario`.`cupoMaximo_count` of type `Int!`
+  """
+  cupoMaximo_count: Int_Filter
+  """
+  ✨ Generated from Field `Horario`.`cursoId_count` of type `Int!`
+  """
+  cursoId_count: Int_Filter
+  """
+  ✨ Generated from Field `Horario`.`estado_count` of type `Int!`
+  """
+  estado_count: Int_Filter
+  """
+  ✨ Generated from Field `Horario`.`fechaFin_count` of type `Int!`
+  """
+  fechaFin_count: Int_Filter
+  """
+  ✨ Generated from Field `Horario`.`fechaInicio_count` of type `Int!`
+  """
+  fechaInicio_count: Int_Filter
+  """
+  ✨ Generated from Field `Horario`.`fechaRegistro_count` of type `Int!`
+  """
+  fechaRegistro_count: Int_Filter
+  """
+  ✨ Generated from Field `Horario`.`horaFin_count` of type `Int!`
+  """
+  horaFin_count: Int_Filter
+  """
+  ✨ Generated from Field `Horario`.`horaInicio_count` of type `Int!`
+  """
+  horaInicio_count: Int_Filter
+  """
+  ✨ Generated from Field `Horario`.`horarioId_count` of type `Int!`
+  """
+  horarioId_count: Int_Filter
+  """
+  ✨ Generated from Field `Horario`.`id_count` of type `Int!`
+  """
+  id_count: Int_Filter
+  """
+  ✨ Generated from Field `Horario`.`cupoActual_sum` of type `Int`
+  """
+  cupoActual_sum: Int_Filter
+  """
+  ✨ Generated from Field `Horario`.`cupoMaximo_sum` of type `Int`
+  """
+  cupoMaximo_sum: Int_Filter
+  """
+  ✨ Generated from Field `Horario`.`horarioId_sum` of type `Int`
+  """
+  horarioId_sum: Int_Filter
+  """
+  ✨ Generated from Field `Horario`.`cupoActual_avg` of type `Float`
+  """
+  cupoActual_avg: Float_Filter
+  """
+  ✨ Generated from Field `Horario`.`cupoMaximo_avg` of type `Float`
+  """
+  cupoMaximo_avg: Float_Filter
+  """
+  ✨ Generated from Field `Horario`.`horarioId_avg` of type `Float`
+  """
+  horarioId_avg: Float_Filter
+  """
+  ✨ Generated from Field `Horario`.`cupoActual_min` of type `Int`
+  """
+  cupoActual_min: Int_Filter
+  """
+  ✨ Generated from Field `Horario`.`cupoMaximo_min` of type `Int`
+  """
+  cupoMaximo_min: Int_Filter
+  """
+  ✨ Generated from Field `Horario`.`fechaFin_min` of type `Date`
+  """
+  fechaFin_min: Date_Filter
+  """
+  ✨ Generated from Field `Horario`.`fechaInicio_min` of type `Date`
+  """
+  fechaInicio_min: Date_Filter
+  """
+  ✨ Generated from Field `Horario`.`fechaRegistro_min` of type `Date`
+  """
+  fechaRegistro_min: Date_Filter
+  """
+  ✨ Generated from Field `Horario`.`horarioId_min` of type `Int`
+  """
+  horarioId_min: Int_Filter
+  """
+  ✨ Generated from Field `Horario`.`cupoActual_max` of type `Int`
+  """
+  cupoActual_max: Int_Filter
+  """
+  ✨ Generated from Field `Horario`.`cupoMaximo_max` of type `Int`
+  """
+  cupoMaximo_max: Int_Filter
+  """
+  ✨ Generated from Field `Horario`.`fechaFin_max` of type `Date`
+  """
+  fechaFin_max: Date_Filter
+  """
+  ✨ Generated from Field `Horario`.`fechaInicio_max` of type `Date`
+  """
+  fechaInicio_max: Date_Filter
+  """
+  ✨ Generated from Field `Horario`.`fechaRegistro_max` of type `Date`
+  """
+  fechaRegistro_max: Date_Filter
+  """
+  ✨ Generated from Field `Horario`.`horarioId_max` of type `Int`
+  """
+  horarioId_max: Int_Filter
+}
+"""
+✨ Generated key input type for table 'Horario'. It represents the primary key fields used to uniquely identify a row in the table.
+"""
+input Horario_Key {
+  """
+  ✨ Generated from Field `Horario`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Horario`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+}
+"""
+✨ Generated list filter input type for table 'Horario'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
+"""
+input Horario_ListFilter {
+  """
+  The desired number of objects that match the condition (defaults to at least one).
+  """
+  count: Int_Filter = {gt:0}
+  """
+  Condition of the related objects to filter for.
+  """
+  exist: Horario_Filter
+}
+"""
+✨ Generated order input type for table 'Horario'. This input defines the sorting order of rows in query results based on one or more fields.
+"""
+input Horario_Order {
+  """
+  ✨ Generated from Field `Horario`.`id` of type `UUID!`
+  """
+  id: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`cursoId` of type `UUID!`
+  """
+  cursoId: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`curso` of type `Curso!`
+  """
+  curso: Curso_Order
+  """
+  ✨ Generated from Field `Horario`.`cupoActual` of type `Int!`
+  """
+  cupoActual: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`cupoMaximo` of type `Int!`
+  """
+  cupoMaximo: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`estado` of type `String!`
+  """
+  estado: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`fechaFin` of type `Date!`
+  """
+  fechaFin: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`fechaInicio` of type `Date!`
+  """
+  fechaInicio: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`fechaRegistro` of type `Date!`
+  """
+  fechaRegistro: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`horaFin` of type `String!`
+  """
+  horaFin: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`horaInicio` of type `String!`
+  """
+  horaInicio: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`horarioId` of type `Int!`
+  """
+  horarioId: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`_count` of type `Int!`
+  """
+  _count: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`cupoActual_count` of type `Int!`
+  """
+  cupoActual_count: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`cupoMaximo_count` of type `Int!`
+  """
+  cupoMaximo_count: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`cursoId_count` of type `Int!`
+  """
+  cursoId_count: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`estado_count` of type `Int!`
+  """
+  estado_count: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`fechaFin_count` of type `Int!`
+  """
+  fechaFin_count: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`fechaInicio_count` of type `Int!`
+  """
+  fechaInicio_count: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`fechaRegistro_count` of type `Int!`
+  """
+  fechaRegistro_count: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`horaFin_count` of type `Int!`
+  """
+  horaFin_count: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`horaInicio_count` of type `Int!`
+  """
+  horaInicio_count: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`horarioId_count` of type `Int!`
+  """
+  horarioId_count: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`id_count` of type `Int!`
+  """
+  id_count: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`cupoActual_sum` of type `Int`
+  """
+  cupoActual_sum: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`cupoMaximo_sum` of type `Int`
+  """
+  cupoMaximo_sum: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`horarioId_sum` of type `Int`
+  """
+  horarioId_sum: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`cupoActual_avg` of type `Float`
+  """
+  cupoActual_avg: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`cupoMaximo_avg` of type `Float`
+  """
+  cupoMaximo_avg: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`horarioId_avg` of type `Float`
+  """
+  horarioId_avg: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`cupoActual_min` of type `Int`
+  """
+  cupoActual_min: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`cupoMaximo_min` of type `Int`
+  """
+  cupoMaximo_min: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`fechaFin_min` of type `Date`
+  """
+  fechaFin_min: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`fechaInicio_min` of type `Date`
+  """
+  fechaInicio_min: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`fechaRegistro_min` of type `Date`
+  """
+  fechaRegistro_min: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`horarioId_min` of type `Int`
+  """
+  horarioId_min: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`cupoActual_max` of type `Int`
+  """
+  cupoActual_max: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`cupoMaximo_max` of type `Int`
+  """
+  cupoMaximo_max: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`fechaFin_max` of type `Date`
+  """
+  fechaFin_max: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`fechaInicio_max` of type `Date`
+  """
+  fechaInicio_max: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`fechaRegistro_max` of type `Date`
+  """
+  fechaRegistro_max: OrderDirection
+  """
+  ✨ Generated from Field `Horario`.`horarioId_max` of type `Int`
+  """
+  horarioId_max: OrderDirection
 }

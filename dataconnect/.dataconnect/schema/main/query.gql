@@ -1,5 +1,24 @@
 extend type Query {
   """
+  ✨ Look up a single `Curso` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
+  """
+  curso(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Curso_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Curso_FirstRow
+  ): Curso @fdc_generated(from: "Curso", purpose: QUERY_SINGLE)
+  """
   ✨ Look up a single `Estudiante` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
   """
   estudiante(
@@ -18,6 +37,59 @@ extend type Query {
     """
     first: Estudiante_FirstRow
   ): Estudiante @fdc_generated(from: "Estudiante", purpose: QUERY_SINGLE)
+  """
+  ✨ Look up a single `Horario` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
+  """
+  horario(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Horario_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Horario_FirstRow
+  ): Horario @fdc_generated(from: "Horario", purpose: QUERY_SINGLE)
+  """
+  ✨ List `Curso` objects in the table and return selected fields, optionally filtered by `where` conditions
+  """
+  cursos(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Curso_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Curso_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: Curso_Having
+  ): [Curso!]! @fdc_generated(from: "Curso", purpose: QUERY_MULTIPLE)
   """
   ✨ List `Estudiante` objects in the table and return selected fields, optionally filtered by `where` conditions
   """
@@ -52,4 +124,38 @@ extend type Query {
     """
     having: Estudiante_Having
   ): [Estudiante!]! @fdc_generated(from: "Estudiante", purpose: QUERY_MULTIPLE)
+  """
+  ✨ List `Horario` objects in the table and return selected fields, optionally filtered by `where` conditions
+  """
+  horarios(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Horario_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Horario_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: Horario_Having
+  ): [Horario!]! @fdc_generated(from: "Horario", purpose: QUERY_MULTIPLE)
 }
