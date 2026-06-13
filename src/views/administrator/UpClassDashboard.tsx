@@ -2,7 +2,7 @@ import { useState } from "react";
 import ClasesView from "./CursosView";
 import InstructoresView from "./InstructoresView";
 import AlumnosView from "./AlumnosView";
-
+import '../../App.css'
 // Datos //
 
 const SCHEDULE = [

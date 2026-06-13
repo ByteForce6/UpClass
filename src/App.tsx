@@ -4,7 +4,7 @@ import UpClassDashAlunmo from "./views/students/UpClassDashAlunmo";
 
 import Home from "./views/home";
 import Login from "./views/login";
-import NotFound from "./views/NotFound";
+// import NotFound from "./views/NotFound";
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
       <Route path="/login" element={<Login />} />
 
 
-      <Route path="*" element={<NotFound />} />
+      {/* <Route path="*" element={<NotFound />} /> */}
     </Routes>
   );
 }

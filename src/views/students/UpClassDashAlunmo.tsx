@@ -6,6 +6,7 @@ import MisCursos from "./MisCursos";
 import MisCalificaciones from "./MisCalificaciones";
 import MisHorarios from "./MisHorarios";
 
+import "../../Styles/dashboardAlumnos.css";
 
 type View =
   | "inicio"
@@ -203,7 +204,7 @@ function VistaInicio({ onNav }: { onNav: (v: View) => void }) {
                 <div className="uc-progress-track">
                   <div
                     className="uc-progress-fill"
-                    style={{ width: `${c.progreso}%`, background: "#111" }}
+style={{ width: `${c.progreso}%`, background: "var(--uc-brand-blue)" }}
                   />
                 </div>
                 <span className="uc-progress-label">
@@ -221,7 +222,7 @@ function VistaInicio({ onNav }: { onNav: (v: View) => void }) {
                     fontFamily: "var(--dr)",
                     fontSize: 15,
                     fontWeight: 700,
-                    color: "#111",
+color: "var(--uc-text)",
                     margin: 0,
                   }}
                 >
@@ -322,7 +323,7 @@ function VistaInicio({ onNav }: { onNav: (v: View) => void }) {
                 alignItems: "center",
                 gap: 14,
                 padding: "16px 18px",
-                background: "#fff",
+background: "var(--uc-surface)",
                 border: "1px solid #e0dbd4",
                 textAlign: "left" as const,
                 cursor: "pointer",
@@ -381,205 +382,12 @@ export default function Dashboard() {
 
   return (
     <>
-      <style>{`
-          @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap');
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-:root{ --dr:'Libre Baskerville',Georgia,serif; --ds:'Source Sans 3',system-ui,sans-serif; }
-html,body{height:100%;}
-body{background:#f5f2ed;font-family:var(--ds);-webkit-font-smoothing:antialiased;}
-button{border-radius:0!important;cursor:pointer;}
-::-webkit-scrollbar{width:4px;} ::-webkit-scrollbar-thumb{background:#d8d4cf;}
 
-.uc-shell{display:flex;height:100vh;overflow:hidden;}
 
-/* ── SIDEBAR FIJO ── */
-.uc-sidebar{
-  width:232px;background:#111;display:flex;flex-direction:column;
-  flex-shrink:0;position:fixed;top:0;left:0;height:100vh;
-  overflow:hidden;z-index:200;transition:transform .25s;
-}
-.uc-main{flex:1;display:flex;flex-direction:column;min-width:0;margin-left:232px;}
-.uc-topbar{background:#fff;border-bottom:1px solid #e0dbd4;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;position:sticky;top:0;z-index:10;flex-shrink:0;}
-.uc-content{flex:1;padding:32px 28px 60px;overflow-y:auto;min-height:0;}
-.uc-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:190;}
-
-/* Logo */
-.uc-sidebar-logo{padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.08);flex-shrink:0;}
-.uc-logo-text{font-family:var(--dr);font-size:19px;color:#fff;margin:0;line-height:1;}
-.uc-logo-sub{font-family:var(--ds);font-size:9px;color:rgba(255,255,255,.3);margin:4px 0 0;letter-spacing:.1em;text-transform:uppercase;}
-
-/* Profile */
-.uc-sidebar-profile{padding:10px 20px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;gap:12px;align-items:center;flex-shrink:0;}
-.uc-avatar{width:32px;height:32px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.uc-avatar span{font-family:var(--dr);font-size:12px;color:#fff;font-weight:700;}
-.uc-profile-name{font-family:var(--ds);font-size:13px;font-weight:600;color:#fff;margin:0;}
-
-/* Nav */
-.uc-nav-area{padding:8px 0;flex:1;overflow-y:auto;min-height:0;}
-.uc-nav-btn{display:flex;align-items:center;gap:10px;width:100%;padding:11px 20px;background:transparent;border:none;border-left:2px solid transparent;transition:all .15s;}
-.uc-nav-btn:hover{background:rgba(255,255,255,.04);}
-.uc-nav-btn.active{background:rgba(255,255,255,.08);border-left-color:#fff;}
-.uc-nav-icon{font-size:15px;color:rgba(255,255,255,.3);width:18px;text-align:center;flex-shrink:0;}
-.uc-nav-btn.active .uc-nav-icon{color:#fff;}
-.uc-nav-label{font-family:var(--ds);font-size:13px;font-weight:400;color:rgba(255,255,255,.45);}
-.uc-nav-btn.active .uc-nav-label{font-weight:600;color:#fff;}
-.uc-nav-separator{height:1px;background:rgba(255,255,255,.06);margin:6px 20px;}
-
-/* Footer */
-.uc-sidebar-footer{padding:12px 20px;border-top:1px solid rgba(255,255,255,.08);flex-shrink:0;}
-.uc-logout{display:flex;align-items:center;gap:8px;background:none;border:none;padding:0;}
-.uc-logout span{font-family:var(--ds);font-size:12px;color:rgba(255,255,255,.3);}
-
-/* Topbar */
-.uc-hamburger{background:none;border:none;font-size:22px;color:#111;display:none;padding:4px;}
-.uc-topbar-title{font-family:var(--ds);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#aaa;margin:0;}
-.uc-topbar-right{display:flex;align-items:center;gap:12px;}
-.uc-cycle-badge{font-family:var(--ds);font-size:11px;color:#aaa;background:#f5f2ed;padding:5px 10px;border:1px solid #e0dbd4;white-space:nowrap;}
-.uc-topbar-avatar{width:30px;height:30px;background:#111;display:flex;align-items:center;justify-content:center;}
-.uc-topbar-avatar span{font-family:var(--dr);font-size:11px;color:#fff;font-weight:700;}
-
-/* Tipografía general */
-.uc-kicker{font-family:var(--ds);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#999;margin-bottom:8px;}
-.uc-page-title{font-family:var(--dr);font-size:clamp(24px,4vw,36px);font-weight:700;letter-spacing:-.02em;color:#111;margin:0;line-height:1.1;}
-.uc-page-title em{font-weight:400;font-style:italic;}
-.uc-subtitle{font-family:var(--dr);font-weight:700;font-size:18px;color:#111;margin:0;}
-.uc-section-header{border-bottom:1px solid #e0dbd4;padding-bottom:20px;}
-.uc-stack-lg{display:flex;flex-direction:column;gap:28px;}
-.uc-row-between{display:flex;justify-content:space-between;align-items:baseline;gap:8px;}
-.uc-link-btn{font-family:var(--ds);font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;background:none;border:none;color:#555;text-decoration:underline;padding:0;white-space:nowrap;}
-
-/* Stats */
-.uc-stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
-.uc-stat-card{border:1px solid #e0dbd4;padding:18px 20px;background:#fff;display:flex;flex-direction:column;gap:4px;}
-.uc-stat-val{font-family:var(--dr);font-size:30px;font-weight:700;color:#111;letter-spacing:-.02em;margin:0;}
-.uc-stat-label{font-family:var(--ds);font-size:12px;font-weight:600;color:#111;margin:0;}
-.uc-stat-sub{font-family:var(--ds);font-size:11px;color:#999;margin:0;}
-
-/* Cursos activos */
-.uc-course-row{display:flex;gap:20px;padding:16px 0;border-bottom:1px solid #ece9e4;align-items:flex-start;}
-.uc-course-name{font-family:var(--dr);font-weight:700;font-size:16px;color:#111;margin:0 0 4px;}
-.uc-course-inst{font-family:var(--ds);font-size:12px;color:#888;margin:0 0 10px;}
-.uc-next-session{border:1px solid #e0dbd4;padding:8px 12px;background:#fafaf9;flex-shrink:0;}
-
-/* Progress */
-.uc-progress-row{display:flex;align-items:center;gap:8px;}
-.uc-progress-track{flex:1;max-width:200px;height:3px;background:#ece9e4;}
-.uc-progress-fill{height:100%;transition:width .6s;}
-.uc-progress-label{font-family:var(--ds);font-size:11px;color:#aaa;white-space:nowrap;}
-
-/* Promedio chips */
-.uc-Promedio-chip{padding:6px 12px;text-align:center;min-width:50px;flex-shrink:0;}
-.uc-Promedio-big{padding:12px 16px;text-align:center;border:1px solid #e0dbd4;min-width:80px;}
-
-/* Cal rows */
-.uc-cal-row{display:flex;gap:12px;padding:13px 0;border-bottom:1px solid #ece9e4;align-items:center;}
-.uc-cal-act{font-family:var(--ds);font-size:14px;color:#111;margin:0 0 3px;font-weight:500;}
-.uc-cal-meta{font-family:var(--ds);font-size:11px;color:#999;margin:0;}
-.uc-cal-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
-.uc-cal-sum-card{border:1px solid #e0dbd4;padding:18px 20px;}
-
-/* Filtros */
-.uc-filters{display:flex;flex-wrap:wrap;gap:8px;}
-.uc-filter-btn{font-family:var(--ds);font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;border:1px solid #d8d4cf;background:transparent;color:#888;padding:6px 15px;transition:all .2s;}
-.uc-filter-btn:hover:not(.active){border-color:#111;color:#111;}
-.uc-filter-btn.active{background:#111;color:#fff;border-color:#111;}
-
-/* Tabla calificaciones */
-.uc-cal-table-wrap{border:1px solid #e0dbd4;overflow:hidden;}
-.uc-table-header{display:grid;grid-template-columns:90px 1fr 130px 70px 60px;background:#111;padding:11px 16px;align-items:center;}
-.uc-table-row{display:grid;grid-template-columns:90px 1fr 130px 70px 60px;padding:13px 16px;align-items:center;border-bottom:1px solid #ece9e4;}
-.uc-table-row:last-child{border-bottom:none;}
-.uc-table-act{font-family:var(--ds);font-size:13px;color:#111;margin:0 12px;font-weight:500;}
-.uc-table-curso{font-family:var(--ds);font-size:11px;color:#999;margin:0 12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.uc-table-fecha{font-family:var(--ds);font-size:11px;color:#aaa;margin:0 12px;white-space:nowrap;}
-
-/* Horarios */
-.uc-week-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;}
-.uc-day-card{border:1px solid #e0dbd4;background:#fff;overflow:hidden;}
-.uc-day-card--hoy{border-color:#111;background:#111;}
-.uc-day-header{padding:10px 12px;border-bottom:1px solid rgba(0,0,0,.07);background:#fafaf9;display:flex;justify-content:space-between;align-items:center;}
-.uc-day-card--hoy .uc-day-header{background:#000;border-bottom-color:rgba(255,255,255,.1);}
-.uc-day-name{font-family:var(--ds);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#aaa;margin:0;}
-.uc-day-card--hoy .uc-day-name{color:rgba(255,255,255,.5);}
-.uc-hoy-badge{font-family:var(--ds);font-size:9px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;background:rgba(255,255,255,.15);color:rgba(255,255,255,.7);padding:2px 7px;}
-.uc-day-body{padding:12px;display:flex;flex-direction:column;gap:10px;min-height:110px;}
-.uc-day-empty{font-family:var(--ds);font-size:11px;color:#ccc;font-style:italic;}
-.uc-day-card--hoy .uc-day-empty{color:rgba(255,255,255,.2);}
-.uc-bloque{border-left:2px solid #d8d4cf;padding-left:8px;}
-.uc-bloque--hoy{border-left-color:rgba(255,255,255,.35);}
-.uc-bloque-hora{font-family:var(--ds);font-size:9px;color:#bbb;margin:0 0 2px;}
-.uc-bloque--hoy .uc-bloque-hora{color:rgba(255,255,255,.4);}
-.uc-bloque-nombre{font-family:var(--dr);font-size:12px;font-weight:700;color:#111;margin:0 0 2px;line-height:1.2;}
-.uc-bloque--hoy .uc-bloque-nombre{color:#fff;}
-.uc-bloque-sala{font-family:var(--ds);font-size:9px;color:#aaa;margin:0 0 3px;}
-.uc-bloque--hoy .uc-bloque-sala{color:rgba(255,255,255,.35);}
-.uc-bloque-tipo{font-family:var(--ds);font-size:8px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;background:#f0f0f0;color:#666;padding:2px 6px;}
-.uc-bloque--hoy .uc-bloque-tipo{background:rgba(255,255,255,.1);color:rgba(255,255,255,.55);}
-.uc-sesion-row{display:flex;gap:16px;padding:14px 0;border-bottom:1px solid #ece9e4;align-items:center;flex-wrap:wrap;}
-.uc-sesion-dia{min-width:88px;flex-shrink:0;}
-.uc-sesion-tags{display:flex;gap:8px;align-items:center;flex-wrap:wrap;flex-shrink:0;}
-.uc-tag-sala{font-family:var(--ds);font-size:11px;color:#888;border:1px solid #e0dbd4;padding:3px 10px;white-space:nowrap;}
-.uc-tag-tipo{font-family:var(--ds);font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;background:#111;color:#fff;padding:4px 10px;white-space:nowrap;}
-
-/* Cards cursos */
-.uc-curso-card{display:flex;gap:20px;padding:22px 0;border-bottom:1px solid #ece9e4;align-items:flex-start;}
-.uc-curso-side{display:flex;flex-direction:column;gap:10px;align-items:flex-end;flex-shrink:0;min-width:100px;}
-.uc-curso-title{font-family:var(--dr);font-size:18px;font-weight:700;color:#111;margin:0 0 4px;}
-.uc-curso-inst{font-family:var(--ds);font-size:12px;color:#888;margin:0;}
-.uc-tag-cat{font-family:var(--ds);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;border:1px solid #e0dbd4;padding:3px 9px;color:#888;}
-.uc-action-btn{font-family:var(--ds);font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:9px 14px;width:100%;border:none;transition:all .2s;}
-.uc-action-btn--solid{background:#111;color:#fff;}
-.uc-action-btn--solid:hover{background:#333;}
-.uc-action-btn--outline{background:transparent;color:#555;border:1px solid #d8d4cf!important;}
-.uc-action-btn--outline:hover{background:#111;color:#fff;border-color:#111!important;}
-.uc-action-btn--disabled{background:#f5f2ed;color:#ccc;border:1px solid #e0dbd4!important;cursor:not-allowed!important;}
-
-/* Responsive */
-@media(max-width:1023px){
-  .uc-stats-grid{grid-template-columns:repeat(2,1fr);}
-  .uc-week-grid{grid-template-columns:repeat(3,1fr);}
-  .uc-table-header,.uc-table-row{grid-template-columns:80px 1fr 110px 60px 50px;}
-}
-@media(max-width:767px){
-  .uc-sidebar{transform:translateX(-100%);}
-  .uc-sidebar.open{transform:translateX(0);}
-  .uc-main{margin-left:0;}
-  .uc-overlay{display:block;}
-  .uc-hamburger{display:flex!important;}
-  .uc-cycle-badge{display:none;}
-  .uc-content{padding:20px 16px 60px;}
-  .uc-stats-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
-  .uc-stat-val{font-size:24px;}
-  .uc-week-grid{grid-template-columns:repeat(2,1fr);}
-  .uc-table-header{display:none;}
-  .uc-cal-table-wrap{border:none;display:flex;flex-direction:column;gap:8px;}
-  .uc-table-row{display:grid!important;grid-template-columns:1fr auto!important;grid-template-rows:auto auto auto!important;gap:5px!important;padding:14px!important;border:1px solid #e0dbd4!important;background:#fff!important;}
-  .uc-table-tipo{grid-column:1;grid-row:1;}
-  .uc-table-act{grid-column:1;grid-row:2;margin:0!important;font-size:14px;}
-  .uc-table-curso{grid-column:1;grid-row:3;margin:0!important;}
-  .uc-table-fecha{display:none;}
-  .uc-Promedio-chip{grid-column:2;grid-row:1/4;align-self:center;}
-  .uc-cal-summary{grid-template-columns:1fr 1fr;gap:8px;}
-  .uc-curso-card{flex-direction:column;gap:14px;}
-  .uc-curso-side{flex-direction:row;align-items:center;width:100%;justify-content:space-between;min-width:unset;}
-  .uc-course-row{flex-direction:column;gap:10px;}
-  .uc-next-session{align-self:flex-start;}
-  .uc-filters{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch;}
-  .uc-filter-btn{flex-shrink:0;}
-  .uc-sesion-row{gap:10px;}
-  .uc-sesion-tags{gap:6px;}
-}
-@media(max-width:399px){
-  .uc-stats-grid{grid-template-columns:1fr 1fr;}
-  .uc-week-grid{grid-template-columns:1fr 1fr;}
-  .uc-cal-summary{grid-template-columns:1fr;}
-}
-        `}</style>
-
-      <div className="uc-shell">
+      <div className="ds-shell">
         {/* Overlay móvil */}
         <div
-          className="uc-overlay"
+          className="ds-overlay"
           onClick={() => setSidebar(false)}
           style={{
             position: "fixed",
@@ -589,68 +397,65 @@ button{border-radius:0!important;cursor:pointer;}
           }}
         />
 
-        <aside className={`uc-sidebar${sidebar ? " open" : ""}`}>
-          <div className="uc-sidebar-logo">
-            <p className="uc-logo-text">
-              UP<em style={{ fontWeight: 400 }}>CLASS</em>
+        <aside className={`ds-sidebar${sidebar ? " open" : ""}`}>
+          <div className="ds-sidebar-logo">
+            <p className="ds-logo-text">
+              UP CLASS
             </p>
-            <p className="uc-logo-sub">Portal del estudiante</p>
+            <p className="ds-logo-sub">Portal del estudiante</p>
           </div>
-          <div className="uc-sidebar-profile">
-            <div className="uc-avatar">
+          <div className="ds-sidebar-profile">
+            <div className="ds-avatar">
               <span>RM</span>
             </div>
-            <p className="uc-profile-name">Rodrigo Méndez</p>
+            <p className="ds-profile-name">Rodrigo Méndez</p>
           </div>
-          <nav className="uc-nav-area">
+          <nav className="ds-nav-area">
             {NAV.map((item, idx) => {
               const active = view === item.key;
               const showSep = idx === 4;
               return (
                 <div key={item.key}>
-                  {showSep && <div className="uc-nav-separator" />}
+                  {showSep && <div className="ds-nav-separator" />}
                   <button
-                    className={`uc-nav-btn${active ? " active" : ""}`}
+                    className={`ds-nav-btn${active ? " active" : ""}`}
                     onClick={() => {
                       setView(item.key);
                       setSidebar(false);
                     }}
                   >
-                    <span className="uc-nav-icon">{item.icon}</span>
-                    <span className="uc-nav-label">{item.label}</span>
+                    <span className="ds-nav-icon">{item.icon}</span>
+                    <span className="ds-nav-label">{item.label}</span>
                   </button>
                 </div>
               );
             })}
           </nav>
-          <div className="uc-sidebar-footer">
-            <button className="uc-logout">
-              <span style={{ fontSize: 14, color: "rgba(255,255,255,.3)" }}>
-                ↩
-              </span>
-              <span>Cerrar sesión</span>
+          <div className="ds-sidebar-footer">
+            <button className="ds-logout">
+              <span>↩ Cerrar sesión</span>
             </button>
           </div>
         </aside>
 
-        <div className="uc-main">
-          <div className="uc-topbar">
+        <div className="ds-main">
+          <div className="ds-topbar">
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <button className="uc-hamburger" onClick={() => setSidebar(true)}>
+              <button className="ds-hamburger" onClick={() => setSidebar(true)}>
                 ☰
               </button>
-              <p className="uc-topbar-title">
+              <p className="ds-topbar-title">
                 {NAV.find((n) => n.key === view)?.label}
               </p>
             </div>
-            <div className="uc-topbar-right">
-              <span className="uc-cycle-badge">Ciclo Ene–Jun 2025</span>
-              <div className="uc-topbar-avatar">
+            <div className="ds-topbar-right">
+              <span className="ds-cycle-badge">Ciclo Ene–Jun 2025</span>
+              <div className="ds-topbar-avatar">
                 <span>RM</span>
               </div>
             </div>
           </div>
-          <main className="uc-content">
+          <main className="ds-content">
             {view === "inicio" && <VistaInicio onNav={setView} />}
             {view === "calificaciones" && <MisCalificaciones />}
             {view === "horarios" && <MisHorarios />}

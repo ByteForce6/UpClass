@@ -9,8 +9,63 @@
 }
 
 :root {
-  --dr: 'Libre Baskerville', Georgia, serif;
-  --ds: 'Source Sans 3', system-ui, sans-serif;
+  /* Marca */
+  --uc-brand-blue:        #0F4C8A;   /* primario — botones, nav activo, logo */
+  --uc-brand-blue-hover:  #0D3F74;   /* hover del primario */
+  --uc-brand-blue-light:  #EBF3FC;   /* fondo tint azul (badge, icon-bg, avatar) */
+
+  /* Acento teal (verde-azulado) */
+  --uc-teal:              #1D9E75;
+  --uc-teal-dark:         #0F6E56;
+  --uc-teal-light:        #E1F5EE;
+
+  /* Acento amber (naranja-dorado) */
+  --uc-amber:             #EF9F27;
+  --uc-amber-dark:        #7A4A00;
+  --uc-amber-light:       #FDF0DA;
+
+  /* Acento coral */
+  --uc-coral:             #D85A30;
+  --uc-coral-dark:        #8A2E10;
+  --uc-coral-light:       #FAECE7;
+
+  /* Acento purple */
+  --uc-purple:            #7F77DD;
+  --uc-purple-dark:       #4A40A8;
+  --uc-purple-light:      #EEEDFE;
+
+  /* Semáforo — éxito */
+  --uc-green:             #2E6B0E;
+  --uc-green-light:       #E8F4DC;
+
+  /* Semáforo — peligro / error */
+  --uc-red:               #8B2020;
+  --uc-red-light:         #FDF0F0;
+
+  /* Semáforo — ingresos bar */
+  --uc-income-bar:        #378ADD;   /* barras históricas */
+  --uc-income-bar-current: #0F4C8A; /* barra del mes actual */
+
+  /* Neutros */
+  --uc-bg:                #F5F5F3;   /* fondo general */
+  --uc-surface:           #ffffff;   /* tarjetas, sidebar, topbar */
+  --uc-surface-hover:     #FAFAFA;   /* hover de filas de tabla */
+  --uc-surface-alt:       #F7F7F5;   /* thead de tablas */
+  --uc-surface-muted:     #F0F0EE;   /* barras de progreso vacías, hover suave */
+  --uc-border:            rgba(0, 0, 0, 0.10);  /* bordes generales */
+  --uc-border-soft:       rgba(0, 0, 0, 0.08);  /* separadores internos */
+  --uc-border-row:        rgba(0, 0, 0, 0.06);  /* separadores de filas */
+
+  /* Texto */
+  --uc-text:              #1A1A1A;   /* cuerpo principal */
+  --uc-text-secondary:    #555;      /* íconos, nav inactivo */
+  --uc-text-muted:        #888;      /* subtítulos, labels */
+  --uc-text-faint:        #aaa;      /* metadatos, sección-label */
+  --uc-text-ghost:        #bbb;      /* porcentaje de progreso, "desde" */
+
+  /* Tooltip */
+  --uc-tooltip-bg:        #1A1A1A;
+  --uc-tooltip-text:      #fff;
 }
 
 html,
@@ -19,7 +74,7 @@ body {
 }
 
 body {
-  background: #f5f2ed;
+  background: var(--uc-bg);
   font-family: var(--ds);
   -webkit-font-smoothing: antialiased;
 }
@@ -37,15 +92,15 @@ button {
   background: #d8d4cf;
 }
 
-.uc-shell {
+.ds-shell {
   display: flex;
   min-height: 100vh;
 }
 
 /* ── SIDEBAR FIJO ── */
-.uc-sidebar {
+.ds-sidebar {
   width: 232px;
-  background: #111;
+  background: var(--uc-surface);
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
@@ -58,16 +113,16 @@ button {
   transition: transform 0.25s;
 }
 
-.uc-main {
+.ds-main {
   flex: 1;
   display: flex;
   flex-direction: column;
   min-width: 0;
-  overflow: visible;    
+  overflow: visible;
   margin-left: 232px;
 }
 
-.uc-topbar {
+.ds-topbar {
   background: #fff;
   border-bottom: 1px solid #e0dbd4;
   height: 56px;
@@ -81,14 +136,14 @@ button {
   flex-shrink: 0;
 }
 
-.uc-content {
+.ds-content {
   flex: 1;
   padding: 32px 28px 60px;
   overflow-y: auto;
-  min-height: 0;  
+  min-height: 0;
 }
 
-.uc-overlay {
+.ds-overlay {
   display: none;
   position: fixed;
   inset: 0;
@@ -97,21 +152,21 @@ button {
 }
 
 /* Logo */
-.uc-sidebar-logo {
+.ds-sidebar-logo {
   padding: 16px 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   flex-shrink: 0;
 }
 
-.uc-logo-text {
+.ds-logo-text {
   font-family: var(--dr);
   font-size: 19px;
-  color: #fff;
+  color: var(--uc-text);
   margin: 0;
   line-height: 1;
 }
 
-.uc-logo-sub {
+.ds-logo-sub {
   font-family: var(--ds);
   font-size: 9px;
   color: rgba(255, 255, 255, 0.3);
@@ -121,16 +176,16 @@ button {
 }
 
 /* Profile */
-.uc-sidebar-profile {
+.ds-sidebar-profile {
   padding: 10px 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   display: flex;
   gap: 12px;
   align-items: center;
   flex-shrink: 0;
 }
 
-.uc-avatar {
+.ds-avatar {
   width: 32px;
   height: 32px;
   background: rgba(255, 255, 255, 0.1);
@@ -140,30 +195,30 @@ button {
   flex-shrink: 0;
 }
 
-.uc-avatar span {
+.ds-avatar span {
   font-family: var(--dr);
   font-size: 12px;
-  color: #fff;
+  color: var(--uc-text);
   font-weight: 700;
 }
 
-.uc-profile-name {
+.ds-profile-name {
   font-family: var(--ds);
   font-size: 13px;
   font-weight: 600;
-  color: #fff;
+  color: var(--uc-text);
   margin: 0;
 }
 
 /* Nav — este es el que scrollea si hay overflow */
-.uc-nav-area {
+.ds-nav-area {
   padding: 8px 0;
   flex: 1;
   overflow-y: auto;
   min-height: 0;
 }
 
-.uc-nav-btn {
+.ds-nav-btn {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -175,53 +230,53 @@ button {
   transition: all 0.15s;
 }
 
-.uc-nav-btn:hover {
-  background: rgba(255, 255, 255, 0.04);
+.ds-nav-btn:hover {
+  background: var(--uc-surface-hover);
 }
 
-.uc-nav-btn.active {
-  background: rgba(255, 255, 255, 0.08);
-  border-left-color: #fff;
+.ds-nav-btn.active {
+  background: var(--uc-brand-blue-light);
+  border-left-color: var(--uc-brand-blue);
 }
 
-.uc-nav-icon {
+.ds-nav-icon {
   font-size: 15px;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--uc-text-muted);
   width: 18px;
   text-align: center;
   flex-shrink: 0;
 }
 
-.uc-nav-btn.active .uc-nav-icon {
-  color: #fff;
+.ds-nav-btn.active .ds-nav-icon {
+  color: var(--uc-brand-blue);
 }
 
-.uc-nav-label {
+.ds-nav-label {
   font-family: var(--ds);
   font-size: 13px;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--uc-text-secondary);
 }
 
-.uc-nav-btn.active .uc-nav-label {
+.ds-nav-btn.active .ds-nav-label {
   font-weight: 600;
-  color: #fff;
+  color: var(--uc-brand-blue);
 }
 
-.uc-nav-separator {
+.ds-nav-separator {
   height: 1px;
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--uc-border-soft);
   margin: 6px 20px;
 }
 
 /* Footer */
-.uc-sidebar-footer {
+.ds-sidebar-footer {
   padding: 12px 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   flex-shrink: 0;
 }
 
-.uc-logout {
+.ds-logout {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -230,14 +285,14 @@ button {
   padding: 0;
 }
 
-.uc-logout span {
+.ds-logout span {
   font-family: var(--ds);
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--uc-text-muted);
 }
 
 /* Topbar */
-.uc-hamburger {
+.ds-hamburger {
   background: none;
   border: none;
   font-size: 22px;
@@ -246,7 +301,7 @@ button {
   padding: 4px;
 }
 
-.uc-topbar-title {
+.ds-topbar-title {
   font-family: var(--ds);
   font-size: 11px;
   font-weight: 600;
@@ -256,13 +311,13 @@ button {
   margin: 0;
 }
 
-.uc-topbar-right {
+.ds-topbar-right {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.uc-cycle-badge {
+.ds-cycle-badge {
   font-family: var(--ds);
   font-size: 11px;
   color: #aaa;
@@ -272,7 +327,7 @@ button {
   white-space: nowrap;
 }
 
-.uc-topbar-avatar {
+.ds-topbar-avatar {
   width: 30px;
   height: 30px;
   background: #111;
@@ -281,7 +336,7 @@ button {
   justify-content: center;
 }
 
-.uc-topbar-avatar span {
+.ds-topbar-avatar span {
   font-family: var(--dr);
   font-size: 11px;
   color: #fff;
@@ -540,7 +595,7 @@ button {
 
 .uc-filter-btn.active {
   background: #111;
-  color: #fff;
+  color: var(--uc-text);
   border-color: #111;
 }
 
@@ -859,6 +914,18 @@ button {
   cursor: not-allowed !important;
 }
 
+/* ─────────────────────────────────────────────
+   Cerrar sesión (danger) — paleta App.css
+   ───────────────────────────────────────────── */
+.uc-nav-subitem--danger {
+  color: var(--uc-red);
+}
+
+.uc-nav-subitem--danger:hover {
+  background: var(--uc-red-light);
+  color: var(--uc-red);
+}
+
 /* Responsive */
 @media (max-width: 1023px) {
   .uc-stats-grid {
@@ -876,31 +943,31 @@ button {
 }
 
 @media (max-width: 767px) {
-  .uc-sidebar {
+  .ds-sidebar {
     transform: translateX(-100%);
   }
 
-  .uc-sidebar.open {
+  .ds-sidebar.open {
     transform: translateX(0);
   }
 
-  .uc-main {
+  .ds-main {
     margin-left: 0;
   }
 
-  .uc-overlay {
+  .ds-overlay {
     display: block;
   }
 
-  .uc-hamburger {
+  .ds-hamburger {
     display: flex !important;
   }
 
-  .uc-cycle-badge {
+  .ds-cycle-badge {
     display: none;
   }
 
-  .uc-content {
+  .ds-content {
     padding: 20px 16px 60px;
   }
 
@@ -1026,3 +1093,4 @@ button {
     grid-template-columns: 1fr;
   }
 }
+

@@ -1,3 +1,71 @@
+/* ─────────────────────────────────────────────
+   DESIGN TOKENS — UpClass Admin
+   Cambia un valor aquí y se propaga a todo el CSS
+   ───────────────────────────────────────────── */
+:root {
+  /* Marca */
+  --uc-brand-blue:        #0F4C8A;   /* primario — botones, nav activo, logo */
+  --uc-brand-blue-hover:  #0D3F74;   /* hover del primario */
+  --uc-brand-blue-light:  #EBF3FC;   /* fondo tint azul (badge, icon-bg, avatar) */
+
+  /* Acento teal (verde-azulado) */
+  --uc-teal:              #1D9E75;
+  --uc-teal-dark:         #0F6E56;
+  --uc-teal-light:        #E1F5EE;
+
+  /* Acento amber (naranja-dorado) */
+  --uc-amber:             #EF9F27;
+  --uc-amber-dark:        #7A4A00;
+  --uc-amber-light:       #FDF0DA;
+
+  /* Acento coral */
+  --uc-coral:             #D85A30;
+  --uc-coral-dark:        #8A2E10;
+  --uc-coral-light:       #FAECE7;
+
+  /* Acento purple */
+  --uc-purple:            #7F77DD;
+  --uc-purple-dark:       #4A40A8;
+  --uc-purple-light:      #EEEDFE;
+
+  /* Semáforo — éxito */
+  --uc-green:             #2E6B0E;
+  --uc-green-light:       #E8F4DC;
+
+  /* Semáforo — peligro / error */
+  --uc-red:               #8B2020;
+  --uc-red-light:         #FDF0F0;
+
+  /* Semáforo — ingresos bar */
+  --uc-income-bar:        #378ADD;   /* barras históricas */
+  --uc-income-bar-current: #0F4C8A; /* barra del mes actual */
+
+  /* Neutros */
+  --uc-bg:                #F5F5F3;   /* fondo general */
+  --uc-surface:           #ffffff;   /* tarjetas, sidebar, topbar */
+  --uc-surface-hover:     #FAFAFA;   /* hover de filas de tabla */
+  --uc-surface-alt:       #F7F7F5;   /* thead de tablas */
+  --uc-surface-muted:     #F0F0EE;   /* barras de progreso vacías, hover suave */
+  --uc-border:            rgba(0, 0, 0, 0.10);  /* bordes generales */
+  --uc-border-soft:       rgba(0, 0, 0, 0.08);  /* separadores internos */
+  --uc-border-row:        rgba(0, 0, 0, 0.06);  /* separadores de filas */
+
+  /* Texto */
+  --uc-text:              #1A1A1A;   /* cuerpo principal */
+  --uc-text-secondary:    #555;      /* íconos, nav inactivo */
+  --uc-text-muted:        #888;      /* subtítulos, labels */
+  --uc-text-faint:        #aaa;      /* metadatos, sección-label */
+  --uc-text-ghost:        #bbb;      /* porcentaje de progreso, "desde" */
+
+  /* Tooltip */
+  --uc-tooltip-bg:        #1A1A1A;
+  --uc-tooltip-text:      #fff;
+}
+
+/* ─────────────────────────────────────────────
+   FIN DE TOKENS
+   ───────────────────────────────────────────── */
+
 .uc-root * {
   box-sizing: border-box;
   margin: 0;

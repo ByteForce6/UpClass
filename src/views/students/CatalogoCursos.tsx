@@ -181,7 +181,7 @@ export default function CatalogoCursos() {
 
       <div className="cat-header">
         <p className="cat-kicker">Oferta académica</p>
-        <h2 className="cat-title">Cursos <em>disponibles</em></h2>
+        <h2 className="cat-title">Cursos disponibles</h2>
       </div>
 
       <div className="cat-stats">

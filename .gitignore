@@ -27,3 +27,8 @@ dist-ssr
 firebase.json
 .firebase/*
 .github/*
+.gitignore
+debugs.txt
+
+dataconnect/*
+dataconnect
