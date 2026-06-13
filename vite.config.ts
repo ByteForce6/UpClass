@@ -17,6 +17,19 @@ export default defineConfig({
         display: 'standalone',
         orientation: 'portrait',
         start_url: '/',
+        screenshots: [
+          {
+            src: '/screenshot_horizontal.png',
+            sizes: '2704x1320',
+            type: 'image/png',
+            form_factor: 'wide',
+          },
+          {
+            src: '/screenshot_vertical.png',
+            sizes: '926x1334',
+            type: 'image/png',
+          },
+        ],
         icons: [
           {
             src: '/pwa-192x192.png',
