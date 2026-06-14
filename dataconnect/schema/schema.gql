@@ -50,3 +50,24 @@ type Asistencia @table {
   estadoAsistencia: String! # Aquí se guarda: "Presente", "Falta" o "Retardo"
   observaciones: String
 }
+
+type Inscripcion @table {
+  inscripcionId: String! @unique 
+  estudiante: Estudiante!
+  horario: Horario!           
+  fechaInscripcion: Date! @default(expr: "request.time")
+  estadoInscripcion: String!   # "Activa", "Cancelada", "Completada"
+  pagoEstado: String           # "Pendiente", "Pagado", "Reembolsado" (Útil para estadísticas)
+}
+
+type ReporteEstadistica @table {
+  reporteId: Int! @unique
+  curso: Curso!
+  periodoAnio: String!        
+  totalInscritos: Int! @default(value: 0)
+  totalBajas: Int! @default(value: 0)
+  porcentajeAsistencia: Float! @default(value: 0.0)
+  calificacionPromedio: Float  # Por si a futuro agregas notas
+  ingresosGenerados: Float     # Estadística financiera si aplica
+  fechaActualizacion: Date! @default(expr: "request.time")
+}

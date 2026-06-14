@@ -76,6 +76,25 @@ extend type Query {
     first: Horario_FirstRow
   ): Horario @fdc_generated(from: "Horario", purpose: QUERY_SINGLE)
   """
+  ✨ Look up a single `Inscripcion` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
+  """
+  inscripcion(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Inscripcion_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Inscripcion_FirstRow
+  ): Inscripcion @fdc_generated(from: "Inscripcion", purpose: QUERY_SINGLE)
+  """
   ✨ Look up a single `Instructor` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
   """
   instructor(
@@ -94,6 +113,25 @@ extend type Query {
     """
     first: Instructor_FirstRow
   ): Instructor @fdc_generated(from: "Instructor", purpose: QUERY_SINGLE)
+  """
+  ✨ Look up a single `ReporteEstadistica` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
+  """
+  reporteEstadistica(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: ReporteEstadistica_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: ReporteEstadistica_FirstRow
+  ): ReporteEstadistica @fdc_generated(from: "ReporteEstadistica", purpose: QUERY_SINGLE)
   """
   ✨ List `Asistencia` objects in the table and return selected fields, optionally filtered by `where` conditions
   """
@@ -231,6 +269,40 @@ extend type Query {
     having: Horario_Having
   ): [Horario!]! @fdc_generated(from: "Horario", purpose: QUERY_MULTIPLE)
   """
+  ✨ List `Inscripcion` objects in the table and return selected fields, optionally filtered by `where` conditions
+  """
+  inscripcions(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Inscripcion_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Inscripcion_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: Inscripcion_Having
+  ): [Inscripcion!]! @fdc_generated(from: "Inscripcion", purpose: QUERY_MULTIPLE)
+  """
   ✨ List `Instructor` objects in the table and return selected fields, optionally filtered by `where` conditions
   """
   instructors(
@@ -264,4 +336,38 @@ extend type Query {
     """
     having: Instructor_Having
   ): [Instructor!]! @fdc_generated(from: "Instructor", purpose: QUERY_MULTIPLE)
+  """
+  ✨ List `ReporteEstadistica` objects in the table and return selected fields, optionally filtered by `where` conditions
+  """
+  reporteEstadisticas(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: ReporteEstadistica_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [ReporteEstadistica_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: ReporteEstadistica_Having
+  ): [ReporteEstadistica!]! @fdc_generated(from: "ReporteEstadistica", purpose: QUERY_MULTIPLE)
 }

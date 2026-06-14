@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import CatalogoCursos from "./CatalogoCursos";
 import CatalogoHorarios from "./CatalogoHorarios";
@@ -8,6 +9,7 @@ import MisHorarios from "./MisHorarios";
 
 import "../../Styles/dashboardAlumnos.css";
 
+// ── TYPES E INTERFACES ──
 type View =
   | "inicio"
   | "calificaciones"
@@ -28,6 +30,7 @@ interface Curso {
   sesionesTotal: number;
   nextSession?: string;
 }
+
 interface Calificacion {
   materia: string;
   profesor: string;
@@ -36,6 +39,14 @@ interface Calificacion {
   maximo: number;
 }
 
+interface UserSession {
+  id: number;
+  nombre: string;
+  correo: string;
+  rol: string;
+}
+
+// ── ARRAYS DE DATOS SIMULADOS ──
 const CURSOS: Curso[] = [
   {
     id: 1,
@@ -109,10 +120,13 @@ const CALIFICACIONES: Calificacion[] = [
   },
 ];
 
+// ── FUNCIONES AUXILIARES DE CÁLCULO ──
 const PromedioColor = (n: number) =>
   n >= 9 ? "#1a6b3c" : n >= 7.5 ? "#7a5c00" : "#9b1c1c";
+
 const PromedioBg = (n: number) =>
   n >= 9 ? "#f0faf5" : n >= 7.5 ? "#fefce8" : "#fff5f5";
+
 const promedio = (cals: Calificacion[]) => {
   const avg =
     cals.reduce((a, c) => a + (c.Promedio / c.maximo) * 10, 0) / cals.length;
@@ -146,15 +160,16 @@ function BadgeTipo({ tipo }: { tipo: string }) {
   );
 }
 
-/* ── INICIO ── */
-function VistaInicio({ onNav }: { onNav: (v: View) => void }) {
+// ── COMPONENTE: VISTA INICIO (CON PROPS DINÁMICAS) ──
+function VistaInicio({ onNav, userName }: { onNav: (v: View) => void; userName: string }) {
   const activos = CURSOS.filter((c) => c.estado === "activo");
   const prom = promedio(CALIFICACIONES);
   return (
     <div className="uc-stack-lg">
       <div className="uc-section-header">
         <p className="uc-kicker">Bienvenido de vuelta</p>
-        <h2 className="uc-page-title">Rodrigo Méndez</h2>
+        {/* Aquí se inyecta el nombre del usuario logueado */}
+        <h2 className="uc-page-title">{userName}</h2>
       </div>
       <div className="uc-stats-grid">
         {[
@@ -204,7 +219,7 @@ function VistaInicio({ onNav }: { onNav: (v: View) => void }) {
                 <div className="uc-progress-track">
                   <div
                     className="uc-progress-fill"
-style={{ width: `${c.progreso}%`, background: "var(--uc-brand-blue)" }}
+                    style={{ width: `${c.progreso}%`, background: "var(--uc-brand-blue)" }}
                   />
                 </div>
                 <span className="uc-progress-label">
@@ -222,7 +237,7 @@ style={{ width: `${c.progreso}%`, background: "var(--uc-brand-blue)" }}
                     fontFamily: "var(--dr)",
                     fontSize: 15,
                     fontWeight: 700,
-color: "var(--uc-text)",
+                    color: "var(--uc-text)",
                     margin: 0,
                   }}
                 >
@@ -323,7 +338,7 @@ color: "var(--uc-text)",
                 alignItems: "center",
                 gap: 14,
                 padding: "16px 18px",
-background: "var(--uc-surface)",
+                background: "var(--uc-surface)",
                 border: "1px solid #e0dbd4",
                 textAlign: "left" as const,
                 cursor: "pointer",
@@ -366,7 +381,7 @@ background: "var(--uc-surface)",
   );
 }
 
-/* ── NAV ── */
+// ── CONFIGURACIÓN DEL MENÚ DE NAVEGACIÓN ──
 const NAV: { key: View; label: string; icon: string }[] = [
   { key: "inicio", label: "Inicio", icon: "⌂" },
   { key: "cursos", label: "Mis cursos", icon: "◉" },
@@ -376,14 +391,64 @@ const NAV: { key: View; label: string; icon: string }[] = [
   { key: "catalogoHorarios", label: "Ver horarios", icon: "◫" },
 ];
 
+// ── COMPONENTE PRINCIPAL EXPORTADO ──
 export default function Dashboard() {
   const [view, setView] = useState<View>("inicio");
   const [sidebar, setSidebar] = useState(false);
+  
+  // Estado local seguro para guardar la información del usuario autenticado
+  const [userData, setUserData] = useState<UserSession | null>(null);
+  const navigate = useNavigate();
+
+  // Validación de la sesión en el ciclo de vida de React
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const savedUser = localStorage.getItem("user");
+
+    // Bloqueo de seguridad: Si no hay datos, redirige de inmediato al login
+    if (!token || !savedUser) {
+      navigate("/login");
+      return;
+    }
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setUserData(JSON.parse(savedUser));
+  
+  }, [navigate]);
+
+  // Función manejadora para romper la sesión actual
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
+
+  // Previene el parpadeo de datos vacíos mientras se lee el almacenamiento local
+  if (!userData) {
+    return (
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '100vh', 
+        fontFamily: 'var(--dr)',
+        color: '#111'
+      }}>
+        Verificando credenciales...
+      </div>
+    );
+  }
+
+  // Extrae y construye las iniciales de forma dinámica (ej: "Diego Pérez" -> "DP")
+  const iniciales = userData.nombre
+    .split(" ")
+    .map((n) => n[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
 
   return (
     <>
-
-
       <div className="ds-shell">
         {/* Overlay móvil */}
         <div
@@ -399,17 +464,20 @@ export default function Dashboard() {
 
         <aside className={`ds-sidebar${sidebar ? " open" : ""}`}>
           <div className="ds-sidebar-logo">
-            <p className="ds-logo-text">
-              UP CLASS
+            <p className="ds-logo-text">UP CLASS</p>
+            {/* Texto adaptable dependiendo de si es cuenta Teacher o Student */}
+            <p className="ds-logo-sub">
+              {userData.rol === "teacher" ? "Portal del Docente" : "Portal del Estudiante"}
             </p>
-            <p className="ds-logo-sub">Portal del estudiante</p>
           </div>
+          
           <div className="ds-sidebar-profile">
             <div className="ds-avatar">
-              <span>RM</span>
+              <span>{iniciales}</span>
             </div>
-            <p className="ds-profile-name">Rodrigo Méndez</p>
+            <p className="ds-profile-name">{userData.nombre}</p>
           </div>
+          
           <nav className="ds-nav-area">
             {NAV.map((item, idx) => {
               const active = view === item.key;
@@ -431,8 +499,10 @@ export default function Dashboard() {
               );
             })}
           </nav>
+          
           <div className="ds-sidebar-footer">
-            <button className="ds-logout">
+            {/* Vinculación de la función de destrucción de sesión */}
+            <button className="ds-logout" onClick={handleLogout}>
               <span>↩ Cerrar sesión</span>
             </button>
           </div>
@@ -449,14 +519,16 @@ export default function Dashboard() {
               </p>
             </div>
             <div className="ds-topbar-right">
-              <span className="ds-cycle-badge">Ciclo Ene–Jun 2025</span>
+              <span className="ds-cycle-badge">Ciclo Ene–Jun 2026</span>
               <div className="ds-topbar-avatar">
-                <span>RM</span>
+                <span>{iniciales}</span>
               </div>
             </div>
           </div>
+          
           <main className="ds-content">
-            {view === "inicio" && <VistaInicio onNav={setView} />}
+            {/* Inyección de sub-vistas condicionales */}
+            {view === "inicio" && <VistaInicio onNav={setView} userName={userData.nombre} />}
             {view === "calificaciones" && <MisCalificaciones />}
             {view === "horarios" && <MisHorarios />}
             {view === "cursos" && <MisCursos />}

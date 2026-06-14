@@ -57,6 +57,11 @@ export interface Horario_Key {
   __typename?: 'Horario_Key';
 }
 
+export interface Inscripcion_Key {
+  id: UUIDString;
+  __typename?: 'Inscripcion_Key';
+}
+
 export interface Instructor_Key {
   id: UUIDString;
   __typename?: 'Instructor_Key';
@@ -69,6 +74,11 @@ export interface ListarEstudiantesData {
     correo: string;
     activo: boolean;
   })[];
+}
+
+export interface ReporteEstadistica_Key {
+  id: UUIDString;
+  __typename?: 'ReporteEstadistica_Key';
 }
 
 interface BuscarEstudiantePorMatriculaRef {

@@ -180,6 +180,40 @@ extend type Curso {
     having: Horario_Having
   ): [Horario!]! @fdc_generated(from: "Horario.curso", purpose: QUERY_MULTIPLE_ONE_TO_MANY)
   """
+  ✨ List `ReporteEstadistica` objects in a one-to-many relationship (where `ReporteEstadistica`.`curso` is this object).
+  """
+  reporteEstadisticas_on_curso(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: ReporteEstadistica_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [ReporteEstadistica_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: ReporteEstadistica_Having
+  ): [ReporteEstadistica!]! @fdc_generated(from: "ReporteEstadistica.curso", purpose: QUERY_MULTIPLE_ONE_TO_MANY)
+  """
   Implicit metadata field that cannot be written. It provides extra information about query results.
   """
   _metadata: _Metadata @fdc_generated(from: "Curso", purpose: METADATA_FIELD)
@@ -326,6 +360,40 @@ extend type Estudiante {
     having: Asistencia_Having
   ): [Asistencia!]! @fdc_generated(from: "Asistencia.estudiante", purpose: QUERY_MULTIPLE_ONE_TO_MANY)
   """
+  ✨ List `Inscripcion` objects in a one-to-many relationship (where `Inscripcion`.`estudiante` is this object).
+  """
+  inscripcions_on_estudiante(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Inscripcion_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Inscripcion_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: Inscripcion_Having
+  ): [Inscripcion!]! @fdc_generated(from: "Inscripcion.estudiante", purpose: QUERY_MULTIPLE_ONE_TO_MANY)
+  """
   Implicit metadata field that cannot be written. It provides extra information about query results.
   """
   _metadata: _Metadata @fdc_generated(from: "Estudiante", purpose: METADATA_FIELD)
@@ -436,6 +504,40 @@ extend type Estudiante {
   _id: ID! @fdc_generated(from: "Estudiante.id", purpose: ENTITY_ID)
 }
 extend type Horario {
+  """
+  ✨ List `Inscripcion` objects in a one-to-many relationship (where `Inscripcion`.`horario` is this object).
+  """
+  inscripcions_on_horario(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Inscripcion_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Inscripcion_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: Inscripcion_Having
+  ): [Inscripcion!]! @fdc_generated(from: "Inscripcion.horario", purpose: QUERY_MULTIPLE_ONE_TO_MANY)
   """
   Implicit metadata field that cannot be written. It provides extra information about query results.
   """
@@ -633,6 +735,91 @@ extend type Horario {
   """
   _id: ID! @fdc_generated(from: "Horario.id", purpose: ENTITY_ID)
 }
+extend type Inscripcion {
+  """
+  Implicit metadata field that cannot be written. It provides extra information about query results.
+  """
+  _metadata: _Metadata @fdc_generated(from: "Inscripcion", purpose: METADATA_FIELD)
+  """
+  ✨ Count the number of rows in the `Inscripcion` table.
+  """
+  _count: Int! @fdc_generated(from: "Inscripcion.", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Inscripcion` table where the `estadoInscripcion` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  estadoInscripcion_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Inscripcion.estadoInscripcion", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Inscripcion` table where the `estudianteId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  estudianteId_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Inscripcion.estudianteId", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Inscripcion` table where the `fechaInscripcion` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  fechaInscripcion_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Inscripcion.fechaInscripcion", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Inscripcion` table where the `horarioId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  horarioId_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Inscripcion.horarioId", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Inscripcion` table where the `id` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  id_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Inscripcion.id", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Inscripcion` table where the `inscripcionId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  inscripcionId_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Inscripcion.inscripcionId", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Inscripcion` table where the `pagoEstado` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  pagoEstado_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Inscripcion.pagoEstado", purpose: QUERY_COUNT)
+  """
+  ✨ Minimum of the `fechaInscripcion` field in the `Inscripcion` table.
+  """
+  fechaInscripcion_min: Date @fdc_generated(from: "Inscripcion.fechaInscripcion", purpose: QUERY_MIN)
+  """
+  ✨ Maximum of the `fechaInscripcion` field in the `Inscripcion` table.
+  """
+  fechaInscripcion_max: Date @fdc_generated(from: "Inscripcion.fechaInscripcion", purpose: QUERY_MAX)
+  """
+  A generated field that is used for caching results in SDKs.
+  """
+  _id: ID! @fdc_generated(from: "Inscripcion.id", purpose: ENTITY_ID)
+}
 extend type Instructor {
   """
   ✨ List `Asistencia` objects in a one-to-many relationship (where `Asistencia`.`instructor` is this object).
@@ -769,4 +956,272 @@ extend type Instructor {
   A generated field that is used for caching results in SDKs.
   """
   _id: ID! @fdc_generated(from: "Instructor.id", purpose: ENTITY_ID)
+}
+extend type ReporteEstadistica {
+  """
+  Implicit metadata field that cannot be written. It provides extra information about query results.
+  """
+  _metadata: _Metadata @fdc_generated(from: "ReporteEstadistica", purpose: METADATA_FIELD)
+  """
+  ✨ Count the number of rows in the `ReporteEstadistica` table.
+  """
+  _count: Int! @fdc_generated(from: "ReporteEstadistica.", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `ReporteEstadistica` table where the `calificacionPromedio` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  calificacionPromedio_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "ReporteEstadistica.calificacionPromedio", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `ReporteEstadistica` table where the `cursoId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  cursoId_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "ReporteEstadistica.cursoId", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `ReporteEstadistica` table where the `fechaActualizacion` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  fechaActualizacion_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "ReporteEstadistica.fechaActualizacion", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `ReporteEstadistica` table where the `id` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  id_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "ReporteEstadistica.id", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `ReporteEstadistica` table where the `ingresosGenerados` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  ingresosGenerados_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "ReporteEstadistica.ingresosGenerados", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `ReporteEstadistica` table where the `periodoAnio` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  periodoAnio_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "ReporteEstadistica.periodoAnio", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `ReporteEstadistica` table where the `porcentajeAsistencia` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  porcentajeAsistencia_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "ReporteEstadistica.porcentajeAsistencia", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `ReporteEstadistica` table where the `reporteId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  reporteId_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "ReporteEstadistica.reporteId", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `ReporteEstadistica` table where the `totalBajas` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  totalBajas_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "ReporteEstadistica.totalBajas", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `ReporteEstadistica` table where the `totalInscritos` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  totalInscritos_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "ReporteEstadistica.totalInscritos", purpose: QUERY_COUNT)
+  """
+  ✨ Sum the `calificacionPromedio` field in the `ReporteEstadistica` table.
+  """
+  calificacionPromedio_sum(
+    """
+    Set to true to sum the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "ReporteEstadistica.calificacionPromedio", purpose: QUERY_SUM)
+  """
+  ✨ Sum the `ingresosGenerados` field in the `ReporteEstadistica` table.
+  """
+  ingresosGenerados_sum(
+    """
+    Set to true to sum the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "ReporteEstadistica.ingresosGenerados", purpose: QUERY_SUM)
+  """
+  ✨ Sum the `porcentajeAsistencia` field in the `ReporteEstadistica` table.
+  """
+  porcentajeAsistencia_sum(
+    """
+    Set to true to sum the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "ReporteEstadistica.porcentajeAsistencia", purpose: QUERY_SUM)
+  """
+  ✨ Sum the `reporteId` field in the `ReporteEstadistica` table.
+  """
+  reporteId_sum(
+    """
+    Set to true to sum the distinct values.
+    """
+    distinct: Boolean = false
+  ): Int @fdc_generated(from: "ReporteEstadistica.reporteId", purpose: QUERY_SUM)
+  """
+  ✨ Sum the `totalBajas` field in the `ReporteEstadistica` table.
+  """
+  totalBajas_sum(
+    """
+    Set to true to sum the distinct values.
+    """
+    distinct: Boolean = false
+  ): Int @fdc_generated(from: "ReporteEstadistica.totalBajas", purpose: QUERY_SUM)
+  """
+  ✨ Sum the `totalInscritos` field in the `ReporteEstadistica` table.
+  """
+  totalInscritos_sum(
+    """
+    Set to true to sum the distinct values.
+    """
+    distinct: Boolean = false
+  ): Int @fdc_generated(from: "ReporteEstadistica.totalInscritos", purpose: QUERY_SUM)
+  """
+  ✨ Average the `calificacionPromedio` field in the `ReporteEstadistica` table.
+  """
+  calificacionPromedio_avg(
+    """
+    Set to true to average the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "ReporteEstadistica.calificacionPromedio", purpose: QUERY_AVG)
+  """
+  ✨ Average the `ingresosGenerados` field in the `ReporteEstadistica` table.
+  """
+  ingresosGenerados_avg(
+    """
+    Set to true to average the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "ReporteEstadistica.ingresosGenerados", purpose: QUERY_AVG)
+  """
+  ✨ Average the `porcentajeAsistencia` field in the `ReporteEstadistica` table.
+  """
+  porcentajeAsistencia_avg(
+    """
+    Set to true to average the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "ReporteEstadistica.porcentajeAsistencia", purpose: QUERY_AVG)
+  """
+  ✨ Average the `reporteId` field in the `ReporteEstadistica` table.
+  """
+  reporteId_avg(
+    """
+    Set to true to average the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "ReporteEstadistica.reporteId", purpose: QUERY_AVG)
+  """
+  ✨ Average the `totalBajas` field in the `ReporteEstadistica` table.
+  """
+  totalBajas_avg(
+    """
+    Set to true to average the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "ReporteEstadistica.totalBajas", purpose: QUERY_AVG)
+  """
+  ✨ Average the `totalInscritos` field in the `ReporteEstadistica` table.
+  """
+  totalInscritos_avg(
+    """
+    Set to true to average the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "ReporteEstadistica.totalInscritos", purpose: QUERY_AVG)
+  """
+  ✨ Minimum of the `calificacionPromedio` field in the `ReporteEstadistica` table.
+  """
+  calificacionPromedio_min: Float @fdc_generated(from: "ReporteEstadistica.calificacionPromedio", purpose: QUERY_MIN)
+  """
+  ✨ Minimum of the `fechaActualizacion` field in the `ReporteEstadistica` table.
+  """
+  fechaActualizacion_min: Date @fdc_generated(from: "ReporteEstadistica.fechaActualizacion", purpose: QUERY_MIN)
+  """
+  ✨ Minimum of the `ingresosGenerados` field in the `ReporteEstadistica` table.
+  """
+  ingresosGenerados_min: Float @fdc_generated(from: "ReporteEstadistica.ingresosGenerados", purpose: QUERY_MIN)
+  """
+  ✨ Minimum of the `porcentajeAsistencia` field in the `ReporteEstadistica` table.
+  """
+  porcentajeAsistencia_min: Float @fdc_generated(from: "ReporteEstadistica.porcentajeAsistencia", purpose: QUERY_MIN)
+  """
+  ✨ Minimum of the `reporteId` field in the `ReporteEstadistica` table.
+  """
+  reporteId_min: Int @fdc_generated(from: "ReporteEstadistica.reporteId", purpose: QUERY_MIN)
+  """
+  ✨ Minimum of the `totalBajas` field in the `ReporteEstadistica` table.
+  """
+  totalBajas_min: Int @fdc_generated(from: "ReporteEstadistica.totalBajas", purpose: QUERY_MIN)
+  """
+  ✨ Minimum of the `totalInscritos` field in the `ReporteEstadistica` table.
+  """
+  totalInscritos_min: Int @fdc_generated(from: "ReporteEstadistica.totalInscritos", purpose: QUERY_MIN)
+  """
+  ✨ Maximum of the `calificacionPromedio` field in the `ReporteEstadistica` table.
+  """
+  calificacionPromedio_max: Float @fdc_generated(from: "ReporteEstadistica.calificacionPromedio", purpose: QUERY_MAX)
+  """
+  ✨ Maximum of the `fechaActualizacion` field in the `ReporteEstadistica` table.
+  """
+  fechaActualizacion_max: Date @fdc_generated(from: "ReporteEstadistica.fechaActualizacion", purpose: QUERY_MAX)
+  """
+  ✨ Maximum of the `ingresosGenerados` field in the `ReporteEstadistica` table.
+  """
+  ingresosGenerados_max: Float @fdc_generated(from: "ReporteEstadistica.ingresosGenerados", purpose: QUERY_MAX)
+  """
+  ✨ Maximum of the `porcentajeAsistencia` field in the `ReporteEstadistica` table.
+  """
+  porcentajeAsistencia_max: Float @fdc_generated(from: "ReporteEstadistica.porcentajeAsistencia", purpose: QUERY_MAX)
+  """
+  ✨ Maximum of the `reporteId` field in the `ReporteEstadistica` table.
+  """
+  reporteId_max: Int @fdc_generated(from: "ReporteEstadistica.reporteId", purpose: QUERY_MAX)
+  """
+  ✨ Maximum of the `totalBajas` field in the `ReporteEstadistica` table.
+  """
+  totalBajas_max: Int @fdc_generated(from: "ReporteEstadistica.totalBajas", purpose: QUERY_MAX)
+  """
+  ✨ Maximum of the `totalInscritos` field in the `ReporteEstadistica` table.
+  """
+  totalInscritos_max: Int @fdc_generated(from: "ReporteEstadistica.totalInscritos", purpose: QUERY_MAX)
+  """
+  A generated field that is used for caching results in SDKs.
+  """
+  _id: ID! @fdc_generated(from: "ReporteEstadistica.id", purpose: ENTITY_ID)
 }
