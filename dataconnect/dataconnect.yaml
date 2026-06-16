@@ -1,7 +1,6 @@
 specVersion: "v1"
 serviceId: "upclass-78c13-service"
 location: "us-east4"
-
 schemas:
   - source: "./schema"
     datasource:
@@ -9,6 +8,6 @@ schemas:
         database: "upclass-78c13-database"
         cloudSql:
           instanceId: "upclass-78c13-instance"
-
-connectorDirs:
-  - "./example"
+          # schemaValidation: "STRICT"     # STRICT mode makes Postgres schema match Data Connect exactly.
+          # schemaValidation: "COMPATIBLE" # COMPATIBLE mode makes Postgres schema compatible with Data Connect.
+connectorDirs: ["./example"]

@@ -10,6 +10,7 @@ This README will guide you through the process of using the generated JavaScript
 - [**Accessing the connector**](#accessing-the-connector)
   - [*Connecting to the local Emulator*](#connecting-to-the-local-emulator)
 - [**Queries**](#queries)
+  - [*GetUsuarioByCorreo*](#getusuariobycorreo)
   - [*BuscarEstudiantePorMatricula*](#buscarestudiantepormatricula)
   - [*BuscarEstudiantePorNombre*](#buscarestudiantepornombre)
   - [*ListarEstudiantes*](#listarestudiantes)
@@ -60,6 +61,123 @@ The following is true for both the action shortcut function and the `QueryRef` f
 
 Below are examples of how to use the `example` connector's generated functions to execute each query. You can also follow the examples from the [Data Connect documentation](https://firebase.google.com/docs/data-connect/web-sdk#using-queries).
 
+## GetUsuarioByCorreo
+You can execute the `GetUsuarioByCorreo` query using the following action shortcut function, or by calling `executeQuery()` after calling the following `QueryRef` function, both of which are defined in [dataconnect-generated/index.d.ts](./index.d.ts):
+```typescript
+getUsuarioByCorreo(vars: GetUsuarioByCorreoVariables, options?: ExecuteQueryOptions): QueryPromise<GetUsuarioByCorreoData, GetUsuarioByCorreoVariables>;
+
+interface GetUsuarioByCorreoRef {
+  ...
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: GetUsuarioByCorreoVariables): QueryRef<GetUsuarioByCorreoData, GetUsuarioByCorreoVariables>;
+}
+export const getUsuarioByCorreoRef: GetUsuarioByCorreoRef;
+```
+You can also pass in a `DataConnect` instance to the action shortcut function or `QueryRef` function.
+```typescript
+getUsuarioByCorreo(dc: DataConnect, vars: GetUsuarioByCorreoVariables, options?: ExecuteQueryOptions): QueryPromise<GetUsuarioByCorreoData, GetUsuarioByCorreoVariables>;
+
+interface GetUsuarioByCorreoRef {
+  ...
+  (dc: DataConnect, vars: GetUsuarioByCorreoVariables): QueryRef<GetUsuarioByCorreoData, GetUsuarioByCorreoVariables>;
+}
+export const getUsuarioByCorreoRef: GetUsuarioByCorreoRef;
+```
+
+If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the getUsuarioByCorreoRef:
+```typescript
+const name = getUsuarioByCorreoRef.operationName;
+console.log(name);
+```
+
+### Variables
+The `GetUsuarioByCorreo` query requires an argument of type `GetUsuarioByCorreoVariables`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+
+```typescript
+export interface GetUsuarioByCorreoVariables {
+  correo: string;
+}
+```
+### Return Type
+Recall that executing the `GetUsuarioByCorreo` query returns a `QueryPromise` that resolves to an object with a `data` property.
+
+The `data` property is an object of type `GetUsuarioByCorreoData`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+```typescript
+export interface GetUsuarioByCorreoData {
+  usuarios: ({
+    usuarioId: string;
+    nombreCompleto: string;
+    correo: string;
+    passwordHash: string;
+    rol: {
+      nombre: string;
+    };
+  })[];
+}
+```
+### Using `GetUsuarioByCorreo`'s action shortcut function
+
+```typescript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, getUsuarioByCorreo, GetUsuarioByCorreoVariables } from '@dataconnect/generated';
+
+// The `GetUsuarioByCorreo` query requires an argument of type `GetUsuarioByCorreoVariables`:
+const getUsuarioByCorreoVars: GetUsuarioByCorreoVariables = {
+  correo: ..., 
+};
+
+// Call the `getUsuarioByCorreo()` function to execute the query.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await getUsuarioByCorreo(getUsuarioByCorreoVars);
+// Variables can be defined inline as well.
+const { data } = await getUsuarioByCorreo({ correo: ..., });
+
+// You can also pass in a `DataConnect` instance to the action shortcut function.
+const dataConnect = getDataConnect(connectorConfig);
+const { data } = await getUsuarioByCorreo(dataConnect, getUsuarioByCorreoVars);
+
+console.log(data.usuarios);
+
+// Or, you can use the `Promise` API.
+getUsuarioByCorreo(getUsuarioByCorreoVars).then((response) => {
+  const data = response.data;
+  console.log(data.usuarios);
+});
+```
+
+### Using `GetUsuarioByCorreo`'s `QueryRef` function
+
+```typescript
+import { getDataConnect, executeQuery } from 'firebase/data-connect';
+import { connectorConfig, getUsuarioByCorreoRef, GetUsuarioByCorreoVariables } from '@dataconnect/generated';
+
+// The `GetUsuarioByCorreo` query requires an argument of type `GetUsuarioByCorreoVariables`:
+const getUsuarioByCorreoVars: GetUsuarioByCorreoVariables = {
+  correo: ..., 
+};
+
+// Call the `getUsuarioByCorreoRef()` function to get a reference to the query.
+const ref = getUsuarioByCorreoRef(getUsuarioByCorreoVars);
+// Variables can be defined inline as well.
+const ref = getUsuarioByCorreoRef({ correo: ..., });
+
+// You can also pass in a `DataConnect` instance to the `QueryRef` function.
+const dataConnect = getDataConnect(connectorConfig);
+const ref = getUsuarioByCorreoRef(dataConnect, getUsuarioByCorreoVars);
+
+// Call `executeQuery()` on the reference to execute the query.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await executeQuery(ref);
+
+console.log(data.usuarios);
+
+// Or, you can use the `Promise` API.
+executeQuery(ref).then((response) => {
+  const data = response.data;
+  console.log(data.usuarios);
+});
+```
+
 ## BuscarEstudiantePorMatricula
 You can execute the `BuscarEstudiantePorMatricula` query using the following action shortcut function, or by calling `executeQuery()` after calling the following `QueryRef` function, both of which are defined in [dataconnect-generated/index.d.ts](./index.d.ts):
 ```typescript
@@ -104,12 +222,14 @@ The `data` property is an object of type `BuscarEstudiantePorMatriculaData`, whi
 ```typescript
 export interface BuscarEstudiantePorMatriculaData {
   estudiantes: ({
-    id: UUIDString;
     matricula: string;
-    nombreCompleto: string;
-    correo: string;
-    activo: boolean;
-  } & Estudiante_Key)[];
+    usuario: {
+      usuarioId: string;
+      nombreCompleto: string;
+      correo: string;
+      activo: boolean;
+    };
+  })[];
 }
 ```
 ### Using `BuscarEstudiantePorMatricula`'s action shortcut function
@@ -220,8 +340,10 @@ The `data` property is an object of type `BuscarEstudiantePorNombreData`, which 
 export interface BuscarEstudiantePorNombreData {
   estudiantes: ({
     matricula: string;
-    nombreCompleto: string;
-    correo: string;
+    usuario: {
+      nombreCompleto: string;
+      correo: string;
+    };
   })[];
 }
 ```
@@ -327,9 +449,11 @@ The `data` property is an object of type `ListarEstudiantesData`, which is defin
 export interface ListarEstudiantesData {
   estudiantes: ({
     matricula: string;
-    nombreCompleto: string;
-    correo: string;
-    activo: boolean;
+    usuario: {
+      nombreCompleto: string;
+      correo: string;
+      activo: boolean;
+    };
   })[];
 }
 ```

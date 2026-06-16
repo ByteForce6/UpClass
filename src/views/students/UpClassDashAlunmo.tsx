@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
 import CatalogoCursos from "./CatalogoCursos";
 import CatalogoHorarios from "./CatalogoHorarios";
 import MisCursos from "./MisCursos";
 import MisCalificaciones from "./MisCalificaciones";
 import MisHorarios from "./MisHorarios";
-
 import "../../Styles/dashboardAlumnos.css";
 
 // ── TYPES E INTERFACES ──
@@ -18,7 +16,7 @@ type View =
   | "catalogoCursos"
   | "catalogoHorarios";
 
-interface Curso {
+  interface Curso {
   id: number;
   nombre: string;
   instructor: string;
@@ -39,7 +37,7 @@ interface Calificacion {
   maximo: number;
 }
 
-interface UserSession {
+export interface UserSession {
   id: number;
   nombre: string;
   correo: string;
@@ -400,27 +398,34 @@ export default function Dashboard() {
   const [userData, setUserData] = useState<UserSession | null>(null);
   const navigate = useNavigate();
 
-  // Validación de la sesión en el ciclo de vida de React
+  // Validación de la sesión y rol
   useEffect(() => {
     const token = localStorage.getItem("token");
     const savedUser = localStorage.getItem("user");
+    const storedRol = localStorage.getItem("rol");
 
-    // Bloqueo de seguridad: Si no hay datos, redirige de inmediato al login
-    if (!token || !savedUser) {
-      navigate("/login");
+    if (!token || !savedUser || !storedRol) {
+      navigate("/");
       return;
     }
 
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setUserData(JSON.parse(savedUser));
-  
+    const parsed = JSON.parse(savedUser);
+    // Si el rol en user/localStorage no coincide con student => /home
+    if (parsed?.rol !== "student" || storedRol !== "student") {
+      navigate("/");
+      return;
+    }
+
+    // setState after checks
+    queueMicrotask(() => setUserData(parsed));
   }, [navigate]);
 
   // Función manejadora para romper la sesión actual
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    navigate("/login");
+    localStorage.removeItem("rol");
+    navigate("/");
   };
 
   // Previene el parpadeo de datos vacíos mientras se lee el almacenamiento local

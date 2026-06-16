@@ -1,12 +1,34 @@
-type Estudiante @table {
-  matricula: String! @unique
+type Rol @table {
+  rolId: Int! @unique        # Cambiado a Int! para manejar autoincrementable (1, 2, 3...)
+  nombre: String!            # "admin", "teacher", "student"
+  descripcion: String
+}
+
+# 👤 TABLA UNIFICADA: Todos los inicios de sesión e información básica ocurren aquí
+type Usuario @table {
+  usuarioId: String! @unique 
+  rol: Rol!                  # Mantiene la relación con la tabla Rol (ahora mediante el ID numérico)
   nombreCompleto: String!
-  correo: String! @unique
+  correo: String! @unique    
+  passwordHash: String!      
   telefono: String
   direccion: String
   fechaNacimiento: Date
   activo: Boolean! @default(value: true)
   fechaRegistro: Date! @default(expr: "request.time")
+}
+
+# 🎓 Datos exclusivos de Estudiantes (Se complementa con la tabla Usuario)
+type Estudiante @table {
+  matricula: String! @unique 
+  usuario: Usuario! @unique  
+}
+
+# 👨‍🏫 Datos exclusivos de Profesores (Se complementa con la tabla Usuario)
+type Instructor @table {
+  instructorId: Int! @unique
+  usuario: Usuario! @unique  
+  especialidad: String
 }
 
 type Curso @table {
@@ -15,9 +37,8 @@ type Curso @table {
   descripcion: String
   categoria: String
   urlImagen: String
-  instructor: String
+  instructor: Instructor      
   estado: String
-
 }
 
 type Horario @table {
@@ -32,32 +53,23 @@ type Horario @table {
   estado: String
 }
 
-type Instructor @table {
-  instructorId: Int! @unique
-  nombreCompleto: String!
-  correo: String! @unique
-  telefono: String
-  especialidad: String
-  activo: Boolean! @default(value: true)
-}
-
 type Asistencia @table {
   asistenciaId: Int! @unique
-  instructor: Instructor!
-  estudiante: Estudiante!
-  materiaId: Int! # El identificador numérico de la materia
+  instructor: Instructor!    
+  estudiante: Estudiante!    
+  materiaId: Int! 
   fecha: Date! @default(expr: "request.time")
-  estadoAsistencia: String! # Aquí se guarda: "Presente", "Falta" o "Retardo"
+  estadoAsistencia: String!  
   observaciones: String
 }
 
 type Inscripcion @table {
   inscripcionId: String! @unique 
-  estudiante: Estudiante!
+  estudiante: Estudiante!    
   horario: Horario!           
   fechaInscripcion: Date! @default(expr: "request.time")
-  estadoInscripcion: String!   # "Activa", "Cancelada", "Completada"
-  pagoEstado: String           # "Pendiente", "Pagado", "Reembolsado" (Útil para estadísticas)
+  estadoInscripcion: String!   
+  pagoEstado: String           
 }
 
 type ReporteEstadistica @table {
@@ -67,7 +79,7 @@ type ReporteEstadistica @table {
   totalInscritos: Int! @default(value: 0)
   totalBajas: Int! @default(value: 0)
   porcentajeAsistencia: Float! @default(value: 0.0)
-  calificacionPromedio: Float  # Por si a futuro agregas notas
-  ingresosGenerados: Float     # Estadística financiera si aplica
+  calificacionPromedio: Float  
+  ingresosGenerados: Float     
   fechaActualizacion: Date! @default(expr: "request.time")
 }

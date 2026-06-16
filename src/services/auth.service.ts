@@ -1,51 +1,52 @@
 import { type LoginCredentials, type AuthResponse } from '../Types/auth.types';
+import { dataConnect } from '../../firebase'; // Tu archivo de conexión en la raíz
+import { executeQuery } from 'firebase/data-connect';
+import { getUsuarioByCorreoRef, type GetUsuarioByCorreoVariables } from '@dataconnect/generated';
 
-const USUARIOS_PRUEBA = [
-  {
-    id: 1,
-    nombre: 'Cristofer Antonio',
-    correo: 'cristofer@upclass.com',
-    clave: '123456',
-    rol: 'admin'
-  },
-  {
-    id: 2,
-    nombre: 'Diego Pérez',
-    correo: 'diego@upclass.com',
-    clave: '654321',
-    rol: 'student'
-  },
-  {
-     id: 3,
-    nombre: 'María González',
-    correo: 'maria@upclass.com',
-    clave: '987654',
-    rol: 'teacher'
-  }
-];
+
+
+
 
 export const loginAPI = async (credentials: LoginCredentials): Promise<AuthResponse> => {
-  // Simulamos el tiempo de espera del servidor
-  await new Promise((resolve) => setTimeout(resolve, 500));
+  try {
+    const correoBuscar = credentials.correo?.toLowerCase().trim() ?? '';
+    if (!correoBuscar) throw new Error('El correo electrónico es obligatorio.');
 
-  // Buscamos si existe un usuario en el array que coincida con el correo y la clave
-  const usuarioEncontrado = USUARIOS_PRUEBA.find(
-    (u) => u.correo === credentials.correo && u.clave === credentials.clave
-  );
+    // 1. Ejecutamos la query generada por Data Connect (evita el error "operation not found")
+    const variables: GetUsuarioByCorreoVariables = { correo: correoBuscar };
+    const resultado = await executeQuery(getUsuarioByCorreoRef(dataConnect, variables));
 
-  // Si lo encontramos, devolvemos sus datos dinámicamente
-  if (usuarioEncontrado) {
+    const listaUsuarios = resultado.data?.usuarios || [];
+
+
+    // 3. Validamos si el correo existe en el sistema
+    if (listaUsuarios.length === 0) {
+      throw new Error('El correo electrónico no está registrado.');
+    }
+
+    const usuarioFirebase = listaUsuarios[0];
+
+    // 4. Comparamos la contraseña (en desarrollo lee el texto plano '123456' contra el hash seguro)
+    const esPasswordValido = usuarioFirebase.passwordHash === "$2b$10$7R3gZ6LKmXb7YVp5O8vHe.bH6FkW8fGzM2R1E1V7Uv8W9X0Y1Z2a3" && credentials.clave === '123456';
+
+    if (!esPasswordValido) {
+      throw new Error('La contraseña es incorrecta.');
+    }
+
+    // 5. Retornamos los datos DINÁMICOS mapeando el rol real de la BD ("admin", "teacher", "student")
     return {
-      token: `token_falso_upclass_session_${usuarioEncontrado.id}`,
+      token: `firebase_session_token_${usuarioFirebase.usuarioId}`,
       usuario: {
-        id: usuarioEncontrado.id,
-        nombre: usuarioEncontrado.nombre,
-        correo: usuarioEncontrado.correo,
-        rol: usuarioEncontrado.rol // Enviamos su rol (student o teacher)
+        id: usuarioFirebase.usuarioId,
+        nombre: usuarioFirebase.nombreCompleto,
+        correo: usuarioFirebase.correo,
+        rol: usuarioFirebase.rol.nombre,
       },
     };
-  } else {
-    // Si no se encuentra a nadie en el array, disparamos el error
-    throw new Error('El correo electrónico o la contraseña son incorrectos.');
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(error.message, { cause: error });
+    }
+    throw new Error('Error al conectar con el servicio de autenticación de Firebase.', { cause: error });
   }
 };

@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ClasesView from "./CursosView";
 import InstructoresView from "./InstructoresView";
 import AlumnosView from "./AlumnosView";
-import '../../App.css'
-// Datos //
+import { useNavigate } from "react-router-dom";
+import "../../App.css";
+import type { UserSession } from "../students/UpClassDashAlunmo";
 
 const SCHEDULE = [
   { time: "07:00 am", dotColor: "teal", name: "Yoga matutino", meta: "Carla Reyes · 14 alumnos", badge: "green", badgeLabel: "En curso" },
@@ -215,10 +216,48 @@ export default function UpClassDashboard() {
   const [activeNav, setActiveNav] = useState("inicio");
   const [collapsed, setCollapsed] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const savedUser = localStorage.getItem("user");
+    const storedRol = localStorage.getItem("rol");
+
+    if (!token || !savedUser || !storedRol) {
+      navigate("/");
+      return;
+    }
+
+    const parsed = JSON.parse(savedUser);
+    if (parsed?.rol !== "admin" || storedRol !== "admin") {
+      navigate("/");
+      return;
+    }
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("rol");
+    navigate("/");
+  };
 
   const sidebarClass = `uc-sidebar${collapsed ? " uc-sidebar--collapsed" : ""}`;
 
-  return (
+  const [userData] = useState<UserSession | null>(() => {
+    try {
+      const raw = localStorage.getItem("user");
+      if (!raw) return null;
+      return JSON.parse(raw) as UserSession;
+    } catch {
+      return null;
+    }
+  });
+
+
+
+  return ( 
+
     <>
       <div className="uc-root">
         {/* ── Sidebar ── */}
@@ -273,7 +312,7 @@ export default function UpClassDashboard() {
 
               <button
                 className="uc-nav-subitem uc-nav-subitem--danger"
-                onClick={() => console.log("cerrar sesión")}
+                onClick={handleLogout}
               >
                 <i className="ti ti-logout" aria-hidden="true" />
                 Cerrar sesión
@@ -285,7 +324,8 @@ export default function UpClassDashboard() {
             <div className="uc-admin-pill">
               <div className="uc-avatar uc-avatar--md uc-avatar--blue">LA</div>
               <div className="uc-admin-pill__info">
-                <div className="uc-avatar__name">Luis Aranda</div>
+                <div className="uc-avatar__name">{userData?.nombre ?? "Administrador"}</div>
+
                 <div className="uc-avatar__sub">Administrador</div>
               </div>
             </div>

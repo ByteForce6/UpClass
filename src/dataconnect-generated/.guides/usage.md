@@ -12,8 +12,10 @@ For each operation, there is a wrapper hook that can be used to call the operati
 
 Here are all of the hooks that get generated:
 ```ts
-import { useBuscarEstudiantePorMatricula, useBuscarEstudiantePorNombre, useListarEstudiantes } from '@dataconnect/generated/react';
+import { useGetUsuarioByCorreo, useBuscarEstudiantePorMatricula, useBuscarEstudiantePorNombre, useListarEstudiantes } from '@dataconnect/generated/react';
 // The types of these hooks are available in react/index.d.ts
+
+const { data, isPending, isSuccess, isError, error } = useGetUsuarioByCorreo(getUsuarioByCorreoVars);
 
 const { data, isPending, isSuccess, isError, error } = useBuscarEstudiantePorMatricula(buscarEstudiantePorMatriculaVars);
 
@@ -58,8 +60,11 @@ If a user is not using a supported framework, they can use the generated SDK dir
 Here's an example of how to use it with the first 5 operations:
 
 ```js
-import { buscarEstudiantePorMatricula, buscarEstudiantePorNombre, listarEstudiantes } from '@dataconnect/generated';
+import { getUsuarioByCorreo, buscarEstudiantePorMatricula, buscarEstudiantePorNombre, listarEstudiantes } from '@dataconnect/generated';
 
+
+// Operation GetUsuarioByCorreo:  For variables, look at type GetUsuarioByCorreoVars in ../index.d.ts
+const { data } = await GetUsuarioByCorreo(dataConnect, getUsuarioByCorreoVars);
 
 // Operation BuscarEstudiantePorMatricula:  For variables, look at type BuscarEstudiantePorMatriculaVars in ../index.d.ts
 const { data } = await BuscarEstudiantePorMatricula(dataConnect, buscarEstudiantePorMatriculaVars);

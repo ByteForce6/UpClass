@@ -1,7 +1,13 @@
-import { buscarEstudiantePorMatriculaRef, buscarEstudiantePorNombreRef, listarEstudiantesRef, connectorConfig } from '../../esm/index.esm.js';
+import { getUsuarioByCorreoRef, buscarEstudiantePorMatriculaRef, buscarEstudiantePorNombreRef, listarEstudiantesRef, connectorConfig } from '../../esm/index.esm.js';
 import { CallerSdkTypeEnum } from 'firebase/data-connect';
 import { useDataConnectQuery, validateReactArgs } from '@tanstack-query-firebase/react/data-connect';
 
+
+export function useGetUsuarioByCorreo(dcOrVars, varsOrOptions, options) {
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateReactArgs(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  const ref = getUsuarioByCorreoRef(dcInstance, inputVars);
+  return useDataConnectQuery(ref, inputOpts, CallerSdkTypeEnum.GeneratedReact);
+}
 
 export function useBuscarEstudiantePorMatricula(dcOrVars, varsOrOptions, options) {
   const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateReactArgs(connectorConfig, dcOrVars, varsOrOptions, options, true, true);

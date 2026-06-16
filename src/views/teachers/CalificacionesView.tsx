@@ -1,8 +1,33 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "../../Styles/dashboardProfesor.css"; // Usa los mismos estilos base
 
 export const CalificacionesView = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const savedUser = localStorage.getItem("user");
+    const storedRol = localStorage.getItem("rol");
+
+    if (!token || !savedUser || !storedRol) {
+      navigate("/");
+      return;
+    }
+
+    const parsed = JSON.parse(savedUser);
+    if (parsed?.rol !== "teacher" || storedRol !== "teacher") {
+      navigate("/");
+      return;
+    }
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("rol");
+    navigate("/");
+  };
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Datos simulados de alumnos para calificar
@@ -46,9 +71,9 @@ export const CalificacionesView = () => {
             📝 Registrar Calificaciones
           </Link>
           <hr className="sidebar-divider" />
-          <Link to="/login" className="menu-item logout">
+          <button type="button" className="menu-item logout" onClick={handleLogout}>
             🚪 Cerrar Sesión
-          </Link>
+          </button>
         </nav>
       </aside>
 

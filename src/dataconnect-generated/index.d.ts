@@ -18,12 +18,14 @@ export interface Asistencia_Key {
 
 export interface BuscarEstudiantePorMatriculaData {
   estudiantes: ({
-    id: UUIDString;
     matricula: string;
-    nombreCompleto: string;
-    correo: string;
-    activo: boolean;
-  } & Estudiante_Key)[];
+    usuario: {
+      usuarioId: string;
+      nombreCompleto: string;
+      correo: string;
+      activo: boolean;
+    };
+  })[];
 }
 
 export interface BuscarEstudiantePorMatriculaVariables {
@@ -33,8 +35,10 @@ export interface BuscarEstudiantePorMatriculaVariables {
 export interface BuscarEstudiantePorNombreData {
   estudiantes: ({
     matricula: string;
-    nombreCompleto: string;
-    correo: string;
+    usuario: {
+      nombreCompleto: string;
+      correo: string;
+    };
   })[];
 }
 
@@ -50,6 +54,22 @@ export interface Curso_Key {
 export interface Estudiante_Key {
   id: UUIDString;
   __typename?: 'Estudiante_Key';
+}
+
+export interface GetUsuarioByCorreoData {
+  usuarios: ({
+    usuarioId: string;
+    nombreCompleto: string;
+    correo: string;
+    passwordHash: string;
+    rol: {
+      nombre: string;
+    };
+  })[];
+}
+
+export interface GetUsuarioByCorreoVariables {
+  correo: string;
 }
 
 export interface Horario_Key {
@@ -70,9 +90,11 @@ export interface Instructor_Key {
 export interface ListarEstudiantesData {
   estudiantes: ({
     matricula: string;
-    nombreCompleto: string;
-    correo: string;
-    activo: boolean;
+    usuario: {
+      nombreCompleto: string;
+      correo: string;
+      activo: boolean;
+    };
   })[];
 }
 
@@ -80,6 +102,28 @@ export interface ReporteEstadistica_Key {
   id: UUIDString;
   __typename?: 'ReporteEstadistica_Key';
 }
+
+export interface Rol_Key {
+  id: UUIDString;
+  __typename?: 'Rol_Key';
+}
+
+export interface Usuario_Key {
+  id: UUIDString;
+  __typename?: 'Usuario_Key';
+}
+
+interface GetUsuarioByCorreoRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: GetUsuarioByCorreoVariables): QueryRef<GetUsuarioByCorreoData, GetUsuarioByCorreoVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: GetUsuarioByCorreoVariables): QueryRef<GetUsuarioByCorreoData, GetUsuarioByCorreoVariables>;
+  operationName: string;
+}
+export const getUsuarioByCorreoRef: GetUsuarioByCorreoRef;
+
+export function getUsuarioByCorreo(vars: GetUsuarioByCorreoVariables, options?: ExecuteQueryOptions): QueryPromise<GetUsuarioByCorreoData, GetUsuarioByCorreoVariables>;
+export function getUsuarioByCorreo(dc: DataConnect, vars: GetUsuarioByCorreoVariables, options?: ExecuteQueryOptions): QueryPromise<GetUsuarioByCorreoData, GetUsuarioByCorreoVariables>;
 
 interface BuscarEstudiantePorMatriculaRef {
   /* Allow users to create refs without passing in DataConnect */

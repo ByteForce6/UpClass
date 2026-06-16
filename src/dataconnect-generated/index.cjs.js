@@ -13,6 +13,21 @@ const dataConnectSettings = {
 };
 exports.dataConnectSettings = dataConnectSettings;
 
+const getUsuarioByCorreoRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'GetUsuarioByCorreo', inputVars);
+}
+getUsuarioByCorreoRef.operationName = 'GetUsuarioByCorreo';
+exports.getUsuarioByCorreoRef = getUsuarioByCorreoRef;
+
+exports.getUsuarioByCorreo = function getUsuarioByCorreo(dcOrVars, varsOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  return executeQuery(getUsuarioByCorreoRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
 const buscarEstudiantePorMatriculaRef = (dcOrVars, vars) => {
   const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
   dcInstance._useGeneratedSdk();

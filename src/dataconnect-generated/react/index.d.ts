@@ -1,9 +1,12 @@
-import { BuscarEstudiantePorMatriculaData, BuscarEstudiantePorMatriculaVariables, BuscarEstudiantePorNombreData, BuscarEstudiantePorNombreVariables, ListarEstudiantesData } from '../';
+import { GetUsuarioByCorreoData, GetUsuarioByCorreoVariables, BuscarEstudiantePorMatriculaData, BuscarEstudiantePorMatriculaVariables, BuscarEstudiantePorNombreData, BuscarEstudiantePorNombreVariables, ListarEstudiantesData } from '../';
 import { UseDataConnectQueryResult, useDataConnectQueryOptions} from '@tanstack-query-firebase/react/data-connect';
 import { UseQueryResult} from '@tanstack/react-query';
 import { DataConnect } from 'firebase/data-connect';
 import { FirebaseError } from 'firebase/app';
 
+
+export function useGetUsuarioByCorreo(vars: GetUsuarioByCorreoVariables, options?: useDataConnectQueryOptions<GetUsuarioByCorreoData>): UseDataConnectQueryResult<GetUsuarioByCorreoData, GetUsuarioByCorreoVariables>;
+export function useGetUsuarioByCorreo(dc: DataConnect, vars: GetUsuarioByCorreoVariables, options?: useDataConnectQueryOptions<GetUsuarioByCorreoData>): UseDataConnectQueryResult<GetUsuarioByCorreoData, GetUsuarioByCorreoVariables>;
 
 export function useBuscarEstudiantePorMatricula(vars: BuscarEstudiantePorMatriculaVariables, options?: useDataConnectQueryOptions<BuscarEstudiantePorMatriculaData>): UseDataConnectQueryResult<BuscarEstudiantePorMatriculaData, BuscarEstudiantePorMatriculaVariables>;
 export function useBuscarEstudiantePorMatricula(dc: DataConnect, vars: BuscarEstudiantePorMatriculaVariables, options?: useDataConnectQueryOptions<BuscarEstudiantePorMatriculaData>): UseDataConnectQueryResult<BuscarEstudiantePorMatriculaData, BuscarEstudiantePorMatriculaVariables>;

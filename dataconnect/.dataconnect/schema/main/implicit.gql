@@ -17,12 +17,20 @@ extend type Curso {
   ✨ Implicit primary key field. It's a UUID column default to a generated new value. See `@table` for how to customize it.
   """
   id: UUID! @default(expr: "uuidV4()") @fdc_generated(from: "Curso", purpose: IMPLICIT_KEY_FIELD)
+  """
+  ✨ Implicit foreign key field based on `Curso`.`instructor`. It must match the value of `Instructor`.`id`. See `@ref` for how to customize it.
+  """
+  instructorId: UUID @fdc_generated(from: "Curso.instructor", purpose: IMPLICIT_REF_FIELD)
 }
 extend type Estudiante {
   """
   ✨ Implicit primary key field. It's a UUID column default to a generated new value. See `@table` for how to customize it.
   """
   id: UUID! @default(expr: "uuidV4()") @fdc_generated(from: "Estudiante", purpose: IMPLICIT_KEY_FIELD)
+  """
+  ✨ Implicit foreign key field based on `Estudiante`.`usuario`. It must match the value of `Usuario`.`id`. See `@ref` for how to customize it.
+  """
+  usuarioId: UUID! @fdc_generated(from: "Estudiante.usuario", purpose: IMPLICIT_REF_FIELD)
 }
 extend type Horario {
   """
@@ -53,6 +61,10 @@ extend type Instructor {
   ✨ Implicit primary key field. It's a UUID column default to a generated new value. See `@table` for how to customize it.
   """
   id: UUID! @default(expr: "uuidV4()") @fdc_generated(from: "Instructor", purpose: IMPLICIT_KEY_FIELD)
+  """
+  ✨ Implicit foreign key field based on `Instructor`.`usuario`. It must match the value of `Usuario`.`id`. See `@ref` for how to customize it.
+  """
+  usuarioId: UUID! @fdc_generated(from: "Instructor.usuario", purpose: IMPLICIT_REF_FIELD)
 }
 extend type ReporteEstadistica {
   """
@@ -63,4 +75,20 @@ extend type ReporteEstadistica {
   ✨ Implicit foreign key field based on `ReporteEstadistica`.`curso`. It must match the value of `Curso`.`id`. See `@ref` for how to customize it.
   """
   cursoId: UUID! @fdc_generated(from: "ReporteEstadistica.curso", purpose: IMPLICIT_REF_FIELD)
+}
+extend type Rol {
+  """
+  ✨ Implicit primary key field. It's a UUID column default to a generated new value. See `@table` for how to customize it.
+  """
+  id: UUID! @default(expr: "uuidV4()") @fdc_generated(from: "Rol", purpose: IMPLICIT_KEY_FIELD)
+}
+extend type Usuario {
+  """
+  ✨ Implicit primary key field. It's a UUID column default to a generated new value. See `@table` for how to customize it.
+  """
+  id: UUID! @default(expr: "uuidV4()") @fdc_generated(from: "Usuario", purpose: IMPLICIT_KEY_FIELD)
+  """
+  ✨ Implicit foreign key field based on `Usuario`.`rol`. It must match the value of `Rol`.`id`. See `@ref` for how to customize it.
+  """
+  rolId: UUID! @fdc_generated(from: "Usuario.rol", purpose: IMPLICIT_REF_FIELD)
 }

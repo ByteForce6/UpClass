@@ -1,9 +1,34 @@
-import  { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "../../Styles/dashboardProfesor.css";
 
 export const ProfesorIndex = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const savedUser = localStorage.getItem("user");
+    const storedRol = localStorage.getItem("rol");
+
+    if (!token || !savedUser || !storedRol) {
+      navigate("/");
+      return;
+    }
+
+    const parsed = JSON.parse(savedUser);
+    if (parsed?.rol !== "teacher" || storedRol !== "teacher") {
+      navigate("/");
+      return;
+    }
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("rol");
+    navigate("/");
+  };
 
   // Datos simulados para que el Dashboard tenga vida
   const estadisticas = [
@@ -39,9 +64,9 @@ export const ProfesorIndex = () => {
             📝 Registrar Calificaciones
           </Link>
           <hr className="sidebar-divider" />
-          <Link to="/login" className="menu-item logout">
+          <button type="button" className="menu-item logout" onClick={() => handleLogout()}>
             🚪 Cerrar Sesión
-          </Link>
+          </button>
         </nav>
       </aside>
 

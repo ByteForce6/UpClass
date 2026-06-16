@@ -1,38 +1,52 @@
-query BuscarEstudiantePorMatricula($matricula: String!)
-@auth(level: USER) {
-  estudiantes(
-    where: {
-      matricula: { eq: $matricula }
-    }
-  ) {
-    id
-    matricula
+#1. QUERY DE LOGIN: Pública para verificar credenciales
+query GetUsuarioByCorreo($correo: String!) @auth(level: PUBLIC) {
+  usuarios(where: { correo: { eq: $correo } }) {
+    usuarioId  
     nombreCompleto
     correo
-    activo
+    passwordHash
+    rol {
+      nombre
+    }
   }
 }
 
-
-query BuscarEstudiantePorNombre($nombre: String!)
-@auth(level: USER) {
-  estudiantes(
-    where: {
-      nombreCompleto: { contains: $nombre }
-    }
-  ) {
+# 2. BUSCAR ESTUDIANTE POR MATRÍCULA
+query BuscarEstudiantePorMatricula($matricula: String!) @auth(level: USER) {
+  estudiantes(where: { matricula: { eq: $matricula } }) {
     matricula
-    nombreCompleto
-    correo
+    usuario {  # 👈 Entramos a la relación para sacar los datos reales
+      usuarioId
+      nombreCompleto
+      correo
+      activo
+    }
   }
 }
 
-query ListarEstudiantes
-@auth(level: USER) {
+# 3. BUSCAR ESTUDIANTE POR NOMBRE
+query BuscarEstudiantePorNombre($nombre: String!) @auth(level: USER) {
+  estudiantes(
+    where: {
+      usuario: { nombreCompleto: { contains: $nombre } } # 👈 El filtro correcto se aplica en el usuario
+    }
+  ) {
+    matricula
+    usuario {
+      nombreCompleto
+      correo
+    }
+  }
+}
+
+# 4. LISTAR TODOS LOS ESTUDIANTES
+query ListarEstudiantes @auth(level: USER) {
   estudiantes {
     matricula
-    nombreCompleto
-    correo
-    activo
+    usuario {
+      nombreCompleto
+      correo
+      activo
+    }
   }
 }

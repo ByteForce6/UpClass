@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from '../hooks/useAuth'; // Ajusté la ruta si estás en src/views/login
-import "../Styles/login.css"; // Ajusté la ruta según tu estructura de carpetas
+import { useAuth } from '../hooks/useAuth';
+import "../Styles/login.css"; 
 
 export default function Login() {
     // 1. Estados para capturar los datos de los inputs
@@ -51,7 +51,7 @@ export default function Login() {
             <div className="login-right">
                 <div className={`login-card ${isRegister ? "active" : ""}`}>
 
-                    <Link to="/home" className="login-back">
+                    <Link to="/" className="login-back">
                         ← Volver
                     </Link>
 

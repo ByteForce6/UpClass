@@ -133,6 +133,44 @@ extend type Query {
     first: ReporteEstadistica_FirstRow
   ): ReporteEstadistica @fdc_generated(from: "ReporteEstadistica", purpose: QUERY_SINGLE)
   """
+  ✨ Look up a single `Rol` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
+  """
+  rol(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Rol_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Rol_FirstRow
+  ): Rol @fdc_generated(from: "Rol", purpose: QUERY_SINGLE)
+  """
+  ✨ Look up a single `Usuario` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
+  """
+  usuario(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Usuario_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Usuario_FirstRow
+  ): Usuario @fdc_generated(from: "Usuario", purpose: QUERY_SINGLE)
+  """
   ✨ List `Asistencia` objects in the table and return selected fields, optionally filtered by `where` conditions
   """
   asistencias(
@@ -370,4 +408,72 @@ extend type Query {
     """
     having: ReporteEstadistica_Having
   ): [ReporteEstadistica!]! @fdc_generated(from: "ReporteEstadistica", purpose: QUERY_MULTIPLE)
+  """
+  ✨ List `Rol` objects in the table and return selected fields, optionally filtered by `where` conditions
+  """
+  rols(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Rol_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Rol_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: Rol_Having
+  ): [Rol!]! @fdc_generated(from: "Rol", purpose: QUERY_MULTIPLE)
+  """
+  ✨ List `Usuario` objects in the table and return selected fields, optionally filtered by `where` conditions
+  """
+  usuarios(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Usuario_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Usuario_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: Usuario_Having
+  ): [Usuario!]! @fdc_generated(from: "Usuario", purpose: QUERY_MULTIPLE)
 }

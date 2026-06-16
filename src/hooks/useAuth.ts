@@ -14,19 +14,23 @@ export const useAuth = () => {
     try {
       const data = await loginAPI(credentials);
 
-      // 1. Guardamos el token en el almacenamiento del navegador para mantener la sesión
+      // 1. Guardamos los datos en el localStorage para mantener la sesión activa
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.usuario));
-      localStorage.setItem("rol", data.usuario.rol); // Guardamos el rol para control de acceso
+      localStorage.setItem("rol", data.usuario.rol); 
 
+      // 2. REDIRECCIÓN DINÁMICA SEGÚN EL ROL DE FIREBASE 🚀
       if (data.usuario.rol === "admin") {
         window.location.href = "/admin";
       } else if (data.usuario.rol === "student") {
         window.location.href = "/students";
+      } else if (data.usuario.rol === "teacher") {
+        window.location.href = "/teacher"; 
+      } else {
+        window.location.href = "/";
       }
-      // 2. Redirigimos al usuario a la pantalla principal de tu app
+
     } catch (err: unknown) {
-      // Validamos si el error es un objeto que tiene la propiedad 'message'
       if (err instanceof Error) {
         setError(err.message);
       } else {

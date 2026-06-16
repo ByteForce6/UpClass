@@ -17,6 +17,7 @@ You can also follow the instructions from the [Data Connect documentation](https
 - [**Accessing the connector**](#accessing-the-connector)
   - [*Connecting to the local Emulator*](#connecting-to-the-local-emulator)
 - [**Queries**](#queries)
+  - [*GetUsuarioByCorreo*](#getusuariobycorreo)
   - [*BuscarEstudiantePorMatricula*](#buscarestudiantepormatricula)
   - [*BuscarEstudiantePorNombre*](#buscarestudiantepornombre)
   - [*ListarEstudiantes*](#listarestudiantes)
@@ -112,6 +113,96 @@ Here's a general overview of how to use the generated Query hooks in your code:
 
 Below are examples of how to use the `example` connector's generated Query hook functions to execute each Query. You can also follow the examples from the [Data Connect documentation](https://firebase.google.com/docs/data-connect/web-sdk#operations-react-angular).
 
+## GetUsuarioByCorreo
+You can execute the `GetUsuarioByCorreo` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
+
+```javascript
+useGetUsuarioByCorreo(dc: DataConnect, vars: GetUsuarioByCorreoVariables, options?: useDataConnectQueryOptions<GetUsuarioByCorreoData>): UseDataConnectQueryResult<GetUsuarioByCorreoData, GetUsuarioByCorreoVariables>;
+```
+You can also pass in a `DataConnect` instance to the Query hook function.
+```javascript
+useGetUsuarioByCorreo(vars: GetUsuarioByCorreoVariables, options?: useDataConnectQueryOptions<GetUsuarioByCorreoData>): UseDataConnectQueryResult<GetUsuarioByCorreoData, GetUsuarioByCorreoVariables>;
+```
+
+### Variables
+The `GetUsuarioByCorreo` Query requires an argument of type `GetUsuarioByCorreoVariables`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+
+```javascript
+export interface GetUsuarioByCorreoVariables {
+  correo: string;
+}
+```
+### Return Type
+Recall that calling the `GetUsuarioByCorreo` Query hook function returns a `UseQueryResult` object. This object holds the state of your Query, including whether the Query is loading, has completed, or has succeeded/failed, and any data returned by the Query, among other things.
+
+To check the status of a Query, use the `UseQueryResult.status` field. You can also check for pending / success / error status using the `UseQueryResult.isPending`, `UseQueryResult.isSuccess`, and `UseQueryResult.isError` fields.
+
+To access the data returned by a Query, use the `UseQueryResult.data` field. The data for the `GetUsuarioByCorreo` Query is of type `GetUsuarioByCorreoData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface GetUsuarioByCorreoData {
+  usuarios: ({
+    usuarioId: string;
+    nombreCompleto: string;
+    correo: string;
+    passwordHash: string;
+    rol: {
+      nombre: string;
+    };
+  })[];
+}
+```
+
+To learn more about the `UseQueryResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
+
+### Using `GetUsuarioByCorreo`'s Query hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, GetUsuarioByCorreoVariables } from '@dataconnect/generated';
+import { useGetUsuarioByCorreo } from '@dataconnect/generated/react'
+
+export default function GetUsuarioByCorreoComponent() {
+  // The `useGetUsuarioByCorreo` Query hook requires an argument of type `GetUsuarioByCorreoVariables`:
+  const getUsuarioByCorreoVars: GetUsuarioByCorreoVariables = {
+    correo: ..., 
+  };
+
+  // You don't have to do anything to "execute" the Query.
+  // Call the Query hook function to get a `UseQueryResult` object which holds the state of your Query.
+  const query = useGetUsuarioByCorreo(getUsuarioByCorreoVars);
+  // Variables can be defined inline as well.
+  const query = useGetUsuarioByCorreo({ correo: ..., });
+
+  // You can also pass in a `DataConnect` instance to the Query hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const query = useGetUsuarioByCorreo(dataConnect, getUsuarioByCorreoVars);
+
+  // You can also pass in a `useDataConnectQueryOptions` object to the Query hook function.
+  const options = { staleTime: 5 * 1000 };
+  const query = useGetUsuarioByCorreo(getUsuarioByCorreoVars, options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectQueryOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = { staleTime: 5 * 1000 };
+  const query = useGetUsuarioByCorreo(dataConnect, getUsuarioByCorreoVars, options);
+
+  // Then, you can render your component dynamically based on the status of the Query.
+  if (query.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (query.isError) {
+    return <div>Error: {query.error.message}</div>;
+  }
+
+  // If the Query is successful, you can access the data returned using the `UseQueryResult.data` field.
+  if (query.isSuccess) {
+    console.log(query.data.usuarios);
+  }
+  return <div>Query execution {query.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
 ## BuscarEstudiantePorMatricula
 You can execute the `BuscarEstudiantePorMatricula` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
 
@@ -140,12 +231,14 @@ To access the data returned by a Query, use the `UseQueryResult.data` field. The
 ```javascript
 export interface BuscarEstudiantePorMatriculaData {
   estudiantes: ({
-    id: UUIDString;
     matricula: string;
-    nombreCompleto: string;
-    correo: string;
-    activo: boolean;
-  } & Estudiante_Key)[];
+    usuario: {
+      usuarioId: string;
+      nombreCompleto: string;
+      correo: string;
+      activo: boolean;
+    };
+  })[];
 }
 ```
 
@@ -229,8 +322,10 @@ To access the data returned by a Query, use the `UseQueryResult.data` field. The
 export interface BuscarEstudiantePorNombreData {
   estudiantes: ({
     matricula: string;
-    nombreCompleto: string;
-    correo: string;
+    usuario: {
+      nombreCompleto: string;
+      correo: string;
+    };
   })[];
 }
 ```
@@ -309,9 +404,11 @@ To access the data returned by a Query, use the `UseQueryResult.data` field. The
 export interface ListarEstudiantesData {
   estudiantes: ({
     matricula: string;
-    nombreCompleto: string;
-    correo: string;
-    activo: boolean;
+    usuario: {
+      nombreCompleto: string;
+      correo: string;
+      activo: boolean;
+    };
   })[];
 }
 ```

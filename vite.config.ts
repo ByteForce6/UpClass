@@ -8,6 +8,10 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico'],
+       workbox: {
+        cleanupOutdatedCaches: true, // Limpia cachés de versiones anteriores
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,webp}'], // Asegura que cachee todo
+      },
       manifest: {
         name: 'UpClass',
         short_name: 'UpClass',
