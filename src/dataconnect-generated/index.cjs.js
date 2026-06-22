@@ -1,12 +1,12 @@
 const { queryRef, executeQuery, validateArgsWithOptions, validateArgs, makeMemoryCacheProvider } = require('firebase/data-connect');
 
 const connectorConfig = {
-  connector: 'example',
+  connector: 'example', 
   service: 'upclass-78c13-service',
   location: 'us-east4'
 };
 exports.connectorConfig = connectorConfig;
-const dataConnectSettings = {
+const dataConnectSettings = {     
   cacheSettings: {
     cacheProvider: makeMemoryCacheProvider()
   }
