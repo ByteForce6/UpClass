@@ -1,12 +1,12 @@
-const { queryRef, executeQuery, validateArgsWithOptions, validateArgs, makeMemoryCacheProvider } = require('firebase/data-connect');
+const { queryRef, executeQuery, validateArgsWithOptions, mutationRef, executeMutation, validateArgs, makeMemoryCacheProvider } = require('firebase/data-connect');
 
 const connectorConfig = {
-  connector: 'example', 
+  connector: 'example',
   service: 'upclass-78c13-service',
   location: 'us-east4'
 };
 exports.connectorConfig = connectorConfig;
-const dataConnectSettings = {     
+const dataConnectSettings = {
   cacheSettings: {
     cacheProvider: makeMemoryCacheProvider()
   }
@@ -70,5 +70,77 @@ exports.listarEstudiantes = function listarEstudiantes(dcOrOptions, options) {
   
   const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
   return executeQuery(listarEstudiantesRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const listInstructorsRef = (dc) => {
+  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'ListInstructors');
+}
+listInstructorsRef.operationName = 'ListInstructors';
+exports.listInstructorsRef = listInstructorsRef;
+
+exports.listInstructors = function listInstructors(dcOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
+  return executeQuery(listInstructorsRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const getRolByNumeroRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'GetRolByNumero', inputVars);
+}
+getRolByNumeroRef.operationName = 'GetRolByNumero';
+exports.getRolByNumeroRef = getRolByNumeroRef;
+
+exports.getRolByNumero = function getRolByNumero(dcOrVars, varsOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  return executeQuery(getRolByNumeroRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const createInstructorRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'CreateInstructor', inputVars);
+}
+createInstructorRef.operationName = 'CreateInstructor';
+exports.createInstructorRef = createInstructorRef;
+
+exports.createInstructor = function createInstructor(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(createInstructorRef(dcInstance, inputVars));
+}
+;
+
+const updateInstructorRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'UpdateInstructor', inputVars);
+}
+updateInstructorRef.operationName = 'UpdateInstructor';
+exports.updateInstructorRef = updateInstructorRef;
+
+exports.updateInstructor = function updateInstructor(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(updateInstructorRef(dcInstance, inputVars));
+}
+;
+
+const deleteInstructorRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'DeleteInstructor', inputVars);
+}
+deleteInstructorRef.operationName = 'DeleteInstructor';
+exports.deleteInstructorRef = deleteInstructorRef;
+
+exports.deleteInstructor = function deleteInstructor(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(deleteInstructorRef(dcInstance, inputVars));
 }
 ;

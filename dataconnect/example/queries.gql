@@ -50,3 +50,96 @@ query ListarEstudiantes @auth(level: USER) {
     }
   }
 }
+
+# ====================================================
+# OPERACIONES DE INSTRUCTORES
+# ====================================================
+
+query ListInstructors @auth(level: PUBLIC) {
+  instructors {
+    id
+    instructorId
+    usuarioId
+    especialidad
+    usuario {
+      id
+      usuarioId
+      nombreCompleto
+      correo
+      telefono
+      activo
+    }
+  }
+}
+
+query GetRolByNumero($rolId: Int!) @auth(level: PUBLIC) {
+  rols(where: { rolId: { eq: $rolId } }) {
+    id
+    rolId
+    nombre
+  }
+}
+
+mutation CreateInstructor(
+  $usuarioInternalId: UUID!,
+  $usuarioId: String!,
+  $rolInternalId: UUID!,
+  $nombreCompleto: String!,
+  $correo: String!,
+  $passwordHash: String!,
+  $telefono: String!,
+  $especialidad: String!,
+  $instructorId: Int!
+) @auth(level: PUBLIC) {
+  usuario_insert(data: {
+    id: $usuarioInternalId,
+    usuarioId: $usuarioId,
+    rolId: $rolInternalId,
+    nombreCompleto: $nombreCompleto,
+    correo: $correo,
+    passwordHash: $passwordHash,
+    telefono: $telefono,
+    activo: true
+  })
+
+  instructor_insert(data: {
+    usuarioId: $usuarioInternalId,
+    instructorId: $instructorId,
+    especialidad: $especialidad
+  })
+}
+
+mutation UpdateInstructor(
+  $usuarioInternalId: UUID!,
+  $instructorInternalId: UUID!,
+  $nombreCompleto: String!,
+  $correo: String!,
+  $telefono: String!,
+  $activo: Boolean!,
+  $especialidad: String!
+) @auth(level: PUBLIC) {
+  usuario_update(
+    key: { id: $usuarioInternalId },
+    data: {
+      nombreCompleto: $nombreCompleto,
+      correo: $correo,
+      telefono: $telefono,
+      activo: $activo
+    }
+  )
+
+  instructor_update(
+    key: { id: $instructorInternalId },
+    data: {
+      especialidad: $especialidad
+    }
+  )
+}
+
+mutation DeleteInstructor(
+  $instructorInternalId: UUID!,
+  $usuarioInternalId: UUID!
+) @auth(level: PUBLIC) {
+  instructor_delete(key: { id: $instructorInternalId })
+  usuario_delete(key: { id: $usuarioInternalId })
+}

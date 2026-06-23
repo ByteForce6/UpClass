@@ -1,4 +1,4 @@
-import { ConnectorConfig, DataConnect, QueryRef, QueryPromise, ExecuteQueryOptions, DataConnectSettings } from 'firebase/data-connect';
+import { ConnectorConfig, DataConnect, QueryRef, QueryPromise, ExecuteQueryOptions, MutationRef, MutationPromise, DataConnectSettings } from 'firebase/data-connect';
 
 export const connectorConfig: ConnectorConfig;
 export const dataConnectSettings: DataConnectSettings;
@@ -46,14 +46,53 @@ export interface BuscarEstudiantePorNombreVariables {
   nombre: string;
 }
 
+export interface CreateInstructorData {
+  usuario_insert: Usuario_Key;
+  instructor_insert: Instructor_Key;
+}
+
+export interface CreateInstructorVariables {
+  usuarioInternalId: UUIDString;
+  usuarioId: string;
+  rolInternalId: UUIDString;
+  nombreCompleto: string;
+  correo: string;
+  passwordHash: string;
+  telefono: string;
+  especialidad: string;
+  instructorId: number;
+}
+
 export interface Curso_Key {
   id: UUIDString;
   __typename?: 'Curso_Key';
 }
 
+export interface DeleteInstructorData {
+  instructor_delete?: Instructor_Key | null;
+  usuario_delete?: Usuario_Key | null;
+}
+
+export interface DeleteInstructorVariables {
+  instructorInternalId: UUIDString;
+  usuarioInternalId: UUIDString;
+}
+
 export interface Estudiante_Key {
   id: UUIDString;
   __typename?: 'Estudiante_Key';
+}
+
+export interface GetRolByNumeroData {
+  rols: ({
+    id: UUIDString;
+    rolId: number;
+    nombre: string;
+  } & Rol_Key)[];
+}
+
+export interface GetRolByNumeroVariables {
+  rolId: number;
 }
 
 export interface GetUsuarioByCorreoData {
@@ -87,6 +126,23 @@ export interface Instructor_Key {
   __typename?: 'Instructor_Key';
 }
 
+export interface ListInstructorsData {
+  instructors: ({
+    id: UUIDString;
+    instructorId: number;
+    usuarioId: UUIDString;
+    especialidad?: string | null;
+    usuario: {
+      id: UUIDString;
+      usuarioId: string;
+      nombreCompleto: string;
+      correo: string;
+      telefono?: string | null;
+      activo: boolean;
+    } & Usuario_Key;
+  } & Instructor_Key)[];
+}
+
 export interface ListarEstudiantesData {
   estudiantes: ({
     matricula: string;
@@ -106,6 +162,21 @@ export interface ReporteEstadistica_Key {
 export interface Rol_Key {
   id: UUIDString;
   __typename?: 'Rol_Key';
+}
+
+export interface UpdateInstructorData {
+  usuario_update?: Usuario_Key | null;
+  instructor_update?: Instructor_Key | null;
+}
+
+export interface UpdateInstructorVariables {
+  usuarioInternalId: UUIDString;
+  instructorInternalId: UUIDString;
+  nombreCompleto: string;
+  correo: string;
+  telefono: string;
+  activo: boolean;
+  especialidad: string;
 }
 
 export interface Usuario_Key {
@@ -160,4 +231,64 @@ export const listarEstudiantesRef: ListarEstudiantesRef;
 
 export function listarEstudiantes(options?: ExecuteQueryOptions): QueryPromise<ListarEstudiantesData, undefined>;
 export function listarEstudiantes(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListarEstudiantesData, undefined>;
+
+interface ListInstructorsRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (): QueryRef<ListInstructorsData, undefined>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect): QueryRef<ListInstructorsData, undefined>;
+  operationName: string;
+}
+export const listInstructorsRef: ListInstructorsRef;
+
+export function listInstructors(options?: ExecuteQueryOptions): QueryPromise<ListInstructorsData, undefined>;
+export function listInstructors(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListInstructorsData, undefined>;
+
+interface GetRolByNumeroRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: GetRolByNumeroVariables): QueryRef<GetRolByNumeroData, GetRolByNumeroVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: GetRolByNumeroVariables): QueryRef<GetRolByNumeroData, GetRolByNumeroVariables>;
+  operationName: string;
+}
+export const getRolByNumeroRef: GetRolByNumeroRef;
+
+export function getRolByNumero(vars: GetRolByNumeroVariables, options?: ExecuteQueryOptions): QueryPromise<GetRolByNumeroData, GetRolByNumeroVariables>;
+export function getRolByNumero(dc: DataConnect, vars: GetRolByNumeroVariables, options?: ExecuteQueryOptions): QueryPromise<GetRolByNumeroData, GetRolByNumeroVariables>;
+
+interface CreateInstructorRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: CreateInstructorVariables): MutationRef<CreateInstructorData, CreateInstructorVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: CreateInstructorVariables): MutationRef<CreateInstructorData, CreateInstructorVariables>;
+  operationName: string;
+}
+export const createInstructorRef: CreateInstructorRef;
+
+export function createInstructor(vars: CreateInstructorVariables): MutationPromise<CreateInstructorData, CreateInstructorVariables>;
+export function createInstructor(dc: DataConnect, vars: CreateInstructorVariables): MutationPromise<CreateInstructorData, CreateInstructorVariables>;
+
+interface UpdateInstructorRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: UpdateInstructorVariables): MutationRef<UpdateInstructorData, UpdateInstructorVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: UpdateInstructorVariables): MutationRef<UpdateInstructorData, UpdateInstructorVariables>;
+  operationName: string;
+}
+export const updateInstructorRef: UpdateInstructorRef;
+
+export function updateInstructor(vars: UpdateInstructorVariables): MutationPromise<UpdateInstructorData, UpdateInstructorVariables>;
+export function updateInstructor(dc: DataConnect, vars: UpdateInstructorVariables): MutationPromise<UpdateInstructorData, UpdateInstructorVariables>;
+
+interface DeleteInstructorRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: DeleteInstructorVariables): MutationRef<DeleteInstructorData, DeleteInstructorVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: DeleteInstructorVariables): MutationRef<DeleteInstructorData, DeleteInstructorVariables>;
+  operationName: string;
+}
+export const deleteInstructorRef: DeleteInstructorRef;
+
+export function deleteInstructor(vars: DeleteInstructorVariables): MutationPromise<DeleteInstructorData, DeleteInstructorVariables>;
+export function deleteInstructor(dc: DataConnect, vars: DeleteInstructorVariables): MutationPromise<DeleteInstructorData, DeleteInstructorVariables>;
 
