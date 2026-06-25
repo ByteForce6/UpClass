@@ -143,3 +143,112 @@ mutation DeleteInstructor(
   instructor_delete(key: { id: $instructorInternalId })
   usuario_delete(key: { id: $usuarioInternalId })
 }
+
+
+
+
+
+# ====================================================
+# CURSOS
+# ====================================================
+
+query ListCursos @auth(level: PUBLIC) {
+  cursos {
+    id
+    cursoId
+    nombre
+    descripcion
+    categoria
+    urlImagen
+    estado
+    instructor {
+      instructorId
+      usuario {
+        nombreCompleto
+      }
+    }
+  }
+}
+
+query BuscarCursoPorNombre($nombre: String!) @auth(level: PUBLIC) {
+  cursos(where: { nombre: { contains: $nombre } }) {
+    id
+    cursoId
+    nombre
+    categoria
+    estado
+    instructor {
+      usuario {
+        nombreCompleto
+      }
+    }
+  }
+}
+
+query CursosPorCategoria($categoria: String!) @auth(level: PUBLIC) {
+  cursos(where: { categoria: { eq: $categoria } }) {
+    id
+    cursoId
+    nombre
+    categoria
+    estado
+  }
+}
+
+query CursosPorEstado($estado: String!) @auth(level: PUBLIC) {
+  cursos(where: { estado: { eq: $estado } }) {
+    id
+    nombre
+    estado
+  }
+}
+
+mutation CreateCurso(
+  $cursoId: Int!,
+  $nombre: String!,
+  $descripcion: String,
+  $categoria: String,
+  $urlImagen: String,
+  $estado: String,
+  $instructorId: UUID
+) @auth(level: PUBLIC) { 
+
+  curso_insert(data: {
+    cursoId: $cursoId,
+    nombre: $nombre,
+    descripcion: $descripcion,
+    categoria: $categoria,
+    urlImagen: $urlImagen,
+    estado: $estado,
+    instructor: { id: $instructorId }
+  })
+}
+
+mutation UpdateCurso(
+  $cursoInternalId: UUID!,
+  $cursoId: Int!,
+  $nombre: String!,
+  $descripcion: String,
+  $categoria: String,
+  $urlImagen: String,
+  $estado: String,
+  $instructorId: UUID
+) @auth(level: PUBLIC) {   # ← cambiado
+
+  curso_update(
+    key: { id: $cursoInternalId },
+    data: {
+      cursoId: $cursoId,
+      nombre: $nombre,
+      descripcion: $descripcion,
+      categoria: $categoria,
+      urlImagen: $urlImagen,
+      estado: $estado,
+      instructor: { id: $instructorId }
+    }
+  )
+}
+
+mutation DeleteCurso($cursoInternalId: UUID!) @auth(level: PUBLIC) {
+  curso_delete(key: { id: $cursoInternalId })
+}

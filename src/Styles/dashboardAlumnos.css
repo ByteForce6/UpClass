@@ -926,6 +926,259 @@ button {
   color: var(--uc-red);
 }
 
+
+
+/* ===================== PLUMA- VISTA CURSOS-MODALES ===================== */
+
+
+
+
+/* ===================== LAYOUT GENERAL ===================== */
+.ucv-clases-wrap {
+    padding: 20px;
+    background: #F5F7FB;
+    min-height: 100vh;
+}
+
+/* ===================== HEADER ===================== */
+.ucv-clases-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.ucv-clases-header__title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.ucv-clases-header__sub {
+    font-size: 13px;
+    color: #6B7280;
+    margin-top: 4px;
+}
+
+/* ===================== BOTÓN AGREGAR ===================== */
+.ucv-btn-add {
+    background: #0B4AA2;
+    color: #fff;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    transition: 0.2s;
+    white-space: nowrap;
+}
+
+.ucv-btn-add:hover {
+    background: #083b82;
+}
+
+/* ===================== TABLA ===================== */
+.ucv-table-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+.ucv-table-scroll {
+    overflow-x: auto;
+}
+
+.ucv-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px; /* clave para scroll en móvil */
+}
+
+.ucv-table th {
+    text-align: left;
+    padding: 14px;
+    font-size: 12px;
+    color: #6B7280;
+    background: #F9FAFB;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.ucv-table td {
+    padding: 14px;
+    border-bottom: 1px solid #F1F1F1;
+    font-size: 14px;
+    color: #111827;
+}
+
+.ucv-clase-name {
+    font-weight: 600;
+}
+
+.ucv-clase-salon {
+    font-size: 12px;
+    color: #6B7280;
+}
+
+/* ===================== BADGE ===================== */
+.ucv-badge {
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    background: #E8F4DC;
+    color: #2E6B0E;
+}
+
+/* ===================== ACCIONES ===================== */
+.ucv-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.ucv-action-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    border: 1px solid #E5E7EB;
+    background: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.ucv-action-btn:hover {
+    transform: scale(1.05);
+}
+
+.ucv-action-btn--edit {
+    color: #2563EB;
+}
+
+.ucv-action-btn--delete {
+    color: #DC2626;
+}
+
+/* ===================== MODAL OVERLAY ===================== */
+.ucv-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(17, 24, 39, 0.55);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 15px;
+}
+
+/* ===================== MODAL ===================== */
+.ucv-modal {
+    width: 100%;
+    max-width: 420px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ucv-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.ucv-modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+/* ===================== INPUTS ===================== */
+.ucv-modal input,
+.ucv-modal select {
+    padding: 10px;
+    border: 1px solid #E5E7EB;
+    border-radius: 10px;
+    outline: none;
+    font-size: 14px;
+}
+
+.ucv-modal input:focus,
+.ucv-modal select:focus {
+    border-color: #0B4AA2;
+}
+
+/* ===================== BOTONES MODAL ===================== */
+.ucv-modal button {
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 768px) {
+
+    .ucv-clases-wrap {
+        padding: 15px;
+    }
+
+    .ucv-clases-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .ucv-btn-add {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .ucv-table th,
+    .ucv-table td {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .ucv-actions {
+        gap: 5px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .ucv-clases-header__title {
+        font-size: 18px;
+    }
+
+    .ucv-clases-header__sub {
+        font-size: 12px;
+    }
+
+    .ucv-modal {
+        padding: 15px;
+    }
+
+    .ucv-action-btn {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+
+
+/* ===================== PLUMA- VISTA CURSOS-MODALES- FIN ===================== */
+
+
 /* Responsive */
 @media (max-width: 1023px) {
   .uc-stats-grid {

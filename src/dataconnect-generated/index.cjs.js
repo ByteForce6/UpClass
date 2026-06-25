@@ -144,3 +144,105 @@ exports.deleteInstructor = function deleteInstructor(dcOrVars, vars) {
   return executeMutation(deleteInstructorRef(dcInstance, inputVars));
 }
 ;
+
+const listCursosRef = (dc) => {
+  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'ListCursos');
+}
+listCursosRef.operationName = 'ListCursos';
+exports.listCursosRef = listCursosRef;
+
+exports.listCursos = function listCursos(dcOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
+  return executeQuery(listCursosRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const buscarCursoPorNombreRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'BuscarCursoPorNombre', inputVars);
+}
+buscarCursoPorNombreRef.operationName = 'BuscarCursoPorNombre';
+exports.buscarCursoPorNombreRef = buscarCursoPorNombreRef;
+
+exports.buscarCursoPorNombre = function buscarCursoPorNombre(dcOrVars, varsOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  return executeQuery(buscarCursoPorNombreRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const cursosPorCategoriaRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'CursosPorCategoria', inputVars);
+}
+cursosPorCategoriaRef.operationName = 'CursosPorCategoria';
+exports.cursosPorCategoriaRef = cursosPorCategoriaRef;
+
+exports.cursosPorCategoria = function cursosPorCategoria(dcOrVars, varsOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  return executeQuery(cursosPorCategoriaRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const cursosPorEstadoRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'CursosPorEstado', inputVars);
+}
+cursosPorEstadoRef.operationName = 'CursosPorEstado';
+exports.cursosPorEstadoRef = cursosPorEstadoRef;
+
+exports.cursosPorEstado = function cursosPorEstado(dcOrVars, varsOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  return executeQuery(cursosPorEstadoRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const createCursoRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'CreateCurso', inputVars);
+}
+createCursoRef.operationName = 'CreateCurso';
+exports.createCursoRef = createCursoRef;
+
+exports.createCurso = function createCurso(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(createCursoRef(dcInstance, inputVars));
+}
+;
+
+const updateCursoRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'UpdateCurso', inputVars);
+}
+updateCursoRef.operationName = 'UpdateCurso';
+exports.updateCursoRef = updateCursoRef;
+
+exports.updateCurso = function updateCurso(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(updateCursoRef(dcInstance, inputVars));
+}
+;
+
+const deleteCursoRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'DeleteCurso', inputVars);
+}
+deleteCursoRef.operationName = 'DeleteCurso';
+exports.deleteCursoRef = deleteCursoRef;
+
+exports.deleteCurso = function deleteCurso(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(deleteCursoRef(dcInstance, inputVars));
+}
+;

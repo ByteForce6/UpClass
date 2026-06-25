@@ -341,7 +341,7 @@ export default function UpClassDashboard() {
               <div className="uc-topbar__sub">Jueves, 14 de mayo de 2026</div>
             </div>
             <div className="uc-topbar__actions">
-              <button className="uc-btn-icon" aria-label="Buscar">
+              <button className="uc-btn-icon" aria-label="Buscar">  
                 <i className="ti ti-search" aria-hidden="true" />
               </button>
               <button className="uc-btn-primary" onClick={() => setActiveNav("cursos")}>

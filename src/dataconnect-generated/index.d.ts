@@ -16,6 +16,25 @@ export interface Asistencia_Key {
   __typename?: 'Asistencia_Key';
 }
 
+export interface BuscarCursoPorNombreData {
+  cursos: ({
+    id: UUIDString;
+    cursoId: number;
+    nombre: string;
+    categoria?: string | null;
+    estado?: string | null;
+    instructor?: {
+      usuario: {
+        nombreCompleto: string;
+      };
+    };
+  } & Curso_Key)[];
+}
+
+export interface BuscarCursoPorNombreVariables {
+  nombre: string;
+}
+
 export interface BuscarEstudiantePorMatriculaData {
   estudiantes: ({
     matricula: string;
@@ -46,6 +65,20 @@ export interface BuscarEstudiantePorNombreVariables {
   nombre: string;
 }
 
+export interface CreateCursoData {
+  curso_insert: Curso_Key;
+}
+
+export interface CreateCursoVariables {
+  cursoId: number;
+  nombre: string;
+  descripcion?: string | null;
+  categoria?: string | null;
+  urlImagen?: string | null;
+  estado?: string | null;
+  instructorId?: UUIDString | null;
+}
+
 export interface CreateInstructorData {
   usuario_insert: Usuario_Key;
   instructor_insert: Instructor_Key;
@@ -66,6 +99,40 @@ export interface CreateInstructorVariables {
 export interface Curso_Key {
   id: UUIDString;
   __typename?: 'Curso_Key';
+}
+
+export interface CursosPorCategoriaData {
+  cursos: ({
+    id: UUIDString;
+    cursoId: number;
+    nombre: string;
+    categoria?: string | null;
+    estado?: string | null;
+  } & Curso_Key)[];
+}
+
+export interface CursosPorCategoriaVariables {
+  categoria: string;
+}
+
+export interface CursosPorEstadoData {
+  cursos: ({
+    id: UUIDString;
+    nombre: string;
+    estado?: string | null;
+  } & Curso_Key)[];
+}
+
+export interface CursosPorEstadoVariables {
+  estado: string;
+}
+
+export interface DeleteCursoData {
+  curso_delete?: Curso_Key | null;
+}
+
+export interface DeleteCursoVariables {
+  cursoInternalId: UUIDString;
 }
 
 export interface DeleteInstructorData {
@@ -126,6 +193,24 @@ export interface Instructor_Key {
   __typename?: 'Instructor_Key';
 }
 
+export interface ListCursosData {
+  cursos: ({
+    id: UUIDString;
+    cursoId: number;
+    nombre: string;
+    descripcion?: string | null;
+    categoria?: string | null;
+    urlImagen?: string | null;
+    estado?: string | null;
+    instructor?: {
+      instructorId: number;
+      usuario: {
+        nombreCompleto: string;
+      };
+    };
+  } & Curso_Key)[];
+}
+
 export interface ListInstructorsData {
   instructors: ({
     id: UUIDString;
@@ -162,6 +247,21 @@ export interface ReporteEstadistica_Key {
 export interface Rol_Key {
   id: UUIDString;
   __typename?: 'Rol_Key';
+}
+
+export interface UpdateCursoData {
+  curso_update?: Curso_Key | null;
+}
+
+export interface UpdateCursoVariables {
+  cursoInternalId: UUIDString;
+  cursoId: number;
+  nombre: string;
+  descripcion?: string | null;
+  categoria?: string | null;
+  urlImagen?: string | null;
+  estado?: string | null;
+  instructorId?: UUIDString | null;
 }
 
 export interface UpdateInstructorData {
@@ -291,4 +391,88 @@ export const deleteInstructorRef: DeleteInstructorRef;
 
 export function deleteInstructor(vars: DeleteInstructorVariables): MutationPromise<DeleteInstructorData, DeleteInstructorVariables>;
 export function deleteInstructor(dc: DataConnect, vars: DeleteInstructorVariables): MutationPromise<DeleteInstructorData, DeleteInstructorVariables>;
+
+interface ListCursosRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (): QueryRef<ListCursosData, undefined>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect): QueryRef<ListCursosData, undefined>;
+  operationName: string;
+}
+export const listCursosRef: ListCursosRef;
+
+export function listCursos(options?: ExecuteQueryOptions): QueryPromise<ListCursosData, undefined>;
+export function listCursos(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListCursosData, undefined>;
+
+interface BuscarCursoPorNombreRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: BuscarCursoPorNombreVariables): QueryRef<BuscarCursoPorNombreData, BuscarCursoPorNombreVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: BuscarCursoPorNombreVariables): QueryRef<BuscarCursoPorNombreData, BuscarCursoPorNombreVariables>;
+  operationName: string;
+}
+export const buscarCursoPorNombreRef: BuscarCursoPorNombreRef;
+
+export function buscarCursoPorNombre(vars: BuscarCursoPorNombreVariables, options?: ExecuteQueryOptions): QueryPromise<BuscarCursoPorNombreData, BuscarCursoPorNombreVariables>;
+export function buscarCursoPorNombre(dc: DataConnect, vars: BuscarCursoPorNombreVariables, options?: ExecuteQueryOptions): QueryPromise<BuscarCursoPorNombreData, BuscarCursoPorNombreVariables>;
+
+interface CursosPorCategoriaRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: CursosPorCategoriaVariables): QueryRef<CursosPorCategoriaData, CursosPorCategoriaVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: CursosPorCategoriaVariables): QueryRef<CursosPorCategoriaData, CursosPorCategoriaVariables>;
+  operationName: string;
+}
+export const cursosPorCategoriaRef: CursosPorCategoriaRef;
+
+export function cursosPorCategoria(vars: CursosPorCategoriaVariables, options?: ExecuteQueryOptions): QueryPromise<CursosPorCategoriaData, CursosPorCategoriaVariables>;
+export function cursosPorCategoria(dc: DataConnect, vars: CursosPorCategoriaVariables, options?: ExecuteQueryOptions): QueryPromise<CursosPorCategoriaData, CursosPorCategoriaVariables>;
+
+interface CursosPorEstadoRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: CursosPorEstadoVariables): QueryRef<CursosPorEstadoData, CursosPorEstadoVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: CursosPorEstadoVariables): QueryRef<CursosPorEstadoData, CursosPorEstadoVariables>;
+  operationName: string;
+}
+export const cursosPorEstadoRef: CursosPorEstadoRef;
+
+export function cursosPorEstado(vars: CursosPorEstadoVariables, options?: ExecuteQueryOptions): QueryPromise<CursosPorEstadoData, CursosPorEstadoVariables>;
+export function cursosPorEstado(dc: DataConnect, vars: CursosPorEstadoVariables, options?: ExecuteQueryOptions): QueryPromise<CursosPorEstadoData, CursosPorEstadoVariables>;
+
+interface CreateCursoRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: CreateCursoVariables): MutationRef<CreateCursoData, CreateCursoVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: CreateCursoVariables): MutationRef<CreateCursoData, CreateCursoVariables>;
+  operationName: string;
+}
+export const createCursoRef: CreateCursoRef;
+
+export function createCurso(vars: CreateCursoVariables): MutationPromise<CreateCursoData, CreateCursoVariables>;
+export function createCurso(dc: DataConnect, vars: CreateCursoVariables): MutationPromise<CreateCursoData, CreateCursoVariables>;
+
+interface UpdateCursoRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: UpdateCursoVariables): MutationRef<UpdateCursoData, UpdateCursoVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: UpdateCursoVariables): MutationRef<UpdateCursoData, UpdateCursoVariables>;
+  operationName: string;
+}
+export const updateCursoRef: UpdateCursoRef;
+
+export function updateCurso(vars: UpdateCursoVariables): MutationPromise<UpdateCursoData, UpdateCursoVariables>;
+export function updateCurso(dc: DataConnect, vars: UpdateCursoVariables): MutationPromise<UpdateCursoData, UpdateCursoVariables>;
+
+interface DeleteCursoRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: DeleteCursoVariables): MutationRef<DeleteCursoData, DeleteCursoVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: DeleteCursoVariables): MutationRef<DeleteCursoData, DeleteCursoVariables>;
+  operationName: string;
+}
+export const deleteCursoRef: DeleteCursoRef;
+
+export function deleteCurso(vars: DeleteCursoVariables): MutationPromise<DeleteCursoData, DeleteCursoVariables>;
+export function deleteCurso(dc: DataConnect, vars: DeleteCursoVariables): MutationPromise<DeleteCursoData, DeleteCursoVariables>;
 
