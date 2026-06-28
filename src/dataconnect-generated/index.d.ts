@@ -11,6 +11,18 @@ export type DateString = string;
 
 
 
+export interface ActualizarEstudianteData {
+  usuario_update?: Usuario_Key | null;
+}
+
+export interface ActualizarEstudianteVariables {
+  usuarioInternalId: UUIDString;
+  nombreCompleto: string;
+  correo: string;
+  telefono: string;
+  activo: boolean;
+}
+
 export interface Asistencia_Key {
   id: UUIDString;
   __typename?: 'Asistencia_Key';
@@ -35,34 +47,20 @@ export interface BuscarCursoPorNombreVariables {
   nombre: string;
 }
 
-export interface BuscarEstudiantePorMatriculaData {
-  estudiantes: ({
-    matricula: string;
-    usuario: {
-      usuarioId: string;
-      nombreCompleto: string;
-      correo: string;
-      activo: boolean;
-    };
-  })[];
+export interface CrearEstudianteData {
+  usuario_insert: Usuario_Key;
+  estudiante_insert: Estudiante_Key;
 }
 
-export interface BuscarEstudiantePorMatriculaVariables {
+export interface CrearEstudianteVariables {
+  usuarioInternalId: UUIDString;
+  usuarioId: string;
+  rolInternalId: UUIDString;
+  nombreCompleto: string;
+  correo: string;
+  passwordHash: string;
+  telefono: string;
   matricula: string;
-}
-
-export interface BuscarEstudiantePorNombreData {
-  estudiantes: ({
-    matricula: string;
-    usuario: {
-      nombreCompleto: string;
-      correo: string;
-    };
-  })[];
-}
-
-export interface BuscarEstudiantePorNombreVariables {
-  nombre: string;
 }
 
 export interface CreateCursoData {
@@ -142,6 +140,14 @@ export interface DeleteInstructorData {
 
 export interface DeleteInstructorVariables {
   instructorInternalId: UUIDString;
+  usuarioInternalId: UUIDString;
+}
+
+export interface EliminarEstudianteData {
+  usuario_delete?: Usuario_Key | null;
+}
+
+export interface EliminarEstudianteVariables {
   usuarioInternalId: UUIDString;
 }
 
@@ -230,13 +236,17 @@ export interface ListInstructorsData {
 
 export interface ListarEstudiantesData {
   estudiantes: ({
+    id: UUIDString;
     matricula: string;
     usuario: {
+      id: UUIDString;
+      usuarioId: string;
       nombreCompleto: string;
       correo: string;
+      telefono?: string | null;
       activo: boolean;
-    };
-  })[];
+    } & Usuario_Key;
+  } & Estudiante_Key)[];
 }
 
 export interface ReporteEstadistica_Key {
@@ -296,30 +306,6 @@ export const getUsuarioByCorreoRef: GetUsuarioByCorreoRef;
 export function getUsuarioByCorreo(vars: GetUsuarioByCorreoVariables, options?: ExecuteQueryOptions): QueryPromise<GetUsuarioByCorreoData, GetUsuarioByCorreoVariables>;
 export function getUsuarioByCorreo(dc: DataConnect, vars: GetUsuarioByCorreoVariables, options?: ExecuteQueryOptions): QueryPromise<GetUsuarioByCorreoData, GetUsuarioByCorreoVariables>;
 
-interface BuscarEstudiantePorMatriculaRef {
-  /* Allow users to create refs without passing in DataConnect */
-  (vars: BuscarEstudiantePorMatriculaVariables): QueryRef<BuscarEstudiantePorMatriculaData, BuscarEstudiantePorMatriculaVariables>;
-  /* Allow users to pass in custom DataConnect instances */
-  (dc: DataConnect, vars: BuscarEstudiantePorMatriculaVariables): QueryRef<BuscarEstudiantePorMatriculaData, BuscarEstudiantePorMatriculaVariables>;
-  operationName: string;
-}
-export const buscarEstudiantePorMatriculaRef: BuscarEstudiantePorMatriculaRef;
-
-export function buscarEstudiantePorMatricula(vars: BuscarEstudiantePorMatriculaVariables, options?: ExecuteQueryOptions): QueryPromise<BuscarEstudiantePorMatriculaData, BuscarEstudiantePorMatriculaVariables>;
-export function buscarEstudiantePorMatricula(dc: DataConnect, vars: BuscarEstudiantePorMatriculaVariables, options?: ExecuteQueryOptions): QueryPromise<BuscarEstudiantePorMatriculaData, BuscarEstudiantePorMatriculaVariables>;
-
-interface BuscarEstudiantePorNombreRef {
-  /* Allow users to create refs without passing in DataConnect */
-  (vars: BuscarEstudiantePorNombreVariables): QueryRef<BuscarEstudiantePorNombreData, BuscarEstudiantePorNombreVariables>;
-  /* Allow users to pass in custom DataConnect instances */
-  (dc: DataConnect, vars: BuscarEstudiantePorNombreVariables): QueryRef<BuscarEstudiantePorNombreData, BuscarEstudiantePorNombreVariables>;
-  operationName: string;
-}
-export const buscarEstudiantePorNombreRef: BuscarEstudiantePorNombreRef;
-
-export function buscarEstudiantePorNombre(vars: BuscarEstudiantePorNombreVariables, options?: ExecuteQueryOptions): QueryPromise<BuscarEstudiantePorNombreData, BuscarEstudiantePorNombreVariables>;
-export function buscarEstudiantePorNombre(dc: DataConnect, vars: BuscarEstudiantePorNombreVariables, options?: ExecuteQueryOptions): QueryPromise<BuscarEstudiantePorNombreData, BuscarEstudiantePorNombreVariables>;
-
 interface ListarEstudiantesRef {
   /* Allow users to create refs without passing in DataConnect */
   (): QueryRef<ListarEstudiantesData, undefined>;
@@ -331,6 +317,42 @@ export const listarEstudiantesRef: ListarEstudiantesRef;
 
 export function listarEstudiantes(options?: ExecuteQueryOptions): QueryPromise<ListarEstudiantesData, undefined>;
 export function listarEstudiantes(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListarEstudiantesData, undefined>;
+
+interface CrearEstudianteRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: CrearEstudianteVariables): MutationRef<CrearEstudianteData, CrearEstudianteVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: CrearEstudianteVariables): MutationRef<CrearEstudianteData, CrearEstudianteVariables>;
+  operationName: string;
+}
+export const crearEstudianteRef: CrearEstudianteRef;
+
+export function crearEstudiante(vars: CrearEstudianteVariables): MutationPromise<CrearEstudianteData, CrearEstudianteVariables>;
+export function crearEstudiante(dc: DataConnect, vars: CrearEstudianteVariables): MutationPromise<CrearEstudianteData, CrearEstudianteVariables>;
+
+interface ActualizarEstudianteRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: ActualizarEstudianteVariables): MutationRef<ActualizarEstudianteData, ActualizarEstudianteVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: ActualizarEstudianteVariables): MutationRef<ActualizarEstudianteData, ActualizarEstudianteVariables>;
+  operationName: string;
+}
+export const actualizarEstudianteRef: ActualizarEstudianteRef;
+
+export function actualizarEstudiante(vars: ActualizarEstudianteVariables): MutationPromise<ActualizarEstudianteData, ActualizarEstudianteVariables>;
+export function actualizarEstudiante(dc: DataConnect, vars: ActualizarEstudianteVariables): MutationPromise<ActualizarEstudianteData, ActualizarEstudianteVariables>;
+
+interface EliminarEstudianteRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: EliminarEstudianteVariables): MutationRef<EliminarEstudianteData, EliminarEstudianteVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: EliminarEstudianteVariables): MutationRef<EliminarEstudianteData, EliminarEstudianteVariables>;
+  operationName: string;
+}
+export const eliminarEstudianteRef: EliminarEstudianteRef;
+
+export function eliminarEstudiante(vars: EliminarEstudianteVariables): MutationPromise<EliminarEstudianteData, EliminarEstudianteVariables>;
+export function eliminarEstudiante(dc: DataConnect, vars: EliminarEstudianteVariables): MutationPromise<EliminarEstudianteData, EliminarEstudianteVariables>;
 
 interface ListInstructorsRef {
   /* Allow users to create refs without passing in DataConnect */

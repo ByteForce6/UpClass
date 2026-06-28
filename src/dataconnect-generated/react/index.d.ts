@@ -1,4 +1,4 @@
-import { GetUsuarioByCorreoData, GetUsuarioByCorreoVariables, BuscarEstudiantePorMatriculaData, BuscarEstudiantePorMatriculaVariables, BuscarEstudiantePorNombreData, BuscarEstudiantePorNombreVariables, ListarEstudiantesData, ListInstructorsData, GetRolByNumeroData, GetRolByNumeroVariables, CreateInstructorData, CreateInstructorVariables, UpdateInstructorData, UpdateInstructorVariables, DeleteInstructorData, DeleteInstructorVariables, ListCursosData, BuscarCursoPorNombreData, BuscarCursoPorNombreVariables, CursosPorCategoriaData, CursosPorCategoriaVariables, CursosPorEstadoData, CursosPorEstadoVariables, CreateCursoData, CreateCursoVariables, UpdateCursoData, UpdateCursoVariables, DeleteCursoData, DeleteCursoVariables } from '../';
+import { GetUsuarioByCorreoData, GetUsuarioByCorreoVariables, ListarEstudiantesData, CrearEstudianteData, CrearEstudianteVariables, ActualizarEstudianteData, ActualizarEstudianteVariables, EliminarEstudianteData, EliminarEstudianteVariables, ListInstructorsData, GetRolByNumeroData, GetRolByNumeroVariables, CreateInstructorData, CreateInstructorVariables, UpdateInstructorData, UpdateInstructorVariables, DeleteInstructorData, DeleteInstructorVariables, ListCursosData, BuscarCursoPorNombreData, BuscarCursoPorNombreVariables, CursosPorCategoriaData, CursosPorCategoriaVariables, CursosPorEstadoData, CursosPorEstadoVariables, CreateCursoData, CreateCursoVariables, UpdateCursoData, UpdateCursoVariables, DeleteCursoData, DeleteCursoVariables } from '../';
 import { UseDataConnectQueryResult, useDataConnectQueryOptions, UseDataConnectMutationResult, useDataConnectMutationOptions} from '@tanstack-query-firebase/react/data-connect';
 import { UseQueryResult, UseMutationResult} from '@tanstack/react-query';
 import { DataConnect } from 'firebase/data-connect';
@@ -8,14 +8,17 @@ import { FirebaseError } from 'firebase/app';
 export function useGetUsuarioByCorreo(vars: GetUsuarioByCorreoVariables, options?: useDataConnectQueryOptions<GetUsuarioByCorreoData>): UseDataConnectQueryResult<GetUsuarioByCorreoData, GetUsuarioByCorreoVariables>;
 export function useGetUsuarioByCorreo(dc: DataConnect, vars: GetUsuarioByCorreoVariables, options?: useDataConnectQueryOptions<GetUsuarioByCorreoData>): UseDataConnectQueryResult<GetUsuarioByCorreoData, GetUsuarioByCorreoVariables>;
 
-export function useBuscarEstudiantePorMatricula(vars: BuscarEstudiantePorMatriculaVariables, options?: useDataConnectQueryOptions<BuscarEstudiantePorMatriculaData>): UseDataConnectQueryResult<BuscarEstudiantePorMatriculaData, BuscarEstudiantePorMatriculaVariables>;
-export function useBuscarEstudiantePorMatricula(dc: DataConnect, vars: BuscarEstudiantePorMatriculaVariables, options?: useDataConnectQueryOptions<BuscarEstudiantePorMatriculaData>): UseDataConnectQueryResult<BuscarEstudiantePorMatriculaData, BuscarEstudiantePorMatriculaVariables>;
-
-export function useBuscarEstudiantePorNombre(vars: BuscarEstudiantePorNombreVariables, options?: useDataConnectQueryOptions<BuscarEstudiantePorNombreData>): UseDataConnectQueryResult<BuscarEstudiantePorNombreData, BuscarEstudiantePorNombreVariables>;
-export function useBuscarEstudiantePorNombre(dc: DataConnect, vars: BuscarEstudiantePorNombreVariables, options?: useDataConnectQueryOptions<BuscarEstudiantePorNombreData>): UseDataConnectQueryResult<BuscarEstudiantePorNombreData, BuscarEstudiantePorNombreVariables>;
-
 export function useListarEstudiantes(options?: useDataConnectQueryOptions<ListarEstudiantesData>): UseDataConnectQueryResult<ListarEstudiantesData, undefined>;
 export function useListarEstudiantes(dc: DataConnect, options?: useDataConnectQueryOptions<ListarEstudiantesData>): UseDataConnectQueryResult<ListarEstudiantesData, undefined>;
+
+export function useCrearEstudiante(options?: useDataConnectMutationOptions<CrearEstudianteData, FirebaseError, CrearEstudianteVariables>): UseDataConnectMutationResult<CrearEstudianteData, CrearEstudianteVariables>;
+export function useCrearEstudiante(dc: DataConnect, options?: useDataConnectMutationOptions<CrearEstudianteData, FirebaseError, CrearEstudianteVariables>): UseDataConnectMutationResult<CrearEstudianteData, CrearEstudianteVariables>;
+
+export function useActualizarEstudiante(options?: useDataConnectMutationOptions<ActualizarEstudianteData, FirebaseError, ActualizarEstudianteVariables>): UseDataConnectMutationResult<ActualizarEstudianteData, ActualizarEstudianteVariables>;
+export function useActualizarEstudiante(dc: DataConnect, options?: useDataConnectMutationOptions<ActualizarEstudianteData, FirebaseError, ActualizarEstudianteVariables>): UseDataConnectMutationResult<ActualizarEstudianteData, ActualizarEstudianteVariables>;
+
+export function useEliminarEstudiante(options?: useDataConnectMutationOptions<EliminarEstudianteData, FirebaseError, EliminarEstudianteVariables>): UseDataConnectMutationResult<EliminarEstudianteData, EliminarEstudianteVariables>;
+export function useEliminarEstudiante(dc: DataConnect, options?: useDataConnectMutationOptions<EliminarEstudianteData, FirebaseError, EliminarEstudianteVariables>): UseDataConnectMutationResult<EliminarEstudianteData, EliminarEstudianteVariables>;
 
 export function useListInstructors(options?: useDataConnectQueryOptions<ListInstructorsData>): UseDataConnectQueryResult<ListInstructorsData, undefined>;
 export function useListInstructors(dc: DataConnect, options?: useDataConnectQueryOptions<ListInstructorsData>): UseDataConnectQueryResult<ListInstructorsData, undefined>;

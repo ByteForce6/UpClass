@@ -112,6 +112,34 @@ body{
   margin-bottom:25px;
 }
 
+.login-password-wrapper{
+  position:relative;
+}
+
+.login-password-wrapper input{
+  padding-right:60px;
+}
+
+.login-password-toggle{
+  position:absolute;
+  right:18px;
+  top:50%;
+  transform:translateY(-50%);
+  border:none;
+  background:transparent;
+  cursor:pointer;
+  font-size:18px;
+  line-height:1;
+  padding:0;
+  opacity:0.9;
+}
+
+.login-password-toggle:hover{
+  opacity:1;
+}
+
+
+
 .login-input-group label{
   margin-bottom:10px;
   color:#334155;
@@ -208,6 +236,21 @@ body{
   color:white;
 }
 
+/* LINK (en lugar de botón) */
+.login-link-btn{
+  border:none;
+  background:transparent;
+  padding:0;
+  color:#0F4C8A;
+  font-weight:600;
+  cursor:pointer;
+  font-size:14px;
+}
+
+.login-link-btn:hover{
+  text-decoration:underline;
+}
+
 /* RESPONSIVE */
 @media(max-width:1000px){
   .login-page{
@@ -230,5 +273,333 @@ body{
 
   .login-card h2{
     font-size:34px;
+  }
+}
+
+/* ============================================================
+   ALUMNOS VIEW — tabla, modales, badges
+   ============================================================ */
+
+/* ── badges de estado ── */
+.ucv-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.ucv-badge--activo {
+  background: #E8F4DC;
+  color: #2E6B0E;
+}
+
+.ucv-badge--inactivo {
+  background: #F0F0EE;
+  color: #555;
+}
+
+/* ── tabla: celda vacía / índice ── */
+.ucv-table-empty {
+  text-align: center;
+  color: #aaa;
+  padding: 32px;
+}
+
+.ucv-td-idx {
+  color: #aaa;
+  font-size: 12px;
+}
+
+/* ════════════════════════════════════════
+   MODALES — overlay y tarjeta
+   ════════════════════════════════════════ */
+
+.ucv-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+.ucv-modal-overlay--top {
+  z-index: 10000;
+}
+
+.ucv-modal-card {
+  width: min(640px, 100%);
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(15, 76, 138, 0.18);
+  overflow: hidden;
+}
+
+.ucv-modal-card--sm {
+  width: min(480px, 100%);
+}
+
+/* ── cabecera del modal ── */
+.ucv-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  border-bottom: 1px solid #e8eef6;
+  background: #f7fafd;
+}
+
+.ucv-modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  font-family: 'Inter', sans-serif;
+}
+
+.ucv-modal-close {
+  border: none;
+  background: transparent;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 20px;
+  color: #64748b;
+  transition: background 0.2s;
+  line-height: 1;
+}
+
+.ucv-modal-close:hover {
+  background: #e8eef6;
+}
+
+/* ── cuerpo ── */
+.ucv-modal-body {
+  padding: 24px 24px 20px;
+}
+
+/* ── grid de campos ── */
+.ucv-modal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.ucv-modal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ucv-modal-field--full {
+  grid-column: 1 / -1;
+}
+
+/* ── label de campo ── */
+.ucv-modal-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ── inputs del modal ── */
+.ucv-modal-input {
+  height: 48px;
+  border-radius: 12px;
+  border: 1.5px solid #dbe3ee;
+  padding: 0 16px;
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+  color: #0f172a;
+  background: #fff;
+}
+
+.ucv-modal-input:focus {
+  border-color: #0F4C8A;
+  box-shadow: 0 0 0 4px rgba(15, 76, 138, 0.1);
+}
+
+.ucv-modal-input::placeholder {
+  color: #94a3b8;
+}
+
+.ucv-modal-input--disabled {
+  background: #f1f5fb;
+  color: #94a3b8;
+  cursor: not-allowed;
+  border-color: #e2e8f0;
+}
+
+/* ── fila correo: input + botón Send ── */
+.ucv-modal-email-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.ucv-modal-email-input {
+  flex: 1;
+  /* hereda .ucv-modal-input */
+}
+
+.ucv-email-send-btn {
+  height: 48px;
+  padding: 0 20px;
+  border-radius: 12px;
+  border: none;
+  background: #0F4C8A;
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.ucv-email-send-btn:hover {
+  background: #0b3b6c;
+  transform: translateY(-1px);
+}
+
+.ucv-email-send-btn i {
+  font-size: 16px;
+}
+
+/* ── campo Estado: checkbox ── */
+.ucv-modal-estado-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ucv-modal-check {
+  width: 18px;
+  height: 18px;
+  accent-color: #0F4C8A;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.ucv-modal-estado-label {
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.ucv-modal-estado-label--activo {
+  background: #E8F4DC;
+  color: #2E6B0E;
+}
+
+.ucv-modal-estado-label--inactivo {
+  background: #F0F0EE;
+  color: #555;
+}
+
+/* ── acciones del modal ── */
+.ucv-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #e8eef6;
+}
+
+.ucv-modal-btn {
+  height: 44px;
+  padding: 0 22px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s, color 0.2s, transform 0.15s, border-color 0.2s;
+}
+
+.ucv-modal-btn--ghost {
+  background: transparent;
+  border: 1.5px solid #0F4C8A;
+  color: #0F4C8A;
+}
+
+.ucv-modal-btn--ghost:hover {
+  background: #0F4C8A;
+  color: #fff;
+}
+
+.ucv-modal-btn--primary {
+  background: #0F4C8A;
+  border: none;
+  color: #fff;
+}
+
+.ucv-modal-btn--primary:hover {
+  background: #0b3b6c;
+  transform: translateY(-1px);
+}
+
+.ucv-modal-btn--danger {
+  background: #dc2626;
+  border: none;
+  color: #fff;
+}
+
+.ucv-modal-btn--danger:hover {
+  background: #b91c1c;
+  transform: translateY(-1px);
+}
+
+/* ── mensaje del modal de eliminar ── */
+.ucv-modal-delete-msg {
+  font-family: 'Inter', sans-serif;
+  color: #444;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+.ucv-modal-delete-msg strong {
+  color: #0f172a;
+}
+
+/* ── responsive modales ── */
+@media (max-width: 600px) {
+  .ucv-modal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ucv-modal-field--full {
+    grid-column: 1;
+  }
+
+  .ucv-modal-card {
+    border-radius: 16px;
+  }
+
+  .ucv-email-send-btn {
+    padding: 0 14px;
+    font-size: 13px;
   }
 }

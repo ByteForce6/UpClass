@@ -28,36 +28,6 @@ exports.getUsuarioByCorreo = function getUsuarioByCorreo(dcOrVars, varsOrOptions
 }
 ;
 
-const buscarEstudiantePorMatriculaRef = (dcOrVars, vars) => {
-  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
-  dcInstance._useGeneratedSdk();
-  return queryRef(dcInstance, 'BuscarEstudiantePorMatricula', inputVars);
-}
-buscarEstudiantePorMatriculaRef.operationName = 'BuscarEstudiantePorMatricula';
-exports.buscarEstudiantePorMatriculaRef = buscarEstudiantePorMatriculaRef;
-
-exports.buscarEstudiantePorMatricula = function buscarEstudiantePorMatricula(dcOrVars, varsOrOptions, options) {
-  
-  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
-  return executeQuery(buscarEstudiantePorMatriculaRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
-}
-;
-
-const buscarEstudiantePorNombreRef = (dcOrVars, vars) => {
-  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
-  dcInstance._useGeneratedSdk();
-  return queryRef(dcInstance, 'BuscarEstudiantePorNombre', inputVars);
-}
-buscarEstudiantePorNombreRef.operationName = 'BuscarEstudiantePorNombre';
-exports.buscarEstudiantePorNombreRef = buscarEstudiantePorNombreRef;
-
-exports.buscarEstudiantePorNombre = function buscarEstudiantePorNombre(dcOrVars, varsOrOptions, options) {
-  
-  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
-  return executeQuery(buscarEstudiantePorNombreRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
-}
-;
-
 const listarEstudiantesRef = (dc) => {
   const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
   dcInstance._useGeneratedSdk();
@@ -70,6 +40,48 @@ exports.listarEstudiantes = function listarEstudiantes(dcOrOptions, options) {
   
   const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
   return executeQuery(listarEstudiantesRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const crearEstudianteRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'CrearEstudiante', inputVars);
+}
+crearEstudianteRef.operationName = 'CrearEstudiante';
+exports.crearEstudianteRef = crearEstudianteRef;
+
+exports.crearEstudiante = function crearEstudiante(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(crearEstudianteRef(dcInstance, inputVars));
+}
+;
+
+const actualizarEstudianteRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'ActualizarEstudiante', inputVars);
+}
+actualizarEstudianteRef.operationName = 'ActualizarEstudiante';
+exports.actualizarEstudianteRef = actualizarEstudianteRef;
+
+exports.actualizarEstudiante = function actualizarEstudiante(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(actualizarEstudianteRef(dcInstance, inputVars));
+}
+;
+
+const eliminarEstudianteRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'EliminarEstudiante', inputVars);
+}
+eliminarEstudianteRef.operationName = 'EliminarEstudiante';
+exports.eliminarEstudianteRef = eliminarEstudianteRef;
+
+exports.eliminarEstudiante = function eliminarEstudiante(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(eliminarEstudianteRef(dcInstance, inputVars));
 }
 ;
 

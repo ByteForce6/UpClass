@@ -7,7 +7,7 @@ type Rol @table {
 # 👤 TABLA UNIFICADA: Todos los inicios de sesión e información básica ocurren aquí
 type Usuario @table {
   usuarioId: String! @unique 
-  rol: Rol!                  # Mantiene la relación con la tabla Rol (ahora mediante el ID numérico)
+  rol: Rol!                 
   nombreCompleto: String!
   correo: String! @unique    
   passwordHash: String!      

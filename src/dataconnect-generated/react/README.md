@@ -18,8 +18,6 @@ You can also follow the instructions from the [Data Connect documentation](https
   - [*Connecting to the local Emulator*](#connecting-to-the-local-emulator)
 - [**Queries**](#queries)
   - [*GetUsuarioByCorreo*](#getusuariobycorreo)
-  - [*BuscarEstudiantePorMatricula*](#buscarestudiantepormatricula)
-  - [*BuscarEstudiantePorNombre*](#buscarestudiantepornombre)
   - [*ListarEstudiantes*](#listarestudiantes)
   - [*ListInstructors*](#listinstructors)
   - [*GetRolByNumero*](#getrolbynumero)
@@ -28,6 +26,9 @@ You can also follow the instructions from the [Data Connect documentation](https
   - [*CursosPorCategoria*](#cursosporcategoria)
   - [*CursosPorEstado*](#cursosporestado)
 - [**Mutations**](#mutations)
+  - [*CrearEstudiante*](#crearestudiante)
+  - [*ActualizarEstudiante*](#actualizarestudiante)
+  - [*EliminarEstudiante*](#eliminarestudiante)
   - [*CreateInstructor*](#createinstructor)
   - [*UpdateInstructor*](#updateinstructor)
   - [*DeleteInstructor*](#deleteinstructor)
@@ -215,184 +216,6 @@ export default function GetUsuarioByCorreoComponent() {
 }
 ```
 
-## BuscarEstudiantePorMatricula
-You can execute the `BuscarEstudiantePorMatricula` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
-
-```javascript
-useBuscarEstudiantePorMatricula(dc: DataConnect, vars: BuscarEstudiantePorMatriculaVariables, options?: useDataConnectQueryOptions<BuscarEstudiantePorMatriculaData>): UseDataConnectQueryResult<BuscarEstudiantePorMatriculaData, BuscarEstudiantePorMatriculaVariables>;
-```
-You can also pass in a `DataConnect` instance to the Query hook function.
-```javascript
-useBuscarEstudiantePorMatricula(vars: BuscarEstudiantePorMatriculaVariables, options?: useDataConnectQueryOptions<BuscarEstudiantePorMatriculaData>): UseDataConnectQueryResult<BuscarEstudiantePorMatriculaData, BuscarEstudiantePorMatriculaVariables>;
-```
-
-### Variables
-The `BuscarEstudiantePorMatricula` Query requires an argument of type `BuscarEstudiantePorMatriculaVariables`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
-
-```javascript
-export interface BuscarEstudiantePorMatriculaVariables {
-  matricula: string;
-}
-```
-### Return Type
-Recall that calling the `BuscarEstudiantePorMatricula` Query hook function returns a `UseQueryResult` object. This object holds the state of your Query, including whether the Query is loading, has completed, or has succeeded/failed, and any data returned by the Query, among other things.
-
-To check the status of a Query, use the `UseQueryResult.status` field. You can also check for pending / success / error status using the `UseQueryResult.isPending`, `UseQueryResult.isSuccess`, and `UseQueryResult.isError` fields.
-
-To access the data returned by a Query, use the `UseQueryResult.data` field. The data for the `BuscarEstudiantePorMatricula` Query is of type `BuscarEstudiantePorMatriculaData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
-```javascript
-export interface BuscarEstudiantePorMatriculaData {
-  estudiantes: ({
-    matricula: string;
-    usuario: {
-      usuarioId: string;
-      nombreCompleto: string;
-      correo: string;
-      activo: boolean;
-    };
-  })[];
-}
-```
-
-To learn more about the `UseQueryResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
-
-### Using `BuscarEstudiantePorMatricula`'s Query hook function
-
-```javascript
-import { getDataConnect } from 'firebase/data-connect';
-import { connectorConfig, BuscarEstudiantePorMatriculaVariables } from '@dataconnect/generated';
-import { useBuscarEstudiantePorMatricula } from '@dataconnect/generated/react'
-
-export default function BuscarEstudiantePorMatriculaComponent() {
-  // The `useBuscarEstudiantePorMatricula` Query hook requires an argument of type `BuscarEstudiantePorMatriculaVariables`:
-  const buscarEstudiantePorMatriculaVars: BuscarEstudiantePorMatriculaVariables = {
-    matricula: ..., 
-  };
-
-  // You don't have to do anything to "execute" the Query.
-  // Call the Query hook function to get a `UseQueryResult` object which holds the state of your Query.
-  const query = useBuscarEstudiantePorMatricula(buscarEstudiantePorMatriculaVars);
-  // Variables can be defined inline as well.
-  const query = useBuscarEstudiantePorMatricula({ matricula: ..., });
-
-  // You can also pass in a `DataConnect` instance to the Query hook function.
-  const dataConnect = getDataConnect(connectorConfig);
-  const query = useBuscarEstudiantePorMatricula(dataConnect, buscarEstudiantePorMatriculaVars);
-
-  // You can also pass in a `useDataConnectQueryOptions` object to the Query hook function.
-  const options = { staleTime: 5 * 1000 };
-  const query = useBuscarEstudiantePorMatricula(buscarEstudiantePorMatriculaVars, options);
-
-  // You can also pass both a `DataConnect` instance and a `useDataConnectQueryOptions` object.
-  const dataConnect = getDataConnect(connectorConfig);
-  const options = { staleTime: 5 * 1000 };
-  const query = useBuscarEstudiantePorMatricula(dataConnect, buscarEstudiantePorMatriculaVars, options);
-
-  // Then, you can render your component dynamically based on the status of the Query.
-  if (query.isPending) {
-    return <div>Loading...</div>;
-  }
-
-  if (query.isError) {
-    return <div>Error: {query.error.message}</div>;
-  }
-
-  // If the Query is successful, you can access the data returned using the `UseQueryResult.data` field.
-  if (query.isSuccess) {
-    console.log(query.data.estudiantes);
-  }
-  return <div>Query execution {query.isSuccess ? 'successful' : 'failed'}!</div>;
-}
-```
-
-## BuscarEstudiantePorNombre
-You can execute the `BuscarEstudiantePorNombre` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
-
-```javascript
-useBuscarEstudiantePorNombre(dc: DataConnect, vars: BuscarEstudiantePorNombreVariables, options?: useDataConnectQueryOptions<BuscarEstudiantePorNombreData>): UseDataConnectQueryResult<BuscarEstudiantePorNombreData, BuscarEstudiantePorNombreVariables>;
-```
-You can also pass in a `DataConnect` instance to the Query hook function.
-```javascript
-useBuscarEstudiantePorNombre(vars: BuscarEstudiantePorNombreVariables, options?: useDataConnectQueryOptions<BuscarEstudiantePorNombreData>): UseDataConnectQueryResult<BuscarEstudiantePorNombreData, BuscarEstudiantePorNombreVariables>;
-```
-
-### Variables
-The `BuscarEstudiantePorNombre` Query requires an argument of type `BuscarEstudiantePorNombreVariables`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
-
-```javascript
-export interface BuscarEstudiantePorNombreVariables {
-  nombre: string;
-}
-```
-### Return Type
-Recall that calling the `BuscarEstudiantePorNombre` Query hook function returns a `UseQueryResult` object. This object holds the state of your Query, including whether the Query is loading, has completed, or has succeeded/failed, and any data returned by the Query, among other things.
-
-To check the status of a Query, use the `UseQueryResult.status` field. You can also check for pending / success / error status using the `UseQueryResult.isPending`, `UseQueryResult.isSuccess`, and `UseQueryResult.isError` fields.
-
-To access the data returned by a Query, use the `UseQueryResult.data` field. The data for the `BuscarEstudiantePorNombre` Query is of type `BuscarEstudiantePorNombreData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
-```javascript
-export interface BuscarEstudiantePorNombreData {
-  estudiantes: ({
-    matricula: string;
-    usuario: {
-      nombreCompleto: string;
-      correo: string;
-    };
-  })[];
-}
-```
-
-To learn more about the `UseQueryResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
-
-### Using `BuscarEstudiantePorNombre`'s Query hook function
-
-```javascript
-import { getDataConnect } from 'firebase/data-connect';
-import { connectorConfig, BuscarEstudiantePorNombreVariables } from '@dataconnect/generated';
-import { useBuscarEstudiantePorNombre } from '@dataconnect/generated/react'
-
-export default function BuscarEstudiantePorNombreComponent() {
-  // The `useBuscarEstudiantePorNombre` Query hook requires an argument of type `BuscarEstudiantePorNombreVariables`:
-  const buscarEstudiantePorNombreVars: BuscarEstudiantePorNombreVariables = {
-    nombre: ..., 
-  };
-
-  // You don't have to do anything to "execute" the Query.
-  // Call the Query hook function to get a `UseQueryResult` object which holds the state of your Query.
-  const query = useBuscarEstudiantePorNombre(buscarEstudiantePorNombreVars);
-  // Variables can be defined inline as well.
-  const query = useBuscarEstudiantePorNombre({ nombre: ..., });
-
-  // You can also pass in a `DataConnect` instance to the Query hook function.
-  const dataConnect = getDataConnect(connectorConfig);
-  const query = useBuscarEstudiantePorNombre(dataConnect, buscarEstudiantePorNombreVars);
-
-  // You can also pass in a `useDataConnectQueryOptions` object to the Query hook function.
-  const options = { staleTime: 5 * 1000 };
-  const query = useBuscarEstudiantePorNombre(buscarEstudiantePorNombreVars, options);
-
-  // You can also pass both a `DataConnect` instance and a `useDataConnectQueryOptions` object.
-  const dataConnect = getDataConnect(connectorConfig);
-  const options = { staleTime: 5 * 1000 };
-  const query = useBuscarEstudiantePorNombre(dataConnect, buscarEstudiantePorNombreVars, options);
-
-  // Then, you can render your component dynamically based on the status of the Query.
-  if (query.isPending) {
-    return <div>Loading...</div>;
-  }
-
-  if (query.isError) {
-    return <div>Error: {query.error.message}</div>;
-  }
-
-  // If the Query is successful, you can access the data returned using the `UseQueryResult.data` field.
-  if (query.isSuccess) {
-    console.log(query.data.estudiantes);
-  }
-  return <div>Query execution {query.isSuccess ? 'successful' : 'failed'}!</div>;
-}
-```
-
 ## ListarEstudiantes
 You can execute the `ListarEstudiantes` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
 
@@ -415,13 +238,17 @@ To access the data returned by a Query, use the `UseQueryResult.data` field. The
 ```javascript
 export interface ListarEstudiantesData {
   estudiantes: ({
+    id: UUIDString;
     matricula: string;
     usuario: {
+      id: UUIDString;
+      usuarioId: string;
       nombreCompleto: string;
       correo: string;
+      telefono?: string | null;
       activo: boolean;
-    };
-  })[];
+    } & Usuario_Key;
+  } & Estudiante_Key)[];
 }
 ```
 
@@ -1011,6 +838,312 @@ Here's a general overview of how to use the generated Mutation hooks in your cod
   - ***Special case:*** If the Mutation has no arguments (or all optional arguments and you wish to provide none), and you want to pass `options` to `UseMutationResult.mutate()`, you must pass `undefined` where you would normally pass the Mutation's arguments, and then may provide the options argument.
 
 Below are examples of how to use the `example` connector's generated Mutation hook functions to execute each Mutation. You can also follow the examples from the [Data Connect documentation](https://firebase.google.com/docs/data-connect/web-sdk#operations-react-angular).
+
+## CrearEstudiante
+You can execute the `CrearEstudiante` Mutation using the `UseMutationResult` object returned by the following Mutation hook function (which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts)):
+```javascript
+useCrearEstudiante(options?: useDataConnectMutationOptions<CrearEstudianteData, FirebaseError, CrearEstudianteVariables>): UseDataConnectMutationResult<CrearEstudianteData, CrearEstudianteVariables>;
+```
+You can also pass in a `DataConnect` instance to the Mutation hook function.
+```javascript
+useCrearEstudiante(dc: DataConnect, options?: useDataConnectMutationOptions<CrearEstudianteData, FirebaseError, CrearEstudianteVariables>): UseDataConnectMutationResult<CrearEstudianteData, CrearEstudianteVariables>;
+```
+
+### Variables
+The `CrearEstudiante` Mutation requires an argument of type `CrearEstudianteVariables`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+
+```javascript
+export interface CrearEstudianteVariables {
+  usuarioInternalId: UUIDString;
+  usuarioId: string;
+  rolInternalId: UUIDString;
+  nombreCompleto: string;
+  correo: string;
+  passwordHash: string;
+  telefono: string;
+  matricula: string;
+}
+```
+### Return Type
+Recall that calling the `CrearEstudiante` Mutation hook function returns a `UseMutationResult` object. This object holds the state of your Mutation, including whether the Mutation is loading, has completed, or has succeeded/failed, among other things.
+
+To check the status of a Mutation, use the `UseMutationResult.status` field. You can also check for pending / success / error status using the `UseMutationResult.isPending`, `UseMutationResult.isSuccess`, and `UseMutationResult.isError` fields.
+
+To execute the Mutation, call `UseMutationResult.mutate()`. This function executes the Mutation, but does not return the data from the Mutation.
+
+To access the data returned by a Mutation, use the `UseMutationResult.data` field. The data for the `CrearEstudiante` Mutation is of type `CrearEstudianteData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface CrearEstudianteData {
+  usuario_insert: Usuario_Key;
+  estudiante_insert: Estudiante_Key;
+}
+```
+
+To learn more about the `UseMutationResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useMutation).
+
+### Using `CrearEstudiante`'s Mutation hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, CrearEstudianteVariables } from '@dataconnect/generated';
+import { useCrearEstudiante } from '@dataconnect/generated/react'
+
+export default function CrearEstudianteComponent() {
+  // Call the Mutation hook function to get a `UseMutationResult` object which holds the state of your Mutation.
+  const mutation = useCrearEstudiante();
+
+  // You can also pass in a `DataConnect` instance to the Mutation hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const mutation = useCrearEstudiante(dataConnect);
+
+  // You can also pass in a `useDataConnectMutationOptions` object to the Mutation hook function.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useCrearEstudiante(options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectMutationOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useCrearEstudiante(dataConnect, options);
+
+  // After calling the Mutation hook function, you must call `UseMutationResult.mutate()` to execute the Mutation.
+  // The `useCrearEstudiante` Mutation requires an argument of type `CrearEstudianteVariables`:
+  const crearEstudianteVars: CrearEstudianteVariables = {
+    usuarioInternalId: ..., 
+    usuarioId: ..., 
+    rolInternalId: ..., 
+    nombreCompleto: ..., 
+    correo: ..., 
+    passwordHash: ..., 
+    telefono: ..., 
+    matricula: ..., 
+  };
+  mutation.mutate(crearEstudianteVars);
+  // Variables can be defined inline as well.
+  mutation.mutate({ usuarioInternalId: ..., usuarioId: ..., rolInternalId: ..., nombreCompleto: ..., correo: ..., passwordHash: ..., telefono: ..., matricula: ..., });
+
+  // You can also pass in a `useDataConnectMutationOptions` object to `UseMutationResult.mutate()`.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  mutation.mutate(crearEstudianteVars, options);
+
+  // Then, you can render your component dynamically based on the status of the Mutation.
+  if (mutation.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (mutation.isError) {
+    return <div>Error: {mutation.error.message}</div>;
+  }
+
+  // If the Mutation is successful, you can access the data returned using the `UseMutationResult.data` field.
+  if (mutation.isSuccess) {
+    console.log(mutation.data.usuario_insert);
+    console.log(mutation.data.estudiante_insert);
+  }
+  return <div>Mutation execution {mutation.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## ActualizarEstudiante
+You can execute the `ActualizarEstudiante` Mutation using the `UseMutationResult` object returned by the following Mutation hook function (which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts)):
+```javascript
+useActualizarEstudiante(options?: useDataConnectMutationOptions<ActualizarEstudianteData, FirebaseError, ActualizarEstudianteVariables>): UseDataConnectMutationResult<ActualizarEstudianteData, ActualizarEstudianteVariables>;
+```
+You can also pass in a `DataConnect` instance to the Mutation hook function.
+```javascript
+useActualizarEstudiante(dc: DataConnect, options?: useDataConnectMutationOptions<ActualizarEstudianteData, FirebaseError, ActualizarEstudianteVariables>): UseDataConnectMutationResult<ActualizarEstudianteData, ActualizarEstudianteVariables>;
+```
+
+### Variables
+The `ActualizarEstudiante` Mutation requires an argument of type `ActualizarEstudianteVariables`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+
+```javascript
+export interface ActualizarEstudianteVariables {
+  usuarioInternalId: UUIDString;
+  nombreCompleto: string;
+  correo: string;
+  telefono: string;
+  activo: boolean;
+}
+```
+### Return Type
+Recall that calling the `ActualizarEstudiante` Mutation hook function returns a `UseMutationResult` object. This object holds the state of your Mutation, including whether the Mutation is loading, has completed, or has succeeded/failed, among other things.
+
+To check the status of a Mutation, use the `UseMutationResult.status` field. You can also check for pending / success / error status using the `UseMutationResult.isPending`, `UseMutationResult.isSuccess`, and `UseMutationResult.isError` fields.
+
+To execute the Mutation, call `UseMutationResult.mutate()`. This function executes the Mutation, but does not return the data from the Mutation.
+
+To access the data returned by a Mutation, use the `UseMutationResult.data` field. The data for the `ActualizarEstudiante` Mutation is of type `ActualizarEstudianteData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface ActualizarEstudianteData {
+  usuario_update?: Usuario_Key | null;
+}
+```
+
+To learn more about the `UseMutationResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useMutation).
+
+### Using `ActualizarEstudiante`'s Mutation hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, ActualizarEstudianteVariables } from '@dataconnect/generated';
+import { useActualizarEstudiante } from '@dataconnect/generated/react'
+
+export default function ActualizarEstudianteComponent() {
+  // Call the Mutation hook function to get a `UseMutationResult` object which holds the state of your Mutation.
+  const mutation = useActualizarEstudiante();
+
+  // You can also pass in a `DataConnect` instance to the Mutation hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const mutation = useActualizarEstudiante(dataConnect);
+
+  // You can also pass in a `useDataConnectMutationOptions` object to the Mutation hook function.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useActualizarEstudiante(options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectMutationOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useActualizarEstudiante(dataConnect, options);
+
+  // After calling the Mutation hook function, you must call `UseMutationResult.mutate()` to execute the Mutation.
+  // The `useActualizarEstudiante` Mutation requires an argument of type `ActualizarEstudianteVariables`:
+  const actualizarEstudianteVars: ActualizarEstudianteVariables = {
+    usuarioInternalId: ..., 
+    nombreCompleto: ..., 
+    correo: ..., 
+    telefono: ..., 
+    activo: ..., 
+  };
+  mutation.mutate(actualizarEstudianteVars);
+  // Variables can be defined inline as well.
+  mutation.mutate({ usuarioInternalId: ..., nombreCompleto: ..., correo: ..., telefono: ..., activo: ..., });
+
+  // You can also pass in a `useDataConnectMutationOptions` object to `UseMutationResult.mutate()`.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  mutation.mutate(actualizarEstudianteVars, options);
+
+  // Then, you can render your component dynamically based on the status of the Mutation.
+  if (mutation.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (mutation.isError) {
+    return <div>Error: {mutation.error.message}</div>;
+  }
+
+  // If the Mutation is successful, you can access the data returned using the `UseMutationResult.data` field.
+  if (mutation.isSuccess) {
+    console.log(mutation.data.usuario_update);
+  }
+  return <div>Mutation execution {mutation.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## EliminarEstudiante
+You can execute the `EliminarEstudiante` Mutation using the `UseMutationResult` object returned by the following Mutation hook function (which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts)):
+```javascript
+useEliminarEstudiante(options?: useDataConnectMutationOptions<EliminarEstudianteData, FirebaseError, EliminarEstudianteVariables>): UseDataConnectMutationResult<EliminarEstudianteData, EliminarEstudianteVariables>;
+```
+You can also pass in a `DataConnect` instance to the Mutation hook function.
+```javascript
+useEliminarEstudiante(dc: DataConnect, options?: useDataConnectMutationOptions<EliminarEstudianteData, FirebaseError, EliminarEstudianteVariables>): UseDataConnectMutationResult<EliminarEstudianteData, EliminarEstudianteVariables>;
+```
+
+### Variables
+The `EliminarEstudiante` Mutation requires an argument of type `EliminarEstudianteVariables`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+
+```javascript
+export interface EliminarEstudianteVariables {
+  usuarioInternalId: UUIDString;
+}
+```
+### Return Type
+Recall that calling the `EliminarEstudiante` Mutation hook function returns a `UseMutationResult` object. This object holds the state of your Mutation, including whether the Mutation is loading, has completed, or has succeeded/failed, among other things.
+
+To check the status of a Mutation, use the `UseMutationResult.status` field. You can also check for pending / success / error status using the `UseMutationResult.isPending`, `UseMutationResult.isSuccess`, and `UseMutationResult.isError` fields.
+
+To execute the Mutation, call `UseMutationResult.mutate()`. This function executes the Mutation, but does not return the data from the Mutation.
+
+To access the data returned by a Mutation, use the `UseMutationResult.data` field. The data for the `EliminarEstudiante` Mutation is of type `EliminarEstudianteData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface EliminarEstudianteData {
+  usuario_delete?: Usuario_Key | null;
+}
+```
+
+To learn more about the `UseMutationResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useMutation).
+
+### Using `EliminarEstudiante`'s Mutation hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, EliminarEstudianteVariables } from '@dataconnect/generated';
+import { useEliminarEstudiante } from '@dataconnect/generated/react'
+
+export default function EliminarEstudianteComponent() {
+  // Call the Mutation hook function to get a `UseMutationResult` object which holds the state of your Mutation.
+  const mutation = useEliminarEstudiante();
+
+  // You can also pass in a `DataConnect` instance to the Mutation hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const mutation = useEliminarEstudiante(dataConnect);
+
+  // You can also pass in a `useDataConnectMutationOptions` object to the Mutation hook function.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useEliminarEstudiante(options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectMutationOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useEliminarEstudiante(dataConnect, options);
+
+  // After calling the Mutation hook function, you must call `UseMutationResult.mutate()` to execute the Mutation.
+  // The `useEliminarEstudiante` Mutation requires an argument of type `EliminarEstudianteVariables`:
+  const eliminarEstudianteVars: EliminarEstudianteVariables = {
+    usuarioInternalId: ..., 
+  };
+  mutation.mutate(eliminarEstudianteVars);
+  // Variables can be defined inline as well.
+  mutation.mutate({ usuarioInternalId: ..., });
+
+  // You can also pass in a `useDataConnectMutationOptions` object to `UseMutationResult.mutate()`.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  mutation.mutate(eliminarEstudianteVars, options);
+
+  // Then, you can render your component dynamically based on the status of the Mutation.
+  if (mutation.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (mutation.isError) {
+    return <div>Error: {mutation.error.message}</div>;
+  }
+
+  // If the Mutation is successful, you can access the data returned using the `UseMutationResult.data` field.
+  if (mutation.isSuccess) {
+    console.log(mutation.data.usuario_delete);
+  }
+  return <div>Mutation execution {mutation.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
 
 ## CreateInstructor
 You can execute the `CreateInstructor` Mutation using the `UseMutationResult` object returned by the following Mutation hook function (which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts)):

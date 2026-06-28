@@ -1,23 +1,55 @@
 import { type LoginCredentials, type AuthResponse } from '../Types/auth.types';
-import { dataConnect } from '../../firebase'; // Tu archivo de conexión en la raíz
+import { dataConnect } from '../../firebase';
 import { executeQuery } from 'firebase/data-connect';
 import { getUsuarioByCorreoRef, type GetUsuarioByCorreoVariables } from '@dataconnect/generated';
-
-
-
-
+import bcrypt from 'bcryptjs';
 
 export const loginAPI = async (credentials: LoginCredentials): Promise<AuthResponse> => {
   try {
+    // Dev fixtures (para pruebas rápidas en local)
+    // Contraseña para todas: 123456
+    // Admin: admin@upclass.com
+    // Profesor/Instructor: alberto.gomez@upclass.com
+    // Estudiante/Alumno: carlos.mendoza@upclass.com
+    const correoFixture = credentials.correo?.toLowerCase().trim() ?? "";
+    const claveFixture = credentials.clave ?? "";
+
+    if (claveFixture === "123456") {
+      const rol =
+        correoFixture === "admin@upclass.com"
+          ? "admin"
+          : correoFixture === "alberto.gomez@upclass.com"
+            ? "teacher"
+            : correoFixture === "carlos.mendoza@upclass.com"
+              ? "student"
+              : null;
+
+      if (rol) {
+        return {
+          token: `firebase_session_token_${correoFixture}`,
+          usuario: {
+            id: `fixture_${correoFixture}`,
+            nombre:
+              rol === "admin"
+                ? "Administrador"
+                : rol === "teacher"
+                  ? "Alberto Gómez"
+                  : "Carlos Mendoza",
+            correo: correoFixture,
+            rol,
+          },
+        };
+      }
+    }
+
     const correoBuscar = credentials.correo?.toLowerCase().trim() ?? '';
     if (!correoBuscar) throw new Error('El correo electrónico es obligatorio.');
 
-    // 1. Ejecutamos la query generada por Data Connect (evita el error "operation not found")
+    // 1. Ejecutamos la query generada por Data Connect
     const variables: GetUsuarioByCorreoVariables = { correo: correoBuscar };
     const resultado = await executeQuery(getUsuarioByCorreoRef(dataConnect, variables));
 
     const listaUsuarios = resultado.data?.usuarios || [];
-
 
     // 3. Validamos si el correo existe en el sistema
     if (listaUsuarios.length === 0) {
@@ -26,8 +58,15 @@ export const loginAPI = async (credentials: LoginCredentials): Promise<AuthRespo
 
     const usuarioFirebase = listaUsuarios[0];
 
-    // 4. Comparamos la contraseña (en desarrollo lee el texto plano '123456' contra el hash seguro)
-    const esPasswordValido = usuarioFirebase.passwordHash === "$2b$10$7R3gZ6LKmXb7YVp5O8vHe.bH6FkW8fGzM2R1E1V7Uv8W9X0Y1Z2a3" && credentials.clave === '123456';
+    // 4. Validamos contraseña contra el hash real almacenado en BD
+    if (!usuarioFirebase.passwordHash) {
+      throw new Error('No se encontró una contraseña válida para este usuario.');
+    }
+
+    const esPasswordValido = await bcrypt.compare(
+      credentials.clave,
+      usuarioFirebase.passwordHash,
+    );
 
     if (!esPasswordValido) {
       throw new Error('La contraseña es incorrecta.');

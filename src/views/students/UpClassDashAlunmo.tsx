@@ -405,7 +405,7 @@ export default function Dashboard() {
     const storedRol = localStorage.getItem("rol");
 
     if (!token || !savedUser || !storedRol) {
-      navigate("/");
+      // navigate("/"); 
       return;
     }
 
