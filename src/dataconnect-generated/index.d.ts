@@ -114,6 +114,21 @@ export interface CreateInstructorVariables {
   instructorId: number;
 }
 
+export interface CreateReporteEstadisticaData {
+  reporteEstadistica_insert: ReporteEstadistica_Key;
+}
+
+export interface CreateReporteEstadisticaVariables {
+  reporteId: number;
+  cursoInternalId: UUIDString;
+  periodoAnio: string;
+  totalInscritos: number;
+  totalBajas: number;
+  porcentajeAsistencia: number;
+  calificacionPromedio?: number | null;
+  ingresosGenerados?: number | null;
+}
+
 export interface Curso_Key {
   id: UUIDString;
   __typename?: 'Curso_Key';
@@ -176,6 +191,18 @@ export interface Estudiante_Key {
   __typename?: 'Estudiante_Key';
 }
 
+export interface GetCursoInternalIdData {
+  cursos: ({
+    id: UUIDString;
+    cursoId: number;
+    nombre: string;
+  } & Curso_Key)[];
+}
+
+export interface GetCursoInternalIdVariables {
+  cursoId: number;
+}
+
 export interface GetRolByNumeroData {
   rols: ({
     id: UUIDString;
@@ -219,6 +246,47 @@ export interface Instructor_Key {
   __typename?: 'Instructor_Key';
 }
 
+export interface ListAsistenciasData {
+  asistencias: ({
+    asistenciaId: number;
+    fecha: DateString;
+    estadoAsistencia: string;
+    observaciones?: string | null;
+    estudiante: {
+      matricula: string;
+      usuario: {
+        nombreCompleto: string;
+      };
+    };
+    instructor: {
+      instructorId: number;
+      usuario: {
+        nombreCompleto: string;
+      };
+    };
+    materiaId: number;
+  })[];
+}
+
+export interface ListAsistenciasPorEstadoData {
+  asistencias: ({
+    asistenciaId: number;
+    fecha: DateString;
+    estadoAsistencia: string;
+    materiaId: number;
+    estudiante: {
+      matricula: string;
+      usuario: {
+        nombreCompleto: string;
+      };
+    };
+  })[];
+}
+
+export interface ListAsistenciasPorEstadoVariables {
+  estado: string;
+}
+
 export interface ListCursosData {
   cursos: ({
     id: UUIDString;
@@ -237,6 +305,119 @@ export interface ListCursosData {
   } & Curso_Key)[];
 }
 
+export interface ListCursosEstadisticasData {
+  cursos: ({
+    cursoId: number;
+    nombre: string;
+    descripcion?: string | null;
+    categoria?: string | null;
+    estado?: string | null;
+    instructor?: {
+      instructorId: number;
+      especialidad?: string | null;
+      usuario: {
+        nombreCompleto: string;
+      };
+    };
+  })[];
+}
+
+export interface ListHorariosData {
+  horarios: ({
+    horarioId: number;
+    fechaInicio: DateString;
+    fechaFin: DateString;
+    horaInicio: string;
+    horaFin: string;
+    cupoMaximo: number;
+    cupoActual: number;
+    estado?: string | null;
+    curso: {
+      cursoId: number;
+      nombre: string;
+      categoria?: string | null;
+    };
+  })[];
+}
+
+export interface ListHorariosPorEstadoData {
+  horarios: ({
+    horarioId: number;
+    fechaInicio: DateString;
+    fechaFin: DateString;
+    horaInicio: string;
+    horaFin: string;
+    cupoMaximo: number;
+    cupoActual: number;
+    estado?: string | null;
+    curso: {
+      cursoId: number;
+      nombre: string;
+      categoria?: string | null;
+      instructor?: {
+        usuario: {
+          nombreCompleto: string;
+        };
+      };
+    };
+  })[];
+}
+
+export interface ListHorariosPorEstadoVariables {
+  estado: string;
+}
+
+export interface ListInscripcionesData {
+  inscripcions: ({
+    inscripcionId: string;
+    fechaInscripcion: DateString;
+    estadoInscripcion: string;
+    pagoEstado?: string | null;
+    estudiante: {
+      matricula: string;
+      usuario: {
+        nombreCompleto: string;
+        correo: string;
+      };
+    };
+    horario: {
+      horarioId: number;
+      curso: {
+        cursoId: number;
+        nombre: string;
+        categoria?: string | null;
+      };
+    };
+  })[];
+}
+
+export interface ListInscripcionesPorEstadoData {
+  inscripcions: ({
+    inscripcionId: string;
+    fechaInscripcion: DateString;
+    estadoInscripcion: string;
+    pagoEstado?: string | null;
+    estudiante: {
+      matricula: string;
+      usuario: {
+        nombreCompleto: string;
+      };
+    };
+    horario: {
+      horarioId: number;
+      curso: {
+        cursoId: number;
+        nombre: string;
+        categoria?: string | null;
+      };
+    };
+  })[];
+}
+
+export interface ListInscripcionesPorEstadoVariables {
+  estado: string;
+}
+
 export interface ListInstructorsData {
   instructors: ({
     id: UUIDString;
@@ -252,6 +433,71 @@ export interface ListInstructorsData {
       activo: boolean;
     } & Usuario_Key;
   } & Instructor_Key)[];
+}
+
+export interface ListReportesEstadisticasData {
+  reporteEstadisticas: ({
+    id: UUIDString;
+    reporteId: number;
+    periodoAnio: string;
+    totalInscritos: number;
+    totalBajas: number;
+    porcentajeAsistencia: number;
+    calificacionPromedio?: number | null;
+    ingresosGenerados?: number | null;
+    fechaActualizacion: DateString;
+    curso: {
+      cursoId: number;
+      nombre: string;
+      categoria?: string | null;
+    };
+  } & ReporteEstadistica_Key)[];
+}
+
+export interface ListReportesPorCursoData {
+  reporteEstadisticas: ({
+    id: UUIDString;
+    reporteId: number;
+    periodoAnio: string;
+    totalInscritos: number;
+    totalBajas: number;
+    porcentajeAsistencia: number;
+    calificacionPromedio?: number | null;
+    ingresosGenerados?: number | null;
+    fechaActualizacion: DateString;
+    curso: {
+      cursoId: number;
+      nombre: string;
+      categoria?: string | null;
+    };
+  } & ReporteEstadistica_Key)[];
+}
+
+export interface ListReportesPorCursoVariables {
+  cursoId: number;
+}
+
+export interface ListReportesPorPeriodoData {
+  reporteEstadisticas: ({
+    id: UUIDString;
+    reporteId: number;
+    periodoAnio: string;
+    totalInscritos: number;
+    totalBajas: number;
+    porcentajeAsistencia: number;
+    calificacionPromedio?: number | null;
+    ingresosGenerados?: number | null;
+    fechaActualizacion: DateString;
+    curso: {
+      cursoId: number;
+      nombre: string;
+      categoria?: string | null;
+    };
+  } & ReporteEstadistica_Key)[];
+}
+
+export interface ListReportesPorPeriodoVariables {
+  periodo: string;
 }
 
 export interface ListarEstudiantesData {
@@ -307,6 +553,19 @@ export interface UpdateInstructorVariables {
   telefono: string;
   activo: boolean;
   especialidad: string;
+}
+
+export interface UpdateReporteEstadisticaData {
+  reporteEstadistica_update?: ReporteEstadistica_Key | null;
+}
+
+export interface UpdateReporteEstadisticaVariables {
+  reporteInternalId: UUIDString;
+  totalInscritos: number;
+  totalBajas: number;
+  porcentajeAsistencia: number;
+  calificacionPromedio?: number | null;
+  ingresosGenerados?: number | null;
 }
 
 export interface Usuario_Key {
@@ -541,4 +800,160 @@ export const deleteCursoRef: DeleteCursoRef;
 
 export function deleteCurso(vars: DeleteCursoVariables): MutationPromise<DeleteCursoData, DeleteCursoVariables>;
 export function deleteCurso(dc: DataConnect, vars: DeleteCursoVariables): MutationPromise<DeleteCursoData, DeleteCursoVariables>;
+
+interface ListCursosEstadisticasRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (): QueryRef<ListCursosEstadisticasData, undefined>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect): QueryRef<ListCursosEstadisticasData, undefined>;
+  operationName: string;
+}
+export const listCursosEstadisticasRef: ListCursosEstadisticasRef;
+
+export function listCursosEstadisticas(options?: ExecuteQueryOptions): QueryPromise<ListCursosEstadisticasData, undefined>;
+export function listCursosEstadisticas(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListCursosEstadisticasData, undefined>;
+
+interface ListHorariosRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (): QueryRef<ListHorariosData, undefined>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect): QueryRef<ListHorariosData, undefined>;
+  operationName: string;
+}
+export const listHorariosRef: ListHorariosRef;
+
+export function listHorarios(options?: ExecuteQueryOptions): QueryPromise<ListHorariosData, undefined>;
+export function listHorarios(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListHorariosData, undefined>;
+
+interface ListHorariosPorEstadoRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: ListHorariosPorEstadoVariables): QueryRef<ListHorariosPorEstadoData, ListHorariosPorEstadoVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: ListHorariosPorEstadoVariables): QueryRef<ListHorariosPorEstadoData, ListHorariosPorEstadoVariables>;
+  operationName: string;
+}
+export const listHorariosPorEstadoRef: ListHorariosPorEstadoRef;
+
+export function listHorariosPorEstado(vars: ListHorariosPorEstadoVariables, options?: ExecuteQueryOptions): QueryPromise<ListHorariosPorEstadoData, ListHorariosPorEstadoVariables>;
+export function listHorariosPorEstado(dc: DataConnect, vars: ListHorariosPorEstadoVariables, options?: ExecuteQueryOptions): QueryPromise<ListHorariosPorEstadoData, ListHorariosPorEstadoVariables>;
+
+interface ListInscripcionesRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (): QueryRef<ListInscripcionesData, undefined>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect): QueryRef<ListInscripcionesData, undefined>;
+  operationName: string;
+}
+export const listInscripcionesRef: ListInscripcionesRef;
+
+export function listInscripciones(options?: ExecuteQueryOptions): QueryPromise<ListInscripcionesData, undefined>;
+export function listInscripciones(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListInscripcionesData, undefined>;
+
+interface ListInscripcionesPorEstadoRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: ListInscripcionesPorEstadoVariables): QueryRef<ListInscripcionesPorEstadoData, ListInscripcionesPorEstadoVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: ListInscripcionesPorEstadoVariables): QueryRef<ListInscripcionesPorEstadoData, ListInscripcionesPorEstadoVariables>;
+  operationName: string;
+}
+export const listInscripcionesPorEstadoRef: ListInscripcionesPorEstadoRef;
+
+export function listInscripcionesPorEstado(vars: ListInscripcionesPorEstadoVariables, options?: ExecuteQueryOptions): QueryPromise<ListInscripcionesPorEstadoData, ListInscripcionesPorEstadoVariables>;
+export function listInscripcionesPorEstado(dc: DataConnect, vars: ListInscripcionesPorEstadoVariables, options?: ExecuteQueryOptions): QueryPromise<ListInscripcionesPorEstadoData, ListInscripcionesPorEstadoVariables>;
+
+interface ListAsistenciasRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (): QueryRef<ListAsistenciasData, undefined>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect): QueryRef<ListAsistenciasData, undefined>;
+  operationName: string;
+}
+export const listAsistenciasRef: ListAsistenciasRef;
+
+export function listAsistencias(options?: ExecuteQueryOptions): QueryPromise<ListAsistenciasData, undefined>;
+export function listAsistencias(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListAsistenciasData, undefined>;
+
+interface ListAsistenciasPorEstadoRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: ListAsistenciasPorEstadoVariables): QueryRef<ListAsistenciasPorEstadoData, ListAsistenciasPorEstadoVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: ListAsistenciasPorEstadoVariables): QueryRef<ListAsistenciasPorEstadoData, ListAsistenciasPorEstadoVariables>;
+  operationName: string;
+}
+export const listAsistenciasPorEstadoRef: ListAsistenciasPorEstadoRef;
+
+export function listAsistenciasPorEstado(vars: ListAsistenciasPorEstadoVariables, options?: ExecuteQueryOptions): QueryPromise<ListAsistenciasPorEstadoData, ListAsistenciasPorEstadoVariables>;
+export function listAsistenciasPorEstado(dc: DataConnect, vars: ListAsistenciasPorEstadoVariables, options?: ExecuteQueryOptions): QueryPromise<ListAsistenciasPorEstadoData, ListAsistenciasPorEstadoVariables>;
+
+interface ListReportesEstadisticasRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (): QueryRef<ListReportesEstadisticasData, undefined>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect): QueryRef<ListReportesEstadisticasData, undefined>;
+  operationName: string;
+}
+export const listReportesEstadisticasRef: ListReportesEstadisticasRef;
+
+export function listReportesEstadisticas(options?: ExecuteQueryOptions): QueryPromise<ListReportesEstadisticasData, undefined>;
+export function listReportesEstadisticas(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListReportesEstadisticasData, undefined>;
+
+interface ListReportesPorPeriodoRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: ListReportesPorPeriodoVariables): QueryRef<ListReportesPorPeriodoData, ListReportesPorPeriodoVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: ListReportesPorPeriodoVariables): QueryRef<ListReportesPorPeriodoData, ListReportesPorPeriodoVariables>;
+  operationName: string;
+}
+export const listReportesPorPeriodoRef: ListReportesPorPeriodoRef;
+
+export function listReportesPorPeriodo(vars: ListReportesPorPeriodoVariables, options?: ExecuteQueryOptions): QueryPromise<ListReportesPorPeriodoData, ListReportesPorPeriodoVariables>;
+export function listReportesPorPeriodo(dc: DataConnect, vars: ListReportesPorPeriodoVariables, options?: ExecuteQueryOptions): QueryPromise<ListReportesPorPeriodoData, ListReportesPorPeriodoVariables>;
+
+interface ListReportesPorCursoRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: ListReportesPorCursoVariables): QueryRef<ListReportesPorCursoData, ListReportesPorCursoVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: ListReportesPorCursoVariables): QueryRef<ListReportesPorCursoData, ListReportesPorCursoVariables>;
+  operationName: string;
+}
+export const listReportesPorCursoRef: ListReportesPorCursoRef;
+
+export function listReportesPorCurso(vars: ListReportesPorCursoVariables, options?: ExecuteQueryOptions): QueryPromise<ListReportesPorCursoData, ListReportesPorCursoVariables>;
+export function listReportesPorCurso(dc: DataConnect, vars: ListReportesPorCursoVariables, options?: ExecuteQueryOptions): QueryPromise<ListReportesPorCursoData, ListReportesPorCursoVariables>;
+
+interface GetCursoInternalIdRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: GetCursoInternalIdVariables): QueryRef<GetCursoInternalIdData, GetCursoInternalIdVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: GetCursoInternalIdVariables): QueryRef<GetCursoInternalIdData, GetCursoInternalIdVariables>;
+  operationName: string;
+}
+export const getCursoInternalIdRef: GetCursoInternalIdRef;
+
+export function getCursoInternalId(vars: GetCursoInternalIdVariables, options?: ExecuteQueryOptions): QueryPromise<GetCursoInternalIdData, GetCursoInternalIdVariables>;
+export function getCursoInternalId(dc: DataConnect, vars: GetCursoInternalIdVariables, options?: ExecuteQueryOptions): QueryPromise<GetCursoInternalIdData, GetCursoInternalIdVariables>;
+
+interface CreateReporteEstadisticaRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: CreateReporteEstadisticaVariables): MutationRef<CreateReporteEstadisticaData, CreateReporteEstadisticaVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: CreateReporteEstadisticaVariables): MutationRef<CreateReporteEstadisticaData, CreateReporteEstadisticaVariables>;
+  operationName: string;
+}
+export const createReporteEstadisticaRef: CreateReporteEstadisticaRef;
+
+export function createReporteEstadistica(vars: CreateReporteEstadisticaVariables): MutationPromise<CreateReporteEstadisticaData, CreateReporteEstadisticaVariables>;
+export function createReporteEstadistica(dc: DataConnect, vars: CreateReporteEstadisticaVariables): MutationPromise<CreateReporteEstadisticaData, CreateReporteEstadisticaVariables>;
+
+interface UpdateReporteEstadisticaRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: UpdateReporteEstadisticaVariables): MutationRef<UpdateReporteEstadisticaData, UpdateReporteEstadisticaVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: UpdateReporteEstadisticaVariables): MutationRef<UpdateReporteEstadisticaData, UpdateReporteEstadisticaVariables>;
+  operationName: string;
+}
+export const updateReporteEstadisticaRef: UpdateReporteEstadisticaRef;
+
+export function updateReporteEstadistica(vars: UpdateReporteEstadisticaVariables): MutationPromise<UpdateReporteEstadisticaData, UpdateReporteEstadisticaVariables>;
+export function updateReporteEstadistica(dc: DataConnect, vars: UpdateReporteEstadisticaVariables): MutationPromise<UpdateReporteEstadisticaData, UpdateReporteEstadisticaVariables>;
 

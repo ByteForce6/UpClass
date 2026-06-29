@@ -311,3 +311,265 @@ mutation UpdateCurso(
 mutation DeleteCurso($cursoInternalId: UUID!) @auth(level: PUBLIC) {
   curso_delete(key: { id: $cursoInternalId })
 }
+# ── Cursos (estadísticas) ──────────────────────────────────────────────────────
+
+query ListCursosEstadisticas @auth(level: PUBLIC) {
+  cursos {
+    cursoId
+    nombre
+    descripcion
+    categoria
+    estado
+    instructor {
+      instructorId
+      especialidad
+      usuario {
+        nombreCompleto
+      }
+    }
+  }
+}
+
+# ── Horarios ─────────────────────────────────────────────────────────────────
+
+query ListHorarios @auth(level: PUBLIC) {
+  horarios {
+    horarioId
+    fechaInicio
+    fechaFin
+    horaInicio
+    horaFin
+    cupoMaximo
+    cupoActual
+    estado
+    curso {
+      cursoId
+      nombre
+      categoria
+    }
+  }
+}
+
+query ListHorariosPorEstado($estado: String!) @auth(level: PUBLIC) {
+  horarios(where: { estado: { eq: $estado } }) {
+    horarioId
+    fechaInicio
+    fechaFin
+    horaInicio
+    horaFin
+    cupoMaximo
+    cupoActual
+    estado
+    curso {
+      cursoId
+      nombre
+      categoria
+      instructor {
+        usuario {
+          nombreCompleto
+        }
+      }
+    }
+  }
+}
+
+# ── Inscripciones ─────────────────────────────────────────────────────────────
+
+query ListInscripciones @auth(level: PUBLIC) {
+  inscripcions {
+    inscripcionId
+    fechaInscripcion
+    estadoInscripcion
+    pagoEstado
+    estudiante {
+      matricula
+      usuario {
+        nombreCompleto
+        correo
+      }
+    }
+    horario {
+      horarioId
+      curso {
+        cursoId
+        nombre
+        categoria
+      }
+    }
+  }
+}
+
+query ListInscripcionesPorEstado($estado: String!) @auth(level: PUBLIC) {
+  inscripcions(where: { estadoInscripcion: { eq: $estado } }) {
+    inscripcionId
+    fechaInscripcion
+    estadoInscripcion
+    pagoEstado
+    estudiante {
+      matricula
+      usuario {
+        nombreCompleto
+      }
+    }
+    horario {
+      horarioId
+      curso {
+        cursoId
+        nombre
+        categoria
+      }
+    }
+  }
+}
+
+# ── Asistencias ───────────────────────────────────────────────────────────────
+
+query ListAsistencias @auth(level: PUBLIC) {
+  asistencias {
+    asistenciaId
+    fecha
+    estadoAsistencia
+    observaciones
+    estudiante {
+      matricula
+      usuario {
+        nombreCompleto
+      }
+    }
+    instructor {
+      instructorId
+      usuario {
+        nombreCompleto
+      }
+    }
+    materiaId
+  }
+}
+
+query ListAsistenciasPorEstado($estado: String!) @auth(level: PUBLIC) {
+  asistencias(where: { estadoAsistencia: { eq: $estado } }) {
+    asistenciaId
+    fecha
+    estadoAsistencia
+    materiaId
+    estudiante {
+      matricula
+      usuario {
+        nombreCompleto
+      }
+    }
+  }
+}
+
+# ── Reportes de estadística ───────────────────────────────────────────────────
+
+query ListReportesEstadisticas @auth(level: PUBLIC) {
+  reporteEstadisticas {
+    id
+    reporteId
+    periodoAnio
+    totalInscritos
+    totalBajas
+    porcentajeAsistencia
+    calificacionPromedio
+    ingresosGenerados
+    fechaActualizacion
+    curso {
+      cursoId
+      nombre
+      categoria
+    }
+  }
+}
+
+query ListReportesPorPeriodo($periodo: String!) @auth(level: PUBLIC) {
+  reporteEstadisticas(where: { periodoAnio: { eq: $periodo } }) {
+    id
+    reporteId
+    periodoAnio
+    totalInscritos
+    totalBajas
+    porcentajeAsistencia
+    calificacionPromedio
+    ingresosGenerados
+    fechaActualizacion
+    curso {
+      cursoId
+      nombre
+      categoria
+    }
+  }
+}
+
+query ListReportesPorCurso($cursoId: Int!) @auth(level: PUBLIC) {
+  reporteEstadisticas(where: { curso: { cursoId: { eq: $cursoId } } }) {
+    id
+    reporteId
+    periodoAnio
+    totalInscritos
+    totalBajas
+    porcentajeAsistencia
+    calificacionPromedio
+    ingresosGenerados
+    fechaActualizacion
+    curso {
+      cursoId
+      nombre
+      categoria
+    }
+  }
+}
+
+# ── Lookup auxiliar ───────────────────────────────────────────────────────────
+
+query GetCursoInternalId($cursoId: Int!) @auth(level: PUBLIC) {
+  cursos(where: { cursoId: { eq: $cursoId } }) {
+    id
+    cursoId
+    nombre
+  }
+}
+
+# ── Mutations de ReporteEstadistica ──────────────────────────────────────────
+
+mutation CreateReporteEstadistica(
+  $reporteId: Int!
+  $cursoInternalId: UUID!
+  $periodoAnio: String!
+  $totalInscritos: Int!
+  $totalBajas: Int!
+  $porcentajeAsistencia: Float!
+  $calificacionPromedio: Float
+  $ingresosGenerados: Float
+) @auth(level: PUBLIC) {
+  reporteEstadistica_insert(data: {
+    reporteId: $reporteId
+    curso: { id: $cursoInternalId }
+    periodoAnio: $periodoAnio
+    totalInscritos: $totalInscritos
+    totalBajas: $totalBajas
+    porcentajeAsistencia: $porcentajeAsistencia
+    calificacionPromedio: $calificacionPromedio
+    ingresosGenerados: $ingresosGenerados
+  })
+}
+
+mutation UpdateReporteEstadistica(
+  $reporteInternalId: UUID!
+  $totalInscritos: Int!
+  $totalBajas: Int!
+  $porcentajeAsistencia: Float!
+  $calificacionPromedio: Float
+  $ingresosGenerados: Float
+) @auth(level: PUBLIC) {
+  reporteEstadistica_update(
+    key: { id: $reporteInternalId }
+    data: {
+      totalInscritos: $totalInscritos
+      totalBajas: $totalBajas
+      porcentajeAsistencia: $porcentajeAsistencia
+      calificacionPromedio: $calificacionPromedio
+      ingresosGenerados: $ingresosGenerados
+    }
+  )
+}

@@ -286,3 +286,196 @@ exports.deleteCurso = function deleteCurso(dcOrVars, vars) {
   return executeMutation(deleteCursoRef(dcInstance, inputVars));
 }
 ;
+
+const listCursosEstadisticasRef = (dc) => {
+  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'ListCursosEstadisticas');
+}
+listCursosEstadisticasRef.operationName = 'ListCursosEstadisticas';
+exports.listCursosEstadisticasRef = listCursosEstadisticasRef;
+
+exports.listCursosEstadisticas = function listCursosEstadisticas(dcOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
+  return executeQuery(listCursosEstadisticasRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const listHorariosRef = (dc) => {
+  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'ListHorarios');
+}
+listHorariosRef.operationName = 'ListHorarios';
+exports.listHorariosRef = listHorariosRef;
+
+exports.listHorarios = function listHorarios(dcOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
+  return executeQuery(listHorariosRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const listHorariosPorEstadoRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'ListHorariosPorEstado', inputVars);
+}
+listHorariosPorEstadoRef.operationName = 'ListHorariosPorEstado';
+exports.listHorariosPorEstadoRef = listHorariosPorEstadoRef;
+
+exports.listHorariosPorEstado = function listHorariosPorEstado(dcOrVars, varsOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  return executeQuery(listHorariosPorEstadoRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const listInscripcionesRef = (dc) => {
+  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'ListInscripciones');
+}
+listInscripcionesRef.operationName = 'ListInscripciones';
+exports.listInscripcionesRef = listInscripcionesRef;
+
+exports.listInscripciones = function listInscripciones(dcOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
+  return executeQuery(listInscripcionesRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const listInscripcionesPorEstadoRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'ListInscripcionesPorEstado', inputVars);
+}
+listInscripcionesPorEstadoRef.operationName = 'ListInscripcionesPorEstado';
+exports.listInscripcionesPorEstadoRef = listInscripcionesPorEstadoRef;
+
+exports.listInscripcionesPorEstado = function listInscripcionesPorEstado(dcOrVars, varsOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  return executeQuery(listInscripcionesPorEstadoRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const listAsistenciasRef = (dc) => {
+  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'ListAsistencias');
+}
+listAsistenciasRef.operationName = 'ListAsistencias';
+exports.listAsistenciasRef = listAsistenciasRef;
+
+exports.listAsistencias = function listAsistencias(dcOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
+  return executeQuery(listAsistenciasRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const listAsistenciasPorEstadoRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'ListAsistenciasPorEstado', inputVars);
+}
+listAsistenciasPorEstadoRef.operationName = 'ListAsistenciasPorEstado';
+exports.listAsistenciasPorEstadoRef = listAsistenciasPorEstadoRef;
+
+exports.listAsistenciasPorEstado = function listAsistenciasPorEstado(dcOrVars, varsOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  return executeQuery(listAsistenciasPorEstadoRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const listReportesEstadisticasRef = (dc) => {
+  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'ListReportesEstadisticas');
+}
+listReportesEstadisticasRef.operationName = 'ListReportesEstadisticas';
+exports.listReportesEstadisticasRef = listReportesEstadisticasRef;
+
+exports.listReportesEstadisticas = function listReportesEstadisticas(dcOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
+  return executeQuery(listReportesEstadisticasRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const listReportesPorPeriodoRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'ListReportesPorPeriodo', inputVars);
+}
+listReportesPorPeriodoRef.operationName = 'ListReportesPorPeriodo';
+exports.listReportesPorPeriodoRef = listReportesPorPeriodoRef;
+
+exports.listReportesPorPeriodo = function listReportesPorPeriodo(dcOrVars, varsOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  return executeQuery(listReportesPorPeriodoRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const listReportesPorCursoRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'ListReportesPorCurso', inputVars);
+}
+listReportesPorCursoRef.operationName = 'ListReportesPorCurso';
+exports.listReportesPorCursoRef = listReportesPorCursoRef;
+
+exports.listReportesPorCurso = function listReportesPorCurso(dcOrVars, varsOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  return executeQuery(listReportesPorCursoRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const getCursoInternalIdRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'GetCursoInternalId', inputVars);
+}
+getCursoInternalIdRef.operationName = 'GetCursoInternalId';
+exports.getCursoInternalIdRef = getCursoInternalIdRef;
+
+exports.getCursoInternalId = function getCursoInternalId(dcOrVars, varsOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  return executeQuery(getCursoInternalIdRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const createReporteEstadisticaRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'CreateReporteEstadistica', inputVars);
+}
+createReporteEstadisticaRef.operationName = 'CreateReporteEstadistica';
+exports.createReporteEstadisticaRef = createReporteEstadisticaRef;
+
+exports.createReporteEstadistica = function createReporteEstadistica(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(createReporteEstadisticaRef(dcInstance, inputVars));
+}
+;
+
+const updateReporteEstadisticaRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'UpdateReporteEstadistica', inputVars);
+}
+updateReporteEstadisticaRef.operationName = 'UpdateReporteEstadistica';
+exports.updateReporteEstadisticaRef = updateReporteEstadisticaRef;
+
+exports.updateReporteEstadistica = function updateReporteEstadistica(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(updateReporteEstadisticaRef(dcInstance, inputVars));
+}
+;

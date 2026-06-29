@@ -1,4 +1,4 @@
-import { GetUsuarioByCorreoData, GetUsuarioByCorreoVariables, ListarEstudiantesData, CrearEstudianteData, CrearEstudianteVariables, ActualizarEstudianteData, ActualizarEstudianteVariables, ActualizarEstudianteSinCorreoData, ActualizarEstudianteSinCorreoVariables, ActualizarPasswordUsuarioData, ActualizarPasswordUsuarioVariables, EliminarEstudianteData, EliminarEstudianteVariables, ListInstructorsData, GetRolByNumeroData, GetRolByNumeroVariables, CreateInstructorData, CreateInstructorVariables, UpdateInstructorData, UpdateInstructorVariables, DeleteInstructorData, DeleteInstructorVariables, ListCursosData, BuscarCursoPorNombreData, BuscarCursoPorNombreVariables, CursosPorCategoriaData, CursosPorCategoriaVariables, CursosPorEstadoData, CursosPorEstadoVariables, CreateCursoData, CreateCursoVariables, UpdateCursoData, UpdateCursoVariables, DeleteCursoData, DeleteCursoVariables } from '../';
+import { GetUsuarioByCorreoData, GetUsuarioByCorreoVariables, ListarEstudiantesData, CrearEstudianteData, CrearEstudianteVariables, ActualizarEstudianteData, ActualizarEstudianteVariables, ActualizarEstudianteSinCorreoData, ActualizarEstudianteSinCorreoVariables, ActualizarPasswordUsuarioData, ActualizarPasswordUsuarioVariables, EliminarEstudianteData, EliminarEstudianteVariables, ListInstructorsData, GetRolByNumeroData, GetRolByNumeroVariables, CreateInstructorData, CreateInstructorVariables, UpdateInstructorData, UpdateInstructorVariables, DeleteInstructorData, DeleteInstructorVariables, ListCursosData, BuscarCursoPorNombreData, BuscarCursoPorNombreVariables, CursosPorCategoriaData, CursosPorCategoriaVariables, CursosPorEstadoData, CursosPorEstadoVariables, CreateCursoData, CreateCursoVariables, UpdateCursoData, UpdateCursoVariables, DeleteCursoData, DeleteCursoVariables, ListCursosEstadisticasData, ListHorariosData, ListHorariosPorEstadoData, ListHorariosPorEstadoVariables, ListInscripcionesData, ListInscripcionesPorEstadoData, ListInscripcionesPorEstadoVariables, ListAsistenciasData, ListAsistenciasPorEstadoData, ListAsistenciasPorEstadoVariables, ListReportesEstadisticasData, ListReportesPorPeriodoData, ListReportesPorPeriodoVariables, ListReportesPorCursoData, ListReportesPorCursoVariables, GetCursoInternalIdData, GetCursoInternalIdVariables, CreateReporteEstadisticaData, CreateReporteEstadisticaVariables, UpdateReporteEstadisticaData, UpdateReporteEstadisticaVariables } from '../';
 import { UseDataConnectQueryResult, useDataConnectQueryOptions, UseDataConnectMutationResult, useDataConnectMutationOptions} from '@tanstack-query-firebase/react/data-connect';
 import { UseQueryResult, UseMutationResult} from '@tanstack/react-query';
 import { DataConnect } from 'firebase/data-connect';
@@ -61,3 +61,42 @@ export function useUpdateCurso(dc: DataConnect, options?: useDataConnectMutation
 
 export function useDeleteCurso(options?: useDataConnectMutationOptions<DeleteCursoData, FirebaseError, DeleteCursoVariables>): UseDataConnectMutationResult<DeleteCursoData, DeleteCursoVariables>;
 export function useDeleteCurso(dc: DataConnect, options?: useDataConnectMutationOptions<DeleteCursoData, FirebaseError, DeleteCursoVariables>): UseDataConnectMutationResult<DeleteCursoData, DeleteCursoVariables>;
+
+export function useListCursosEstadisticas(options?: useDataConnectQueryOptions<ListCursosEstadisticasData>): UseDataConnectQueryResult<ListCursosEstadisticasData, undefined>;
+export function useListCursosEstadisticas(dc: DataConnect, options?: useDataConnectQueryOptions<ListCursosEstadisticasData>): UseDataConnectQueryResult<ListCursosEstadisticasData, undefined>;
+
+export function useListHorarios(options?: useDataConnectQueryOptions<ListHorariosData>): UseDataConnectQueryResult<ListHorariosData, undefined>;
+export function useListHorarios(dc: DataConnect, options?: useDataConnectQueryOptions<ListHorariosData>): UseDataConnectQueryResult<ListHorariosData, undefined>;
+
+export function useListHorariosPorEstado(vars: ListHorariosPorEstadoVariables, options?: useDataConnectQueryOptions<ListHorariosPorEstadoData>): UseDataConnectQueryResult<ListHorariosPorEstadoData, ListHorariosPorEstadoVariables>;
+export function useListHorariosPorEstado(dc: DataConnect, vars: ListHorariosPorEstadoVariables, options?: useDataConnectQueryOptions<ListHorariosPorEstadoData>): UseDataConnectQueryResult<ListHorariosPorEstadoData, ListHorariosPorEstadoVariables>;
+
+export function useListInscripciones(options?: useDataConnectQueryOptions<ListInscripcionesData>): UseDataConnectQueryResult<ListInscripcionesData, undefined>;
+export function useListInscripciones(dc: DataConnect, options?: useDataConnectQueryOptions<ListInscripcionesData>): UseDataConnectQueryResult<ListInscripcionesData, undefined>;
+
+export function useListInscripcionesPorEstado(vars: ListInscripcionesPorEstadoVariables, options?: useDataConnectQueryOptions<ListInscripcionesPorEstadoData>): UseDataConnectQueryResult<ListInscripcionesPorEstadoData, ListInscripcionesPorEstadoVariables>;
+export function useListInscripcionesPorEstado(dc: DataConnect, vars: ListInscripcionesPorEstadoVariables, options?: useDataConnectQueryOptions<ListInscripcionesPorEstadoData>): UseDataConnectQueryResult<ListInscripcionesPorEstadoData, ListInscripcionesPorEstadoVariables>;
+
+export function useListAsistencias(options?: useDataConnectQueryOptions<ListAsistenciasData>): UseDataConnectQueryResult<ListAsistenciasData, undefined>;
+export function useListAsistencias(dc: DataConnect, options?: useDataConnectQueryOptions<ListAsistenciasData>): UseDataConnectQueryResult<ListAsistenciasData, undefined>;
+
+export function useListAsistenciasPorEstado(vars: ListAsistenciasPorEstadoVariables, options?: useDataConnectQueryOptions<ListAsistenciasPorEstadoData>): UseDataConnectQueryResult<ListAsistenciasPorEstadoData, ListAsistenciasPorEstadoVariables>;
+export function useListAsistenciasPorEstado(dc: DataConnect, vars: ListAsistenciasPorEstadoVariables, options?: useDataConnectQueryOptions<ListAsistenciasPorEstadoData>): UseDataConnectQueryResult<ListAsistenciasPorEstadoData, ListAsistenciasPorEstadoVariables>;
+
+export function useListReportesEstadisticas(options?: useDataConnectQueryOptions<ListReportesEstadisticasData>): UseDataConnectQueryResult<ListReportesEstadisticasData, undefined>;
+export function useListReportesEstadisticas(dc: DataConnect, options?: useDataConnectQueryOptions<ListReportesEstadisticasData>): UseDataConnectQueryResult<ListReportesEstadisticasData, undefined>;
+
+export function useListReportesPorPeriodo(vars: ListReportesPorPeriodoVariables, options?: useDataConnectQueryOptions<ListReportesPorPeriodoData>): UseDataConnectQueryResult<ListReportesPorPeriodoData, ListReportesPorPeriodoVariables>;
+export function useListReportesPorPeriodo(dc: DataConnect, vars: ListReportesPorPeriodoVariables, options?: useDataConnectQueryOptions<ListReportesPorPeriodoData>): UseDataConnectQueryResult<ListReportesPorPeriodoData, ListReportesPorPeriodoVariables>;
+
+export function useListReportesPorCurso(vars: ListReportesPorCursoVariables, options?: useDataConnectQueryOptions<ListReportesPorCursoData>): UseDataConnectQueryResult<ListReportesPorCursoData, ListReportesPorCursoVariables>;
+export function useListReportesPorCurso(dc: DataConnect, vars: ListReportesPorCursoVariables, options?: useDataConnectQueryOptions<ListReportesPorCursoData>): UseDataConnectQueryResult<ListReportesPorCursoData, ListReportesPorCursoVariables>;
+
+export function useGetCursoInternalId(vars: GetCursoInternalIdVariables, options?: useDataConnectQueryOptions<GetCursoInternalIdData>): UseDataConnectQueryResult<GetCursoInternalIdData, GetCursoInternalIdVariables>;
+export function useGetCursoInternalId(dc: DataConnect, vars: GetCursoInternalIdVariables, options?: useDataConnectQueryOptions<GetCursoInternalIdData>): UseDataConnectQueryResult<GetCursoInternalIdData, GetCursoInternalIdVariables>;
+
+export function useCreateReporteEstadistica(options?: useDataConnectMutationOptions<CreateReporteEstadisticaData, FirebaseError, CreateReporteEstadisticaVariables>): UseDataConnectMutationResult<CreateReporteEstadisticaData, CreateReporteEstadisticaVariables>;
+export function useCreateReporteEstadistica(dc: DataConnect, options?: useDataConnectMutationOptions<CreateReporteEstadisticaData, FirebaseError, CreateReporteEstadisticaVariables>): UseDataConnectMutationResult<CreateReporteEstadisticaData, CreateReporteEstadisticaVariables>;
+
+export function useUpdateReporteEstadistica(options?: useDataConnectMutationOptions<UpdateReporteEstadisticaData, FirebaseError, UpdateReporteEstadisticaVariables>): UseDataConnectMutationResult<UpdateReporteEstadisticaData, UpdateReporteEstadisticaVariables>;
+export function useUpdateReporteEstadistica(dc: DataConnect, options?: useDataConnectMutationOptions<UpdateReporteEstadisticaData, FirebaseError, UpdateReporteEstadisticaVariables>): UseDataConnectMutationResult<UpdateReporteEstadisticaData, UpdateReporteEstadisticaVariables>;

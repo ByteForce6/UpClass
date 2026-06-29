@@ -477,3 +477,254 @@ extend type Query {
     having: Usuario_Having
   ): [Usuario!]! @fdc_generated(from: "Usuario", purpose: QUERY_MULTIPLE)
 }
+# ─────────────────────────────────────────────────────────────────────────────
+# queries.gql  –  UpClass · Estadísticas
+#
+# INSTRUCCIONES:
+#   1. Copia este contenido y AGRÉGALO (no reemplaces) a tu archivo
+#      dataconnect/connector/queries.gql
+#   2. Ejecuta:  firebase dataconnect:sdk:generate
+#   3. El SDK generado aparecerá en src/dataconnect-generated/
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+# ── Cursos ───────────────────────────────────────────────────────────────────
+
+# Lista todos los cursos con su instructor para las gráficas de estadísticas
+query ListCursosEstadisticas {
+  cursos {
+    cursoId
+    nombre
+    descripcion
+    categoria
+    estado
+    instructor {
+      instructorId
+      especialidad
+      usuario {
+        nombreCompleto
+      }
+    }
+  }
+}
+
+# ── Horarios ─────────────────────────────────────────────────────────────────
+
+# Lista todos los horarios con cupo y estado
+query ListHorarios {
+  horarios {
+    horarioId
+    fechaInicio
+    fechaFin
+    horaInicio
+    horaFin
+    cupoMaximo
+    cupoActual
+    estado
+    curso {
+      cursoId
+      nombre
+      categoria
+    }
+  }
+}
+
+# Horarios de hoy (filtra por fecha en el cliente, Data Connect no soporta
+# comparación de fechas directamente en el WHERE sin extensiones)
+query ListHorariosPorEstado($estado: String!) {
+  horarios(where: { estado: { eq: $estado } }) {
+    horarioId
+    fechaInicio
+    fechaFin
+    horaInicio
+    horaFin
+    cupoMaximo
+    cupoActual
+    estado
+    curso {
+      cursoId
+      nombre
+      categoria
+      instructor {
+        usuario {
+          nombreCompleto
+        }
+      }
+    }
+  }
+}
+
+# ── Inscripciones ─────────────────────────────────────────────────────────────
+
+# Todas las inscripciones para calcular totales por curso
+query ListInscripciones {
+  inscripcions {
+    inscripcionId
+    fechaInscripcion
+    estadoInscripcion
+    pagoEstado
+    estudiante {
+      matricula
+      usuario {
+        nombreCompleto
+        correo
+      }
+    }
+    horario {
+      horarioId
+      curso {
+        cursoId
+        nombre
+        categoria
+      }
+    }
+  }
+}
+
+# Inscripciones filtradas por estado (activa / baja / pendiente)
+query ListInscripcionesPorEstado($estado: String!) {
+  inscripcions(where: { estadoInscripcion: { eq: $estado } }) {
+    inscripcionId
+    fechaInscripcion
+    estadoInscripcion
+    pagoEstado
+    estudiante {
+      matricula
+      usuario {
+        nombreCompleto
+      }
+    }
+    horario {
+      horarioId
+      curso {
+        cursoId
+        nombre
+        categoria
+      }
+    }
+  }
+}
+
+# ── Asistencias ───────────────────────────────────────────────────────────────
+
+# Todas las asistencias para calcular porcentajes por curso
+query ListAsistencias {
+  asistencias {
+    asistenciaId
+    fecha
+    estadoAsistencia
+    observaciones
+    estudiante {
+      matricula
+      usuario {
+        nombreCompleto
+      }
+    }
+    instructor {
+      instructorId
+      usuario {
+        nombreCompleto
+      }
+    }
+    materiaId
+  }
+}
+
+# Asistencias filtradas por estado (presente / ausente / justificado)
+query ListAsistenciasPorEstado($estado: String!) {
+  asistencias(where: { estadoAsistencia: { eq: $estado } }) {
+    asistenciaId
+    fecha
+    estadoAsistencia
+    materiaId
+    estudiante {
+      matricula
+      usuario {
+        nombreCompleto
+      }
+    }
+  }
+}
+
+# ── Reportes de estadística ───────────────────────────────────────────────────
+
+# Todos los reportes para la tabla y gráficas de reportes
+query ListReportesEstadisticas {
+  reporteEstadisticas {
+    reporteId
+    periodoAnio
+    totalInscritos
+    totalBajas
+    porcentajeAsistencia
+    calificacionPromedio
+    ingresosGenerados
+    fechaActualizacion
+    curso {
+      cursoId
+      nombre
+      categoria
+    }
+  }
+}
+
+# Reportes filtrados por periodo (ej: "2026-Q1", "2026-Q2")
+query ListReportesPorPeriodo($periodo: String!) {
+  reporteEstadisticas(where: { periodoAnio: { eq: $periodo } }) {
+    reporteId
+    periodoAnio
+    totalInscritos
+    totalBajas
+    porcentajeAsistencia
+    calificacionPromedio
+    ingresosGenerados
+    fechaActualizacion
+    curso {
+      cursoId
+      nombre
+      categoria
+    }
+  }
+}
+
+# Reporte de un curso específico
+query ListReportesPorCurso($cursoId: Int!) {
+  reporteEstadisticas(where: { curso: { cursoId: { eq: $cursoId } } }) {
+    reporteId
+    periodoAnio
+    totalInscritos
+    totalBajas
+    porcentajeAsistencia
+    calificacionPromedio
+    ingresosGenerados
+    fechaActualizacion
+    curso {
+      cursoId
+      nombre
+      categoria
+    }
+  }
+}
+
+
+# ── Mutations de ReporteEstadistica ──────────────────────────────────────────
+
+# Crea o actualiza manualmente un reporte de estadística
+mutation UpsertReporteEstadistica(
+  $cursoId: Int!
+  $periodoAnio: String!
+  $totalInscritos: Int!
+  $totalBajas: Int!
+  $porcentajeAsistencia: Float!
+  $calificacionPromedio: Float
+  $ingresosGenerados: Float
+) {
+  reporteEstadistica_insert(data: {
+    curso: { id: $cursoId }
+    periodoAnio: $periodoAnio
+    totalInscritos: $totalInscritos
+    totalBajas: $totalBajas
+    porcentajeAsistencia: $porcentajeAsistencia
+    calificacionPromedio: $calificacionPromedio
+    ingresosGenerados: $ingresosGenerados
+  })
+}

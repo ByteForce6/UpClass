@@ -25,6 +25,17 @@ You can also follow the instructions from the [Data Connect documentation](https
   - [*BuscarCursoPorNombre*](#buscarcursopornombre)
   - [*CursosPorCategoria*](#cursosporcategoria)
   - [*CursosPorEstado*](#cursosporestado)
+  - [*ListCursosEstadisticas*](#listcursosestadisticas)
+  - [*ListHorarios*](#listhorarios)
+  - [*ListHorariosPorEstado*](#listhorariosporestado)
+  - [*ListInscripciones*](#listinscripciones)
+  - [*ListInscripcionesPorEstado*](#listinscripcionesporestado)
+  - [*ListAsistencias*](#listasistencias)
+  - [*ListAsistenciasPorEstado*](#listasistenciasporestado)
+  - [*ListReportesEstadisticas*](#listreportesestadisticas)
+  - [*ListReportesPorPeriodo*](#listreportesporperiodo)
+  - [*ListReportesPorCurso*](#listreportesporcurso)
+  - [*GetCursoInternalId*](#getcursointernalid)
 - [**Mutations**](#mutations)
   - [*CrearEstudiante*](#crearestudiante)
   - [*ActualizarEstudiante*](#actualizarestudiante)
@@ -37,6 +48,8 @@ You can also follow the instructions from the [Data Connect documentation](https
   - [*CreateCurso*](#createcurso)
   - [*UpdateCurso*](#updatecurso)
   - [*DeleteCurso*](#deletecurso)
+  - [*CreateReporteEstadistica*](#createreporteestadistica)
+  - [*UpdateReporteEstadistica*](#updatereporteestadistica)
 
 # TanStack Query Firebase & TanStack React Query
 This SDK provides [React](https://react.dev/) hooks generated specific to your application, for the operations found in the connector `example`. These hooks are generated using [TanStack Query Firebase](https://react-query-firebase.invertase.dev/) by our partners at Invertase, a library built on top of [TanStack React Query v5](https://tanstack.com/query/v5/docs/framework/react/overview).
@@ -798,6 +811,1006 @@ export default function CursosPorEstadoComponent() {
   const dataConnect = getDataConnect(connectorConfig);
   const options = { staleTime: 5 * 1000 };
   const query = useCursosPorEstado(dataConnect, cursosPorEstadoVars, options);
+
+  // Then, you can render your component dynamically based on the status of the Query.
+  if (query.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (query.isError) {
+    return <div>Error: {query.error.message}</div>;
+  }
+
+  // If the Query is successful, you can access the data returned using the `UseQueryResult.data` field.
+  if (query.isSuccess) {
+    console.log(query.data.cursos);
+  }
+  return <div>Query execution {query.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## ListCursosEstadisticas
+You can execute the `ListCursosEstadisticas` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
+
+```javascript
+useListCursosEstadisticas(dc: DataConnect, options?: useDataConnectQueryOptions<ListCursosEstadisticasData>): UseDataConnectQueryResult<ListCursosEstadisticasData, undefined>;
+```
+You can also pass in a `DataConnect` instance to the Query hook function.
+```javascript
+useListCursosEstadisticas(options?: useDataConnectQueryOptions<ListCursosEstadisticasData>): UseDataConnectQueryResult<ListCursosEstadisticasData, undefined>;
+```
+
+### Variables
+The `ListCursosEstadisticas` Query has no variables.
+### Return Type
+Recall that calling the `ListCursosEstadisticas` Query hook function returns a `UseQueryResult` object. This object holds the state of your Query, including whether the Query is loading, has completed, or has succeeded/failed, and any data returned by the Query, among other things.
+
+To check the status of a Query, use the `UseQueryResult.status` field. You can also check for pending / success / error status using the `UseQueryResult.isPending`, `UseQueryResult.isSuccess`, and `UseQueryResult.isError` fields.
+
+To access the data returned by a Query, use the `UseQueryResult.data` field. The data for the `ListCursosEstadisticas` Query is of type `ListCursosEstadisticasData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface ListCursosEstadisticasData {
+  cursos: ({
+    cursoId: number;
+    nombre: string;
+    descripcion?: string | null;
+    categoria?: string | null;
+    estado?: string | null;
+    instructor?: {
+      instructorId: number;
+      especialidad?: string | null;
+      usuario: {
+        nombreCompleto: string;
+      };
+    };
+  })[];
+}
+```
+
+To learn more about the `UseQueryResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
+
+### Using `ListCursosEstadisticas`'s Query hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig } from '@dataconnect/generated';
+import { useListCursosEstadisticas } from '@dataconnect/generated/react'
+
+export default function ListCursosEstadisticasComponent() {
+  // You don't have to do anything to "execute" the Query.
+  // Call the Query hook function to get a `UseQueryResult` object which holds the state of your Query.
+  const query = useListCursosEstadisticas();
+
+  // You can also pass in a `DataConnect` instance to the Query hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const query = useListCursosEstadisticas(dataConnect);
+
+  // You can also pass in a `useDataConnectQueryOptions` object to the Query hook function.
+  const options = { staleTime: 5 * 1000 };
+  const query = useListCursosEstadisticas(options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectQueryOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = { staleTime: 5 * 1000 };
+  const query = useListCursosEstadisticas(dataConnect, options);
+
+  // Then, you can render your component dynamically based on the status of the Query.
+  if (query.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (query.isError) {
+    return <div>Error: {query.error.message}</div>;
+  }
+
+  // If the Query is successful, you can access the data returned using the `UseQueryResult.data` field.
+  if (query.isSuccess) {
+    console.log(query.data.cursos);
+  }
+  return <div>Query execution {query.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## ListHorarios
+You can execute the `ListHorarios` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
+
+```javascript
+useListHorarios(dc: DataConnect, options?: useDataConnectQueryOptions<ListHorariosData>): UseDataConnectQueryResult<ListHorariosData, undefined>;
+```
+You can also pass in a `DataConnect` instance to the Query hook function.
+```javascript
+useListHorarios(options?: useDataConnectQueryOptions<ListHorariosData>): UseDataConnectQueryResult<ListHorariosData, undefined>;
+```
+
+### Variables
+The `ListHorarios` Query has no variables.
+### Return Type
+Recall that calling the `ListHorarios` Query hook function returns a `UseQueryResult` object. This object holds the state of your Query, including whether the Query is loading, has completed, or has succeeded/failed, and any data returned by the Query, among other things.
+
+To check the status of a Query, use the `UseQueryResult.status` field. You can also check for pending / success / error status using the `UseQueryResult.isPending`, `UseQueryResult.isSuccess`, and `UseQueryResult.isError` fields.
+
+To access the data returned by a Query, use the `UseQueryResult.data` field. The data for the `ListHorarios` Query is of type `ListHorariosData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface ListHorariosData {
+  horarios: ({
+    horarioId: number;
+    fechaInicio: DateString;
+    fechaFin: DateString;
+    horaInicio: string;
+    horaFin: string;
+    cupoMaximo: number;
+    cupoActual: number;
+    estado?: string | null;
+    curso: {
+      cursoId: number;
+      nombre: string;
+      categoria?: string | null;
+    };
+  })[];
+}
+```
+
+To learn more about the `UseQueryResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
+
+### Using `ListHorarios`'s Query hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig } from '@dataconnect/generated';
+import { useListHorarios } from '@dataconnect/generated/react'
+
+export default function ListHorariosComponent() {
+  // You don't have to do anything to "execute" the Query.
+  // Call the Query hook function to get a `UseQueryResult` object which holds the state of your Query.
+  const query = useListHorarios();
+
+  // You can also pass in a `DataConnect` instance to the Query hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const query = useListHorarios(dataConnect);
+
+  // You can also pass in a `useDataConnectQueryOptions` object to the Query hook function.
+  const options = { staleTime: 5 * 1000 };
+  const query = useListHorarios(options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectQueryOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = { staleTime: 5 * 1000 };
+  const query = useListHorarios(dataConnect, options);
+
+  // Then, you can render your component dynamically based on the status of the Query.
+  if (query.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (query.isError) {
+    return <div>Error: {query.error.message}</div>;
+  }
+
+  // If the Query is successful, you can access the data returned using the `UseQueryResult.data` field.
+  if (query.isSuccess) {
+    console.log(query.data.horarios);
+  }
+  return <div>Query execution {query.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## ListHorariosPorEstado
+You can execute the `ListHorariosPorEstado` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
+
+```javascript
+useListHorariosPorEstado(dc: DataConnect, vars: ListHorariosPorEstadoVariables, options?: useDataConnectQueryOptions<ListHorariosPorEstadoData>): UseDataConnectQueryResult<ListHorariosPorEstadoData, ListHorariosPorEstadoVariables>;
+```
+You can also pass in a `DataConnect` instance to the Query hook function.
+```javascript
+useListHorariosPorEstado(vars: ListHorariosPorEstadoVariables, options?: useDataConnectQueryOptions<ListHorariosPorEstadoData>): UseDataConnectQueryResult<ListHorariosPorEstadoData, ListHorariosPorEstadoVariables>;
+```
+
+### Variables
+The `ListHorariosPorEstado` Query requires an argument of type `ListHorariosPorEstadoVariables`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+
+```javascript
+export interface ListHorariosPorEstadoVariables {
+  estado: string;
+}
+```
+### Return Type
+Recall that calling the `ListHorariosPorEstado` Query hook function returns a `UseQueryResult` object. This object holds the state of your Query, including whether the Query is loading, has completed, or has succeeded/failed, and any data returned by the Query, among other things.
+
+To check the status of a Query, use the `UseQueryResult.status` field. You can also check for pending / success / error status using the `UseQueryResult.isPending`, `UseQueryResult.isSuccess`, and `UseQueryResult.isError` fields.
+
+To access the data returned by a Query, use the `UseQueryResult.data` field. The data for the `ListHorariosPorEstado` Query is of type `ListHorariosPorEstadoData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface ListHorariosPorEstadoData {
+  horarios: ({
+    horarioId: number;
+    fechaInicio: DateString;
+    fechaFin: DateString;
+    horaInicio: string;
+    horaFin: string;
+    cupoMaximo: number;
+    cupoActual: number;
+    estado?: string | null;
+    curso: {
+      cursoId: number;
+      nombre: string;
+      categoria?: string | null;
+      instructor?: {
+        usuario: {
+          nombreCompleto: string;
+        };
+      };
+    };
+  })[];
+}
+```
+
+To learn more about the `UseQueryResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
+
+### Using `ListHorariosPorEstado`'s Query hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, ListHorariosPorEstadoVariables } from '@dataconnect/generated';
+import { useListHorariosPorEstado } from '@dataconnect/generated/react'
+
+export default function ListHorariosPorEstadoComponent() {
+  // The `useListHorariosPorEstado` Query hook requires an argument of type `ListHorariosPorEstadoVariables`:
+  const listHorariosPorEstadoVars: ListHorariosPorEstadoVariables = {
+    estado: ..., 
+  };
+
+  // You don't have to do anything to "execute" the Query.
+  // Call the Query hook function to get a `UseQueryResult` object which holds the state of your Query.
+  const query = useListHorariosPorEstado(listHorariosPorEstadoVars);
+  // Variables can be defined inline as well.
+  const query = useListHorariosPorEstado({ estado: ..., });
+
+  // You can also pass in a `DataConnect` instance to the Query hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const query = useListHorariosPorEstado(dataConnect, listHorariosPorEstadoVars);
+
+  // You can also pass in a `useDataConnectQueryOptions` object to the Query hook function.
+  const options = { staleTime: 5 * 1000 };
+  const query = useListHorariosPorEstado(listHorariosPorEstadoVars, options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectQueryOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = { staleTime: 5 * 1000 };
+  const query = useListHorariosPorEstado(dataConnect, listHorariosPorEstadoVars, options);
+
+  // Then, you can render your component dynamically based on the status of the Query.
+  if (query.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (query.isError) {
+    return <div>Error: {query.error.message}</div>;
+  }
+
+  // If the Query is successful, you can access the data returned using the `UseQueryResult.data` field.
+  if (query.isSuccess) {
+    console.log(query.data.horarios);
+  }
+  return <div>Query execution {query.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## ListInscripciones
+You can execute the `ListInscripciones` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
+
+```javascript
+useListInscripciones(dc: DataConnect, options?: useDataConnectQueryOptions<ListInscripcionesData>): UseDataConnectQueryResult<ListInscripcionesData, undefined>;
+```
+You can also pass in a `DataConnect` instance to the Query hook function.
+```javascript
+useListInscripciones(options?: useDataConnectQueryOptions<ListInscripcionesData>): UseDataConnectQueryResult<ListInscripcionesData, undefined>;
+```
+
+### Variables
+The `ListInscripciones` Query has no variables.
+### Return Type
+Recall that calling the `ListInscripciones` Query hook function returns a `UseQueryResult` object. This object holds the state of your Query, including whether the Query is loading, has completed, or has succeeded/failed, and any data returned by the Query, among other things.
+
+To check the status of a Query, use the `UseQueryResult.status` field. You can also check for pending / success / error status using the `UseQueryResult.isPending`, `UseQueryResult.isSuccess`, and `UseQueryResult.isError` fields.
+
+To access the data returned by a Query, use the `UseQueryResult.data` field. The data for the `ListInscripciones` Query is of type `ListInscripcionesData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface ListInscripcionesData {
+  inscripcions: ({
+    inscripcionId: string;
+    fechaInscripcion: DateString;
+    estadoInscripcion: string;
+    pagoEstado?: string | null;
+    estudiante: {
+      matricula: string;
+      usuario: {
+        nombreCompleto: string;
+        correo: string;
+      };
+    };
+    horario: {
+      horarioId: number;
+      curso: {
+        cursoId: number;
+        nombre: string;
+        categoria?: string | null;
+      };
+    };
+  })[];
+}
+```
+
+To learn more about the `UseQueryResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
+
+### Using `ListInscripciones`'s Query hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig } from '@dataconnect/generated';
+import { useListInscripciones } from '@dataconnect/generated/react'
+
+export default function ListInscripcionesComponent() {
+  // You don't have to do anything to "execute" the Query.
+  // Call the Query hook function to get a `UseQueryResult` object which holds the state of your Query.
+  const query = useListInscripciones();
+
+  // You can also pass in a `DataConnect` instance to the Query hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const query = useListInscripciones(dataConnect);
+
+  // You can also pass in a `useDataConnectQueryOptions` object to the Query hook function.
+  const options = { staleTime: 5 * 1000 };
+  const query = useListInscripciones(options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectQueryOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = { staleTime: 5 * 1000 };
+  const query = useListInscripciones(dataConnect, options);
+
+  // Then, you can render your component dynamically based on the status of the Query.
+  if (query.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (query.isError) {
+    return <div>Error: {query.error.message}</div>;
+  }
+
+  // If the Query is successful, you can access the data returned using the `UseQueryResult.data` field.
+  if (query.isSuccess) {
+    console.log(query.data.inscripcions);
+  }
+  return <div>Query execution {query.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## ListInscripcionesPorEstado
+You can execute the `ListInscripcionesPorEstado` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
+
+```javascript
+useListInscripcionesPorEstado(dc: DataConnect, vars: ListInscripcionesPorEstadoVariables, options?: useDataConnectQueryOptions<ListInscripcionesPorEstadoData>): UseDataConnectQueryResult<ListInscripcionesPorEstadoData, ListInscripcionesPorEstadoVariables>;
+```
+You can also pass in a `DataConnect` instance to the Query hook function.
+```javascript
+useListInscripcionesPorEstado(vars: ListInscripcionesPorEstadoVariables, options?: useDataConnectQueryOptions<ListInscripcionesPorEstadoData>): UseDataConnectQueryResult<ListInscripcionesPorEstadoData, ListInscripcionesPorEstadoVariables>;
+```
+
+### Variables
+The `ListInscripcionesPorEstado` Query requires an argument of type `ListInscripcionesPorEstadoVariables`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+
+```javascript
+export interface ListInscripcionesPorEstadoVariables {
+  estado: string;
+}
+```
+### Return Type
+Recall that calling the `ListInscripcionesPorEstado` Query hook function returns a `UseQueryResult` object. This object holds the state of your Query, including whether the Query is loading, has completed, or has succeeded/failed, and any data returned by the Query, among other things.
+
+To check the status of a Query, use the `UseQueryResult.status` field. You can also check for pending / success / error status using the `UseQueryResult.isPending`, `UseQueryResult.isSuccess`, and `UseQueryResult.isError` fields.
+
+To access the data returned by a Query, use the `UseQueryResult.data` field. The data for the `ListInscripcionesPorEstado` Query is of type `ListInscripcionesPorEstadoData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface ListInscripcionesPorEstadoData {
+  inscripcions: ({
+    inscripcionId: string;
+    fechaInscripcion: DateString;
+    estadoInscripcion: string;
+    pagoEstado?: string | null;
+    estudiante: {
+      matricula: string;
+      usuario: {
+        nombreCompleto: string;
+      };
+    };
+    horario: {
+      horarioId: number;
+      curso: {
+        cursoId: number;
+        nombre: string;
+        categoria?: string | null;
+      };
+    };
+  })[];
+}
+```
+
+To learn more about the `UseQueryResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
+
+### Using `ListInscripcionesPorEstado`'s Query hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, ListInscripcionesPorEstadoVariables } from '@dataconnect/generated';
+import { useListInscripcionesPorEstado } from '@dataconnect/generated/react'
+
+export default function ListInscripcionesPorEstadoComponent() {
+  // The `useListInscripcionesPorEstado` Query hook requires an argument of type `ListInscripcionesPorEstadoVariables`:
+  const listInscripcionesPorEstadoVars: ListInscripcionesPorEstadoVariables = {
+    estado: ..., 
+  };
+
+  // You don't have to do anything to "execute" the Query.
+  // Call the Query hook function to get a `UseQueryResult` object which holds the state of your Query.
+  const query = useListInscripcionesPorEstado(listInscripcionesPorEstadoVars);
+  // Variables can be defined inline as well.
+  const query = useListInscripcionesPorEstado({ estado: ..., });
+
+  // You can also pass in a `DataConnect` instance to the Query hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const query = useListInscripcionesPorEstado(dataConnect, listInscripcionesPorEstadoVars);
+
+  // You can also pass in a `useDataConnectQueryOptions` object to the Query hook function.
+  const options = { staleTime: 5 * 1000 };
+  const query = useListInscripcionesPorEstado(listInscripcionesPorEstadoVars, options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectQueryOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = { staleTime: 5 * 1000 };
+  const query = useListInscripcionesPorEstado(dataConnect, listInscripcionesPorEstadoVars, options);
+
+  // Then, you can render your component dynamically based on the status of the Query.
+  if (query.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (query.isError) {
+    return <div>Error: {query.error.message}</div>;
+  }
+
+  // If the Query is successful, you can access the data returned using the `UseQueryResult.data` field.
+  if (query.isSuccess) {
+    console.log(query.data.inscripcions);
+  }
+  return <div>Query execution {query.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## ListAsistencias
+You can execute the `ListAsistencias` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
+
+```javascript
+useListAsistencias(dc: DataConnect, options?: useDataConnectQueryOptions<ListAsistenciasData>): UseDataConnectQueryResult<ListAsistenciasData, undefined>;
+```
+You can also pass in a `DataConnect` instance to the Query hook function.
+```javascript
+useListAsistencias(options?: useDataConnectQueryOptions<ListAsistenciasData>): UseDataConnectQueryResult<ListAsistenciasData, undefined>;
+```
+
+### Variables
+The `ListAsistencias` Query has no variables.
+### Return Type
+Recall that calling the `ListAsistencias` Query hook function returns a `UseQueryResult` object. This object holds the state of your Query, including whether the Query is loading, has completed, or has succeeded/failed, and any data returned by the Query, among other things.
+
+To check the status of a Query, use the `UseQueryResult.status` field. You can also check for pending / success / error status using the `UseQueryResult.isPending`, `UseQueryResult.isSuccess`, and `UseQueryResult.isError` fields.
+
+To access the data returned by a Query, use the `UseQueryResult.data` field. The data for the `ListAsistencias` Query is of type `ListAsistenciasData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface ListAsistenciasData {
+  asistencias: ({
+    asistenciaId: number;
+    fecha: DateString;
+    estadoAsistencia: string;
+    observaciones?: string | null;
+    estudiante: {
+      matricula: string;
+      usuario: {
+        nombreCompleto: string;
+      };
+    };
+    instructor: {
+      instructorId: number;
+      usuario: {
+        nombreCompleto: string;
+      };
+    };
+    materiaId: number;
+  })[];
+}
+```
+
+To learn more about the `UseQueryResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
+
+### Using `ListAsistencias`'s Query hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig } from '@dataconnect/generated';
+import { useListAsistencias } from '@dataconnect/generated/react'
+
+export default function ListAsistenciasComponent() {
+  // You don't have to do anything to "execute" the Query.
+  // Call the Query hook function to get a `UseQueryResult` object which holds the state of your Query.
+  const query = useListAsistencias();
+
+  // You can also pass in a `DataConnect` instance to the Query hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const query = useListAsistencias(dataConnect);
+
+  // You can also pass in a `useDataConnectQueryOptions` object to the Query hook function.
+  const options = { staleTime: 5 * 1000 };
+  const query = useListAsistencias(options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectQueryOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = { staleTime: 5 * 1000 };
+  const query = useListAsistencias(dataConnect, options);
+
+  // Then, you can render your component dynamically based on the status of the Query.
+  if (query.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (query.isError) {
+    return <div>Error: {query.error.message}</div>;
+  }
+
+  // If the Query is successful, you can access the data returned using the `UseQueryResult.data` field.
+  if (query.isSuccess) {
+    console.log(query.data.asistencias);
+  }
+  return <div>Query execution {query.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## ListAsistenciasPorEstado
+You can execute the `ListAsistenciasPorEstado` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
+
+```javascript
+useListAsistenciasPorEstado(dc: DataConnect, vars: ListAsistenciasPorEstadoVariables, options?: useDataConnectQueryOptions<ListAsistenciasPorEstadoData>): UseDataConnectQueryResult<ListAsistenciasPorEstadoData, ListAsistenciasPorEstadoVariables>;
+```
+You can also pass in a `DataConnect` instance to the Query hook function.
+```javascript
+useListAsistenciasPorEstado(vars: ListAsistenciasPorEstadoVariables, options?: useDataConnectQueryOptions<ListAsistenciasPorEstadoData>): UseDataConnectQueryResult<ListAsistenciasPorEstadoData, ListAsistenciasPorEstadoVariables>;
+```
+
+### Variables
+The `ListAsistenciasPorEstado` Query requires an argument of type `ListAsistenciasPorEstadoVariables`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+
+```javascript
+export interface ListAsistenciasPorEstadoVariables {
+  estado: string;
+}
+```
+### Return Type
+Recall that calling the `ListAsistenciasPorEstado` Query hook function returns a `UseQueryResult` object. This object holds the state of your Query, including whether the Query is loading, has completed, or has succeeded/failed, and any data returned by the Query, among other things.
+
+To check the status of a Query, use the `UseQueryResult.status` field. You can also check for pending / success / error status using the `UseQueryResult.isPending`, `UseQueryResult.isSuccess`, and `UseQueryResult.isError` fields.
+
+To access the data returned by a Query, use the `UseQueryResult.data` field. The data for the `ListAsistenciasPorEstado` Query is of type `ListAsistenciasPorEstadoData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface ListAsistenciasPorEstadoData {
+  asistencias: ({
+    asistenciaId: number;
+    fecha: DateString;
+    estadoAsistencia: string;
+    materiaId: number;
+    estudiante: {
+      matricula: string;
+      usuario: {
+        nombreCompleto: string;
+      };
+    };
+  })[];
+}
+```
+
+To learn more about the `UseQueryResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
+
+### Using `ListAsistenciasPorEstado`'s Query hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, ListAsistenciasPorEstadoVariables } from '@dataconnect/generated';
+import { useListAsistenciasPorEstado } from '@dataconnect/generated/react'
+
+export default function ListAsistenciasPorEstadoComponent() {
+  // The `useListAsistenciasPorEstado` Query hook requires an argument of type `ListAsistenciasPorEstadoVariables`:
+  const listAsistenciasPorEstadoVars: ListAsistenciasPorEstadoVariables = {
+    estado: ..., 
+  };
+
+  // You don't have to do anything to "execute" the Query.
+  // Call the Query hook function to get a `UseQueryResult` object which holds the state of your Query.
+  const query = useListAsistenciasPorEstado(listAsistenciasPorEstadoVars);
+  // Variables can be defined inline as well.
+  const query = useListAsistenciasPorEstado({ estado: ..., });
+
+  // You can also pass in a `DataConnect` instance to the Query hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const query = useListAsistenciasPorEstado(dataConnect, listAsistenciasPorEstadoVars);
+
+  // You can also pass in a `useDataConnectQueryOptions` object to the Query hook function.
+  const options = { staleTime: 5 * 1000 };
+  const query = useListAsistenciasPorEstado(listAsistenciasPorEstadoVars, options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectQueryOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = { staleTime: 5 * 1000 };
+  const query = useListAsistenciasPorEstado(dataConnect, listAsistenciasPorEstadoVars, options);
+
+  // Then, you can render your component dynamically based on the status of the Query.
+  if (query.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (query.isError) {
+    return <div>Error: {query.error.message}</div>;
+  }
+
+  // If the Query is successful, you can access the data returned using the `UseQueryResult.data` field.
+  if (query.isSuccess) {
+    console.log(query.data.asistencias);
+  }
+  return <div>Query execution {query.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## ListReportesEstadisticas
+You can execute the `ListReportesEstadisticas` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
+
+```javascript
+useListReportesEstadisticas(dc: DataConnect, options?: useDataConnectQueryOptions<ListReportesEstadisticasData>): UseDataConnectQueryResult<ListReportesEstadisticasData, undefined>;
+```
+You can also pass in a `DataConnect` instance to the Query hook function.
+```javascript
+useListReportesEstadisticas(options?: useDataConnectQueryOptions<ListReportesEstadisticasData>): UseDataConnectQueryResult<ListReportesEstadisticasData, undefined>;
+```
+
+### Variables
+The `ListReportesEstadisticas` Query has no variables.
+### Return Type
+Recall that calling the `ListReportesEstadisticas` Query hook function returns a `UseQueryResult` object. This object holds the state of your Query, including whether the Query is loading, has completed, or has succeeded/failed, and any data returned by the Query, among other things.
+
+To check the status of a Query, use the `UseQueryResult.status` field. You can also check for pending / success / error status using the `UseQueryResult.isPending`, `UseQueryResult.isSuccess`, and `UseQueryResult.isError` fields.
+
+To access the data returned by a Query, use the `UseQueryResult.data` field. The data for the `ListReportesEstadisticas` Query is of type `ListReportesEstadisticasData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface ListReportesEstadisticasData {
+  reporteEstadisticas: ({
+    id: UUIDString;
+    reporteId: number;
+    periodoAnio: string;
+    totalInscritos: number;
+    totalBajas: number;
+    porcentajeAsistencia: number;
+    calificacionPromedio?: number | null;
+    ingresosGenerados?: number | null;
+    fechaActualizacion: DateString;
+    curso: {
+      cursoId: number;
+      nombre: string;
+      categoria?: string | null;
+    };
+  } & ReporteEstadistica_Key)[];
+}
+```
+
+To learn more about the `UseQueryResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
+
+### Using `ListReportesEstadisticas`'s Query hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig } from '@dataconnect/generated';
+import { useListReportesEstadisticas } from '@dataconnect/generated/react'
+
+export default function ListReportesEstadisticasComponent() {
+  // You don't have to do anything to "execute" the Query.
+  // Call the Query hook function to get a `UseQueryResult` object which holds the state of your Query.
+  const query = useListReportesEstadisticas();
+
+  // You can also pass in a `DataConnect` instance to the Query hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const query = useListReportesEstadisticas(dataConnect);
+
+  // You can also pass in a `useDataConnectQueryOptions` object to the Query hook function.
+  const options = { staleTime: 5 * 1000 };
+  const query = useListReportesEstadisticas(options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectQueryOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = { staleTime: 5 * 1000 };
+  const query = useListReportesEstadisticas(dataConnect, options);
+
+  // Then, you can render your component dynamically based on the status of the Query.
+  if (query.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (query.isError) {
+    return <div>Error: {query.error.message}</div>;
+  }
+
+  // If the Query is successful, you can access the data returned using the `UseQueryResult.data` field.
+  if (query.isSuccess) {
+    console.log(query.data.reporteEstadisticas);
+  }
+  return <div>Query execution {query.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## ListReportesPorPeriodo
+You can execute the `ListReportesPorPeriodo` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
+
+```javascript
+useListReportesPorPeriodo(dc: DataConnect, vars: ListReportesPorPeriodoVariables, options?: useDataConnectQueryOptions<ListReportesPorPeriodoData>): UseDataConnectQueryResult<ListReportesPorPeriodoData, ListReportesPorPeriodoVariables>;
+```
+You can also pass in a `DataConnect` instance to the Query hook function.
+```javascript
+useListReportesPorPeriodo(vars: ListReportesPorPeriodoVariables, options?: useDataConnectQueryOptions<ListReportesPorPeriodoData>): UseDataConnectQueryResult<ListReportesPorPeriodoData, ListReportesPorPeriodoVariables>;
+```
+
+### Variables
+The `ListReportesPorPeriodo` Query requires an argument of type `ListReportesPorPeriodoVariables`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+
+```javascript
+export interface ListReportesPorPeriodoVariables {
+  periodo: string;
+}
+```
+### Return Type
+Recall that calling the `ListReportesPorPeriodo` Query hook function returns a `UseQueryResult` object. This object holds the state of your Query, including whether the Query is loading, has completed, or has succeeded/failed, and any data returned by the Query, among other things.
+
+To check the status of a Query, use the `UseQueryResult.status` field. You can also check for pending / success / error status using the `UseQueryResult.isPending`, `UseQueryResult.isSuccess`, and `UseQueryResult.isError` fields.
+
+To access the data returned by a Query, use the `UseQueryResult.data` field. The data for the `ListReportesPorPeriodo` Query is of type `ListReportesPorPeriodoData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface ListReportesPorPeriodoData {
+  reporteEstadisticas: ({
+    id: UUIDString;
+    reporteId: number;
+    periodoAnio: string;
+    totalInscritos: number;
+    totalBajas: number;
+    porcentajeAsistencia: number;
+    calificacionPromedio?: number | null;
+    ingresosGenerados?: number | null;
+    fechaActualizacion: DateString;
+    curso: {
+      cursoId: number;
+      nombre: string;
+      categoria?: string | null;
+    };
+  } & ReporteEstadistica_Key)[];
+}
+```
+
+To learn more about the `UseQueryResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
+
+### Using `ListReportesPorPeriodo`'s Query hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, ListReportesPorPeriodoVariables } from '@dataconnect/generated';
+import { useListReportesPorPeriodo } from '@dataconnect/generated/react'
+
+export default function ListReportesPorPeriodoComponent() {
+  // The `useListReportesPorPeriodo` Query hook requires an argument of type `ListReportesPorPeriodoVariables`:
+  const listReportesPorPeriodoVars: ListReportesPorPeriodoVariables = {
+    periodo: ..., 
+  };
+
+  // You don't have to do anything to "execute" the Query.
+  // Call the Query hook function to get a `UseQueryResult` object which holds the state of your Query.
+  const query = useListReportesPorPeriodo(listReportesPorPeriodoVars);
+  // Variables can be defined inline as well.
+  const query = useListReportesPorPeriodo({ periodo: ..., });
+
+  // You can also pass in a `DataConnect` instance to the Query hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const query = useListReportesPorPeriodo(dataConnect, listReportesPorPeriodoVars);
+
+  // You can also pass in a `useDataConnectQueryOptions` object to the Query hook function.
+  const options = { staleTime: 5 * 1000 };
+  const query = useListReportesPorPeriodo(listReportesPorPeriodoVars, options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectQueryOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = { staleTime: 5 * 1000 };
+  const query = useListReportesPorPeriodo(dataConnect, listReportesPorPeriodoVars, options);
+
+  // Then, you can render your component dynamically based on the status of the Query.
+  if (query.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (query.isError) {
+    return <div>Error: {query.error.message}</div>;
+  }
+
+  // If the Query is successful, you can access the data returned using the `UseQueryResult.data` field.
+  if (query.isSuccess) {
+    console.log(query.data.reporteEstadisticas);
+  }
+  return <div>Query execution {query.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## ListReportesPorCurso
+You can execute the `ListReportesPorCurso` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
+
+```javascript
+useListReportesPorCurso(dc: DataConnect, vars: ListReportesPorCursoVariables, options?: useDataConnectQueryOptions<ListReportesPorCursoData>): UseDataConnectQueryResult<ListReportesPorCursoData, ListReportesPorCursoVariables>;
+```
+You can also pass in a `DataConnect` instance to the Query hook function.
+```javascript
+useListReportesPorCurso(vars: ListReportesPorCursoVariables, options?: useDataConnectQueryOptions<ListReportesPorCursoData>): UseDataConnectQueryResult<ListReportesPorCursoData, ListReportesPorCursoVariables>;
+```
+
+### Variables
+The `ListReportesPorCurso` Query requires an argument of type `ListReportesPorCursoVariables`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+
+```javascript
+export interface ListReportesPorCursoVariables {
+  cursoId: number;
+}
+```
+### Return Type
+Recall that calling the `ListReportesPorCurso` Query hook function returns a `UseQueryResult` object. This object holds the state of your Query, including whether the Query is loading, has completed, or has succeeded/failed, and any data returned by the Query, among other things.
+
+To check the status of a Query, use the `UseQueryResult.status` field. You can also check for pending / success / error status using the `UseQueryResult.isPending`, `UseQueryResult.isSuccess`, and `UseQueryResult.isError` fields.
+
+To access the data returned by a Query, use the `UseQueryResult.data` field. The data for the `ListReportesPorCurso` Query is of type `ListReportesPorCursoData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface ListReportesPorCursoData {
+  reporteEstadisticas: ({
+    id: UUIDString;
+    reporteId: number;
+    periodoAnio: string;
+    totalInscritos: number;
+    totalBajas: number;
+    porcentajeAsistencia: number;
+    calificacionPromedio?: number | null;
+    ingresosGenerados?: number | null;
+    fechaActualizacion: DateString;
+    curso: {
+      cursoId: number;
+      nombre: string;
+      categoria?: string | null;
+    };
+  } & ReporteEstadistica_Key)[];
+}
+```
+
+To learn more about the `UseQueryResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
+
+### Using `ListReportesPorCurso`'s Query hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, ListReportesPorCursoVariables } from '@dataconnect/generated';
+import { useListReportesPorCurso } from '@dataconnect/generated/react'
+
+export default function ListReportesPorCursoComponent() {
+  // The `useListReportesPorCurso` Query hook requires an argument of type `ListReportesPorCursoVariables`:
+  const listReportesPorCursoVars: ListReportesPorCursoVariables = {
+    cursoId: ..., 
+  };
+
+  // You don't have to do anything to "execute" the Query.
+  // Call the Query hook function to get a `UseQueryResult` object which holds the state of your Query.
+  const query = useListReportesPorCurso(listReportesPorCursoVars);
+  // Variables can be defined inline as well.
+  const query = useListReportesPorCurso({ cursoId: ..., });
+
+  // You can also pass in a `DataConnect` instance to the Query hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const query = useListReportesPorCurso(dataConnect, listReportesPorCursoVars);
+
+  // You can also pass in a `useDataConnectQueryOptions` object to the Query hook function.
+  const options = { staleTime: 5 * 1000 };
+  const query = useListReportesPorCurso(listReportesPorCursoVars, options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectQueryOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = { staleTime: 5 * 1000 };
+  const query = useListReportesPorCurso(dataConnect, listReportesPorCursoVars, options);
+
+  // Then, you can render your component dynamically based on the status of the Query.
+  if (query.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (query.isError) {
+    return <div>Error: {query.error.message}</div>;
+  }
+
+  // If the Query is successful, you can access the data returned using the `UseQueryResult.data` field.
+  if (query.isSuccess) {
+    console.log(query.data.reporteEstadisticas);
+  }
+  return <div>Query execution {query.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## GetCursoInternalId
+You can execute the `GetCursoInternalId` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
+
+```javascript
+useGetCursoInternalId(dc: DataConnect, vars: GetCursoInternalIdVariables, options?: useDataConnectQueryOptions<GetCursoInternalIdData>): UseDataConnectQueryResult<GetCursoInternalIdData, GetCursoInternalIdVariables>;
+```
+You can also pass in a `DataConnect` instance to the Query hook function.
+```javascript
+useGetCursoInternalId(vars: GetCursoInternalIdVariables, options?: useDataConnectQueryOptions<GetCursoInternalIdData>): UseDataConnectQueryResult<GetCursoInternalIdData, GetCursoInternalIdVariables>;
+```
+
+### Variables
+The `GetCursoInternalId` Query requires an argument of type `GetCursoInternalIdVariables`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+
+```javascript
+export interface GetCursoInternalIdVariables {
+  cursoId: number;
+}
+```
+### Return Type
+Recall that calling the `GetCursoInternalId` Query hook function returns a `UseQueryResult` object. This object holds the state of your Query, including whether the Query is loading, has completed, or has succeeded/failed, and any data returned by the Query, among other things.
+
+To check the status of a Query, use the `UseQueryResult.status` field. You can also check for pending / success / error status using the `UseQueryResult.isPending`, `UseQueryResult.isSuccess`, and `UseQueryResult.isError` fields.
+
+To access the data returned by a Query, use the `UseQueryResult.data` field. The data for the `GetCursoInternalId` Query is of type `GetCursoInternalIdData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface GetCursoInternalIdData {
+  cursos: ({
+    id: UUIDString;
+    cursoId: number;
+    nombre: string;
+  } & Curso_Key)[];
+}
+```
+
+To learn more about the `UseQueryResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
+
+### Using `GetCursoInternalId`'s Query hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, GetCursoInternalIdVariables } from '@dataconnect/generated';
+import { useGetCursoInternalId } from '@dataconnect/generated/react'
+
+export default function GetCursoInternalIdComponent() {
+  // The `useGetCursoInternalId` Query hook requires an argument of type `GetCursoInternalIdVariables`:
+  const getCursoInternalIdVars: GetCursoInternalIdVariables = {
+    cursoId: ..., 
+  };
+
+  // You don't have to do anything to "execute" the Query.
+  // Call the Query hook function to get a `UseQueryResult` object which holds the state of your Query.
+  const query = useGetCursoInternalId(getCursoInternalIdVars);
+  // Variables can be defined inline as well.
+  const query = useGetCursoInternalId({ cursoId: ..., });
+
+  // You can also pass in a `DataConnect` instance to the Query hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const query = useGetCursoInternalId(dataConnect, getCursoInternalIdVars);
+
+  // You can also pass in a `useDataConnectQueryOptions` object to the Query hook function.
+  const options = { staleTime: 5 * 1000 };
+  const query = useGetCursoInternalId(getCursoInternalIdVars, options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectQueryOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = { staleTime: 5 * 1000 };
+  const query = useGetCursoInternalId(dataConnect, getCursoInternalIdVars, options);
 
   // Then, you can render your component dynamically based on the status of the Query.
   if (query.isPending) {
@@ -1964,6 +2977,218 @@ export default function DeleteCursoComponent() {
   // If the Mutation is successful, you can access the data returned using the `UseMutationResult.data` field.
   if (mutation.isSuccess) {
     console.log(mutation.data.curso_delete);
+  }
+  return <div>Mutation execution {mutation.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## CreateReporteEstadistica
+You can execute the `CreateReporteEstadistica` Mutation using the `UseMutationResult` object returned by the following Mutation hook function (which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts)):
+```javascript
+useCreateReporteEstadistica(options?: useDataConnectMutationOptions<CreateReporteEstadisticaData, FirebaseError, CreateReporteEstadisticaVariables>): UseDataConnectMutationResult<CreateReporteEstadisticaData, CreateReporteEstadisticaVariables>;
+```
+You can also pass in a `DataConnect` instance to the Mutation hook function.
+```javascript
+useCreateReporteEstadistica(dc: DataConnect, options?: useDataConnectMutationOptions<CreateReporteEstadisticaData, FirebaseError, CreateReporteEstadisticaVariables>): UseDataConnectMutationResult<CreateReporteEstadisticaData, CreateReporteEstadisticaVariables>;
+```
+
+### Variables
+The `CreateReporteEstadistica` Mutation requires an argument of type `CreateReporteEstadisticaVariables`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+
+```javascript
+export interface CreateReporteEstadisticaVariables {
+  reporteId: number;
+  cursoInternalId: UUIDString;
+  periodoAnio: string;
+  totalInscritos: number;
+  totalBajas: number;
+  porcentajeAsistencia: number;
+  calificacionPromedio?: number | null;
+  ingresosGenerados?: number | null;
+}
+```
+### Return Type
+Recall that calling the `CreateReporteEstadistica` Mutation hook function returns a `UseMutationResult` object. This object holds the state of your Mutation, including whether the Mutation is loading, has completed, or has succeeded/failed, among other things.
+
+To check the status of a Mutation, use the `UseMutationResult.status` field. You can also check for pending / success / error status using the `UseMutationResult.isPending`, `UseMutationResult.isSuccess`, and `UseMutationResult.isError` fields.
+
+To execute the Mutation, call `UseMutationResult.mutate()`. This function executes the Mutation, but does not return the data from the Mutation.
+
+To access the data returned by a Mutation, use the `UseMutationResult.data` field. The data for the `CreateReporteEstadistica` Mutation is of type `CreateReporteEstadisticaData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface CreateReporteEstadisticaData {
+  reporteEstadistica_insert: ReporteEstadistica_Key;
+}
+```
+
+To learn more about the `UseMutationResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useMutation).
+
+### Using `CreateReporteEstadistica`'s Mutation hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, CreateReporteEstadisticaVariables } from '@dataconnect/generated';
+import { useCreateReporteEstadistica } from '@dataconnect/generated/react'
+
+export default function CreateReporteEstadisticaComponent() {
+  // Call the Mutation hook function to get a `UseMutationResult` object which holds the state of your Mutation.
+  const mutation = useCreateReporteEstadistica();
+
+  // You can also pass in a `DataConnect` instance to the Mutation hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const mutation = useCreateReporteEstadistica(dataConnect);
+
+  // You can also pass in a `useDataConnectMutationOptions` object to the Mutation hook function.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useCreateReporteEstadistica(options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectMutationOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useCreateReporteEstadistica(dataConnect, options);
+
+  // After calling the Mutation hook function, you must call `UseMutationResult.mutate()` to execute the Mutation.
+  // The `useCreateReporteEstadistica` Mutation requires an argument of type `CreateReporteEstadisticaVariables`:
+  const createReporteEstadisticaVars: CreateReporteEstadisticaVariables = {
+    reporteId: ..., 
+    cursoInternalId: ..., 
+    periodoAnio: ..., 
+    totalInscritos: ..., 
+    totalBajas: ..., 
+    porcentajeAsistencia: ..., 
+    calificacionPromedio: ..., // optional
+    ingresosGenerados: ..., // optional
+  };
+  mutation.mutate(createReporteEstadisticaVars);
+  // Variables can be defined inline as well.
+  mutation.mutate({ reporteId: ..., cursoInternalId: ..., periodoAnio: ..., totalInscritos: ..., totalBajas: ..., porcentajeAsistencia: ..., calificacionPromedio: ..., ingresosGenerados: ..., });
+
+  // You can also pass in a `useDataConnectMutationOptions` object to `UseMutationResult.mutate()`.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  mutation.mutate(createReporteEstadisticaVars, options);
+
+  // Then, you can render your component dynamically based on the status of the Mutation.
+  if (mutation.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (mutation.isError) {
+    return <div>Error: {mutation.error.message}</div>;
+  }
+
+  // If the Mutation is successful, you can access the data returned using the `UseMutationResult.data` field.
+  if (mutation.isSuccess) {
+    console.log(mutation.data.reporteEstadistica_insert);
+  }
+  return <div>Mutation execution {mutation.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## UpdateReporteEstadistica
+You can execute the `UpdateReporteEstadistica` Mutation using the `UseMutationResult` object returned by the following Mutation hook function (which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts)):
+```javascript
+useUpdateReporteEstadistica(options?: useDataConnectMutationOptions<UpdateReporteEstadisticaData, FirebaseError, UpdateReporteEstadisticaVariables>): UseDataConnectMutationResult<UpdateReporteEstadisticaData, UpdateReporteEstadisticaVariables>;
+```
+You can also pass in a `DataConnect` instance to the Mutation hook function.
+```javascript
+useUpdateReporteEstadistica(dc: DataConnect, options?: useDataConnectMutationOptions<UpdateReporteEstadisticaData, FirebaseError, UpdateReporteEstadisticaVariables>): UseDataConnectMutationResult<UpdateReporteEstadisticaData, UpdateReporteEstadisticaVariables>;
+```
+
+### Variables
+The `UpdateReporteEstadistica` Mutation requires an argument of type `UpdateReporteEstadisticaVariables`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+
+```javascript
+export interface UpdateReporteEstadisticaVariables {
+  reporteInternalId: UUIDString;
+  totalInscritos: number;
+  totalBajas: number;
+  porcentajeAsistencia: number;
+  calificacionPromedio?: number | null;
+  ingresosGenerados?: number | null;
+}
+```
+### Return Type
+Recall that calling the `UpdateReporteEstadistica` Mutation hook function returns a `UseMutationResult` object. This object holds the state of your Mutation, including whether the Mutation is loading, has completed, or has succeeded/failed, among other things.
+
+To check the status of a Mutation, use the `UseMutationResult.status` field. You can also check for pending / success / error status using the `UseMutationResult.isPending`, `UseMutationResult.isSuccess`, and `UseMutationResult.isError` fields.
+
+To execute the Mutation, call `UseMutationResult.mutate()`. This function executes the Mutation, but does not return the data from the Mutation.
+
+To access the data returned by a Mutation, use the `UseMutationResult.data` field. The data for the `UpdateReporteEstadistica` Mutation is of type `UpdateReporteEstadisticaData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface UpdateReporteEstadisticaData {
+  reporteEstadistica_update?: ReporteEstadistica_Key | null;
+}
+```
+
+To learn more about the `UseMutationResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useMutation).
+
+### Using `UpdateReporteEstadistica`'s Mutation hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, UpdateReporteEstadisticaVariables } from '@dataconnect/generated';
+import { useUpdateReporteEstadistica } from '@dataconnect/generated/react'
+
+export default function UpdateReporteEstadisticaComponent() {
+  // Call the Mutation hook function to get a `UseMutationResult` object which holds the state of your Mutation.
+  const mutation = useUpdateReporteEstadistica();
+
+  // You can also pass in a `DataConnect` instance to the Mutation hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const mutation = useUpdateReporteEstadistica(dataConnect);
+
+  // You can also pass in a `useDataConnectMutationOptions` object to the Mutation hook function.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useUpdateReporteEstadistica(options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectMutationOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useUpdateReporteEstadistica(dataConnect, options);
+
+  // After calling the Mutation hook function, you must call `UseMutationResult.mutate()` to execute the Mutation.
+  // The `useUpdateReporteEstadistica` Mutation requires an argument of type `UpdateReporteEstadisticaVariables`:
+  const updateReporteEstadisticaVars: UpdateReporteEstadisticaVariables = {
+    reporteInternalId: ..., 
+    totalInscritos: ..., 
+    totalBajas: ..., 
+    porcentajeAsistencia: ..., 
+    calificacionPromedio: ..., // optional
+    ingresosGenerados: ..., // optional
+  };
+  mutation.mutate(updateReporteEstadisticaVars);
+  // Variables can be defined inline as well.
+  mutation.mutate({ reporteInternalId: ..., totalInscritos: ..., totalBajas: ..., porcentajeAsistencia: ..., calificacionPromedio: ..., ingresosGenerados: ..., });
+
+  // You can also pass in a `useDataConnectMutationOptions` object to `UseMutationResult.mutate()`.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  mutation.mutate(updateReporteEstadisticaVars, options);
+
+  // Then, you can render your component dynamically based on the status of the Mutation.
+  if (mutation.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (mutation.isError) {
+    return <div>Error: {mutation.error.message}</div>;
+  }
+
+  // If the Mutation is successful, you can access the data returned using the `UseMutationResult.data` field.
+  if (mutation.isSuccess) {
+    console.log(mutation.data.reporteEstadistica_update);
   }
   return <div>Mutation execution {mutation.isSuccess ? 'successful' : 'failed'}!</div>;
 }

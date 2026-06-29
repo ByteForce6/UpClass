@@ -2,46 +2,49 @@ import { useEffect, useState } from "react";
 import ClasesView from "./CursosView";
 import InstructoresView from "./InstructoresView";
 import AlumnosView from "./AlumnosView";
+import EstadisticasView from "./EstadisticasView";
 import { useNavigate } from "react-router-dom";
 import "../../App.css";
 import type { UserSession } from "../students/UpClassDashAlunmo";
 
 const SCHEDULE = [
-  { time: "07:00 am", dotColor: "teal", name: "Yoga matutino", meta: "Carla Reyes · 14 alumnos", badge: "green", badgeLabel: "En curso" },
-  { time: "09:00 am", dotColor: "blue", name: "Inglés intermedio", meta: "Pedro Mora · 20 alumnos", badge: "green", badgeLabel: "En curso" },
-  { time: "11:00 am", dotColor: "amber", name: "Piano nivel 1", meta: "Sofía Leal · 8 alumnos", badge: "amber", badgeLabel: "Próxima" },
-  { time: "01:00 pm", dotColor: "coral", name: "Matemáticas avanzadas", meta: "Andrés Gil · 18 alumnos", badge: "gray", badgeLabel: "Pendiente" },
-  { time: "04:00 pm", dotColor: "purple", name: "Dibujo y pintura", meta: "Luisa Fox · 12 alumnos", badge: "gray", badgeLabel: "Pendiente" },
+  { time: "07:00 am", dotColor: "teal",   name: "Yoga matutino",         meta: "Carla Reyes · 14 alumnos", badge: "green", badgeLabel: "En curso"  },
+  { time: "09:00 am", dotColor: "blue",   name: "Inglés intermedio",      meta: "Pedro Mora · 20 alumnos",  badge: "green", badgeLabel: "En curso"  },
+  { time: "11:00 am", dotColor: "amber",  name: "Piano nivel 1",          meta: "Sofía Leal · 8 alumnos",   badge: "amber", badgeLabel: "Próxima"   },
+  { time: "01:00 pm", dotColor: "coral",  name: "Matemáticas avanzadas",  meta: "Andrés Gil · 18 alumnos",  badge: "gray",  badgeLabel: "Pendiente" },
+  { time: "04:00 pm", dotColor: "purple", name: "Dibujo y pintura",       meta: "Luisa Fox · 12 alumnos",   badge: "gray",  badgeLabel: "Pendiente" },
 ];
 
 const INSTRUCTORS = [
-  { initials: "CR", color: "teal", name: "Carla Reyes", specialty: "Yoga · Meditación", students: 14 },
-  { initials: "PM", color: "blue", name: "Pedro Mora", specialty: "Inglés · Francés", students: 20 },
-  { initials: "SL", color: "amber", name: "Sofía Leal", specialty: "Piano · Música", students: 8 },
-  { initials: "AG", color: "coral", name: "Andrés Gil", specialty: "Matemáticas", students: 18 },
-  { initials: "LF", color: "purple", name: "Luisa Fox", specialty: "Arte · Diseño", students: 12 },
+  { initials: "CR", color: "teal",   name: "Carla Reyes", specialty: "Yoga · Meditación", students: 14 },
+  { initials: "PM", color: "blue",   name: "Pedro Mora",  specialty: "Inglés · Francés",  students: 20 },
+  { initials: "SL", color: "amber",  name: "Sofía Leal",  specialty: "Piano · Música",    students: 8  },
+  { initials: "AG", color: "coral",  name: "Andrés Gil",  specialty: "Matemáticas",       students: 18 },
+  { initials: "LF", color: "purple", name: "Luisa Fox",   specialty: "Arte · Diseño",     students: 12 },
 ];
 
 const STUDENTS = [
-  { name: "Valeria Ríos", since: "Ene 2026", clase: "Yoga", pct: 92, pctColor: "#1D9E75", badge: "green", badgeLabel: "Al día" },
-  { name: "Marco Soto", since: "Feb 2026", clase: "Inglés", pct: 75, pctColor: "#378ADD", badge: "blue", badgeLabel: "Al día" },
-  { name: "Diana Núñez", since: "Mar 2026", clase: "Piano", pct: 55, pctColor: "#EF9F27", badge: "amber", badgeLabel: "Irregular" },
-  { name: "Héctor Vega", since: "Abr 2026", clase: "Matemáticas", pct: 88, pctColor: "#1D9E75", badge: "green", badgeLabel: "Al día" },
+  { name: "Valeria Ríos",  since: "Ene 2026", clase: "Yoga",         pct: 92, pctColor: "#1D9E75", badge: "green", badgeLabel: "Al día"    },
+  { name: "Marco Soto",    since: "Feb 2026", clase: "Inglés",       pct: 75, pctColor: "#378ADD", badge: "blue",  badgeLabel: "Al día"    },
+  { name: "Diana Núñez",   since: "Mar 2026", clase: "Piano",        pct: 55, pctColor: "#EF9F27", badge: "amber", badgeLabel: "Irregular" },
+  { name: "Héctor Vega",   since: "Abr 2026", clase: "Matemáticas",  pct: 88, pctColor: "#1D9E75", badge: "green", badgeLabel: "Al día"    },
 ];
 
 const NAV_MAIN = [
-  { icon: "ti-layout-dashboard", label: "Inicio", id: "inicio", badge: null },
-  { icon: "ti-users", label: "Instructores", id: "instructores", badge: "8" },
-  { icon: "ti-school", label: "Alumnos", id: "alumnos", badge: "142" },
-  { icon: "ti-book", label: "Cursos", id: "cursos", badge: "11" },
+  { icon: "ti-layout-dashboard", label: "Inicio",        id: "inicio",        badge: null  },
+  { icon: "ti-users",            label: "Instructores",  id: "instructores",  badge: "8"   },
+  { icon: "ti-school",           label: "Alumnos",       id: "alumnos",       badge: "142" },
+  { icon: "ti-book",             label: "Cursos",        id: "cursos",        badge: "11"  },
+  { icon: "ti-chart-bar",        label: "Estadísticas",  id: "estadisticas",  badge: null  },
 ];
 
 const SETTINGS_SUBMENU = [
-  { icon: "ti-building", label: "Perfil de la academia", id: "cfg-academia" },
-  { icon: "ti-shield-lock", label: "Usuarios y permisos", id: "cfg-usuarios" },
+  { icon: "ti-building",     label: "Perfil de la academia", id: "cfg-academia"  },
+  { icon: "ti-shield-lock",  label: "Usuarios y permisos",   id: "cfg-usuarios"  },
 ];
 
-// Subcomponentes //
+// ── Subcomponentes ────────────────────────────────────────────────────────────
+
 interface NavItem {
   icon: string;
   label: string;
@@ -211,7 +214,8 @@ function StudentsCard() {
   );
 }
 
-// Componente principal //
+// ── Componente principal ──────────────────────────────────────────────────────
+
 export default function UpClassDashboard() {
   const [activeNav, setActiveNav] = useState("inicio");
   const [collapsed, setCollapsed] = useState(false);
@@ -219,20 +223,14 @@ export default function UpClassDashboard() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const savedUser = localStorage.getItem("user");
-    const storedRol = localStorage.getItem("rol");
+    const token      = localStorage.getItem("token");
+    const savedUser  = localStorage.getItem("user");
+    const storedRol  = localStorage.getItem("rol");
 
-    if (!token || !savedUser || !storedRol) {
-      navigate("/");
-      return;
-    }
+    if (!token || !savedUser || !storedRol) { navigate("/"); return; }
 
     const parsed = JSON.parse(savedUser);
-    if (parsed?.rol !== "admin" || storedRol !== "admin") {
-      navigate("/");
-      return;
-    }
+    if (parsed?.rol !== "admin" || storedRol !== "admin") { navigate("/"); return; }
   }, [navigate]);
 
   const handleLogout = () => {
@@ -242,24 +240,29 @@ export default function UpClassDashboard() {
     navigate("/");
   };
 
-  const sidebarClass = `uc-sidebar${collapsed ? " uc-sidebar--collapsed" : ""}`;
-
   const [userData] = useState<UserSession | null>(() => {
     try {
       const raw = localStorage.getItem("user");
-      if (!raw) return null;
-      return JSON.parse(raw) as UserSession;
-    } catch {
-      return null;
-    }
+      return raw ? JSON.parse(raw) as UserSession : null;
+    } catch { return null; }
   });
 
+  // Título dinámico en el topbar según la sección activa
+  const TOP_TITLES: Record<string, { title: string; sub: string }> = {
+    inicio:       { title: "Resumen general",      sub: "Jueves, 14 de mayo de 2026" },
+    instructores: { title: "Instructores",          sub: "Gestión de instructores"    },
+    alumnos:      { title: "Alumnos",              sub: "Gestión de alumnos"         },
+    cursos:       { title: "Cursos",               sub: "Gestión de cursos"          },
+    estadisticas: { title: "Estadísticas",         sub: "Reportes y métricas"        },
+  };
+  const topbar = TOP_TITLES[activeNav] ?? TOP_TITLES.inicio;
 
+  const sidebarClass = `uc-sidebar${collapsed ? " uc-sidebar--collapsed" : ""}`;
 
-  return ( 
-
+  return (
     <>
       <div className="uc-root">
+
         {/* ── Sidebar ── */}
         <aside className={sidebarClass}>
           <div className="uc-sidebar__logo">
@@ -284,10 +287,7 @@ export default function UpClassDashboard() {
 
             <button
               className={`uc-nav-item${activeNav === "ajustes" ? " uc-nav-item--active" : ""}`}
-              onClick={() => {
-                setActiveNav("ajustes");
-                setSettingsOpen(!settingsOpen);
-              }}
+              onClick={() => { setActiveNav("ajustes"); setSettingsOpen(!settingsOpen); }}
               data-label="Ajustes"
               title="Ajustes"
             >
@@ -298,22 +298,13 @@ export default function UpClassDashboard() {
 
             <div className={`uc-nav-submenu${settingsOpen ? " uc-nav-submenu--open" : ""}`}>
               {SETTINGS_SUBMENU.map((item) => (
-                <button
-                  key={item.id}
-                  className="uc-nav-subitem"
-                  onClick={() => setActiveNav(item.id)}
-                >
+                <button key={item.id} className="uc-nav-subitem" onClick={() => setActiveNav(item.id)}>
                   <i className={`ti ${item.icon}`} aria-hidden="true" />
                   {item.label}
                 </button>
               ))}
-
               <div className="uc-nav-submenu__divider" />
-
-              <button
-                className="uc-nav-subitem uc-nav-subitem--danger"
-                onClick={handleLogout}
-              >
+              <button className="uc-nav-subitem uc-nav-subitem--danger" onClick={handleLogout}>
                 <i className="ti ti-logout" aria-hidden="true" />
                 Cerrar sesión
               </button>
@@ -325,7 +316,6 @@ export default function UpClassDashboard() {
               <div className="uc-avatar uc-avatar--md uc-avatar--blue">LA</div>
               <div className="uc-admin-pill__info">
                 <div className="uc-avatar__name">{userData?.nombre ?? "Administrador"}</div>
-
                 <div className="uc-avatar__sub">Administrador</div>
               </div>
             </div>
@@ -333,63 +323,74 @@ export default function UpClassDashboard() {
         </aside>
 
         {/* ── Contenido principal ── */}
-        < div className="uc-main" >
+        <div className="uc-main">
+
           {/* ── Topbar ── */}
-          < header className="uc-topbar" >
+          <header className="uc-topbar">
             <div>
-              <div className="uc-topbar__title">Resumen general</div>
-              <div className="uc-topbar__sub">Jueves, 14 de mayo de 2026</div>
+              <div className="uc-topbar__title">{topbar.title}</div>
+              <div className="uc-topbar__sub">{topbar.sub}</div>
             </div>
             <div className="uc-topbar__actions">
-              <button className="uc-btn-icon" aria-label="Buscar">  
+              <button className="uc-btn-icon" aria-label="Buscar">
                 <i className="ti ti-search" aria-hidden="true" />
               </button>
               <button className="uc-btn-primary" onClick={() => setActiveNav("cursos")}>
                 Nuevo curso
               </button>
             </div>
-          </header >
+          </header>
 
-          {/* ── Scroll principal ── */}
-          < main className="uc-content" >
+          {/* ── Contenido ── */}
+          <main className="uc-content">
+
+            {/* ── Vistas ────────────────────────────────────────────────── */}
             {activeNav === "cursos" ? (
               <ClasesView />
+
             ) : activeNav === "instructores" ? (
               <InstructoresView />
+
             ) : activeNav === "alumnos" ? (
               <AlumnosView />
+
+            ) : activeNav === "estadisticas" ? (       // ← NUEVO
+              <EstadisticasView />
+
             ) : (
+              /* ── Dashboard inicio ─────────────────────────────────────── */
               <>
                 {/* Métricas */}
-                < div className="uc-metrics-grid" >
-                  <MetricCard icon="ti-school" iconColor="#378ADD" label="Alumnos activos" value="142" />
-                  <MetricCard icon="ti-users" iconColor="#1D9E75" label="Instructores" value="8" />
-                  <MetricCard icon="ti-calendar-event" iconColor="#EF9F27" label="Clases hoy" value="11" />
-                </div >
+                <div className="uc-metrics-grid">
+                  <MetricCard icon="ti-school"         iconColor="#378ADD" label="Alumnos activos" value="142" />
+                  <MetricCard icon="ti-users"          iconColor="#1D9E75" label="Instructores"    value="8"   />
+                  <MetricCard icon="ti-calendar-event" iconColor="#EF9F27" label="Clases hoy"      value="11"  />
+                </div>
 
                 {/* Acciones rápidas */}
-                < div className="uc-quick-actions" >
-                  <QuickActionBtn iconClass="ti-user-plus" iconBgClass="uc-icon-bg--blue" label="Alumnos" onClick={() => setActiveNav("alumnos")} />
-                  <QuickActionBtn iconClass="ti-user-plus" iconBgClass="uc-icon-bg--blue" label="Nuevo instructor" onClick={() => setActiveNav("instructores")} />
-                  <QuickActionBtn iconClass="ti ti-book" iconBgClass="uc-icon-bg--teal" label="Cursos" onClick={() => setActiveNav("cursos")}  />
-                  <QuickActionBtn iconClass="ti-chart-bar" iconBgClass="uc-icon-bg--purple" label="Ver reportes" />
-                </div >
+                <div className="uc-quick-actions">
+                  <QuickActionBtn iconClass="ti-user-plus"  iconBgClass="uc-icon-bg--blue"   label="Alumnos"          onClick={() => setActiveNav("alumnos")}       />
+                  <QuickActionBtn iconClass="ti-user-plus"  iconBgClass="uc-icon-bg--blue"   label="Nuevo instructor" onClick={() => setActiveNav("instructores")}   />
+                  <QuickActionBtn iconClass="ti-book"       iconBgClass="uc-icon-bg--teal"   label="Cursos"           onClick={() => setActiveNav("cursos")}         />
+                  <QuickActionBtn iconClass="ti-chart-bar"  iconBgClass="uc-icon-bg--purple" label="Ver reportes"     onClick={() => setActiveNav("estadisticas")}   /> {/* ← CONECTADO */}
+                </div>
 
                 {/* Horario + Instructores */}
-                < div className="uc-grid-2col" >
+                <div className="uc-grid-2col">
                   <ScheduleCard />
                   <InstructorsCard />
-                </div >
+                </div>
 
-                {/* Alumnos */}
-                < div className="uc-grid-2col" >
+                {/* Alumnos recientes */}
+                <div className="uc-grid-2col">
                   <StudentsCard />
-                </div >
+                </div>
               </>
             )}
-          </main >
-        </div >
-      </div >
+
+          </main>
+        </div>
+      </div>
     </>
   );
 }
