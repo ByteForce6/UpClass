@@ -16,7 +16,7 @@ type View =
   | "catalogoCursos"
   | "catalogoHorarios";
 
-  interface Curso {
+interface Curso {
   id: number;
   nombre: string;
   instructor: string;
@@ -159,7 +159,13 @@ function BadgeTipo({ tipo }: { tipo: string }) {
 }
 
 // ── COMPONENTE: VISTA INICIO (CON PROPS DINÁMICAS) ──
-function VistaInicio({ onNav, userName }: { onNav: (v: View) => void; userName: string }) {
+function VistaInicio({
+  onNav,
+  userName,
+}: {
+  onNav: (v: View) => void;
+  userName: string;
+}) {
   const activos = CURSOS.filter((c) => c.estado === "activo");
   const prom = promedio(CALIFICACIONES);
   return (
@@ -217,7 +223,10 @@ function VistaInicio({ onNav, userName }: { onNav: (v: View) => void; userName: 
                 <div className="uc-progress-track">
                   <div
                     className="uc-progress-fill"
-                    style={{ width: `${c.progreso}%`, background: "var(--uc-brand-blue)" }}
+                    style={{
+                      width: `${c.progreso}%`,
+                      background: "var(--uc-brand-blue)",
+                    }}
                   />
                 </div>
                 <span className="uc-progress-label">
@@ -393,7 +402,7 @@ const NAV: { key: View; label: string; icon: string }[] = [
 export default function Dashboard() {
   const [view, setView] = useState<View>("inicio");
   const [sidebar, setSidebar] = useState(false);
-  
+
   // Estado local seguro para guardar la información del usuario autenticado
   const [userData, setUserData] = useState<UserSession | null>(null);
   const navigate = useNavigate();
@@ -405,7 +414,7 @@ export default function Dashboard() {
     const storedRol = localStorage.getItem("rol");
 
     if (!token || !savedUser || !storedRol) {
-      // navigate("/"); 
+      // navigate("/");
       return;
     }
 
@@ -431,14 +440,16 @@ export default function Dashboard() {
   // Previene el parpadeo de datos vacíos mientras se lee el almacenamiento local
   if (!userData) {
     return (
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        height: '100vh', 
-        fontFamily: 'var(--dr)',
-        color: '#111'
-      }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          fontFamily: "var(--dr)",
+          color: "#111",
+        }}
+      >
         Verificando credenciales...
       </div>
     );
@@ -472,17 +483,19 @@ export default function Dashboard() {
             <p className="ds-logo-text">UP CLASS</p>
             {/* Texto adaptable dependiendo de si es cuenta Teacher o Student */}
             <p className="ds-logo-sub">
-              {userData.rol === "teacher" ? "Portal del Docente" : "Portal del Estudiante"}
+              {userData.rol === "teacher"
+                ? "Portal del Docente"
+                : "Portal del Estudiante"}
             </p>
           </div>
-          
+
           <div className="ds-sidebar-profile">
             <div className="ds-avatar">
               <span>{iniciales}</span>
             </div>
             <p className="ds-profile-name">{userData.nombre}</p>
           </div>
-          
+
           <nav className="ds-nav-area">
             {NAV.map((item, idx) => {
               const active = view === item.key;
@@ -503,14 +516,14 @@ export default function Dashboard() {
                 </div>
               );
             })}
-          </nav>
-          
-          <div className="ds-sidebar-footer">
-            {/* Vinculación de la función de destrucción de sesión */}
-            <button className="ds-logout" onClick={handleLogout}>
-              <span>↩ Cerrar sesión</span>
+
+            {/* Cerrar sesión como último ítem del nav */}
+            <div className="ds-nav-separator" />
+            <button className="ds-nav-btn ds-logout" onClick={handleLogout}>
+              <span className="ds-nav-icon">↩</span>
+              <span className="ds-nav-label">Cerrar sesión</span>
             </button>
-          </div>
+          </nav>
         </aside>
 
         <div className="ds-main">
@@ -530,10 +543,12 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-          
+
           <main className="ds-content">
             {/* Inyección de sub-vistas condicionales */}
-            {view === "inicio" && <VistaInicio onNav={setView} userName={userData.nombre} />}
+            {view === "inicio" && (
+              <VistaInicio onNav={setView} userName={userData.nombre} />
+            )}
             {view === "calificaciones" && <MisCalificaciones />}
             {view === "horarios" && <MisHorarios />}
             {view === "cursos" && <MisCursos />}

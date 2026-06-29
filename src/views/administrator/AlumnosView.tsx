@@ -1,11 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useMemo, useState } from "react";
+import bcrypt from "bcryptjs";
 import {
   listarEstudiantes,
   getRolByNumero,
   crearEstudiante,
   actualizarEstudiante,
+  actualizarEstudianteSinCorreo,
   eliminarEstudiante,
 } from "../../dataconnect-generated";
 
@@ -42,6 +45,7 @@ export default function AlumnosView() {
 
   const [nombreCompleto, setNombreCompleto] = useState("");
   const [correo, setCorreo] = useState("");
+  const [correoOriginal, setCorreoOriginal] = useState<string>("");
   const [telefono, setTelefono] = useState("");
   const [password, setPassword] = useState("");
   const [activo, setActivo] = useState(true);
@@ -73,7 +77,7 @@ export default function AlumnosView() {
         })),
       );
     } catch (err) {
-      console.error("Error al cargar estudiantes:", err);
+      setErrorModal("...");
     } finally {
       setLoading(false);
     }
@@ -98,6 +102,7 @@ export default function AlumnosView() {
 
   const abrirNuevo = () => {
     limpiar();
+    setPassword(generarPassword());
     setModalMode("add");
     setModalOpen(true);
   };
@@ -106,6 +111,7 @@ export default function AlumnosView() {
     setEditing(est);
     setNombreCompleto(est.nombreCompleto);
     setCorreo(est.correo);
+    setCorreoOriginal(est.correo);
     setTelefono(est.telefono);
     setActivo(est.activo);
     setModalMode("edit");
@@ -121,18 +127,46 @@ export default function AlumnosView() {
     return `MAT-${año}-${rand}`;
   };
 
+  const generarPassword = (): string => {
+    const chars =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const array = new Uint8Array(12);
+    crypto.getRandomValues(array);
+    return Array.from(array)
+      .map((b) => chars[b % chars.length])
+      .join("");
+  };
+
+  const hashPassword = async (plain: string): Promise<string> => {
+    return bcrypt.hash(plain, 10);
+  };
+
   const handleCrear = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const silenciar = (ev: Event) => {
+      ev.preventDefault();
+      ev.stopImmediatePropagation();
+    };
+
     try {
       const rolRes = await getRolByNumero({ rolId: 3 });
       const rol = (rolRes.data as any)?.rols?.[0];
 
       if (!rol) {
-        alert("No se encontró el rol de estudiante (rolId = 3). Verifica tu base de datos.");
+        setErrorModal(
+          "No se encontró el rol de estudiante (rolId = 3). Verifica tu base de datos.",
+        );
+        return;
+      }
+
+      if (!password) {
+        setErrorModal("La contraseña es obligatoria.");
         return;
       }
 
       const usuarioInternalId = crypto.randomUUID();
+      const passwordHash = await hashPassword(password);
 
       await crearEstudiante({
         usuarioInternalId,
@@ -140,7 +174,7 @@ export default function AlumnosView() {
         rolInternalId: rol.id,
         nombreCompleto,
         correo,
-        passwordHash: password || "123456",
+        passwordHash,
         telefono,
         matricula: generarMatricula(),
       });
@@ -149,16 +183,24 @@ export default function AlumnosView() {
       limpiar();
       cargarEstudiantes();
     } catch (err: any) {
-      console.error("Error al crear estudiante:", err);
       const errorStr = JSON.stringify(err);
 
-      if (errorStr.includes("usuario_correo_uidx")) {
-        setErrorModal("¡Atención! Este correo electrónico ya está registrado. Por favor, utiliza uno diferente.");
-      } else if (errorStr.includes("ALREADY_EXISTS")) {
-        setErrorModal("El estudiante ya existe en el sistema.");
+      if (
+        errorStr.includes("usuario_correo_uidx") ||
+        errorStr.includes("violates SQL unique constraint") ||
+        errorStr.includes("ALREADY_EXISTS")
+      ) {
+        setErrorModal(
+          "¡Atención! Este correo electrónico ya está registrado. Por favor, utiliza uno diferente.",
+        );
       } else {
-        setErrorModal("Hubo un problema al guardar el estudiante. Por favor, inténtalo de nuevo.");
+        setErrorModal(
+          "Hubo un problema al guardar el estudiante. Por favor, inténtalo de nuevo.",
+        );
       }
+    } finally {
+      window.removeEventListener("unhandledrejection", silenciar, true);
+      window.removeEventListener("error", silenciar, true);
     }
   };
 
@@ -168,22 +210,51 @@ export default function AlumnosView() {
   const handleActualizar = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editing) return;
+
+    // Para que el modal muestre el mensaje correcto, limpiar el error antes de intentar.
+    setErrorModal(null);
+
+    const correoCambiado =
+      correo.trim().toLowerCase() !== correoOriginal.trim().toLowerCase();
+
     try {
-      // Mandamos 'correo' modificado en el formulario
-      await actualizarEstudiante({
-        usuarioInternalId: editing.usuarioInternalId,
-        nombreCompleto,
-        correo, 
-        telefono,
-        activo,
-      });
+      if (!correoCambiado) {
+        await actualizarEstudianteSinCorreo({
+          usuarioInternalId: editing.usuarioInternalId,
+          nombreCompleto,
+          telefono,
+          activo,
+        });
+      } else {
+        await actualizarEstudiante({
+          usuarioInternalId: editing.usuarioInternalId,
+          nombreCompleto,
+          correo,
+          telefono,
+          activo,
+        });
+      }
 
       setModalOpen(false);
       limpiar();
       cargarEstudiantes();
-    } catch (err) {
-      console.error("Error al actualizar estudiante:", err);
-      alert("Error al actualizar. Revisa la consola.");
+    } catch (err: any) {
+      const errorStr = JSON.stringify(err);
+
+      if (
+        errorStr.includes("usuario_correo_uidx") ||
+        errorStr.includes("violates SQL unique constraint") ||
+        errorStr.includes("usuario_correo") ||
+        errorStr.includes("ALREADY_EXISTS")
+      ) {
+        setErrorModal(
+          "¡Atención! Este correo electrónico ya está registrado. Por favor, utiliza uno diferente.",
+        );
+      } else {
+        setErrorModal(
+          "Hubo un problema al guardar los cambios. Por favor, inténtalo de nuevo.",
+        );
+      }
     }
   };
 
@@ -191,20 +262,19 @@ export default function AlumnosView() {
      ELIMINAR
   ══════════════════════════════════════ */
   const handleEliminar = async () => {
-  if (!deleteTarget) return;
-  try {
-    await eliminarEstudiante({
-      // Eliminamos el parámetro que causa el error de tipado
-      usuarioInternalId: deleteTarget.usuarioInternalId, 
-    });
-    
-    setDeleteTarget(null);
-    cargarEstudiantes();
-  } catch (err) {
-    console.error("Error al eliminar estudiante:", err);
-    alert("Error al eliminar. Revisa la consola.");
-  }
-};
+    if (!deleteTarget) return;
+    try {
+      await eliminarEstudiante({
+        // Eliminamos el parámetro que causa el error de tipado
+        usuarioInternalId: deleteTarget.usuarioInternalId,
+      });
+
+      setDeleteTarget(null);
+      cargarEstudiantes();
+    } catch (err) {
+      setErrorModal("...");
+    }
+  };
 
   /* ══════════════════════════════════════
      ENVIAR CORREO
@@ -235,8 +305,12 @@ export default function AlumnosView() {
       <div className="ucv-clases-wrap">
         <div className="ucv-clases-header">
           <div>
-            <div className="ucv-clases-header__title">Estudiantes registrados</div>
-            <div className="ucv-clases-header__sub">{estudiantes.length} estudiantes en total</div>
+            <div className="ucv-clases-header__title">
+              Estudiantes registrados
+            </div>
+            <div className="ucv-clases-header__sub">
+              {estudiantes.length} estudiantes en total
+            </div>
           </div>
           <button className="ucv-btn-add" onClick={abrirNuevo}>
             <i className="ti ti-plus" aria-hidden="true" />
@@ -293,22 +367,42 @@ export default function AlumnosView() {
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan={7} className="ucv-table-empty">Cargando...</td>
+                    <td colSpan={7} className="ucv-table-empty">
+                      Cargando...
+                    </td>
                   </tr>
                 ) : paginated.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="ucv-table-empty">No se encontraron estudiantes.</td>
+                    <td colSpan={7} className="ucv-table-empty">
+                      No se encontraron estudiantes.
+                    </td>
                   </tr>
                 ) : (
                   paginated.map((est, idx) => (
                     <tr key={est.id}>
-                      <td className="ucv-td-idx">{(page - 1) * perPage + idx + 1}</td>
-                      <td><div className="ucv-clase-name">{est.nombreCompleto}</div></td>
-                      <td><div className="ucv-clase-salon">{est.correo}</div></td>
-                      <td><div className="ucv-clase-salon">{est.telefono}</div></td>
-                      <td><div className="ucv-clase-salon">{est.matricula}</div></td>
+                      <td className="ucv-td-idx">
+                        {(page - 1) * perPage + idx + 1}
+                      </td>
                       <td>
-                        <span className={ESTADO_CLASS[est.activo ? "Activo" : "Inactivo"]}>
+                        <div className="ucv-clase-name">
+                          {est.nombreCompleto}
+                        </div>
+                      </td>
+                      <td>
+                        <div className="ucv-clase-salon">{est.correo}</div>
+                      </td>
+                      <td>
+                        <div className="ucv-clase-salon">{est.telefono}</div>
+                      </td>
+                      <td>
+                        <div className="ucv-clase-salon">{est.matricula}</div>
+                      </td>
+                      <td>
+                        <span
+                          className={
+                            ESTADO_CLASS[est.activo ? "Activo" : "Inactivo"]
+                          }
+                        >
                           {est.activo ? "Activo" : "Inactivo"}
                         </span>
                       </td>
@@ -340,10 +434,15 @@ export default function AlumnosView() {
           <div className="ucv-table-footer">
             <span className="ucv-table-footer__info">
               Mostrando {filtered.length === 0 ? 0 : (page - 1) * perPage + 1} a{" "}
-              {Math.min(page * perPage, filtered.length)} de {filtered.length} entradas
+              {Math.min(page * perPage, filtered.length)} de {filtered.length}{" "}
+              entradas
             </span>
             <div className="ucv-pagination">
-              <button className="ucv-page-btn" onClick={() => setPage(page - 1)} disabled={page === 1}>
+              <button
+                className="ucv-page-btn"
+                onClick={() => setPage(page - 1)}
+                disabled={page === 1}
+              >
                 Anterior
               </button>
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
@@ -383,7 +482,9 @@ export default function AlumnosView() {
           <div className="ucv-modal-card">
             <div className="ucv-modal-header">
               <span className="ucv-modal-title">
-                {modalMode === "add" ? "Agregar estudiante" : "Editar estudiante"}
+                {modalMode === "add"
+                  ? "Agregar estudiante"
+                  : "Editar estudiante"}
               </span>
               <button
                 type="button"
@@ -397,7 +498,10 @@ export default function AlumnosView() {
               </button>
             </div>
 
-            <form className="ucv-modal-body" onSubmit={modalMode === "add" ? handleCrear : handleActualizar}>
+            <form
+              className="ucv-modal-body"
+              onSubmit={modalMode === "add" ? handleCrear : handleActualizar}
+            >
               {errorModal && (
                 <div
                   style={{
@@ -413,7 +517,11 @@ export default function AlumnosView() {
                     gap: "0.5rem",
                   }}
                 >
-                  <i className="ti ti-alert-triangle" style={{ fontSize: "1.1rem" }} aria-hidden="true" />
+                  <i
+                    className="ti ti-alert-triangle"
+                    style={{ fontSize: "1.1rem" }}
+                    aria-hidden="true"
+                  />
                   <span>{errorModal}</span>
                 </div>
               )}
@@ -422,14 +530,18 @@ export default function AlumnosView() {
                 {modalMode === "edit" && (
                   <div className="ucv-modal-field ucv-modal-field--full">
                     <span className="ucv-modal-label">Matrícula</span>
-                    <input className="ucv-modal-input ucv-modal-input--disabled" value={editing?.matricula ?? ""} disabled />
+                    <input
+                      className="ucv-modal-input ucv-modal-input--disabled"
+                      value={editing?.matricula ?? ""}
+                      disabled
+                    />
                   </div>
                 )}
 
                 <div className="ucv-modal-field">
                   <span className="ucv-modal-label">Nombre completo</span>
                   <input
-                    className="ucv-modal-input"
+                      className="ucv-modal-input" // Corregido: Eliminado el punto extra después de 'value={nombreCompleto}'
                     value={nombreCompleto}
                     onChange={(e) => setNombreCompleto(e.target.value)}
                     placeholder="Ej. Ana García"
@@ -466,7 +578,12 @@ export default function AlumnosView() {
                       required
                       // Removido disabled para permitir la edición fluida
                     />
-                    <button type="button" className="ucv-email-send-btn" onClick={handleSendEmail} title="Enviar correo">
+                    <button
+                      type="button"
+                      className="ucv-email-send-btn"
+                      onClick={handleSendEmail}
+                      title="Enviar correo"
+                    >
                       <i className="ti ti-send" aria-hidden="true" />
                       Enviar
                     </button>
@@ -476,13 +593,35 @@ export default function AlumnosView() {
                 {modalMode === "add" && (
                   <div className="ucv-modal-field ucv-modal-field--full">
                     <span className="ucv-modal-label">Contraseña inicial</span>
-                    <input
-                      className="ucv-modal-input"
-                      type="text"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      placeholder="Contraseña inicial"
-                    />
+                    <div style={{ display: "flex", gap: "0.5rem" }}>
+                      <input
+                        className="ucv-modal-input"
+                        type="text"
+                        value={password}
+                        readOnly
+                        required
+                        style={{ flex: 1, fontFamily: "monospace", letterSpacing: "0.05em" }}
+                      />
+                      <button
+                        type="button"
+                        className="ucv-email-send-btn"
+                        onClick={() => setPassword(generarPassword())}
+                        title="Generar nueva contraseña"
+                      >
+                        <i className="ti ti-refresh" aria-hidden="true" />
+                        Nueva
+                      </button>
+                    </div>
+                    <span
+                      style={{
+                        fontSize: "0.75rem",
+                        color: "#6b7280",
+                        marginTop: "0.3rem",
+                        display: "block",
+                      }}
+                    >
+                      Contraseña generada automáticamente. Cópiala antes de guardar — se almacenará encriptada.
+                    </span>
                   </div>
                 )}
 
@@ -505,10 +644,20 @@ export default function AlumnosView() {
               </div>
 
               <div className="ucv-modal-actions">
-                <button type="button" className="ucv-modal-btn ucv-modal-btn--ghost" onClick={() => { setModalOpen(false); limpiar(); }}>
+                <button
+                  type="button"
+                  className="ucv-modal-btn ucv-modal-btn--ghost"
+                  onClick={() => {
+                    setModalOpen(false);
+                    limpiar();
+                  }}
+                >
                   Cancelar
                 </button>
-                <button type="submit" className="ucv-modal-btn ucv-modal-btn--primary">
+                <button
+                  type="submit"
+                  className="ucv-modal-btn ucv-modal-btn--primary"
+                >
                   <i className="ti ti-check" aria-hidden="true" />
                   {modalMode === "add" ? "Guardar" : "Actualizar"}
                 </button>
@@ -524,22 +673,40 @@ export default function AlumnosView() {
           className="ucv-modal-overlay ucv-modal-overlay--top"
           role="dialog"
           aria-modal="true"
-          onMouseDown={(e) => { if (e.target === e.currentTarget) setDeleteTarget(null); }}
+          onMouseDown={(e) => {
+            if (e.target === e.currentTarget) setDeleteTarget(null);
+          }}
         >
           <div className="ucv-modal-card ucv-modal-card--sm">
             <div className="ucv-modal-header">
               <span className="ucv-modal-title">Eliminar estudiante</span>
-              <button type="button" className="ucv-modal-close" onClick={() => setDeleteTarget(null)}>×</button>
+              <button
+                type="button"
+                className="ucv-modal-close"
+                onClick={() => setDeleteTarget(null)}
+              >
+                ×
+              </button>
             </div>
             <div className="ucv-modal-body">
               <p className="ucv-modal-delete-msg">
-                ¿Estás seguro de eliminar a <strong>{deleteTarget.nombreCompleto}</strong>? Esta acción no se puede deshacer.
+                ¿Estás seguro de eliminar a{" "}
+                <strong>{deleteTarget.nombreCompleto}</strong>? Esta acción no
+                se puede deshacer.
               </p>
               <div className="ucv-modal-actions">
-                <button type="button" className="ucv-modal-btn ucv-modal-btn--ghost" onClick={() => setDeleteTarget(null)}>
+                <button
+                  type="button"
+                  className="ucv-modal-btn ucv-modal-btn--ghost"
+                  onClick={() => setDeleteTarget(null)}
+                >
                   Cancelar
                 </button>
-                <button type="button" className="ucv-modal-btn ucv-modal-btn--danger" onClick={handleEliminar}>
+                <button
+                  type="button"
+                  className="ucv-modal-btn ucv-modal-btn--danger"
+                  onClick={handleEliminar}
+                >
                   Eliminar
                 </button>
               </div>

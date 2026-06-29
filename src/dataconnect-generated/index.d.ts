@@ -15,12 +15,32 @@ export interface ActualizarEstudianteData {
   usuario_update?: Usuario_Key | null;
 }
 
+export interface ActualizarEstudianteSinCorreoData {
+  usuario_update?: Usuario_Key | null;
+}
+
+export interface ActualizarEstudianteSinCorreoVariables {
+  usuarioInternalId: UUIDString;
+  nombreCompleto: string;
+  telefono: string;
+  activo: boolean;
+}
+
 export interface ActualizarEstudianteVariables {
   usuarioInternalId: UUIDString;
   nombreCompleto: string;
   correo: string;
   telefono: string;
   activo: boolean;
+}
+
+export interface ActualizarPasswordUsuarioData {
+  usuario_update?: Usuario_Key | null;
+}
+
+export interface ActualizarPasswordUsuarioVariables {
+  usuarioInternalId: UUIDString;
+  passwordHash: string;
 }
 
 export interface Asistencia_Key {
@@ -341,6 +361,30 @@ export const actualizarEstudianteRef: ActualizarEstudianteRef;
 
 export function actualizarEstudiante(vars: ActualizarEstudianteVariables): MutationPromise<ActualizarEstudianteData, ActualizarEstudianteVariables>;
 export function actualizarEstudiante(dc: DataConnect, vars: ActualizarEstudianteVariables): MutationPromise<ActualizarEstudianteData, ActualizarEstudianteVariables>;
+
+interface ActualizarEstudianteSinCorreoRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: ActualizarEstudianteSinCorreoVariables): MutationRef<ActualizarEstudianteSinCorreoData, ActualizarEstudianteSinCorreoVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: ActualizarEstudianteSinCorreoVariables): MutationRef<ActualizarEstudianteSinCorreoData, ActualizarEstudianteSinCorreoVariables>;
+  operationName: string;
+}
+export const actualizarEstudianteSinCorreoRef: ActualizarEstudianteSinCorreoRef;
+
+export function actualizarEstudianteSinCorreo(vars: ActualizarEstudianteSinCorreoVariables): MutationPromise<ActualizarEstudianteSinCorreoData, ActualizarEstudianteSinCorreoVariables>;
+export function actualizarEstudianteSinCorreo(dc: DataConnect, vars: ActualizarEstudianteSinCorreoVariables): MutationPromise<ActualizarEstudianteSinCorreoData, ActualizarEstudianteSinCorreoVariables>;
+
+interface ActualizarPasswordUsuarioRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: ActualizarPasswordUsuarioVariables): MutationRef<ActualizarPasswordUsuarioData, ActualizarPasswordUsuarioVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: ActualizarPasswordUsuarioVariables): MutationRef<ActualizarPasswordUsuarioData, ActualizarPasswordUsuarioVariables>;
+  operationName: string;
+}
+export const actualizarPasswordUsuarioRef: ActualizarPasswordUsuarioRef;
+
+export function actualizarPasswordUsuario(vars: ActualizarPasswordUsuarioVariables): MutationPromise<ActualizarPasswordUsuarioData, ActualizarPasswordUsuarioVariables>;
+export function actualizarPasswordUsuario(dc: DataConnect, vars: ActualizarPasswordUsuarioVariables): MutationPromise<ActualizarPasswordUsuarioData, ActualizarPasswordUsuarioVariables>;
 
 interface EliminarEstudianteRef {
   /* Allow users to create refs without passing in DataConnect */

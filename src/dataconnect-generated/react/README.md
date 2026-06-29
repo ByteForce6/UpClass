@@ -28,6 +28,8 @@ You can also follow the instructions from the [Data Connect documentation](https
 - [**Mutations**](#mutations)
   - [*CrearEstudiante*](#crearestudiante)
   - [*ActualizarEstudiante*](#actualizarestudiante)
+  - [*ActualizarEstudianteSinCorreo*](#actualizarestudiantesincorreo)
+  - [*ActualizarPasswordUsuario*](#actualizarpasswordusuario)
   - [*EliminarEstudiante*](#eliminarestudiante)
   - [*CreateInstructor*](#createinstructor)
   - [*UpdateInstructor*](#updateinstructor)
@@ -1033,6 +1035,202 @@ export default function ActualizarEstudianteComponent() {
     onSuccess: () => { console.log('Mutation succeeded!'); }
   };
   mutation.mutate(actualizarEstudianteVars, options);
+
+  // Then, you can render your component dynamically based on the status of the Mutation.
+  if (mutation.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (mutation.isError) {
+    return <div>Error: {mutation.error.message}</div>;
+  }
+
+  // If the Mutation is successful, you can access the data returned using the `UseMutationResult.data` field.
+  if (mutation.isSuccess) {
+    console.log(mutation.data.usuario_update);
+  }
+  return <div>Mutation execution {mutation.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## ActualizarEstudianteSinCorreo
+You can execute the `ActualizarEstudianteSinCorreo` Mutation using the `UseMutationResult` object returned by the following Mutation hook function (which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts)):
+```javascript
+useActualizarEstudianteSinCorreo(options?: useDataConnectMutationOptions<ActualizarEstudianteSinCorreoData, FirebaseError, ActualizarEstudianteSinCorreoVariables>): UseDataConnectMutationResult<ActualizarEstudianteSinCorreoData, ActualizarEstudianteSinCorreoVariables>;
+```
+You can also pass in a `DataConnect` instance to the Mutation hook function.
+```javascript
+useActualizarEstudianteSinCorreo(dc: DataConnect, options?: useDataConnectMutationOptions<ActualizarEstudianteSinCorreoData, FirebaseError, ActualizarEstudianteSinCorreoVariables>): UseDataConnectMutationResult<ActualizarEstudianteSinCorreoData, ActualizarEstudianteSinCorreoVariables>;
+```
+
+### Variables
+The `ActualizarEstudianteSinCorreo` Mutation requires an argument of type `ActualizarEstudianteSinCorreoVariables`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+
+```javascript
+export interface ActualizarEstudianteSinCorreoVariables {
+  usuarioInternalId: UUIDString;
+  nombreCompleto: string;
+  telefono: string;
+  activo: boolean;
+}
+```
+### Return Type
+Recall that calling the `ActualizarEstudianteSinCorreo` Mutation hook function returns a `UseMutationResult` object. This object holds the state of your Mutation, including whether the Mutation is loading, has completed, or has succeeded/failed, among other things.
+
+To check the status of a Mutation, use the `UseMutationResult.status` field. You can also check for pending / success / error status using the `UseMutationResult.isPending`, `UseMutationResult.isSuccess`, and `UseMutationResult.isError` fields.
+
+To execute the Mutation, call `UseMutationResult.mutate()`. This function executes the Mutation, but does not return the data from the Mutation.
+
+To access the data returned by a Mutation, use the `UseMutationResult.data` field. The data for the `ActualizarEstudianteSinCorreo` Mutation is of type `ActualizarEstudianteSinCorreoData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface ActualizarEstudianteSinCorreoData {
+  usuario_update?: Usuario_Key | null;
+}
+```
+
+To learn more about the `UseMutationResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useMutation).
+
+### Using `ActualizarEstudianteSinCorreo`'s Mutation hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, ActualizarEstudianteSinCorreoVariables } from '@dataconnect/generated';
+import { useActualizarEstudianteSinCorreo } from '@dataconnect/generated/react'
+
+export default function ActualizarEstudianteSinCorreoComponent() {
+  // Call the Mutation hook function to get a `UseMutationResult` object which holds the state of your Mutation.
+  const mutation = useActualizarEstudianteSinCorreo();
+
+  // You can also pass in a `DataConnect` instance to the Mutation hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const mutation = useActualizarEstudianteSinCorreo(dataConnect);
+
+  // You can also pass in a `useDataConnectMutationOptions` object to the Mutation hook function.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useActualizarEstudianteSinCorreo(options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectMutationOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useActualizarEstudianteSinCorreo(dataConnect, options);
+
+  // After calling the Mutation hook function, you must call `UseMutationResult.mutate()` to execute the Mutation.
+  // The `useActualizarEstudianteSinCorreo` Mutation requires an argument of type `ActualizarEstudianteSinCorreoVariables`:
+  const actualizarEstudianteSinCorreoVars: ActualizarEstudianteSinCorreoVariables = {
+    usuarioInternalId: ..., 
+    nombreCompleto: ..., 
+    telefono: ..., 
+    activo: ..., 
+  };
+  mutation.mutate(actualizarEstudianteSinCorreoVars);
+  // Variables can be defined inline as well.
+  mutation.mutate({ usuarioInternalId: ..., nombreCompleto: ..., telefono: ..., activo: ..., });
+
+  // You can also pass in a `useDataConnectMutationOptions` object to `UseMutationResult.mutate()`.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  mutation.mutate(actualizarEstudianteSinCorreoVars, options);
+
+  // Then, you can render your component dynamically based on the status of the Mutation.
+  if (mutation.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (mutation.isError) {
+    return <div>Error: {mutation.error.message}</div>;
+  }
+
+  // If the Mutation is successful, you can access the data returned using the `UseMutationResult.data` field.
+  if (mutation.isSuccess) {
+    console.log(mutation.data.usuario_update);
+  }
+  return <div>Mutation execution {mutation.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## ActualizarPasswordUsuario
+You can execute the `ActualizarPasswordUsuario` Mutation using the `UseMutationResult` object returned by the following Mutation hook function (which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts)):
+```javascript
+useActualizarPasswordUsuario(options?: useDataConnectMutationOptions<ActualizarPasswordUsuarioData, FirebaseError, ActualizarPasswordUsuarioVariables>): UseDataConnectMutationResult<ActualizarPasswordUsuarioData, ActualizarPasswordUsuarioVariables>;
+```
+You can also pass in a `DataConnect` instance to the Mutation hook function.
+```javascript
+useActualizarPasswordUsuario(dc: DataConnect, options?: useDataConnectMutationOptions<ActualizarPasswordUsuarioData, FirebaseError, ActualizarPasswordUsuarioVariables>): UseDataConnectMutationResult<ActualizarPasswordUsuarioData, ActualizarPasswordUsuarioVariables>;
+```
+
+### Variables
+The `ActualizarPasswordUsuario` Mutation requires an argument of type `ActualizarPasswordUsuarioVariables`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+
+```javascript
+export interface ActualizarPasswordUsuarioVariables {
+  usuarioInternalId: UUIDString;
+  passwordHash: string;
+}
+```
+### Return Type
+Recall that calling the `ActualizarPasswordUsuario` Mutation hook function returns a `UseMutationResult` object. This object holds the state of your Mutation, including whether the Mutation is loading, has completed, or has succeeded/failed, among other things.
+
+To check the status of a Mutation, use the `UseMutationResult.status` field. You can also check for pending / success / error status using the `UseMutationResult.isPending`, `UseMutationResult.isSuccess`, and `UseMutationResult.isError` fields.
+
+To execute the Mutation, call `UseMutationResult.mutate()`. This function executes the Mutation, but does not return the data from the Mutation.
+
+To access the data returned by a Mutation, use the `UseMutationResult.data` field. The data for the `ActualizarPasswordUsuario` Mutation is of type `ActualizarPasswordUsuarioData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface ActualizarPasswordUsuarioData {
+  usuario_update?: Usuario_Key | null;
+}
+```
+
+To learn more about the `UseMutationResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useMutation).
+
+### Using `ActualizarPasswordUsuario`'s Mutation hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, ActualizarPasswordUsuarioVariables } from '@dataconnect/generated';
+import { useActualizarPasswordUsuario } from '@dataconnect/generated/react'
+
+export default function ActualizarPasswordUsuarioComponent() {
+  // Call the Mutation hook function to get a `UseMutationResult` object which holds the state of your Mutation.
+  const mutation = useActualizarPasswordUsuario();
+
+  // You can also pass in a `DataConnect` instance to the Mutation hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const mutation = useActualizarPasswordUsuario(dataConnect);
+
+  // You can also pass in a `useDataConnectMutationOptions` object to the Mutation hook function.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useActualizarPasswordUsuario(options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectMutationOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useActualizarPasswordUsuario(dataConnect, options);
+
+  // After calling the Mutation hook function, you must call `UseMutationResult.mutate()` to execute the Mutation.
+  // The `useActualizarPasswordUsuario` Mutation requires an argument of type `ActualizarPasswordUsuarioVariables`:
+  const actualizarPasswordUsuarioVars: ActualizarPasswordUsuarioVariables = {
+    usuarioInternalId: ..., 
+    passwordHash: ..., 
+  };
+  mutation.mutate(actualizarPasswordUsuarioVars);
+  // Variables can be defined inline as well.
+  mutation.mutate({ usuarioInternalId: ..., passwordHash: ..., });
+
+  // You can also pass in a `useDataConnectMutationOptions` object to `UseMutationResult.mutate()`.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  mutation.mutate(actualizarPasswordUsuarioVars, options);
 
   // Then, you can render your component dynamically based on the status of the Mutation.
   if (mutation.isPending) {

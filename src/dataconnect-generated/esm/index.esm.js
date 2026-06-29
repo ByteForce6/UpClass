@@ -60,6 +60,30 @@ export function actualizarEstudiante(dcOrVars, vars) {
   return executeMutation(actualizarEstudianteRef(dcInstance, inputVars));
 }
 
+export const actualizarEstudianteSinCorreoRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'ActualizarEstudianteSinCorreo', inputVars);
+}
+actualizarEstudianteSinCorreoRef.operationName = 'ActualizarEstudianteSinCorreo';
+
+export function actualizarEstudianteSinCorreo(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(actualizarEstudianteSinCorreoRef(dcInstance, inputVars));
+}
+
+export const actualizarPasswordUsuarioRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'ActualizarPasswordUsuario', inputVars);
+}
+actualizarPasswordUsuarioRef.operationName = 'ActualizarPasswordUsuario';
+
+export function actualizarPasswordUsuario(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(actualizarPasswordUsuarioRef(dcInstance, inputVars));
+}
+
 export const eliminarEstudianteRef = (dcOrVars, vars) => {
   const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
   dcInstance._useGeneratedSdk();

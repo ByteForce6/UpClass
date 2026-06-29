@@ -78,6 +78,35 @@ mutation ActualizarEstudiante(
   )
 }
 
+mutation ActualizarEstudianteSinCorreo(
+  $usuarioInternalId: UUID!
+  $nombreCompleto: String!
+  $telefono: String!
+  $activo: Boolean!
+) @auth(level: PUBLIC) {
+  usuario_update(
+    key: { id: $usuarioInternalId }
+    data: {
+      nombreCompleto: $nombreCompleto
+      telefono: $telefono
+      activo: $activo
+    }
+  )
+}
+
+mutation ActualizarPasswordUsuario(
+  $usuarioInternalId: UUID!
+  $passwordHash: String!
+) @auth(level: PUBLIC) {
+  usuario_update(
+    key: { id: $usuarioInternalId }
+    data: {
+      passwordHash: $passwordHash
+    }
+  )
+}
+
+
 mutation EliminarEstudiante(
   # ¡Aquí no declaraste $estudianteInternalId! Solo tienes esta variable:
   $usuarioInternalId: UUID!

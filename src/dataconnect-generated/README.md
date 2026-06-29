@@ -21,6 +21,8 @@ This README will guide you through the process of using the generated JavaScript
 - [**Mutations**](#mutations)
   - [*CrearEstudiante*](#crearestudiante)
   - [*ActualizarEstudiante*](#actualizarestudiante)
+  - [*ActualizarEstudianteSinCorreo*](#actualizarestudiantesincorreo)
+  - [*ActualizarPasswordUsuario*](#actualizarpasswordusuario)
   - [*EliminarEstudiante*](#eliminarestudiante)
   - [*CreateInstructor*](#createinstructor)
   - [*UpdateInstructor*](#updateinstructor)
@@ -1220,6 +1222,236 @@ const ref = actualizarEstudianteRef({ usuarioInternalId: ..., nombreCompleto: ..
 // You can also pass in a `DataConnect` instance to the `MutationRef` function.
 const dataConnect = getDataConnect(connectorConfig);
 const ref = actualizarEstudianteRef(dataConnect, actualizarEstudianteVars);
+
+// Call `executeMutation()` on the reference to execute the mutation.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await executeMutation(ref);
+
+console.log(data.usuario_update);
+
+// Or, you can use the `Promise` API.
+executeMutation(ref).then((response) => {
+  const data = response.data;
+  console.log(data.usuario_update);
+});
+```
+
+## ActualizarEstudianteSinCorreo
+You can execute the `ActualizarEstudianteSinCorreo` mutation using the following action shortcut function, or by calling `executeMutation()` after calling the following `MutationRef` function, both of which are defined in [dataconnect-generated/index.d.ts](./index.d.ts):
+```typescript
+actualizarEstudianteSinCorreo(vars: ActualizarEstudianteSinCorreoVariables): MutationPromise<ActualizarEstudianteSinCorreoData, ActualizarEstudianteSinCorreoVariables>;
+
+interface ActualizarEstudianteSinCorreoRef {
+  ...
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: ActualizarEstudianteSinCorreoVariables): MutationRef<ActualizarEstudianteSinCorreoData, ActualizarEstudianteSinCorreoVariables>;
+}
+export const actualizarEstudianteSinCorreoRef: ActualizarEstudianteSinCorreoRef;
+```
+You can also pass in a `DataConnect` instance to the action shortcut function or `MutationRef` function.
+```typescript
+actualizarEstudianteSinCorreo(dc: DataConnect, vars: ActualizarEstudianteSinCorreoVariables): MutationPromise<ActualizarEstudianteSinCorreoData, ActualizarEstudianteSinCorreoVariables>;
+
+interface ActualizarEstudianteSinCorreoRef {
+  ...
+  (dc: DataConnect, vars: ActualizarEstudianteSinCorreoVariables): MutationRef<ActualizarEstudianteSinCorreoData, ActualizarEstudianteSinCorreoVariables>;
+}
+export const actualizarEstudianteSinCorreoRef: ActualizarEstudianteSinCorreoRef;
+```
+
+If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the actualizarEstudianteSinCorreoRef:
+```typescript
+const name = actualizarEstudianteSinCorreoRef.operationName;
+console.log(name);
+```
+
+### Variables
+The `ActualizarEstudianteSinCorreo` mutation requires an argument of type `ActualizarEstudianteSinCorreoVariables`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+
+```typescript
+export interface ActualizarEstudianteSinCorreoVariables {
+  usuarioInternalId: UUIDString;
+  nombreCompleto: string;
+  telefono: string;
+  activo: boolean;
+}
+```
+### Return Type
+Recall that executing the `ActualizarEstudianteSinCorreo` mutation returns a `MutationPromise` that resolves to an object with a `data` property.
+
+The `data` property is an object of type `ActualizarEstudianteSinCorreoData`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+```typescript
+export interface ActualizarEstudianteSinCorreoData {
+  usuario_update?: Usuario_Key | null;
+}
+```
+### Using `ActualizarEstudianteSinCorreo`'s action shortcut function
+
+```typescript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, actualizarEstudianteSinCorreo, ActualizarEstudianteSinCorreoVariables } from '@dataconnect/generated';
+
+// The `ActualizarEstudianteSinCorreo` mutation requires an argument of type `ActualizarEstudianteSinCorreoVariables`:
+const actualizarEstudianteSinCorreoVars: ActualizarEstudianteSinCorreoVariables = {
+  usuarioInternalId: ..., 
+  nombreCompleto: ..., 
+  telefono: ..., 
+  activo: ..., 
+};
+
+// Call the `actualizarEstudianteSinCorreo()` function to execute the mutation.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await actualizarEstudianteSinCorreo(actualizarEstudianteSinCorreoVars);
+// Variables can be defined inline as well.
+const { data } = await actualizarEstudianteSinCorreo({ usuarioInternalId: ..., nombreCompleto: ..., telefono: ..., activo: ..., });
+
+// You can also pass in a `DataConnect` instance to the action shortcut function.
+const dataConnect = getDataConnect(connectorConfig);
+const { data } = await actualizarEstudianteSinCorreo(dataConnect, actualizarEstudianteSinCorreoVars);
+
+console.log(data.usuario_update);
+
+// Or, you can use the `Promise` API.
+actualizarEstudianteSinCorreo(actualizarEstudianteSinCorreoVars).then((response) => {
+  const data = response.data;
+  console.log(data.usuario_update);
+});
+```
+
+### Using `ActualizarEstudianteSinCorreo`'s `MutationRef` function
+
+```typescript
+import { getDataConnect, executeMutation } from 'firebase/data-connect';
+import { connectorConfig, actualizarEstudianteSinCorreoRef, ActualizarEstudianteSinCorreoVariables } from '@dataconnect/generated';
+
+// The `ActualizarEstudianteSinCorreo` mutation requires an argument of type `ActualizarEstudianteSinCorreoVariables`:
+const actualizarEstudianteSinCorreoVars: ActualizarEstudianteSinCorreoVariables = {
+  usuarioInternalId: ..., 
+  nombreCompleto: ..., 
+  telefono: ..., 
+  activo: ..., 
+};
+
+// Call the `actualizarEstudianteSinCorreoRef()` function to get a reference to the mutation.
+const ref = actualizarEstudianteSinCorreoRef(actualizarEstudianteSinCorreoVars);
+// Variables can be defined inline as well.
+const ref = actualizarEstudianteSinCorreoRef({ usuarioInternalId: ..., nombreCompleto: ..., telefono: ..., activo: ..., });
+
+// You can also pass in a `DataConnect` instance to the `MutationRef` function.
+const dataConnect = getDataConnect(connectorConfig);
+const ref = actualizarEstudianteSinCorreoRef(dataConnect, actualizarEstudianteSinCorreoVars);
+
+// Call `executeMutation()` on the reference to execute the mutation.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await executeMutation(ref);
+
+console.log(data.usuario_update);
+
+// Or, you can use the `Promise` API.
+executeMutation(ref).then((response) => {
+  const data = response.data;
+  console.log(data.usuario_update);
+});
+```
+
+## ActualizarPasswordUsuario
+You can execute the `ActualizarPasswordUsuario` mutation using the following action shortcut function, or by calling `executeMutation()` after calling the following `MutationRef` function, both of which are defined in [dataconnect-generated/index.d.ts](./index.d.ts):
+```typescript
+actualizarPasswordUsuario(vars: ActualizarPasswordUsuarioVariables): MutationPromise<ActualizarPasswordUsuarioData, ActualizarPasswordUsuarioVariables>;
+
+interface ActualizarPasswordUsuarioRef {
+  ...
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: ActualizarPasswordUsuarioVariables): MutationRef<ActualizarPasswordUsuarioData, ActualizarPasswordUsuarioVariables>;
+}
+export const actualizarPasswordUsuarioRef: ActualizarPasswordUsuarioRef;
+```
+You can also pass in a `DataConnect` instance to the action shortcut function or `MutationRef` function.
+```typescript
+actualizarPasswordUsuario(dc: DataConnect, vars: ActualizarPasswordUsuarioVariables): MutationPromise<ActualizarPasswordUsuarioData, ActualizarPasswordUsuarioVariables>;
+
+interface ActualizarPasswordUsuarioRef {
+  ...
+  (dc: DataConnect, vars: ActualizarPasswordUsuarioVariables): MutationRef<ActualizarPasswordUsuarioData, ActualizarPasswordUsuarioVariables>;
+}
+export const actualizarPasswordUsuarioRef: ActualizarPasswordUsuarioRef;
+```
+
+If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the actualizarPasswordUsuarioRef:
+```typescript
+const name = actualizarPasswordUsuarioRef.operationName;
+console.log(name);
+```
+
+### Variables
+The `ActualizarPasswordUsuario` mutation requires an argument of type `ActualizarPasswordUsuarioVariables`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+
+```typescript
+export interface ActualizarPasswordUsuarioVariables {
+  usuarioInternalId: UUIDString;
+  passwordHash: string;
+}
+```
+### Return Type
+Recall that executing the `ActualizarPasswordUsuario` mutation returns a `MutationPromise` that resolves to an object with a `data` property.
+
+The `data` property is an object of type `ActualizarPasswordUsuarioData`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+```typescript
+export interface ActualizarPasswordUsuarioData {
+  usuario_update?: Usuario_Key | null;
+}
+```
+### Using `ActualizarPasswordUsuario`'s action shortcut function
+
+```typescript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, actualizarPasswordUsuario, ActualizarPasswordUsuarioVariables } from '@dataconnect/generated';
+
+// The `ActualizarPasswordUsuario` mutation requires an argument of type `ActualizarPasswordUsuarioVariables`:
+const actualizarPasswordUsuarioVars: ActualizarPasswordUsuarioVariables = {
+  usuarioInternalId: ..., 
+  passwordHash: ..., 
+};
+
+// Call the `actualizarPasswordUsuario()` function to execute the mutation.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await actualizarPasswordUsuario(actualizarPasswordUsuarioVars);
+// Variables can be defined inline as well.
+const { data } = await actualizarPasswordUsuario({ usuarioInternalId: ..., passwordHash: ..., });
+
+// You can also pass in a `DataConnect` instance to the action shortcut function.
+const dataConnect = getDataConnect(connectorConfig);
+const { data } = await actualizarPasswordUsuario(dataConnect, actualizarPasswordUsuarioVars);
+
+console.log(data.usuario_update);
+
+// Or, you can use the `Promise` API.
+actualizarPasswordUsuario(actualizarPasswordUsuarioVars).then((response) => {
+  const data = response.data;
+  console.log(data.usuario_update);
+});
+```
+
+### Using `ActualizarPasswordUsuario`'s `MutationRef` function
+
+```typescript
+import { getDataConnect, executeMutation } from 'firebase/data-connect';
+import { connectorConfig, actualizarPasswordUsuarioRef, ActualizarPasswordUsuarioVariables } from '@dataconnect/generated';
+
+// The `ActualizarPasswordUsuario` mutation requires an argument of type `ActualizarPasswordUsuarioVariables`:
+const actualizarPasswordUsuarioVars: ActualizarPasswordUsuarioVariables = {
+  usuarioInternalId: ..., 
+  passwordHash: ..., 
+};
+
+// Call the `actualizarPasswordUsuarioRef()` function to get a reference to the mutation.
+const ref = actualizarPasswordUsuarioRef(actualizarPasswordUsuarioVars);
+// Variables can be defined inline as well.
+const ref = actualizarPasswordUsuarioRef({ usuarioInternalId: ..., passwordHash: ..., });
+
+// You can also pass in a `DataConnect` instance to the `MutationRef` function.
+const dataConnect = getDataConnect(connectorConfig);
+const ref = actualizarPasswordUsuarioRef(dataConnect, actualizarPasswordUsuarioVars);
 
 // Call `executeMutation()` on the reference to execute the mutation.
 // You can use the `await` keyword to wait for the promise to resolve.

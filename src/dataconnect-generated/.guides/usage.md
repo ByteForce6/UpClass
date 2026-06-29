@@ -12,7 +12,7 @@ For each operation, there is a wrapper hook that can be used to call the operati
 
 Here are all of the hooks that get generated:
 ```ts
-import { useGetUsuarioByCorreo, useListarEstudiantes, useCrearEstudiante, useActualizarEstudiante, useEliminarEstudiante, useListInstructors, useGetRolByNumero, useCreateInstructor, useUpdateInstructor, useDeleteInstructor } from '@dataconnect/generated/react';
+import { useGetUsuarioByCorreo, useListarEstudiantes, useCrearEstudiante, useActualizarEstudiante, useActualizarEstudianteSinCorreo, useActualizarPasswordUsuario, useEliminarEstudiante, useListInstructors, useGetRolByNumero, useCreateInstructor } from '@dataconnect/generated/react';
 // The types of these hooks are available in react/index.d.ts
 
 const { data, isPending, isSuccess, isError, error } = useGetUsuarioByCorreo(getUsuarioByCorreoVars);
@@ -23,6 +23,10 @@ const { data, isPending, isSuccess, isError, error } = useCrearEstudiante(crearE
 
 const { data, isPending, isSuccess, isError, error } = useActualizarEstudiante(actualizarEstudianteVars);
 
+const { data, isPending, isSuccess, isError, error } = useActualizarEstudianteSinCorreo(actualizarEstudianteSinCorreoVars);
+
+const { data, isPending, isSuccess, isError, error } = useActualizarPasswordUsuario(actualizarPasswordUsuarioVars);
+
 const { data, isPending, isSuccess, isError, error } = useEliminarEstudiante(eliminarEstudianteVars);
 
 const { data, isPending, isSuccess, isError, error } = useListInstructors();
@@ -30,10 +34,6 @@ const { data, isPending, isSuccess, isError, error } = useListInstructors();
 const { data, isPending, isSuccess, isError, error } = useGetRolByNumero(getRolByNumeroVars);
 
 const { data, isPending, isSuccess, isError, error } = useCreateInstructor(createInstructorVars);
-
-const { data, isPending, isSuccess, isError, error } = useUpdateInstructor(updateInstructorVars);
-
-const { data, isPending, isSuccess, isError, error } = useDeleteInstructor(deleteInstructorVars);
 
 ```
 
@@ -72,7 +72,7 @@ If a user is not using a supported framework, they can use the generated SDK dir
 Here's an example of how to use it with the first 5 operations:
 
 ```js
-import { getUsuarioByCorreo, listarEstudiantes, crearEstudiante, actualizarEstudiante, eliminarEstudiante, listInstructors, getRolByNumero, createInstructor, updateInstructor, deleteInstructor } from '@dataconnect/generated';
+import { getUsuarioByCorreo, listarEstudiantes, crearEstudiante, actualizarEstudiante, actualizarEstudianteSinCorreo, actualizarPasswordUsuario, eliminarEstudiante, listInstructors, getRolByNumero, createInstructor } from '@dataconnect/generated';
 
 
 // Operation GetUsuarioByCorreo:  For variables, look at type GetUsuarioByCorreoVars in ../index.d.ts
@@ -87,6 +87,12 @@ const { data } = await CrearEstudiante(dataConnect, crearEstudianteVars);
 // Operation ActualizarEstudiante:  For variables, look at type ActualizarEstudianteVars in ../index.d.ts
 const { data } = await ActualizarEstudiante(dataConnect, actualizarEstudianteVars);
 
+// Operation ActualizarEstudianteSinCorreo:  For variables, look at type ActualizarEstudianteSinCorreoVars in ../index.d.ts
+const { data } = await ActualizarEstudianteSinCorreo(dataConnect, actualizarEstudianteSinCorreoVars);
+
+// Operation ActualizarPasswordUsuario:  For variables, look at type ActualizarPasswordUsuarioVars in ../index.d.ts
+const { data } = await ActualizarPasswordUsuario(dataConnect, actualizarPasswordUsuarioVars);
+
 // Operation EliminarEstudiante:  For variables, look at type EliminarEstudianteVars in ../index.d.ts
 const { data } = await EliminarEstudiante(dataConnect, eliminarEstudianteVars);
 
@@ -98,12 +104,6 @@ const { data } = await GetRolByNumero(dataConnect, getRolByNumeroVars);
 
 // Operation CreateInstructor:  For variables, look at type CreateInstructorVars in ../index.d.ts
 const { data } = await CreateInstructor(dataConnect, createInstructorVars);
-
-// Operation UpdateInstructor:  For variables, look at type UpdateInstructorVars in ../index.d.ts
-const { data } = await UpdateInstructor(dataConnect, updateInstructorVars);
-
-// Operation DeleteInstructor:  For variables, look at type DeleteInstructorVars in ../index.d.ts
-const { data } = await DeleteInstructor(dataConnect, deleteInstructorVars);
 
 
 ```
