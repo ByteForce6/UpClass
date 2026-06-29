@@ -70,6 +70,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  overflow: auto;
 }
 
 #root {
@@ -173,7 +174,7 @@
 
 .uc-sidebar__section {
   padding: 14px 12px 4px;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .uc-sidebar__section-label {

@@ -1,13 +1,26 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom"; 
 import { useAuth } from "../hooks/useAuth";
 import "../Styles/login.css";
 
 export default function Login() {
+  const navigate = useNavigate(); 
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const rol = localStorage.getItem("rol");
+
+    if (token && rol) {
+      if (rol === "admin") navigate("/admin", { replace: true });
+      else if (rol === "student") navigate("/students", { replace: true });
+      else if (rol === "teacher") navigate("/teacher", { replace: true });
+      else navigate("/", { replace: true });
+    }
+  }, [navigate]);
+
   const [correo, setCorreo] = useState("");
   const [clave, setClave] = useState("");
   const [showClave, setShowClave] = useState(false);
-
 
   // login | recover
   const [mode, setMode] = useState<"login" | "recover">("login");
@@ -45,8 +58,8 @@ export default function Login() {
           <span>BIENVENIDO A</span>
           <h1>UpClass</h1>
           <p>
-            Gestiona cursos, estudiantes y aprendizaje desde una plataforma moderna y
-            accesible.
+            Gestiona cursos, estudiantes y aprendizaje desde una plataforma
+            moderna y accesible.
           </p>
         </div>
       </div>
@@ -67,13 +80,18 @@ export default function Login() {
           </p>
 
           {!isRecover && error && (
-            <p className="error-alert" style={{ color: "red", marginBottom: "15px" }}>
+            <p
+              className="error-alert"
+              style={{ color: "red", marginBottom: "15px" }}
+            >
               {error}
             </p>
           )}
 
           {recoveryMessage && (
-            <p style={{ color: "#1D9E75", marginBottom: 15 }}>{recoveryMessage}</p>
+            <p style={{ color: "#1D9E75", marginBottom: 15 }}>
+              {recoveryMessage}
+            </p>
           )}
 
           <form className="login-form" onSubmit={handleSubmit}>
@@ -105,7 +123,9 @@ export default function Login() {
                     className="login-password-toggle"
                     onClick={() => setShowClave((v) => !v)}
                     disabled={loading}
-                    aria-label={showClave ? "Ocultar contraseña" : "Mostrar contraseña"}
+                    aria-label={
+                      showClave ? "Ocultar contraseña" : "Mostrar contraseña"
+                    }
                   >
                     {showClave ? "🙈" : "👁️"}
                   </button>
@@ -114,11 +134,7 @@ export default function Login() {
             )}
 
             <button className="login-btn" type="submit" disabled={loading}>
-              {loading
-                ? "Cargando..."
-                : isRecover
-                  ? "Enviar correo"
-                  : "Entrar"}
+              {loading ? "Cargando..." : isRecover ? "Enviar correo" : "Entrar"}
             </button>
           </form>
 
