@@ -311,6 +311,8 @@ mutation UpdateCurso(
 mutation DeleteCurso($cursoInternalId: UUID!) @auth(level: PUBLIC) {
   curso_delete(key: { id: $cursoInternalId })
 }
+
+
 # ── Cursos (estadísticas) ──────────────────────────────────────────────────────
 
 query ListCursosEstadisticas @auth(level: PUBLIC) {
