@@ -67,6 +67,14 @@ export interface BuscarCursoPorNombreVariables {
   nombre: string;
 }
 
+export interface CancelarInscripcionData {
+  inscripcion_update?: Inscripcion_Key | null;
+}
+
+export interface CancelarInscripcionVariables {
+  inscripcionInternalId: UUIDString;
+}
+
 export interface CrearEstudianteData {
   usuario_insert: Usuario_Key;
   estudiante_insert: Estudiante_Key;
@@ -203,6 +211,69 @@ export interface GetCursoInternalIdVariables {
   cursoId: number;
 }
 
+export interface GetHorariosDisponiblesData {
+  horarios: ({
+    id: UUIDString;
+    horarioId: number;
+    horaInicio: string;
+    horaFin: string;
+    cupoMaximo: number;
+    cupoActual: number;
+    estado?: string | null;
+    curso: {
+      id: UUIDString;
+      cursoId: number;
+      nombre: string;
+      descripcion?: string | null;
+      categoria?: string | null;
+      urlImagen?: string | null;
+      estado?: string | null;
+      instructor?: {
+        instructorId: number;
+        usuario: {
+          nombreCompleto: string;
+        };
+      };
+    } & Curso_Key;
+  } & Horario_Key)[];
+}
+
+export interface GetInscripcionesByEstudianteData {
+  inscripcions: ({
+    inscripcionId: string;
+    estadoInscripcion: string;
+    pagoEstado?: string | null;
+    fechaInscripcion: DateString;
+    horario: {
+      horarioId: number;
+      horaInicio: string;
+      horaFin: string;
+      cupoMaximo: number;
+      cupoActual: number;
+      estado?: string | null;
+      curso: {
+        id: UUIDString;
+        cursoId: number;
+        nombre: string;
+        descripcion?: string | null;
+        categoria?: string | null;
+        urlImagen?: string | null;
+        estado?: string | null;
+        instructor?: {
+          instructorId: number;
+          usuario: {
+            nombreCompleto: string;
+          };
+        };
+      } & Curso_Key;
+    };
+  })[];
+}
+
+export interface GetInscripcionesByEstudianteVariables {
+  matricula: string;
+}
+
 export interface GetRolByNumeroData {
   rols: ({
     id: UUIDString;
@@ -239,6 +310,16 @@ export interface Horario_Key {
 export interface Inscripcion_Key {
   id: UUIDString;
   __typename?: 'Inscripcion_Key';
+}
+
+export interface InsscribirEstudianteData {
+  inscripcion_insert: Inscripcion_Key;
+}
+
+export interface InsscribirEstudianteVariables {
+  inscripcionId: string;
+  estudianteInternalId: UUIDString;
+  horarioInternalId: UUIDString;
 }
 
 export interface Instructor_Key {
@@ -956,4 +1037,52 @@ export const updateReporteEstadisticaRef: UpdateReporteEstadisticaRef;
 
 export function updateReporteEstadistica(vars: UpdateReporteEstadisticaVariables): MutationPromise<UpdateReporteEstadisticaData, UpdateReporteEstadisticaVariables>;
 export function updateReporteEstadistica(dc: DataConnect, vars: UpdateReporteEstadisticaVariables): MutationPromise<UpdateReporteEstadisticaData, UpdateReporteEstadisticaVariables>;
+
+interface GetInscripcionesByEstudianteRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: GetInscripcionesByEstudianteVariables): QueryRef<GetInscripcionesByEstudianteData, GetInscripcionesByEstudianteVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: GetInscripcionesByEstudianteVariables): QueryRef<GetInscripcionesByEstudianteData, GetInscripcionesByEstudianteVariables>;
+  operationName: string;
+}
+export const getInscripcionesByEstudianteRef: GetInscripcionesByEstudianteRef;
+
+export function getInscripcionesByEstudiante(vars: GetInscripcionesByEstudianteVariables, options?: ExecuteQueryOptions): QueryPromise<GetInscripcionesByEstudianteData, GetInscripcionesByEstudianteVariables>;
+export function getInscripcionesByEstudiante(dc: DataConnect, vars: GetInscripcionesByEstudianteVariables, options?: ExecuteQueryOptions): QueryPromise<GetInscripcionesByEstudianteData, GetInscripcionesByEstudianteVariables>;
+
+interface GetHorariosDisponiblesRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (): QueryRef<GetHorariosDisponiblesData, undefined>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect): QueryRef<GetHorariosDisponiblesData, undefined>;
+  operationName: string;
+}
+export const getHorariosDisponiblesRef: GetHorariosDisponiblesRef;
+
+export function getHorariosDisponibles(options?: ExecuteQueryOptions): QueryPromise<GetHorariosDisponiblesData, undefined>;
+export function getHorariosDisponibles(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<GetHorariosDisponiblesData, undefined>;
+
+interface InsscribirEstudianteRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: InsscribirEstudianteVariables): MutationRef<InsscribirEstudianteData, InsscribirEstudianteVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: InsscribirEstudianteVariables): MutationRef<InsscribirEstudianteData, InsscribirEstudianteVariables>;
+  operationName: string;
+}
+export const insscribirEstudianteRef: InsscribirEstudianteRef;
+
+export function insscribirEstudiante(vars: InsscribirEstudianteVariables): MutationPromise<InsscribirEstudianteData, InsscribirEstudianteVariables>;
+export function insscribirEstudiante(dc: DataConnect, vars: InsscribirEstudianteVariables): MutationPromise<InsscribirEstudianteData, InsscribirEstudianteVariables>;
+
+interface CancelarInscripcionRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: CancelarInscripcionVariables): MutationRef<CancelarInscripcionData, CancelarInscripcionVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: CancelarInscripcionVariables): MutationRef<CancelarInscripcionData, CancelarInscripcionVariables>;
+  operationName: string;
+}
+export const cancelarInscripcionRef: CancelarInscripcionRef;
+
+export function cancelarInscripcion(vars: CancelarInscripcionVariables): MutationPromise<CancelarInscripcionData, CancelarInscripcionVariables>;
+export function cancelarInscripcion(dc: DataConnect, vars: CancelarInscripcionVariables): MutationPromise<CancelarInscripcionData, CancelarInscripcionVariables>;
 

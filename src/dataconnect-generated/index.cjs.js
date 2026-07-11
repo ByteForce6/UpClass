@@ -479,3 +479,61 @@ exports.updateReporteEstadistica = function updateReporteEstadistica(dcOrVars, v
   return executeMutation(updateReporteEstadisticaRef(dcInstance, inputVars));
 }
 ;
+
+const getInscripcionesByEstudianteRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'GetInscripcionesByEstudiante', inputVars);
+}
+getInscripcionesByEstudianteRef.operationName = 'GetInscripcionesByEstudiante';
+exports.getInscripcionesByEstudianteRef = getInscripcionesByEstudianteRef;
+
+exports.getInscripcionesByEstudiante = function getInscripcionesByEstudiante(dcOrVars, varsOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  return executeQuery(getInscripcionesByEstudianteRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const getHorariosDisponiblesRef = (dc) => {
+  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'GetHorariosDisponibles');
+}
+getHorariosDisponiblesRef.operationName = 'GetHorariosDisponibles';
+exports.getHorariosDisponiblesRef = getHorariosDisponiblesRef;
+
+exports.getHorariosDisponibles = function getHorariosDisponibles(dcOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
+  return executeQuery(getHorariosDisponiblesRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const insscribirEstudianteRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'InsscribirEstudiante', inputVars);
+}
+insscribirEstudianteRef.operationName = 'InsscribirEstudiante';
+exports.insscribirEstudianteRef = insscribirEstudianteRef;
+
+exports.insscribirEstudiante = function insscribirEstudiante(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(insscribirEstudianteRef(dcInstance, inputVars));
+}
+;
+
+const cancelarInscripcionRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'CancelarInscripcion', inputVars);
+}
+cancelarInscripcionRef.operationName = 'CancelarInscripcion';
+exports.cancelarInscripcionRef = cancelarInscripcionRef;
+
+exports.cancelarInscripcion = function cancelarInscripcion(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(cancelarInscripcionRef(dcInstance, inputVars));
+}
+;

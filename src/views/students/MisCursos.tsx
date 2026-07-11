@@ -1,49 +1,183 @@
-import { useState } from "react";
+/**
+ * MisCursos.tsx
+ * Lee inscripciones reales del estudiante logueado desde Firebase Data Connect.
+ */
 
-// ── Tipos ──────────────────────────────────────────────
-interface Curso {
-  id: number;
-  nombre: string;
-  instructor: string;
-  categoria: string;
-  progreso: number;
-  estado: "activo" | "completado" | "pendiente";
-  calificacion?: number;
-  sesiones: number;
-  sesionesTotal: number;
-  nextSession?: string;
+import { useState, useEffect } from "react";
+import { executeQuery } from "firebase/data-connect";
+import { dataConnect } from "../../../firebase";
+import {
+  getInscripcionesByEstudianteRef,
+  type GetInscripcionesByEstudianteData,
+} from "../../dataconnect-generated";
+
+// ─── Tipos ────────────────────────────────────────────────────────────────────
+
+interface CursoInscrito {
+  inscripcionId:     string;
+  estadoInscripcion: string;
+  pagoEstado:        string | null;
+  cursoId:           number;
+  nombre:            string;
+  categoria:         string;
+  instructor:        string;
+  horario:           string;
+  cupoActual:        number;
+  cupoMaximo:        number;
+  urlImagen:         string | null;
 }
 
-// ── Datos ──────────────────────────────────────────────
-const CURSOS: Curso[] = [
-  { id:1, nombre:"Diseño UX/UI Avanzado",         instructor:"Arq. Laura Méndez", categoria:"Diseño",   progreso:72,  estado:"activo",    sesiones:13, sesionesTotal:18, nextSession:"Lun 09:00", calificacion:9.1 },
-  { id:2, nombre:"Fotografía Editorial",           instructor:"Mtro. Carlos Ruiz", categoria:"Arte",     progreso:100, estado:"completado", sesiones:20, sesionesTotal:20, calificacion:8.8 },
-  { id:3, nombre:"Marketing Digital & Growth",     instructor:"Lic. Sofía Torres", categoria:"Negocios", progreso:40,  estado:"activo",    sesiones:6,  sesionesTotal:15, nextSession:"Mié 11:00", calificacion:8.5 },
-  { id:4, nombre:"Liderazgo y Gestión de Equipos", instructor:"Dr. Andrés Vega",   categoria:"Negocios", progreso:0,   estado:"pendiente", sesiones:0,  sesionesTotal:12, nextSession:"Inicia Jun 2" },
-];
+type InscripcionRow = GetInscripcionesByEstudianteData["inscripcions"][number];
 
-// ── Helpers ────────────────────────────────────────────
-const PromedioColor = (n: number) => n >= 9 ? "#1a6b3c" : n >= 7.5 ? "#7a5c00" : "#9b1c1c";
-const PromedioBg    = (n: number) => n >= 9 ? "#f0faf5" : n >= 7.5 ? "#fefce8" : "#fff5f5";
-const progColor     = (p: number) => p === 100 ? "#1a6b3c" : p > 0 ? "#111" : "#bbb";
+// ─── Helpers de estilo ────────────────────────────────────────────────────────
 
-// ── Componente ─────────────────────────────────────────
+const PromedioBg = (n: number) =>
+  n >= 9 ? "#f0faf5" : n >= 7.5 ? "#fefce8" : "#fff5f5";
+
+const eLabel: Record<string, string> = {
+  activa:     "En curso",
+  completada: "Completado",
+  baja:       "Baja",
+  pendiente:  "Por iniciar",
+};
+
+const eStyle: Record<string, { bg: string; color: string }> = {
+  activa:     { bg: "#111",    color: "#fff"    },
+  completada: { bg: "#f0faf5", color: "#1a6b3c" },
+  baja:       { bg: "#fff5f5", color: "#9b1c1c" },
+  pendiente:  { bg: "#f5f2ed", color: "#888"    },
+};
+
+// ─── Componente ───────────────────────────────────────────────────────────────
+
 export default function MisCursos() {
-  const [filtro, setFiltro] = useState<"todos" | "activo" | "completado" | "pendiente">("todos");
+  const [cursos,  setCursos]  = useState<CursoInscrito[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error,   setError]   = useState<string | null>(null);
+  const [filtro,  setFiltro]  = useState<"todos" | "activa" | "completada" | "baja">("todos");
 
-  const filtrados = filtro === "todos" ? CURSOS : CURSOS.filter(c => c.estado === filtro);
+  useEffect(() => {
+    const cargar = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const savedUser = localStorage.getItem("user");
+        if (!savedUser) throw new Error("No hay sesión activa");
+        const user = JSON.parse(savedUser);
+        const matricula: string = user.matricula ?? user.usuarioId ?? "";
+        if (!matricula) throw new Error("No se encontró la matrícula del estudiante");
 
-  const eLabel: Record<string, string> = {
-    activo:     "En curso",
-    completado: "Completado",
-    pendiente:  "Por iniciar",
-  };
-  const eStyle: Record<string, { bg: string; color: string }> = {
-    activo:     { bg: "#111",    color: "#fff"     },
-    completado: { bg: "#f0faf5", color: "#1a6b3c"  },
-    pendiente:  { bg: "#f5f2ed", color: "#888"     },
-  };
+        const res = await executeQuery(
+          getInscripcionesByEstudianteRef(dataConnect, { matricula })
+        );
 
+        const inscripciones: InscripcionRow[] = res.data?.inscripcions ?? [];
+
+        const mapped: CursoInscrito[] = inscripciones.map((i: InscripcionRow) => {
+          const curso   = i.horario.curso;
+          const diaHora = `${i.horario.horaInicio ?? ""} - ${i.horario.horaFin ?? ""}`.trim();
+          return {
+            inscripcionId:     i.inscripcionId,
+            estadoInscripcion: i.estadoInscripcion,
+            pagoEstado:        i.pagoEstado ?? null,
+            cursoId:           curso.cursoId,
+            nombre:            curso.nombre,
+            categoria:         curso.categoria ?? "Sin categoría",
+            instructor:        curso.instructor?.usuario?.nombreCompleto ?? "Sin asignar",
+            horario:           diaHora || "Sin horario",
+            cupoActual:        i.horario.cupoActual,
+            cupoMaximo:        i.horario.cupoMaximo,
+            urlImagen:         curso.urlImagen ?? null,
+          };
+        });
+
+        setCursos(mapped);
+      } catch (err) {
+        console.error("[MisCursos]", err);
+        setError("No se pudieron cargar tus cursos. Intenta de nuevo.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    cargar();
+  }, []);
+
+  // ── Estado: cargando ────────────────────────────────────────────────────────
+  if (loading) {
+    return (
+      <div className="uc-stack-lg">
+        <div className="uc-section-header">
+          <p className="uc-kicker">Mi formación</p>
+          <h2 className="uc-page-title">Cursos inscritos</h2>
+        </div>
+        {[1,2,3].map((i) => (
+          <div key={i} style={{
+            height: 120, borderRadius: 8, marginBottom: 12,
+            background: "linear-gradient(90deg,#f0f4f8 25%,#e2e8f0 50%,#f0f4f8 75%)",
+            backgroundSize: "200% 100%", animation: "uc-shimmer 1.4s infinite",
+          }} />
+        ))}
+        <style>{`@keyframes uc-shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}`}</style>
+      </div>
+    );
+  }
+
+  // ── Estado: error ───────────────────────────────────────────────────────────
+  if (error) {
+    return (
+      <div className="uc-stack-lg">
+        <div className="uc-section-header">
+          <p className="uc-kicker">Mi formación</p>
+          <h2 className="uc-page-title">Cursos inscritos</h2>
+        </div>
+        <div style={{
+          padding: 32, textAlign: "center", border: "1px solid #e2e8f0",
+          borderRadius: 12, background: "#fff",
+        }}>
+          <p style={{ color: "#9b1c1c", marginBottom: 16 }}>{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            style={{
+              border: "none", borderRadius: 8, padding: "9px 20px",
+              background: "#111", color: "#fff", cursor: "pointer",
+            }}
+          >
+            Reintentar
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // ── Sin inscripciones ───────────────────────────────────────────────────────
+  if (cursos.length === 0) {
+    return (
+      <div className="uc-stack-lg">
+        <div className="uc-section-header">
+          <p className="uc-kicker">Mi formación</p>
+          <h2 className="uc-page-title">Cursos inscritos</h2>
+        </div>
+        <div style={{
+          padding: 48, textAlign: "center", border: "1px solid #e2e8f0",
+          borderRadius: 12, background: "#fff",
+        }}>
+          <p style={{ fontSize: 32, marginBottom: 12 }}>📚</p>
+          <p style={{ fontWeight: 600, marginBottom: 8, color: "#111" }}>
+            Aún no tienes cursos inscritos
+          </p>
+          <p style={{ color: "#888", fontSize: 13 }}>
+            Explora el catálogo de cursos disponibles para inscribirte.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  const filtrados = filtro === "todos"
+    ? cursos
+    : cursos.filter((c) => c.estadoInscripcion === filtro);
+
+  // ── Render ──────────────────────────────────────────────────────────────────
   return (
     <div className="uc-stack-lg">
       <div className="uc-section-header">
@@ -52,7 +186,7 @@ export default function MisCursos() {
       </div>
 
       <div className="uc-filters">
-        {(["todos", "activo", "completado", "pendiente"] as const).map(f => (
+        {(["todos", "activa", "completada", "baja"] as const).map((f) => (
           <button
             key={f}
             onClick={() => setFiltro(f)}
@@ -63,10 +197,16 @@ export default function MisCursos() {
         ))}
       </div>
 
-      {filtrados.map(c => {
-        const s = eStyle[c.estado];
+      {filtrados.length === 0 && (
+        <p style={{ color: "#aaa", textAlign: "center", padding: 32 }}>
+          No tienes cursos en este estado.
+        </p>
+      )}
+
+      {filtrados.map((c) => {
+        const s = eStyle[c.estadoInscripcion] ?? eStyle["pendiente"];
         return (
-          <div key={c.id} className="uc-curso-card">
+          <div key={c.inscripcionId} className="uc-curso-card">
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 8 }}>
                 <span className="uc-tag-cat">{c.categoria}</span>
@@ -75,48 +215,62 @@ export default function MisCursos() {
                   letterSpacing: ".07em", textTransform: "uppercase",
                   background: s.bg, color: s.color, padding: "3px 9px",
                 }}>
-                  {eLabel[c.estado]}
+                  {eLabel[c.estadoInscripcion] ?? c.estadoInscripcion}
                 </span>
+                {c.pagoEstado && c.pagoEstado !== "pagado" && (
+                  <span style={{
+                    fontFamily: "var(--ds)", fontSize: 10, fontWeight: 600,
+                    letterSpacing: ".07em", textTransform: "uppercase",
+                    background: "#fff8ed", color: "#7a3c00", padding: "3px 9px",
+                  }}>
+                    Pago: {c.pagoEstado}
+                  </span>
+                )}
               </div>
 
               <h3 className="uc-curso-title">{c.nombre}</h3>
               <p className="uc-curso-inst">{c.instructor}</p>
 
-              {c.estado !== "pendiente" && (
+              <p style={{ fontFamily: "var(--ds)", fontSize: 12, color: "#888", margin: "6px 0 0" }}>
+                ◷ {c.horario}
+              </p>
+
+              {c.estadoInscripcion === "activa" && (
                 <div className="uc-progress-row" style={{ marginTop: 12 }}>
                   <div className="uc-progress-track">
-                    <div className="uc-progress-fill" style={{ width: `${c.progreso}%`, background: progColor(c.progreso) }} />
+                    <div
+                      className="uc-progress-fill"
+                      style={{
+                        width: `${Math.round((c.cupoActual / c.cupoMaximo) * 100)}%`,
+                        background: "#111",
+                      }}
+                    />
                   </div>
-                  <span className="uc-progress-label">{c.sesiones}/{c.sesionesTotal} · {c.progreso}%</span>
+                  <span className="uc-progress-label">
+                    {c.cupoActual}/{c.cupoMaximo} inscritos
+                  </span>
                 </div>
-              )}
-
-              {c.estado === "pendiente" && c.nextSession && (
-                <p style={{ fontFamily: "var(--ds)", fontSize: 12, color: "#aaa", margin: "8px 0 0" }}>
-                  Inicio: <strong style={{ color: "#555" }}>{c.nextSession}</strong>
-                </p>
               )}
             </div>
 
             <div className="uc-curso-side">
-              {c.calificacion !== undefined ? (
-                <div className="uc-Promedio-big" style={{ background: PromedioBg(c.calificacion) }}>
-                  <p style={{ fontFamily: "var(--dr)", fontSize: 28, fontWeight: 700, color: PromedioColor(c.calificacion), margin: "0 0 2px", lineHeight: 1 }}>
-                    {c.calificacion}
-                  </p>
-                  <p style={{ fontFamily: "var(--ds)", fontSize: 9, color: "#aaa", letterSpacing: ".06em", textTransform: "uppercase", margin: 0 }}>
-                    Promedio
-                  </p>
-                </div>
-              ) : (
-                <div className="uc-Promedio-big" style={{ background: "#f5f2ed" }}>
-                  <p style={{ fontFamily: "var(--ds)", fontSize: 11, color: "#ccc", margin: 0 }}>Sin calif.</p>
-                </div>
-              )}
+              <div className="uc-Promedio-big" style={{ background: PromedioBg(0) }}>
+                <p style={{ fontFamily: "var(--ds)", fontSize: 11, color: "#ccc", margin: 0 }}>
+                  Sin calif.
+                </p>
+              </div>
 
-              {c.estado === "activo"     && <button className="uc-action-btn uc-action-btn--solid">Ir al aula →</button>}
-              {c.estado === "completado" && <button className="uc-action-btn uc-action-btn--outline">Ver constancia</button>}
-              {c.estado === "pendiente"  && <button className="uc-action-btn uc-action-btn--disabled" disabled>Próximamente</button>}
+              {c.estadoInscripcion === "activa" && (
+                <button className="uc-action-btn uc-action-btn--solid">Ir al aula →</button>
+              )}
+              {c.estadoInscripcion === "completada" && (
+                <button className="uc-action-btn uc-action-btn--outline">Ver constancia</button>
+              )}
+              {c.estadoInscripcion === "baja" && (
+                <button className="uc-action-btn uc-action-btn--disabled" disabled>
+                  Dado de baja
+                </button>
+              )}
             </div>
           </div>
         );

@@ -575,3 +575,92 @@ mutation UpdateReporteEstadistica(
     }
   )
 }
+# ── Queries de estudiante ────────────────────────────────────────────────────
+
+# Trae las inscripciones activas de un estudiante por su matricula
+query GetInscripcionesByEstudiante($matricula: String!) @auth(level: PUBLIC) {
+  inscripcions(where: { estudiante: { matricula: { eq: $matricula } } }) {
+    inscripcionId
+    estadoInscripcion
+    pagoEstado
+    fechaInscripcion
+    horario {
+      horarioId
+      horaInicio
+      horaFin
+      cupoMaximo
+      cupoActual
+      estado
+      curso {
+        id
+        cursoId
+        nombre
+        descripcion
+        categoria
+        urlImagen
+        estado
+        instructor {
+          instructorId
+          usuario {
+            nombreCompleto
+          }
+        }
+      }
+    }
+  }
+}
+
+# Trae todos los horarios disponibles con cupo para el catálogo
+query GetHorariosDisponibles @auth(level: PUBLIC) {
+  horarios(where: { estado: { eq: "activo" } }) {
+    id
+    horarioId
+    horaInicio
+    horaFin
+    cupoMaximo
+    cupoActual
+    estado
+    curso {
+      id
+      cursoId
+      nombre
+      descripcion
+      categoria
+      urlImagen
+      estado
+      instructor {
+        instructorId
+        usuario {
+          nombreCompleto
+        }
+      }
+    }
+  }
+}
+
+# ── Mutation: inscribir estudiante a un horario ───────────────────────────────
+
+mutation InsscribirEstudiante(
+  $inscripcionId: String!
+  $estudianteInternalId: UUID!
+  $horarioInternalId: UUID!
+) @auth(level: PUBLIC) {
+  inscripcion_insert(data: {
+    inscripcionId: $inscripcionId
+    estudiante: { id: $estudianteInternalId }
+    horario:    { id: $horarioInternalId }
+    estadoInscripcion: "activa"
+    pagoEstado: "pendiente"
+  })
+}
+
+# ── Mutation: cancelar inscripción ────────────────────────────────────────────
+
+mutation CancelarInscripcion(
+  $inscripcionInternalId: UUID!
+) @auth(level: PUBLIC) {
+  inscripcion_update(
+    key: { id: $inscripcionInternalId }
+    data: { estadoInscripcion: "baja" }
+  )
+}
