@@ -67,12 +67,36 @@ export interface BuscarCursoPorNombreVariables {
   nombre: string;
 }
 
+<<<<<<< Updated upstream
 export interface CancelarInscripcionData {
   inscripcion_update?: Inscripcion_Key | null;
 }
 
 export interface CancelarInscripcionVariables {
   inscripcionInternalId: UUIDString;
+=======
+export interface BuscarHorarioPorCursoData {
+  horarios: ({
+    id: UUIDString;
+    horarioId: number;
+    curso: {
+      cursoId: number;
+      nombre: string;
+    };
+    diaSemana: string;
+    fechaInicio: DateString;
+    fechaFin: DateString;
+    horaInicio: string;
+    horaFin: string;
+    cupoMaximo: number;
+    cupoActual: number;
+    estado?: string | null;
+  } & Horario_Key)[];
+}
+
+export interface BuscarHorarioPorCursoVariables {
+  cursoId: number;
+>>>>>>> Stashed changes
 }
 
 export interface CrearEstudianteData {
@@ -103,6 +127,23 @@ export interface CreateCursoVariables {
   urlImagen?: string | null;
   estado?: string | null;
   instructorId?: UUIDString | null;
+}
+
+export interface CreateHorarioData {
+  horario_insert: Horario_Key;
+}
+
+export interface CreateHorarioVariables {
+  horarioId: number;
+  cursoId: UUIDString;
+  diaSemana: string;
+  fechaInicio: DateString;
+  fechaFin: DateString;
+  horaInicio: string;
+  horaFin: string;
+  cupoMaximo: number;
+  cupoActual?: number | null;
+  estado?: string | null;
 }
 
 export interface CreateInstructorData {
@@ -174,6 +215,14 @@ export interface DeleteCursoData {
 
 export interface DeleteCursoVariables {
   cursoInternalId: UUIDString;
+}
+
+export interface DeleteHorarioData {
+  horario_delete?: Horario_Key | null;
+}
+
+export interface DeleteHorarioVariables {
+  horarioInternalId: UUIDString;
 }
 
 export interface DeleteInstructorData {
@@ -307,6 +356,50 @@ export interface Horario_Key {
   __typename?: 'Horario_Key';
 }
 
+export interface HorariosPorDiaData {
+  horarios: ({
+    id: UUIDString;
+    horarioId: number;
+    curso: {
+      nombre: string;
+    };
+    diaSemana: string;
+    fechaInicio: DateString;
+    fechaFin: DateString;
+    horaInicio: string;
+    horaFin: string;
+    cupoMaximo: number;
+    cupoActual: number;
+    estado?: string | null;
+  } & Horario_Key)[];
+}
+
+export interface HorariosPorDiaVariables {
+  diaSemana: string;
+}
+
+export interface HorariosPorEstadoData {
+  horarios: ({
+    id: UUIDString;
+    horarioId: number;
+    curso: {
+      nombre: string;
+    };
+    diaSemana: string;
+    fechaInicio: DateString;
+    fechaFin: DateString;
+    horaInicio: string;
+    horaFin: string;
+    cupoMaximo: number;
+    cupoActual: number;
+    estado?: string | null;
+  } & Horario_Key)[];
+}
+
+export interface HorariosPorEstadoVariables {
+  estado: string;
+}
+
 export interface Inscripcion_Key {
   id: UUIDString;
   __typename?: 'Inscripcion_Key';
@@ -405,6 +498,26 @@ export interface ListCursosEstadisticasData {
 
 export interface ListHorariosData {
   horarios: ({
+    id: UUIDString;
+    horarioId: number;
+    curso: {
+      id: UUIDString;
+      cursoId: number;
+      nombre: string;
+    } & Curso_Key;
+    diaSemana: string;
+    fechaInicio: DateString;
+    fechaFin: DateString;
+    horaInicio: string;
+    horaFin: string;
+    cupoMaximo: number;
+    cupoActual: number;
+    estado?: string | null;
+  } & Horario_Key)[];
+}
+
+export interface ListHorariosEstadisticasData {
+  horarios: ({
     horarioId: number;
     fechaInicio: DateString;
     fechaFin: DateString;
@@ -446,6 +559,15 @@ export interface ListHorariosPorEstadoData {
 
 export interface ListHorariosPorEstadoVariables {
   estado: string;
+}
+
+export interface ListInscripcionesActivasData {
+  inscripcions: ({
+    inscripcionId: string;
+    horario: {
+      horarioId: number;
+    };
+  })[];
 }
 
 export interface ListInscripcionesData {
@@ -619,6 +741,24 @@ export interface UpdateCursoVariables {
   urlImagen?: string | null;
   estado?: string | null;
   instructorId?: UUIDString | null;
+}
+
+export interface UpdateHorarioData {
+  horario_update?: Horario_Key | null;
+}
+
+export interface UpdateHorarioVariables {
+  horarioInternalId: UUIDString;
+  horarioId: number;
+  cursoId: UUIDString;
+  diaSemana: string;
+  fechaInicio: DateString;
+  fechaFin: DateString;
+  horaInicio: string;
+  horaFin: string;
+  cupoMaximo: number;
+  cupoActual: number;
+  estado?: string | null;
 }
 
 export interface UpdateInstructorData {
@@ -882,6 +1022,102 @@ export const deleteCursoRef: DeleteCursoRef;
 export function deleteCurso(vars: DeleteCursoVariables): MutationPromise<DeleteCursoData, DeleteCursoVariables>;
 export function deleteCurso(dc: DataConnect, vars: DeleteCursoVariables): MutationPromise<DeleteCursoData, DeleteCursoVariables>;
 
+interface ListHorariosRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (): QueryRef<ListHorariosData, undefined>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect): QueryRef<ListHorariosData, undefined>;
+  operationName: string;
+}
+export const listHorariosRef: ListHorariosRef;
+
+export function listHorarios(options?: ExecuteQueryOptions): QueryPromise<ListHorariosData, undefined>;
+export function listHorarios(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListHorariosData, undefined>;
+
+interface BuscarHorarioPorCursoRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: BuscarHorarioPorCursoVariables): QueryRef<BuscarHorarioPorCursoData, BuscarHorarioPorCursoVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: BuscarHorarioPorCursoVariables): QueryRef<BuscarHorarioPorCursoData, BuscarHorarioPorCursoVariables>;
+  operationName: string;
+}
+export const buscarHorarioPorCursoRef: BuscarHorarioPorCursoRef;
+
+export function buscarHorarioPorCurso(vars: BuscarHorarioPorCursoVariables, options?: ExecuteQueryOptions): QueryPromise<BuscarHorarioPorCursoData, BuscarHorarioPorCursoVariables>;
+export function buscarHorarioPorCurso(dc: DataConnect, vars: BuscarHorarioPorCursoVariables, options?: ExecuteQueryOptions): QueryPromise<BuscarHorarioPorCursoData, BuscarHorarioPorCursoVariables>;
+
+interface HorariosPorDiaRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: HorariosPorDiaVariables): QueryRef<HorariosPorDiaData, HorariosPorDiaVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: HorariosPorDiaVariables): QueryRef<HorariosPorDiaData, HorariosPorDiaVariables>;
+  operationName: string;
+}
+export const horariosPorDiaRef: HorariosPorDiaRef;
+
+export function horariosPorDia(vars: HorariosPorDiaVariables, options?: ExecuteQueryOptions): QueryPromise<HorariosPorDiaData, HorariosPorDiaVariables>;
+export function horariosPorDia(dc: DataConnect, vars: HorariosPorDiaVariables, options?: ExecuteQueryOptions): QueryPromise<HorariosPorDiaData, HorariosPorDiaVariables>;
+
+interface HorariosPorEstadoRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: HorariosPorEstadoVariables): QueryRef<HorariosPorEstadoData, HorariosPorEstadoVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: HorariosPorEstadoVariables): QueryRef<HorariosPorEstadoData, HorariosPorEstadoVariables>;
+  operationName: string;
+}
+export const horariosPorEstadoRef: HorariosPorEstadoRef;
+
+export function horariosPorEstado(vars: HorariosPorEstadoVariables, options?: ExecuteQueryOptions): QueryPromise<HorariosPorEstadoData, HorariosPorEstadoVariables>;
+export function horariosPorEstado(dc: DataConnect, vars: HorariosPorEstadoVariables, options?: ExecuteQueryOptions): QueryPromise<HorariosPorEstadoData, HorariosPorEstadoVariables>;
+
+interface ListInscripcionesActivasRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (): QueryRef<ListInscripcionesActivasData, undefined>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect): QueryRef<ListInscripcionesActivasData, undefined>;
+  operationName: string;
+}
+export const listInscripcionesActivasRef: ListInscripcionesActivasRef;
+
+export function listInscripcionesActivas(options?: ExecuteQueryOptions): QueryPromise<ListInscripcionesActivasData, undefined>;
+export function listInscripcionesActivas(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListInscripcionesActivasData, undefined>;
+
+interface CreateHorarioRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: CreateHorarioVariables): MutationRef<CreateHorarioData, CreateHorarioVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: CreateHorarioVariables): MutationRef<CreateHorarioData, CreateHorarioVariables>;
+  operationName: string;
+}
+export const createHorarioRef: CreateHorarioRef;
+
+export function createHorario(vars: CreateHorarioVariables): MutationPromise<CreateHorarioData, CreateHorarioVariables>;
+export function createHorario(dc: DataConnect, vars: CreateHorarioVariables): MutationPromise<CreateHorarioData, CreateHorarioVariables>;
+
+interface UpdateHorarioRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: UpdateHorarioVariables): MutationRef<UpdateHorarioData, UpdateHorarioVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: UpdateHorarioVariables): MutationRef<UpdateHorarioData, UpdateHorarioVariables>;
+  operationName: string;
+}
+export const updateHorarioRef: UpdateHorarioRef;
+
+export function updateHorario(vars: UpdateHorarioVariables): MutationPromise<UpdateHorarioData, UpdateHorarioVariables>;
+export function updateHorario(dc: DataConnect, vars: UpdateHorarioVariables): MutationPromise<UpdateHorarioData, UpdateHorarioVariables>;
+
+interface DeleteHorarioRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: DeleteHorarioVariables): MutationRef<DeleteHorarioData, DeleteHorarioVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: DeleteHorarioVariables): MutationRef<DeleteHorarioData, DeleteHorarioVariables>;
+  operationName: string;
+}
+export const deleteHorarioRef: DeleteHorarioRef;
+
+export function deleteHorario(vars: DeleteHorarioVariables): MutationPromise<DeleteHorarioData, DeleteHorarioVariables>;
+export function deleteHorario(dc: DataConnect, vars: DeleteHorarioVariables): MutationPromise<DeleteHorarioData, DeleteHorarioVariables>;
+
 interface ListCursosEstadisticasRef {
   /* Allow users to create refs without passing in DataConnect */
   (): QueryRef<ListCursosEstadisticasData, undefined>;
@@ -894,17 +1130,17 @@ export const listCursosEstadisticasRef: ListCursosEstadisticasRef;
 export function listCursosEstadisticas(options?: ExecuteQueryOptions): QueryPromise<ListCursosEstadisticasData, undefined>;
 export function listCursosEstadisticas(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListCursosEstadisticasData, undefined>;
 
-interface ListHorariosRef {
+interface ListHorariosEstadisticasRef {
   /* Allow users to create refs without passing in DataConnect */
-  (): QueryRef<ListHorariosData, undefined>;
+  (): QueryRef<ListHorariosEstadisticasData, undefined>;
   /* Allow users to pass in custom DataConnect instances */
-  (dc: DataConnect): QueryRef<ListHorariosData, undefined>;
+  (dc: DataConnect): QueryRef<ListHorariosEstadisticasData, undefined>;
   operationName: string;
 }
-export const listHorariosRef: ListHorariosRef;
+export const listHorariosEstadisticasRef: ListHorariosEstadisticasRef;
 
-export function listHorarios(options?: ExecuteQueryOptions): QueryPromise<ListHorariosData, undefined>;
-export function listHorarios(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListHorariosData, undefined>;
+export function listHorariosEstadisticas(options?: ExecuteQueryOptions): QueryPromise<ListHorariosEstadisticasData, undefined>;
+export function listHorariosEstadisticas(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListHorariosEstadisticasData, undefined>;
 
 interface ListHorariosPorEstadoRef {
   /* Allow users to create refs without passing in DataConnect */

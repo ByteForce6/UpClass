@@ -287,6 +287,123 @@ exports.deleteCurso = function deleteCurso(dcOrVars, vars) {
 }
 ;
 
+const listHorariosRef = (dc) => {
+  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'ListHorarios');
+}
+listHorariosRef.operationName = 'ListHorarios';
+exports.listHorariosRef = listHorariosRef;
+
+exports.listHorarios = function listHorarios(dcOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
+  return executeQuery(listHorariosRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const buscarHorarioPorCursoRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'BuscarHorarioPorCurso', inputVars);
+}
+buscarHorarioPorCursoRef.operationName = 'BuscarHorarioPorCurso';
+exports.buscarHorarioPorCursoRef = buscarHorarioPorCursoRef;
+
+exports.buscarHorarioPorCurso = function buscarHorarioPorCurso(dcOrVars, varsOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  return executeQuery(buscarHorarioPorCursoRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const horariosPorDiaRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'HorariosPorDia', inputVars);
+}
+horariosPorDiaRef.operationName = 'HorariosPorDia';
+exports.horariosPorDiaRef = horariosPorDiaRef;
+
+exports.horariosPorDia = function horariosPorDia(dcOrVars, varsOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  return executeQuery(horariosPorDiaRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const horariosPorEstadoRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'HorariosPorEstado', inputVars);
+}
+horariosPorEstadoRef.operationName = 'HorariosPorEstado';
+exports.horariosPorEstadoRef = horariosPorEstadoRef;
+
+exports.horariosPorEstado = function horariosPorEstado(dcOrVars, varsOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  return executeQuery(horariosPorEstadoRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const listInscripcionesActivasRef = (dc) => {
+  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'ListInscripcionesActivas');
+}
+listInscripcionesActivasRef.operationName = 'ListInscripcionesActivas';
+exports.listInscripcionesActivasRef = listInscripcionesActivasRef;
+
+exports.listInscripcionesActivas = function listInscripcionesActivas(dcOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
+  return executeQuery(listInscripcionesActivasRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const createHorarioRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'CreateHorario', inputVars);
+}
+createHorarioRef.operationName = 'CreateHorario';
+exports.createHorarioRef = createHorarioRef;
+
+exports.createHorario = function createHorario(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(createHorarioRef(dcInstance, inputVars));
+}
+;
+
+const updateHorarioRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'UpdateHorario', inputVars);
+}
+updateHorarioRef.operationName = 'UpdateHorario';
+exports.updateHorarioRef = updateHorarioRef;
+
+exports.updateHorario = function updateHorario(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(updateHorarioRef(dcInstance, inputVars));
+}
+;
+
+const deleteHorarioRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'DeleteHorario', inputVars);
+}
+deleteHorarioRef.operationName = 'DeleteHorario';
+exports.deleteHorarioRef = deleteHorarioRef;
+
+exports.deleteHorario = function deleteHorario(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(deleteHorarioRef(dcInstance, inputVars));
+}
+;
+
 const listCursosEstadisticasRef = (dc) => {
   const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
   dcInstance._useGeneratedSdk();
@@ -302,18 +419,18 @@ exports.listCursosEstadisticas = function listCursosEstadisticas(dcOrOptions, op
 }
 ;
 
-const listHorariosRef = (dc) => {
+const listHorariosEstadisticasRef = (dc) => {
   const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
   dcInstance._useGeneratedSdk();
-  return queryRef(dcInstance, 'ListHorarios');
+  return queryRef(dcInstance, 'ListHorariosEstadisticas');
 }
-listHorariosRef.operationName = 'ListHorarios';
-exports.listHorariosRef = listHorariosRef;
+listHorariosEstadisticasRef.operationName = 'ListHorariosEstadisticas';
+exports.listHorariosEstadisticasRef = listHorariosEstadisticasRef;
 
-exports.listHorarios = function listHorarios(dcOrOptions, options) {
+exports.listHorariosEstadisticas = function listHorariosEstadisticas(dcOrOptions, options) {
   
   const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
-  return executeQuery(listHorariosRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+  return executeQuery(listHorariosEstadisticasRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
 }
 ;
 

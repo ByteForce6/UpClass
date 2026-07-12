@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 import { getUsuarioByCorreoRef, listarEstudiantesRef, crearEstudianteRef, actualizarEstudianteRef, actualizarEstudianteSinCorreoRef, actualizarPasswordUsuarioRef, eliminarEstudianteRef, listInstructorsRef, getRolByNumeroRef, createInstructorRef, updateInstructorRef, deleteInstructorRef, listCursosRef, buscarCursoPorNombreRef, cursosPorCategoriaRef, cursosPorEstadoRef, createCursoRef, updateCursoRef, deleteCursoRef, listCursosEstadisticasRef, listHorariosRef, listHorariosPorEstadoRef, listInscripcionesRef, listInscripcionesPorEstadoRef, listAsistenciasRef, listAsistenciasPorEstadoRef, listReportesEstadisticasRef, listReportesPorPeriodoRef, listReportesPorCursoRef, getCursoInternalIdRef, createReporteEstadisticaRef, updateReporteEstadisticaRef, getInscripcionesByEstudianteRef, getHorariosDisponiblesRef, insscribirEstudianteRef, cancelarInscripcionRef, connectorConfig } from '../../esm/index.esm.js';
+=======
+import { getUsuarioByCorreoRef, listarEstudiantesRef, crearEstudianteRef, actualizarEstudianteRef, actualizarEstudianteSinCorreoRef, actualizarPasswordUsuarioRef, eliminarEstudianteRef, listInstructorsRef, getRolByNumeroRef, createInstructorRef, updateInstructorRef, deleteInstructorRef, listCursosRef, buscarCursoPorNombreRef, cursosPorCategoriaRef, cursosPorEstadoRef, createCursoRef, updateCursoRef, deleteCursoRef, listHorariosRef, buscarHorarioPorCursoRef, horariosPorDiaRef, horariosPorEstadoRef, listInscripcionesActivasRef, createHorarioRef, updateHorarioRef, deleteHorarioRef, listCursosEstadisticasRef, listHorariosEstadisticasRef, listHorariosPorEstadoRef, listInscripcionesRef, listInscripcionesPorEstadoRef, listAsistenciasRef, listAsistenciasPorEstadoRef, listReportesEstadisticasRef, listReportesPorPeriodoRef, listReportesPorCursoRef, getCursoInternalIdRef, createReporteEstadisticaRef, updateReporteEstadisticaRef, connectorConfig } from '../../esm/index.esm.js';
+>>>>>>> Stashed changes
 import { validateArgs, CallerSdkTypeEnum } from 'firebase/data-connect';
 import { useDataConnectQuery, useDataConnectMutation, validateReactArgs } from '@tanstack-query-firebase/react/data-connect';
 
@@ -139,15 +143,69 @@ export function useDeleteCurso(dcOrOptions, options) {
 }
 
 
+export function useListHorarios(dcOrOptions, options) {
+  const { dc: dcInstance, options: inputOpts } = validateReactArgs(connectorConfig, dcOrOptions, options);
+  const ref = listHorariosRef(dcInstance);
+  return useDataConnectQuery(ref, inputOpts, CallerSdkTypeEnum.GeneratedReact);
+}
+
+export function useBuscarHorarioPorCurso(dcOrVars, varsOrOptions, options) {
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateReactArgs(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  const ref = buscarHorarioPorCursoRef(dcInstance, inputVars);
+  return useDataConnectQuery(ref, inputOpts, CallerSdkTypeEnum.GeneratedReact);
+}
+
+export function useHorariosPorDia(dcOrVars, varsOrOptions, options) {
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateReactArgs(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  const ref = horariosPorDiaRef(dcInstance, inputVars);
+  return useDataConnectQuery(ref, inputOpts, CallerSdkTypeEnum.GeneratedReact);
+}
+
+export function useHorariosPorEstado(dcOrVars, varsOrOptions, options) {
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateReactArgs(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  const ref = horariosPorEstadoRef(dcInstance, inputVars);
+  return useDataConnectQuery(ref, inputOpts, CallerSdkTypeEnum.GeneratedReact);
+}
+
+export function useListInscripcionesActivas(dcOrOptions, options) {
+  const { dc: dcInstance, options: inputOpts } = validateReactArgs(connectorConfig, dcOrOptions, options);
+  const ref = listInscripcionesActivasRef(dcInstance);
+  return useDataConnectQuery(ref, inputOpts, CallerSdkTypeEnum.GeneratedReact);
+}
+export function useCreateHorario(dcOrOptions, options) {
+  const { dc: dcInstance, vars: inputOpts } = validateArgs(connectorConfig, dcOrOptions, options);
+  function refFactory(vars) {
+    return createHorarioRef(dcInstance, vars);
+  }
+  return useDataConnectMutation(refFactory, inputOpts, CallerSdkTypeEnum.GeneratedReact);
+}
+
+export function useUpdateHorario(dcOrOptions, options) {
+  const { dc: dcInstance, vars: inputOpts } = validateArgs(connectorConfig, dcOrOptions, options);
+  function refFactory(vars) {
+    return updateHorarioRef(dcInstance, vars);
+  }
+  return useDataConnectMutation(refFactory, inputOpts, CallerSdkTypeEnum.GeneratedReact);
+}
+
+export function useDeleteHorario(dcOrOptions, options) {
+  const { dc: dcInstance, vars: inputOpts } = validateArgs(connectorConfig, dcOrOptions, options);
+  function refFactory(vars) {
+    return deleteHorarioRef(dcInstance, vars);
+  }
+  return useDataConnectMutation(refFactory, inputOpts, CallerSdkTypeEnum.GeneratedReact);
+}
+
+
 export function useListCursosEstadisticas(dcOrOptions, options) {
   const { dc: dcInstance, options: inputOpts } = validateReactArgs(connectorConfig, dcOrOptions, options);
   const ref = listCursosEstadisticasRef(dcInstance);
   return useDataConnectQuery(ref, inputOpts, CallerSdkTypeEnum.GeneratedReact);
 }
 
-export function useListHorarios(dcOrOptions, options) {
+export function useListHorariosEstadisticas(dcOrOptions, options) {
   const { dc: dcInstance, options: inputOpts } = validateReactArgs(connectorConfig, dcOrOptions, options);
-  const ref = listHorariosRef(dcInstance);
+  const ref = listHorariosEstadisticasRef(dcInstance);
   return useDataConnectQuery(ref, inputOpts, CallerSdkTypeEnum.GeneratedReact);
 }
 

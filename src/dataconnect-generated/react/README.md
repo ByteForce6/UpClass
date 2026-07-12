@@ -25,8 +25,13 @@ You can also follow the instructions from the [Data Connect documentation](https
   - [*BuscarCursoPorNombre*](#buscarcursopornombre)
   - [*CursosPorCategoria*](#cursosporcategoria)
   - [*CursosPorEstado*](#cursosporestado)
-  - [*ListCursosEstadisticas*](#listcursosestadisticas)
   - [*ListHorarios*](#listhorarios)
+  - [*BuscarHorarioPorCurso*](#buscarhorarioporcurso)
+  - [*HorariosPorDia*](#horariospordia)
+  - [*HorariosPorEstado*](#horariosporestado)
+  - [*ListInscripcionesActivas*](#listinscripcionesactivas)
+  - [*ListCursosEstadisticas*](#listcursosestadisticas)
+  - [*ListHorariosEstadisticas*](#listhorariosestadisticas)
   - [*ListHorariosPorEstado*](#listhorariosporestado)
   - [*ListInscripciones*](#listinscripciones)
   - [*ListInscripcionesPorEstado*](#listinscripcionesporestado)
@@ -50,6 +55,9 @@ You can also follow the instructions from the [Data Connect documentation](https
   - [*CreateCurso*](#createcurso)
   - [*UpdateCurso*](#updatecurso)
   - [*DeleteCurso*](#deletecurso)
+  - [*CreateHorario*](#createhorario)
+  - [*UpdateHorario*](#updatehorario)
+  - [*DeleteHorario*](#deletehorario)
   - [*CreateReporteEstadistica*](#createreporteestadistica)
   - [*UpdateReporteEstadistica*](#updatereporteestadistica)
   - [*InsscribirEstudiante*](#insscribirestudiante)
@@ -833,6 +841,454 @@ export default function CursosPorEstadoComponent() {
 }
 ```
 
+## ListHorarios
+You can execute the `ListHorarios` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
+
+```javascript
+useListHorarios(dc: DataConnect, options?: useDataConnectQueryOptions<ListHorariosData>): UseDataConnectQueryResult<ListHorariosData, undefined>;
+```
+You can also pass in a `DataConnect` instance to the Query hook function.
+```javascript
+useListHorarios(options?: useDataConnectQueryOptions<ListHorariosData>): UseDataConnectQueryResult<ListHorariosData, undefined>;
+```
+
+### Variables
+The `ListHorarios` Query has no variables.
+### Return Type
+Recall that calling the `ListHorarios` Query hook function returns a `UseQueryResult` object. This object holds the state of your Query, including whether the Query is loading, has completed, or has succeeded/failed, and any data returned by the Query, among other things.
+
+To check the status of a Query, use the `UseQueryResult.status` field. You can also check for pending / success / error status using the `UseQueryResult.isPending`, `UseQueryResult.isSuccess`, and `UseQueryResult.isError` fields.
+
+To access the data returned by a Query, use the `UseQueryResult.data` field. The data for the `ListHorarios` Query is of type `ListHorariosData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface ListHorariosData {
+  horarios: ({
+    id: UUIDString;
+    horarioId: number;
+    curso: {
+      id: UUIDString;
+      cursoId: number;
+      nombre: string;
+    } & Curso_Key;
+    diaSemana: string;
+    fechaInicio: DateString;
+    fechaFin: DateString;
+    horaInicio: string;
+    horaFin: string;
+    cupoMaximo: number;
+    cupoActual: number;
+    estado?: string | null;
+  } & Horario_Key)[];
+}
+```
+
+To learn more about the `UseQueryResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
+
+### Using `ListHorarios`'s Query hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig } from '@dataconnect/generated';
+import { useListHorarios } from '@dataconnect/generated/react'
+
+export default function ListHorariosComponent() {
+  // You don't have to do anything to "execute" the Query.
+  // Call the Query hook function to get a `UseQueryResult` object which holds the state of your Query.
+  const query = useListHorarios();
+
+  // You can also pass in a `DataConnect` instance to the Query hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const query = useListHorarios(dataConnect);
+
+  // You can also pass in a `useDataConnectQueryOptions` object to the Query hook function.
+  const options = { staleTime: 5 * 1000 };
+  const query = useListHorarios(options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectQueryOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = { staleTime: 5 * 1000 };
+  const query = useListHorarios(dataConnect, options);
+
+  // Then, you can render your component dynamically based on the status of the Query.
+  if (query.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (query.isError) {
+    return <div>Error: {query.error.message}</div>;
+  }
+
+  // If the Query is successful, you can access the data returned using the `UseQueryResult.data` field.
+  if (query.isSuccess) {
+    console.log(query.data.horarios);
+  }
+  return <div>Query execution {query.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## BuscarHorarioPorCurso
+You can execute the `BuscarHorarioPorCurso` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
+
+```javascript
+useBuscarHorarioPorCurso(dc: DataConnect, vars: BuscarHorarioPorCursoVariables, options?: useDataConnectQueryOptions<BuscarHorarioPorCursoData>): UseDataConnectQueryResult<BuscarHorarioPorCursoData, BuscarHorarioPorCursoVariables>;
+```
+You can also pass in a `DataConnect` instance to the Query hook function.
+```javascript
+useBuscarHorarioPorCurso(vars: BuscarHorarioPorCursoVariables, options?: useDataConnectQueryOptions<BuscarHorarioPorCursoData>): UseDataConnectQueryResult<BuscarHorarioPorCursoData, BuscarHorarioPorCursoVariables>;
+```
+
+### Variables
+The `BuscarHorarioPorCurso` Query requires an argument of type `BuscarHorarioPorCursoVariables`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+
+```javascript
+export interface BuscarHorarioPorCursoVariables {
+  cursoId: number;
+}
+```
+### Return Type
+Recall that calling the `BuscarHorarioPorCurso` Query hook function returns a `UseQueryResult` object. This object holds the state of your Query, including whether the Query is loading, has completed, or has succeeded/failed, and any data returned by the Query, among other things.
+
+To check the status of a Query, use the `UseQueryResult.status` field. You can also check for pending / success / error status using the `UseQueryResult.isPending`, `UseQueryResult.isSuccess`, and `UseQueryResult.isError` fields.
+
+To access the data returned by a Query, use the `UseQueryResult.data` field. The data for the `BuscarHorarioPorCurso` Query is of type `BuscarHorarioPorCursoData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface BuscarHorarioPorCursoData {
+  horarios: ({
+    id: UUIDString;
+    horarioId: number;
+    curso: {
+      cursoId: number;
+      nombre: string;
+    };
+    diaSemana: string;
+    fechaInicio: DateString;
+    fechaFin: DateString;
+    horaInicio: string;
+    horaFin: string;
+    cupoMaximo: number;
+    cupoActual: number;
+    estado?: string | null;
+  } & Horario_Key)[];
+}
+```
+
+To learn more about the `UseQueryResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
+
+### Using `BuscarHorarioPorCurso`'s Query hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, BuscarHorarioPorCursoVariables } from '@dataconnect/generated';
+import { useBuscarHorarioPorCurso } from '@dataconnect/generated/react'
+
+export default function BuscarHorarioPorCursoComponent() {
+  // The `useBuscarHorarioPorCurso` Query hook requires an argument of type `BuscarHorarioPorCursoVariables`:
+  const buscarHorarioPorCursoVars: BuscarHorarioPorCursoVariables = {
+    cursoId: ..., 
+  };
+
+  // You don't have to do anything to "execute" the Query.
+  // Call the Query hook function to get a `UseQueryResult` object which holds the state of your Query.
+  const query = useBuscarHorarioPorCurso(buscarHorarioPorCursoVars);
+  // Variables can be defined inline as well.
+  const query = useBuscarHorarioPorCurso({ cursoId: ..., });
+
+  // You can also pass in a `DataConnect` instance to the Query hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const query = useBuscarHorarioPorCurso(dataConnect, buscarHorarioPorCursoVars);
+
+  // You can also pass in a `useDataConnectQueryOptions` object to the Query hook function.
+  const options = { staleTime: 5 * 1000 };
+  const query = useBuscarHorarioPorCurso(buscarHorarioPorCursoVars, options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectQueryOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = { staleTime: 5 * 1000 };
+  const query = useBuscarHorarioPorCurso(dataConnect, buscarHorarioPorCursoVars, options);
+
+  // Then, you can render your component dynamically based on the status of the Query.
+  if (query.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (query.isError) {
+    return <div>Error: {query.error.message}</div>;
+  }
+
+  // If the Query is successful, you can access the data returned using the `UseQueryResult.data` field.
+  if (query.isSuccess) {
+    console.log(query.data.horarios);
+  }
+  return <div>Query execution {query.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## HorariosPorDia
+You can execute the `HorariosPorDia` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
+
+```javascript
+useHorariosPorDia(dc: DataConnect, vars: HorariosPorDiaVariables, options?: useDataConnectQueryOptions<HorariosPorDiaData>): UseDataConnectQueryResult<HorariosPorDiaData, HorariosPorDiaVariables>;
+```
+You can also pass in a `DataConnect` instance to the Query hook function.
+```javascript
+useHorariosPorDia(vars: HorariosPorDiaVariables, options?: useDataConnectQueryOptions<HorariosPorDiaData>): UseDataConnectQueryResult<HorariosPorDiaData, HorariosPorDiaVariables>;
+```
+
+### Variables
+The `HorariosPorDia` Query requires an argument of type `HorariosPorDiaVariables`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+
+```javascript
+export interface HorariosPorDiaVariables {
+  diaSemana: string;
+}
+```
+### Return Type
+Recall that calling the `HorariosPorDia` Query hook function returns a `UseQueryResult` object. This object holds the state of your Query, including whether the Query is loading, has completed, or has succeeded/failed, and any data returned by the Query, among other things.
+
+To check the status of a Query, use the `UseQueryResult.status` field. You can also check for pending / success / error status using the `UseQueryResult.isPending`, `UseQueryResult.isSuccess`, and `UseQueryResult.isError` fields.
+
+To access the data returned by a Query, use the `UseQueryResult.data` field. The data for the `HorariosPorDia` Query is of type `HorariosPorDiaData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface HorariosPorDiaData {
+  horarios: ({
+    id: UUIDString;
+    horarioId: number;
+    curso: {
+      nombre: string;
+    };
+    diaSemana: string;
+    fechaInicio: DateString;
+    fechaFin: DateString;
+    horaInicio: string;
+    horaFin: string;
+    cupoMaximo: number;
+    cupoActual: number;
+    estado?: string | null;
+  } & Horario_Key)[];
+}
+```
+
+To learn more about the `UseQueryResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
+
+### Using `HorariosPorDia`'s Query hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, HorariosPorDiaVariables } from '@dataconnect/generated';
+import { useHorariosPorDia } from '@dataconnect/generated/react'
+
+export default function HorariosPorDiaComponent() {
+  // The `useHorariosPorDia` Query hook requires an argument of type `HorariosPorDiaVariables`:
+  const horariosPorDiaVars: HorariosPorDiaVariables = {
+    diaSemana: ..., 
+  };
+
+  // You don't have to do anything to "execute" the Query.
+  // Call the Query hook function to get a `UseQueryResult` object which holds the state of your Query.
+  const query = useHorariosPorDia(horariosPorDiaVars);
+  // Variables can be defined inline as well.
+  const query = useHorariosPorDia({ diaSemana: ..., });
+
+  // You can also pass in a `DataConnect` instance to the Query hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const query = useHorariosPorDia(dataConnect, horariosPorDiaVars);
+
+  // You can also pass in a `useDataConnectQueryOptions` object to the Query hook function.
+  const options = { staleTime: 5 * 1000 };
+  const query = useHorariosPorDia(horariosPorDiaVars, options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectQueryOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = { staleTime: 5 * 1000 };
+  const query = useHorariosPorDia(dataConnect, horariosPorDiaVars, options);
+
+  // Then, you can render your component dynamically based on the status of the Query.
+  if (query.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (query.isError) {
+    return <div>Error: {query.error.message}</div>;
+  }
+
+  // If the Query is successful, you can access the data returned using the `UseQueryResult.data` field.
+  if (query.isSuccess) {
+    console.log(query.data.horarios);
+  }
+  return <div>Query execution {query.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## HorariosPorEstado
+You can execute the `HorariosPorEstado` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
+
+```javascript
+useHorariosPorEstado(dc: DataConnect, vars: HorariosPorEstadoVariables, options?: useDataConnectQueryOptions<HorariosPorEstadoData>): UseDataConnectQueryResult<HorariosPorEstadoData, HorariosPorEstadoVariables>;
+```
+You can also pass in a `DataConnect` instance to the Query hook function.
+```javascript
+useHorariosPorEstado(vars: HorariosPorEstadoVariables, options?: useDataConnectQueryOptions<HorariosPorEstadoData>): UseDataConnectQueryResult<HorariosPorEstadoData, HorariosPorEstadoVariables>;
+```
+
+### Variables
+The `HorariosPorEstado` Query requires an argument of type `HorariosPorEstadoVariables`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+
+```javascript
+export interface HorariosPorEstadoVariables {
+  estado: string;
+}
+```
+### Return Type
+Recall that calling the `HorariosPorEstado` Query hook function returns a `UseQueryResult` object. This object holds the state of your Query, including whether the Query is loading, has completed, or has succeeded/failed, and any data returned by the Query, among other things.
+
+To check the status of a Query, use the `UseQueryResult.status` field. You can also check for pending / success / error status using the `UseQueryResult.isPending`, `UseQueryResult.isSuccess`, and `UseQueryResult.isError` fields.
+
+To access the data returned by a Query, use the `UseQueryResult.data` field. The data for the `HorariosPorEstado` Query is of type `HorariosPorEstadoData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface HorariosPorEstadoData {
+  horarios: ({
+    id: UUIDString;
+    horarioId: number;
+    curso: {
+      nombre: string;
+    };
+    diaSemana: string;
+    fechaInicio: DateString;
+    fechaFin: DateString;
+    horaInicio: string;
+    horaFin: string;
+    cupoMaximo: number;
+    cupoActual: number;
+    estado?: string | null;
+  } & Horario_Key)[];
+}
+```
+
+To learn more about the `UseQueryResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
+
+### Using `HorariosPorEstado`'s Query hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, HorariosPorEstadoVariables } from '@dataconnect/generated';
+import { useHorariosPorEstado } from '@dataconnect/generated/react'
+
+export default function HorariosPorEstadoComponent() {
+  // The `useHorariosPorEstado` Query hook requires an argument of type `HorariosPorEstadoVariables`:
+  const horariosPorEstadoVars: HorariosPorEstadoVariables = {
+    estado: ..., 
+  };
+
+  // You don't have to do anything to "execute" the Query.
+  // Call the Query hook function to get a `UseQueryResult` object which holds the state of your Query.
+  const query = useHorariosPorEstado(horariosPorEstadoVars);
+  // Variables can be defined inline as well.
+  const query = useHorariosPorEstado({ estado: ..., });
+
+  // You can also pass in a `DataConnect` instance to the Query hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const query = useHorariosPorEstado(dataConnect, horariosPorEstadoVars);
+
+  // You can also pass in a `useDataConnectQueryOptions` object to the Query hook function.
+  const options = { staleTime: 5 * 1000 };
+  const query = useHorariosPorEstado(horariosPorEstadoVars, options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectQueryOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = { staleTime: 5 * 1000 };
+  const query = useHorariosPorEstado(dataConnect, horariosPorEstadoVars, options);
+
+  // Then, you can render your component dynamically based on the status of the Query.
+  if (query.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (query.isError) {
+    return <div>Error: {query.error.message}</div>;
+  }
+
+  // If the Query is successful, you can access the data returned using the `UseQueryResult.data` field.
+  if (query.isSuccess) {
+    console.log(query.data.horarios);
+  }
+  return <div>Query execution {query.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## ListInscripcionesActivas
+You can execute the `ListInscripcionesActivas` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
+
+```javascript
+useListInscripcionesActivas(dc: DataConnect, options?: useDataConnectQueryOptions<ListInscripcionesActivasData>): UseDataConnectQueryResult<ListInscripcionesActivasData, undefined>;
+```
+You can also pass in a `DataConnect` instance to the Query hook function.
+```javascript
+useListInscripcionesActivas(options?: useDataConnectQueryOptions<ListInscripcionesActivasData>): UseDataConnectQueryResult<ListInscripcionesActivasData, undefined>;
+```
+
+### Variables
+The `ListInscripcionesActivas` Query has no variables.
+### Return Type
+Recall that calling the `ListInscripcionesActivas` Query hook function returns a `UseQueryResult` object. This object holds the state of your Query, including whether the Query is loading, has completed, or has succeeded/failed, and any data returned by the Query, among other things.
+
+To check the status of a Query, use the `UseQueryResult.status` field. You can also check for pending / success / error status using the `UseQueryResult.isPending`, `UseQueryResult.isSuccess`, and `UseQueryResult.isError` fields.
+
+To access the data returned by a Query, use the `UseQueryResult.data` field. The data for the `ListInscripcionesActivas` Query is of type `ListInscripcionesActivasData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface ListInscripcionesActivasData {
+  inscripcions: ({
+    inscripcionId: string;
+    horario: {
+      horarioId: number;
+    };
+  })[];
+}
+```
+
+To learn more about the `UseQueryResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
+
+### Using `ListInscripcionesActivas`'s Query hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig } from '@dataconnect/generated';
+import { useListInscripcionesActivas } from '@dataconnect/generated/react'
+
+export default function ListInscripcionesActivasComponent() {
+  // You don't have to do anything to "execute" the Query.
+  // Call the Query hook function to get a `UseQueryResult` object which holds the state of your Query.
+  const query = useListInscripcionesActivas();
+
+  // You can also pass in a `DataConnect` instance to the Query hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const query = useListInscripcionesActivas(dataConnect);
+
+  // You can also pass in a `useDataConnectQueryOptions` object to the Query hook function.
+  const options = { staleTime: 5 * 1000 };
+  const query = useListInscripcionesActivas(options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectQueryOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = { staleTime: 5 * 1000 };
+  const query = useListInscripcionesActivas(dataConnect, options);
+
+  // Then, you can render your component dynamically based on the status of the Query.
+  if (query.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (query.isError) {
+    return <div>Error: {query.error.message}</div>;
+  }
+
+  // If the Query is successful, you can access the data returned using the `UseQueryResult.data` field.
+  if (query.isSuccess) {
+    console.log(query.data.inscripcions);
+  }
+  return <div>Query execution {query.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
 ## ListCursosEstadisticas
 You can execute the `ListCursosEstadisticas` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
 
@@ -915,27 +1371,27 @@ export default function ListCursosEstadisticasComponent() {
 }
 ```
 
-## ListHorarios
-You can execute the `ListHorarios` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
+## ListHorariosEstadisticas
+You can execute the `ListHorariosEstadisticas` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
 
 ```javascript
-useListHorarios(dc: DataConnect, options?: useDataConnectQueryOptions<ListHorariosData>): UseDataConnectQueryResult<ListHorariosData, undefined>;
+useListHorariosEstadisticas(dc: DataConnect, options?: useDataConnectQueryOptions<ListHorariosEstadisticasData>): UseDataConnectQueryResult<ListHorariosEstadisticasData, undefined>;
 ```
 You can also pass in a `DataConnect` instance to the Query hook function.
 ```javascript
-useListHorarios(options?: useDataConnectQueryOptions<ListHorariosData>): UseDataConnectQueryResult<ListHorariosData, undefined>;
+useListHorariosEstadisticas(options?: useDataConnectQueryOptions<ListHorariosEstadisticasData>): UseDataConnectQueryResult<ListHorariosEstadisticasData, undefined>;
 ```
 
 ### Variables
-The `ListHorarios` Query has no variables.
+The `ListHorariosEstadisticas` Query has no variables.
 ### Return Type
-Recall that calling the `ListHorarios` Query hook function returns a `UseQueryResult` object. This object holds the state of your Query, including whether the Query is loading, has completed, or has succeeded/failed, and any data returned by the Query, among other things.
+Recall that calling the `ListHorariosEstadisticas` Query hook function returns a `UseQueryResult` object. This object holds the state of your Query, including whether the Query is loading, has completed, or has succeeded/failed, and any data returned by the Query, among other things.
 
 To check the status of a Query, use the `UseQueryResult.status` field. You can also check for pending / success / error status using the `UseQueryResult.isPending`, `UseQueryResult.isSuccess`, and `UseQueryResult.isError` fields.
 
-To access the data returned by a Query, use the `UseQueryResult.data` field. The data for the `ListHorarios` Query is of type `ListHorariosData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+To access the data returned by a Query, use the `UseQueryResult.data` field. The data for the `ListHorariosEstadisticas` Query is of type `ListHorariosEstadisticasData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
 ```javascript
-export interface ListHorariosData {
+export interface ListHorariosEstadisticasData {
   horarios: ({
     horarioId: number;
     fechaInicio: DateString;
@@ -956,30 +1412,30 @@ export interface ListHorariosData {
 
 To learn more about the `UseQueryResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
 
-### Using `ListHorarios`'s Query hook function
+### Using `ListHorariosEstadisticas`'s Query hook function
 
 ```javascript
 import { getDataConnect } from 'firebase/data-connect';
 import { connectorConfig } from '@dataconnect/generated';
-import { useListHorarios } from '@dataconnect/generated/react'
+import { useListHorariosEstadisticas } from '@dataconnect/generated/react'
 
-export default function ListHorariosComponent() {
+export default function ListHorariosEstadisticasComponent() {
   // You don't have to do anything to "execute" the Query.
   // Call the Query hook function to get a `UseQueryResult` object which holds the state of your Query.
-  const query = useListHorarios();
+  const query = useListHorariosEstadisticas();
 
   // You can also pass in a `DataConnect` instance to the Query hook function.
   const dataConnect = getDataConnect(connectorConfig);
-  const query = useListHorarios(dataConnect);
+  const query = useListHorariosEstadisticas(dataConnect);
 
   // You can also pass in a `useDataConnectQueryOptions` object to the Query hook function.
   const options = { staleTime: 5 * 1000 };
-  const query = useListHorarios(options);
+  const query = useListHorariosEstadisticas(options);
 
   // You can also pass both a `DataConnect` instance and a `useDataConnectQueryOptions` object.
   const dataConnect = getDataConnect(connectorConfig);
   const options = { staleTime: 5 * 1000 };
-  const query = useListHorarios(dataConnect, options);
+  const query = useListHorariosEstadisticas(dataConnect, options);
 
   // Then, you can render your component dynamically based on the status of the Query.
   if (query.isPending) {
@@ -3183,6 +3639,326 @@ export default function DeleteCursoComponent() {
   // If the Mutation is successful, you can access the data returned using the `UseMutationResult.data` field.
   if (mutation.isSuccess) {
     console.log(mutation.data.curso_delete);
+  }
+  return <div>Mutation execution {mutation.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## CreateHorario
+You can execute the `CreateHorario` Mutation using the `UseMutationResult` object returned by the following Mutation hook function (which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts)):
+```javascript
+useCreateHorario(options?: useDataConnectMutationOptions<CreateHorarioData, FirebaseError, CreateHorarioVariables>): UseDataConnectMutationResult<CreateHorarioData, CreateHorarioVariables>;
+```
+You can also pass in a `DataConnect` instance to the Mutation hook function.
+```javascript
+useCreateHorario(dc: DataConnect, options?: useDataConnectMutationOptions<CreateHorarioData, FirebaseError, CreateHorarioVariables>): UseDataConnectMutationResult<CreateHorarioData, CreateHorarioVariables>;
+```
+
+### Variables
+The `CreateHorario` Mutation requires an argument of type `CreateHorarioVariables`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+
+```javascript
+export interface CreateHorarioVariables {
+  horarioId: number;
+  cursoId: UUIDString;
+  diaSemana: string;
+  fechaInicio: DateString;
+  fechaFin: DateString;
+  horaInicio: string;
+  horaFin: string;
+  cupoMaximo: number;
+  cupoActual?: number | null;
+  estado?: string | null;
+}
+```
+### Return Type
+Recall that calling the `CreateHorario` Mutation hook function returns a `UseMutationResult` object. This object holds the state of your Mutation, including whether the Mutation is loading, has completed, or has succeeded/failed, among other things.
+
+To check the status of a Mutation, use the `UseMutationResult.status` field. You can also check for pending / success / error status using the `UseMutationResult.isPending`, `UseMutationResult.isSuccess`, and `UseMutationResult.isError` fields.
+
+To execute the Mutation, call `UseMutationResult.mutate()`. This function executes the Mutation, but does not return the data from the Mutation.
+
+To access the data returned by a Mutation, use the `UseMutationResult.data` field. The data for the `CreateHorario` Mutation is of type `CreateHorarioData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface CreateHorarioData {
+  horario_insert: Horario_Key;
+}
+```
+
+To learn more about the `UseMutationResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useMutation).
+
+### Using `CreateHorario`'s Mutation hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, CreateHorarioVariables } from '@dataconnect/generated';
+import { useCreateHorario } from '@dataconnect/generated/react'
+
+export default function CreateHorarioComponent() {
+  // Call the Mutation hook function to get a `UseMutationResult` object which holds the state of your Mutation.
+  const mutation = useCreateHorario();
+
+  // You can also pass in a `DataConnect` instance to the Mutation hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const mutation = useCreateHorario(dataConnect);
+
+  // You can also pass in a `useDataConnectMutationOptions` object to the Mutation hook function.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useCreateHorario(options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectMutationOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useCreateHorario(dataConnect, options);
+
+  // After calling the Mutation hook function, you must call `UseMutationResult.mutate()` to execute the Mutation.
+  // The `useCreateHorario` Mutation requires an argument of type `CreateHorarioVariables`:
+  const createHorarioVars: CreateHorarioVariables = {
+    horarioId: ..., 
+    cursoId: ..., 
+    diaSemana: ..., 
+    fechaInicio: ..., 
+    fechaFin: ..., 
+    horaInicio: ..., 
+    horaFin: ..., 
+    cupoMaximo: ..., 
+    cupoActual: ..., // optional
+    estado: ..., // optional
+  };
+  mutation.mutate(createHorarioVars);
+  // Variables can be defined inline as well.
+  mutation.mutate({ horarioId: ..., cursoId: ..., diaSemana: ..., fechaInicio: ..., fechaFin: ..., horaInicio: ..., horaFin: ..., cupoMaximo: ..., cupoActual: ..., estado: ..., });
+
+  // You can also pass in a `useDataConnectMutationOptions` object to `UseMutationResult.mutate()`.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  mutation.mutate(createHorarioVars, options);
+
+  // Then, you can render your component dynamically based on the status of the Mutation.
+  if (mutation.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (mutation.isError) {
+    return <div>Error: {mutation.error.message}</div>;
+  }
+
+  // If the Mutation is successful, you can access the data returned using the `UseMutationResult.data` field.
+  if (mutation.isSuccess) {
+    console.log(mutation.data.horario_insert);
+  }
+  return <div>Mutation execution {mutation.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## UpdateHorario
+You can execute the `UpdateHorario` Mutation using the `UseMutationResult` object returned by the following Mutation hook function (which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts)):
+```javascript
+useUpdateHorario(options?: useDataConnectMutationOptions<UpdateHorarioData, FirebaseError, UpdateHorarioVariables>): UseDataConnectMutationResult<UpdateHorarioData, UpdateHorarioVariables>;
+```
+You can also pass in a `DataConnect` instance to the Mutation hook function.
+```javascript
+useUpdateHorario(dc: DataConnect, options?: useDataConnectMutationOptions<UpdateHorarioData, FirebaseError, UpdateHorarioVariables>): UseDataConnectMutationResult<UpdateHorarioData, UpdateHorarioVariables>;
+```
+
+### Variables
+The `UpdateHorario` Mutation requires an argument of type `UpdateHorarioVariables`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+
+```javascript
+export interface UpdateHorarioVariables {
+  horarioInternalId: UUIDString;
+  horarioId: number;
+  cursoId: UUIDString;
+  diaSemana: string;
+  fechaInicio: DateString;
+  fechaFin: DateString;
+  horaInicio: string;
+  horaFin: string;
+  cupoMaximo: number;
+  cupoActual: number;
+  estado?: string | null;
+}
+```
+### Return Type
+Recall that calling the `UpdateHorario` Mutation hook function returns a `UseMutationResult` object. This object holds the state of your Mutation, including whether the Mutation is loading, has completed, or has succeeded/failed, among other things.
+
+To check the status of a Mutation, use the `UseMutationResult.status` field. You can also check for pending / success / error status using the `UseMutationResult.isPending`, `UseMutationResult.isSuccess`, and `UseMutationResult.isError` fields.
+
+To execute the Mutation, call `UseMutationResult.mutate()`. This function executes the Mutation, but does not return the data from the Mutation.
+
+To access the data returned by a Mutation, use the `UseMutationResult.data` field. The data for the `UpdateHorario` Mutation is of type `UpdateHorarioData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface UpdateHorarioData {
+  horario_update?: Horario_Key | null;
+}
+```
+
+To learn more about the `UseMutationResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useMutation).
+
+### Using `UpdateHorario`'s Mutation hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, UpdateHorarioVariables } from '@dataconnect/generated';
+import { useUpdateHorario } from '@dataconnect/generated/react'
+
+export default function UpdateHorarioComponent() {
+  // Call the Mutation hook function to get a `UseMutationResult` object which holds the state of your Mutation.
+  const mutation = useUpdateHorario();
+
+  // You can also pass in a `DataConnect` instance to the Mutation hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const mutation = useUpdateHorario(dataConnect);
+
+  // You can also pass in a `useDataConnectMutationOptions` object to the Mutation hook function.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useUpdateHorario(options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectMutationOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useUpdateHorario(dataConnect, options);
+
+  // After calling the Mutation hook function, you must call `UseMutationResult.mutate()` to execute the Mutation.
+  // The `useUpdateHorario` Mutation requires an argument of type `UpdateHorarioVariables`:
+  const updateHorarioVars: UpdateHorarioVariables = {
+    horarioInternalId: ..., 
+    horarioId: ..., 
+    cursoId: ..., 
+    diaSemana: ..., 
+    fechaInicio: ..., 
+    fechaFin: ..., 
+    horaInicio: ..., 
+    horaFin: ..., 
+    cupoMaximo: ..., 
+    cupoActual: ..., 
+    estado: ..., // optional
+  };
+  mutation.mutate(updateHorarioVars);
+  // Variables can be defined inline as well.
+  mutation.mutate({ horarioInternalId: ..., horarioId: ..., cursoId: ..., diaSemana: ..., fechaInicio: ..., fechaFin: ..., horaInicio: ..., horaFin: ..., cupoMaximo: ..., cupoActual: ..., estado: ..., });
+
+  // You can also pass in a `useDataConnectMutationOptions` object to `UseMutationResult.mutate()`.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  mutation.mutate(updateHorarioVars, options);
+
+  // Then, you can render your component dynamically based on the status of the Mutation.
+  if (mutation.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (mutation.isError) {
+    return <div>Error: {mutation.error.message}</div>;
+  }
+
+  // If the Mutation is successful, you can access the data returned using the `UseMutationResult.data` field.
+  if (mutation.isSuccess) {
+    console.log(mutation.data.horario_update);
+  }
+  return <div>Mutation execution {mutation.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## DeleteHorario
+You can execute the `DeleteHorario` Mutation using the `UseMutationResult` object returned by the following Mutation hook function (which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts)):
+```javascript
+useDeleteHorario(options?: useDataConnectMutationOptions<DeleteHorarioData, FirebaseError, DeleteHorarioVariables>): UseDataConnectMutationResult<DeleteHorarioData, DeleteHorarioVariables>;
+```
+You can also pass in a `DataConnect` instance to the Mutation hook function.
+```javascript
+useDeleteHorario(dc: DataConnect, options?: useDataConnectMutationOptions<DeleteHorarioData, FirebaseError, DeleteHorarioVariables>): UseDataConnectMutationResult<DeleteHorarioData, DeleteHorarioVariables>;
+```
+
+### Variables
+The `DeleteHorario` Mutation requires an argument of type `DeleteHorarioVariables`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+
+```javascript
+export interface DeleteHorarioVariables {
+  horarioInternalId: UUIDString;
+}
+```
+### Return Type
+Recall that calling the `DeleteHorario` Mutation hook function returns a `UseMutationResult` object. This object holds the state of your Mutation, including whether the Mutation is loading, has completed, or has succeeded/failed, among other things.
+
+To check the status of a Mutation, use the `UseMutationResult.status` field. You can also check for pending / success / error status using the `UseMutationResult.isPending`, `UseMutationResult.isSuccess`, and `UseMutationResult.isError` fields.
+
+To execute the Mutation, call `UseMutationResult.mutate()`. This function executes the Mutation, but does not return the data from the Mutation.
+
+To access the data returned by a Mutation, use the `UseMutationResult.data` field. The data for the `DeleteHorario` Mutation is of type `DeleteHorarioData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface DeleteHorarioData {
+  horario_delete?: Horario_Key | null;
+}
+```
+
+To learn more about the `UseMutationResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useMutation).
+
+### Using `DeleteHorario`'s Mutation hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, DeleteHorarioVariables } from '@dataconnect/generated';
+import { useDeleteHorario } from '@dataconnect/generated/react'
+
+export default function DeleteHorarioComponent() {
+  // Call the Mutation hook function to get a `UseMutationResult` object which holds the state of your Mutation.
+  const mutation = useDeleteHorario();
+
+  // You can also pass in a `DataConnect` instance to the Mutation hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const mutation = useDeleteHorario(dataConnect);
+
+  // You can also pass in a `useDataConnectMutationOptions` object to the Mutation hook function.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useDeleteHorario(options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectMutationOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useDeleteHorario(dataConnect, options);
+
+  // After calling the Mutation hook function, you must call `UseMutationResult.mutate()` to execute the Mutation.
+  // The `useDeleteHorario` Mutation requires an argument of type `DeleteHorarioVariables`:
+  const deleteHorarioVars: DeleteHorarioVariables = {
+    horarioInternalId: ..., 
+  };
+  mutation.mutate(deleteHorarioVars);
+  // Variables can be defined inline as well.
+  mutation.mutate({ horarioInternalId: ..., });
+
+  // You can also pass in a `useDataConnectMutationOptions` object to `UseMutationResult.mutate()`.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  mutation.mutate(deleteHorarioVars, options);
+
+  // Then, you can render your component dynamically based on the status of the Mutation.
+  if (mutation.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (mutation.isError) {
+    return <div>Error: {mutation.error.message}</div>;
+  }
+
+  // If the Mutation is successful, you can access the data returned using the `UseMutationResult.data` field.
+  if (mutation.isSuccess) {
+    console.log(mutation.data.horario_delete);
   }
   return <div>Mutation execution {mutation.isSuccess ? 'successful' : 'failed'}!</div>;
 }

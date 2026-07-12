@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 import { GetUsuarioByCorreoData, GetUsuarioByCorreoVariables, ListarEstudiantesData, CrearEstudianteData, CrearEstudianteVariables, ActualizarEstudianteData, ActualizarEstudianteVariables, ActualizarEstudianteSinCorreoData, ActualizarEstudianteSinCorreoVariables, ActualizarPasswordUsuarioData, ActualizarPasswordUsuarioVariables, EliminarEstudianteData, EliminarEstudianteVariables, ListInstructorsData, GetRolByNumeroData, GetRolByNumeroVariables, CreateInstructorData, CreateInstructorVariables, UpdateInstructorData, UpdateInstructorVariables, DeleteInstructorData, DeleteInstructorVariables, ListCursosData, BuscarCursoPorNombreData, BuscarCursoPorNombreVariables, CursosPorCategoriaData, CursosPorCategoriaVariables, CursosPorEstadoData, CursosPorEstadoVariables, CreateCursoData, CreateCursoVariables, UpdateCursoData, UpdateCursoVariables, DeleteCursoData, DeleteCursoVariables, ListCursosEstadisticasData, ListHorariosData, ListHorariosPorEstadoData, ListHorariosPorEstadoVariables, ListInscripcionesData, ListInscripcionesPorEstadoData, ListInscripcionesPorEstadoVariables, ListAsistenciasData, ListAsistenciasPorEstadoData, ListAsistenciasPorEstadoVariables, ListReportesEstadisticasData, ListReportesPorPeriodoData, ListReportesPorPeriodoVariables, ListReportesPorCursoData, ListReportesPorCursoVariables, GetCursoInternalIdData, GetCursoInternalIdVariables, CreateReporteEstadisticaData, CreateReporteEstadisticaVariables, UpdateReporteEstadisticaData, UpdateReporteEstadisticaVariables, GetInscripcionesByEstudianteData, GetInscripcionesByEstudianteVariables, GetHorariosDisponiblesData, InsscribirEstudianteData, InsscribirEstudianteVariables, CancelarInscripcionData, CancelarInscripcionVariables } from '../';
+=======
+import { GetUsuarioByCorreoData, GetUsuarioByCorreoVariables, ListarEstudiantesData, CrearEstudianteData, CrearEstudianteVariables, ActualizarEstudianteData, ActualizarEstudianteVariables, ActualizarEstudianteSinCorreoData, ActualizarEstudianteSinCorreoVariables, ActualizarPasswordUsuarioData, ActualizarPasswordUsuarioVariables, EliminarEstudianteData, EliminarEstudianteVariables, ListInstructorsData, GetRolByNumeroData, GetRolByNumeroVariables, CreateInstructorData, CreateInstructorVariables, UpdateInstructorData, UpdateInstructorVariables, DeleteInstructorData, DeleteInstructorVariables, ListCursosData, BuscarCursoPorNombreData, BuscarCursoPorNombreVariables, CursosPorCategoriaData, CursosPorCategoriaVariables, CursosPorEstadoData, CursosPorEstadoVariables, CreateCursoData, CreateCursoVariables, UpdateCursoData, UpdateCursoVariables, DeleteCursoData, DeleteCursoVariables, ListHorariosData, BuscarHorarioPorCursoData, BuscarHorarioPorCursoVariables, HorariosPorDiaData, HorariosPorDiaVariables, HorariosPorEstadoData, HorariosPorEstadoVariables, ListInscripcionesActivasData, CreateHorarioData, CreateHorarioVariables, UpdateHorarioData, UpdateHorarioVariables, DeleteHorarioData, DeleteHorarioVariables, ListCursosEstadisticasData, ListHorariosEstadisticasData, ListHorariosPorEstadoData, ListHorariosPorEstadoVariables, ListInscripcionesData, ListInscripcionesPorEstadoData, ListInscripcionesPorEstadoVariables, ListAsistenciasData, ListAsistenciasPorEstadoData, ListAsistenciasPorEstadoVariables, ListReportesEstadisticasData, ListReportesPorPeriodoData, ListReportesPorPeriodoVariables, ListReportesPorCursoData, ListReportesPorCursoVariables, GetCursoInternalIdData, GetCursoInternalIdVariables, CreateReporteEstadisticaData, CreateReporteEstadisticaVariables, UpdateReporteEstadisticaData, UpdateReporteEstadisticaVariables } from '../';
+>>>>>>> Stashed changes
 import { UseDataConnectQueryResult, useDataConnectQueryOptions, UseDataConnectMutationResult, useDataConnectMutationOptions} from '@tanstack-query-firebase/react/data-connect';
 import { UseQueryResult, UseMutationResult} from '@tanstack/react-query';
 import { DataConnect } from 'firebase/data-connect';
@@ -62,11 +66,35 @@ export function useUpdateCurso(dc: DataConnect, options?: useDataConnectMutation
 export function useDeleteCurso(options?: useDataConnectMutationOptions<DeleteCursoData, FirebaseError, DeleteCursoVariables>): UseDataConnectMutationResult<DeleteCursoData, DeleteCursoVariables>;
 export function useDeleteCurso(dc: DataConnect, options?: useDataConnectMutationOptions<DeleteCursoData, FirebaseError, DeleteCursoVariables>): UseDataConnectMutationResult<DeleteCursoData, DeleteCursoVariables>;
 
+export function useListHorarios(options?: useDataConnectQueryOptions<ListHorariosData>): UseDataConnectQueryResult<ListHorariosData, undefined>;
+export function useListHorarios(dc: DataConnect, options?: useDataConnectQueryOptions<ListHorariosData>): UseDataConnectQueryResult<ListHorariosData, undefined>;
+
+export function useBuscarHorarioPorCurso(vars: BuscarHorarioPorCursoVariables, options?: useDataConnectQueryOptions<BuscarHorarioPorCursoData>): UseDataConnectQueryResult<BuscarHorarioPorCursoData, BuscarHorarioPorCursoVariables>;
+export function useBuscarHorarioPorCurso(dc: DataConnect, vars: BuscarHorarioPorCursoVariables, options?: useDataConnectQueryOptions<BuscarHorarioPorCursoData>): UseDataConnectQueryResult<BuscarHorarioPorCursoData, BuscarHorarioPorCursoVariables>;
+
+export function useHorariosPorDia(vars: HorariosPorDiaVariables, options?: useDataConnectQueryOptions<HorariosPorDiaData>): UseDataConnectQueryResult<HorariosPorDiaData, HorariosPorDiaVariables>;
+export function useHorariosPorDia(dc: DataConnect, vars: HorariosPorDiaVariables, options?: useDataConnectQueryOptions<HorariosPorDiaData>): UseDataConnectQueryResult<HorariosPorDiaData, HorariosPorDiaVariables>;
+
+export function useHorariosPorEstado(vars: HorariosPorEstadoVariables, options?: useDataConnectQueryOptions<HorariosPorEstadoData>): UseDataConnectQueryResult<HorariosPorEstadoData, HorariosPorEstadoVariables>;
+export function useHorariosPorEstado(dc: DataConnect, vars: HorariosPorEstadoVariables, options?: useDataConnectQueryOptions<HorariosPorEstadoData>): UseDataConnectQueryResult<HorariosPorEstadoData, HorariosPorEstadoVariables>;
+
+export function useListInscripcionesActivas(options?: useDataConnectQueryOptions<ListInscripcionesActivasData>): UseDataConnectQueryResult<ListInscripcionesActivasData, undefined>;
+export function useListInscripcionesActivas(dc: DataConnect, options?: useDataConnectQueryOptions<ListInscripcionesActivasData>): UseDataConnectQueryResult<ListInscripcionesActivasData, undefined>;
+
+export function useCreateHorario(options?: useDataConnectMutationOptions<CreateHorarioData, FirebaseError, CreateHorarioVariables>): UseDataConnectMutationResult<CreateHorarioData, CreateHorarioVariables>;
+export function useCreateHorario(dc: DataConnect, options?: useDataConnectMutationOptions<CreateHorarioData, FirebaseError, CreateHorarioVariables>): UseDataConnectMutationResult<CreateHorarioData, CreateHorarioVariables>;
+
+export function useUpdateHorario(options?: useDataConnectMutationOptions<UpdateHorarioData, FirebaseError, UpdateHorarioVariables>): UseDataConnectMutationResult<UpdateHorarioData, UpdateHorarioVariables>;
+export function useUpdateHorario(dc: DataConnect, options?: useDataConnectMutationOptions<UpdateHorarioData, FirebaseError, UpdateHorarioVariables>): UseDataConnectMutationResult<UpdateHorarioData, UpdateHorarioVariables>;
+
+export function useDeleteHorario(options?: useDataConnectMutationOptions<DeleteHorarioData, FirebaseError, DeleteHorarioVariables>): UseDataConnectMutationResult<DeleteHorarioData, DeleteHorarioVariables>;
+export function useDeleteHorario(dc: DataConnect, options?: useDataConnectMutationOptions<DeleteHorarioData, FirebaseError, DeleteHorarioVariables>): UseDataConnectMutationResult<DeleteHorarioData, DeleteHorarioVariables>;
+
 export function useListCursosEstadisticas(options?: useDataConnectQueryOptions<ListCursosEstadisticasData>): UseDataConnectQueryResult<ListCursosEstadisticasData, undefined>;
 export function useListCursosEstadisticas(dc: DataConnect, options?: useDataConnectQueryOptions<ListCursosEstadisticasData>): UseDataConnectQueryResult<ListCursosEstadisticasData, undefined>;
 
-export function useListHorarios(options?: useDataConnectQueryOptions<ListHorariosData>): UseDataConnectQueryResult<ListHorariosData, undefined>;
-export function useListHorarios(dc: DataConnect, options?: useDataConnectQueryOptions<ListHorariosData>): UseDataConnectQueryResult<ListHorariosData, undefined>;
+export function useListHorariosEstadisticas(options?: useDataConnectQueryOptions<ListHorariosEstadisticasData>): UseDataConnectQueryResult<ListHorariosEstadisticasData, undefined>;
+export function useListHorariosEstadisticas(dc: DataConnect, options?: useDataConnectQueryOptions<ListHorariosEstadisticasData>): UseDataConnectQueryResult<ListHorariosEstadisticasData, undefined>;
 
 export function useListHorariosPorEstado(vars: ListHorariosPorEstadoVariables, options?: useDataConnectQueryOptions<ListHorariosPorEstadoData>): UseDataConnectQueryResult<ListHorariosPorEstadoData, ListHorariosPorEstadoVariables>;
 export function useListHorariosPorEstado(dc: DataConnect, vars: ListHorariosPorEstadoVariables, options?: useDataConnectQueryOptions<ListHorariosPorEstadoData>): UseDataConnectQueryResult<ListHorariosPorEstadoData, ListHorariosPorEstadoVariables>;

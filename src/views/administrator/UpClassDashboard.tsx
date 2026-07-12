@@ -3,44 +3,46 @@ import ClasesView from "./CursosView";
 import InstructoresView from "./InstructoresView";
 import AlumnosView from "./AlumnosView";
 import EstadisticasView from "./EstadisticasView";
+import HorariosView from "./HorariosView";
 import { useNavigate } from "react-router-dom";
 import "../../App.css";
 import type { UserSession } from "../students/UpClassDashAlunmo";
 
 const SCHEDULE = [
-  { time: "07:00 am", dotColor: "teal",   name: "Yoga matutino",         meta: "Carla Reyes · 14 alumnos", badge: "green", badgeLabel: "En curso"  },
-  { time: "09:00 am", dotColor: "blue",   name: "Inglés intermedio",      meta: "Pedro Mora · 20 alumnos",  badge: "green", badgeLabel: "En curso"  },
-  { time: "11:00 am", dotColor: "amber",  name: "Piano nivel 1",          meta: "Sofía Leal · 8 alumnos",   badge: "amber", badgeLabel: "Próxima"   },
-  { time: "01:00 pm", dotColor: "coral",  name: "Matemáticas avanzadas",  meta: "Andrés Gil · 18 alumnos",  badge: "gray",  badgeLabel: "Pendiente" },
-  { time: "04:00 pm", dotColor: "purple", name: "Dibujo y pintura",       meta: "Luisa Fox · 12 alumnos",   badge: "gray",  badgeLabel: "Pendiente" },
+  { time: "07:00 am", dotColor: "teal", name: "Yoga matutino", meta: "Carla Reyes · 14 alumnos", badge: "green", badgeLabel: "En curso" },
+  { time: "09:00 am", dotColor: "blue", name: "Inglés intermedio", meta: "Pedro Mora · 20 alumnos", badge: "green", badgeLabel: "En curso" },
+  { time: "11:00 am", dotColor: "amber", name: "Piano nivel 1", meta: "Sofía Leal · 8 alumnos", badge: "amber", badgeLabel: "Próxima" },
+  { time: "01:00 pm", dotColor: "coral", name: "Matemáticas avanzadas", meta: "Andrés Gil · 18 alumnos", badge: "gray", badgeLabel: "Pendiente" },
+  { time: "04:00 pm", dotColor: "purple", name: "Dibujo y pintura", meta: "Luisa Fox · 12 alumnos", badge: "gray", badgeLabel: "Pendiente" },
 ];
 
 const INSTRUCTORS = [
-  { initials: "CR", color: "teal",   name: "Carla Reyes", specialty: "Yoga · Meditación", students: 14 },
-  { initials: "PM", color: "blue",   name: "Pedro Mora",  specialty: "Inglés · Francés",  students: 20 },
-  { initials: "SL", color: "amber",  name: "Sofía Leal",  specialty: "Piano · Música",    students: 8  },
-  { initials: "AG", color: "coral",  name: "Andrés Gil",  specialty: "Matemáticas",       students: 18 },
-  { initials: "LF", color: "purple", name: "Luisa Fox",   specialty: "Arte · Diseño",     students: 12 },
+  { initials: "CR", color: "teal", name: "Carla Reyes", specialty: "Yoga · Meditación", students: 14 },
+  { initials: "PM", color: "blue", name: "Pedro Mora", specialty: "Inglés · Francés", students: 20 },
+  { initials: "SL", color: "amber", name: "Sofía Leal", specialty: "Piano · Música", students: 8 },
+  { initials: "AG", color: "coral", name: "Andrés Gil", specialty: "Matemáticas", students: 18 },
+  { initials: "LF", color: "purple", name: "Luisa Fox", specialty: "Arte · Diseño", students: 12 },
 ];
 
 const STUDENTS = [
-  { name: "Valeria Ríos",  since: "Ene 2026", clase: "Yoga",         pct: 92, pctColor: "#1D9E75", badge: "green", badgeLabel: "Al día"    },
-  { name: "Marco Soto",    since: "Feb 2026", clase: "Inglés",       pct: 75, pctColor: "#378ADD", badge: "blue",  badgeLabel: "Al día"    },
-  { name: "Diana Núñez",   since: "Mar 2026", clase: "Piano",        pct: 55, pctColor: "#EF9F27", badge: "amber", badgeLabel: "Irregular" },
-  { name: "Héctor Vega",   since: "Abr 2026", clase: "Matemáticas",  pct: 88, pctColor: "#1D9E75", badge: "green", badgeLabel: "Al día"    },
+  { name: "Valeria Ríos", since: "Ene 2026", clase: "Yoga", pct: 92, pctColor: "#1D9E75", badge: "green", badgeLabel: "Al día" },
+  { name: "Marco Soto", since: "Feb 2026", clase: "Inglés", pct: 75, pctColor: "#378ADD", badge: "blue", badgeLabel: "Al día" },
+  { name: "Diana Núñez", since: "Mar 2026", clase: "Piano", pct: 55, pctColor: "#EF9F27", badge: "amber", badgeLabel: "Irregular" },
+  { name: "Héctor Vega", since: "Abr 2026", clase: "Matemáticas", pct: 88, pctColor: "#1D9E75", badge: "green", badgeLabel: "Al día" },
 ];
 
 const NAV_MAIN = [
-  { icon: "ti-layout-dashboard", label: "Inicio",        id: "inicio",        badge: null  },
-  { icon: "ti-users",            label: "Instructores",  id: "instructores",  badge: "8"   },
-  { icon: "ti-school",           label: "Alumnos",       id: "alumnos",       badge: "142" },
-  { icon: "ti-book",             label: "Cursos",        id: "cursos",        badge: "11"  },
-  { icon: "ti-chart-bar",        label: "Estadísticas",  id: "estadisticas",  badge: null  },
+  { icon: "ti-layout-dashboard", label: "Inicio", id: "inicio", badge: null },
+  { icon: "ti-users", label: "Instructores", id: "instructores", badge: "8" },
+  { icon: "ti-school", label: "Alumnos", id: "alumnos", badge: "142" },
+  { icon: "ti-book", label: "Cursos", id: "cursos", badge: "11" },
+  { icon: "ti-calendar-event", label: "Horarios", id: "horarios", badge: null },
+  { icon: "ti-chart-bar", label: "Estadísticas", id: "estadisticas", badge: null },
 ];
 
 const SETTINGS_SUBMENU = [
-  { icon: "ti-building",     label: "Perfil de la academia", id: "cfg-academia"  },
-  { icon: "ti-shield-lock",  label: "Usuarios y permisos",   id: "cfg-usuarios"  },
+  { icon: "ti-building", label: "Perfil de la academia", id: "cfg-academia" },
+  { icon: "ti-shield-lock", label: "Usuarios y permisos", id: "cfg-usuarios" },
 ];
 
 // ── Subcomponentes ────────────────────────────────────────────────────────────
@@ -223,9 +225,9 @@ export default function UpClassDashboard() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token      = localStorage.getItem("token");
-    const savedUser  = localStorage.getItem("user");
-    const storedRol  = localStorage.getItem("rol");
+    const token = localStorage.getItem("token");
+    const savedUser = localStorage.getItem("user");
+    const storedRol = localStorage.getItem("rol");
 
     if (!token || !savedUser || !storedRol) { navigate("/"); return; }
 
@@ -249,11 +251,12 @@ export default function UpClassDashboard() {
 
   // Título dinámico en el topbar según la sección activa
   const TOP_TITLES: Record<string, { title: string; sub: string }> = {
-    inicio:       { title: "Resumen general",      sub: "Jueves, 14 de mayo de 2026" },
-    instructores: { title: "Instructores",          sub: "Gestión de instructores"    },
-    alumnos:      { title: "Alumnos",              sub: "Gestión de alumnos"         },
-    cursos:       { title: "Cursos",               sub: "Gestión de cursos"          },
-    estadisticas: { title: "Estadísticas",         sub: "Reportes y métricas"        },
+    inicio: { title: "Resumen general", sub: "Jueves, 14 de mayo de 2026" },
+    instructores: { title: "Instructores", sub: "Gestión de instructores" },
+    alumnos: { title: "Alumnos", sub: "Gestión de alumnos" },
+    cursos: { title: "Cursos", sub: "Gestión de cursos" },
+    horarios: { title: "Horarios", sub: "Gestión de horarios" },
+    estadisticas: { title: "Estadísticas", sub: "Reportes y métricas" },
   };
   const topbar = TOP_TITLES[activeNav] ?? TOP_TITLES.inicio;
 
@@ -354,6 +357,9 @@ export default function UpClassDashboard() {
             ) : activeNav === "alumnos" ? (
               <AlumnosView />
 
+            ) : activeNav === "horarios" ? (
+              <HorariosView />
+
             ) : activeNav === "estadisticas" ? (       // ← NUEVO
               <EstadisticasView />
 
@@ -362,17 +368,17 @@ export default function UpClassDashboard() {
               <>
                 {/* Métricas */}
                 <div className="uc-metrics-grid">
-                  <MetricCard icon="ti-school"         iconColor="#378ADD" label="Alumnos activos" value="142" />
-                  <MetricCard icon="ti-users"          iconColor="#1D9E75" label="Instructores"    value="8"   />
-                  <MetricCard icon="ti-calendar-event" iconColor="#EF9F27" label="Clases hoy"      value="11"  />
+                  <MetricCard icon="ti-school" iconColor="#378ADD" label="Alumnos activos" value="142" />
+                  <MetricCard icon="ti-users" iconColor="#1D9E75" label="Instructores" value="8" />
+                  <MetricCard icon="ti-calendar-event" iconColor="#EF9F27" label="Clases hoy" value="11" />
                 </div>
 
                 {/* Acciones rápidas */}
                 <div className="uc-quick-actions">
-                  <QuickActionBtn iconClass="ti-user-plus"  iconBgClass="uc-icon-bg--blue"   label="Alumnos"          onClick={() => setActiveNav("alumnos")}       />
-                  <QuickActionBtn iconClass="ti-user-plus"  iconBgClass="uc-icon-bg--blue"   label="Nuevo instructor" onClick={() => setActiveNav("instructores")}   />
-                  <QuickActionBtn iconClass="ti-book"       iconBgClass="uc-icon-bg--teal"   label="Cursos"           onClick={() => setActiveNav("cursos")}         />
-                  <QuickActionBtn iconClass="ti-chart-bar"  iconBgClass="uc-icon-bg--purple" label="Ver reportes"     onClick={() => setActiveNav("estadisticas")}   /> {/* ← CONECTADO */}
+                  <QuickActionBtn iconClass="ti-user-plus" iconBgClass="uc-icon-bg--blue" label="Alumnos" onClick={() => setActiveNav("alumnos")} />
+                  <QuickActionBtn iconClass="ti-user-plus" iconBgClass="uc-icon-bg--blue" label="Nuevo instructor" onClick={() => setActiveNav("instructores")} />
+                  <QuickActionBtn iconClass="ti-book" iconBgClass="uc-icon-bg--teal" label="Cursos" onClick={() => setActiveNav("cursos")} />
+                  <QuickActionBtn iconClass="ti-chart-bar" iconBgClass="uc-icon-bg--purple" label="Ver reportes" onClick={() => setActiveNav("estadisticas")} /> {/* ← CONECTADO */}
                 </div>
 
                 {/* Horario + Instructores */}

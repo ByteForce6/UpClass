@@ -313,6 +313,162 @@ mutation DeleteCurso($cursoInternalId: UUID!) @auth(level: PUBLIC) {
 }
 
 
+# ====================================================
+# HORARIOS
+# ====================================================
+
+query ListHorarios @auth(level: PUBLIC) {
+  horarios {
+    id
+    horarioId
+    curso {
+      id
+      cursoId
+      nombre
+    }
+    diaSemana
+    fechaInicio
+    fechaFin
+    horaInicio
+    horaFin
+    cupoMaximo
+    cupoActual
+    estado
+  }
+}
+
+
+query BuscarHorarioPorCurso($cursoId: Int!) @auth(level: PUBLIC) {
+  horarios(where: { curso: { cursoId: { eq: $cursoId } } }) {
+    id
+    horarioId
+    curso {
+      cursoId
+      nombre
+    }
+    diaSemana
+    fechaInicio
+    fechaFin
+    horaInicio
+    horaFin
+    cupoMaximo
+    cupoActual
+    estado
+  }
+}
+
+
+query HorariosPorDia($diaSemana: String!) @auth(level: PUBLIC) {
+  horarios(where: { diaSemana: { eq: $diaSemana } }) {
+    id
+    horarioId
+    curso {
+      nombre
+    }
+    diaSemana
+    fechaInicio
+    fechaFin
+    horaInicio
+    horaFin
+    cupoMaximo
+    cupoActual
+    estado
+  }
+}
+
+
+query HorariosPorEstado($estado: String!) @auth(level: PUBLIC) {
+  horarios(where: { estado: { eq: $estado } }) {
+    id
+    horarioId
+    curso {
+      nombre
+    }
+    diaSemana
+    fechaInicio
+    fechaFin
+    horaInicio
+    horaFin
+    cupoMaximo
+    cupoActual
+    estado
+  }
+}
+
+query ListInscripcionesActivas @auth(level: PUBLIC) {
+  inscripcions(where: { estadoInscripcion: { eq: "Activa" } }) {
+    inscripcionId
+    horario {
+      horarioId
+    }
+  }
+}
+mutation CreateHorario(
+  $horarioId: Int!
+  $cursoId: UUID!
+  $diaSemana: String!
+  $fechaInicio: Date!
+  $fechaFin: Date!
+  $horaInicio: String!
+  $horaFin: String!
+  $cupoMaximo: Int!
+  $cupoActual: Int
+  $estado: String
+) @auth(level: PUBLIC) {
+  horario_insert(
+    data: {
+      horarioId: $horarioId
+      curso: { id: $cursoId }
+      diaSemana: $diaSemana
+      fechaInicio: $fechaInicio
+      fechaFin: $fechaFin
+      horaInicio: $horaInicio
+      horaFin: $horaFin
+      cupoMaximo: $cupoMaximo
+      cupoActual: $cupoActual
+      estado: $estado
+    }
+  )
+}
+
+
+mutation UpdateHorario(
+  $horarioInternalId: UUID!
+  $horarioId: Int!
+  $cursoId: UUID!
+  $diaSemana: String!
+  $fechaInicio: Date!
+  $fechaFin: Date!
+  $horaInicio: String!
+  $horaFin: String!
+  $cupoMaximo: Int!
+  $cupoActual: Int!
+  $estado: String
+) @auth(level: PUBLIC) {
+  horario_update(
+    key: { id: $horarioInternalId }
+    data: {
+      horarioId: $horarioId
+      curso: { id: $cursoId }
+      diaSemana: $diaSemana
+      fechaInicio: $fechaInicio
+      fechaFin: $fechaFin
+      horaInicio: $horaInicio
+      horaFin: $horaFin
+      cupoMaximo: $cupoMaximo
+      cupoActual: $cupoActual
+      estado: $estado
+    }
+  )
+}
+
+
+mutation DeleteHorario($horarioInternalId: UUID!) @auth(level: PUBLIC) {
+  horario_delete(key: { id: $horarioInternalId })
+
+}
+
+
 # ── Cursos (estadísticas) ──────────────────────────────────────────────────────
 
 query ListCursosEstadisticas @auth(level: PUBLIC) {
@@ -334,7 +490,7 @@ query ListCursosEstadisticas @auth(level: PUBLIC) {
 
 # ── Horarios ─────────────────────────────────────────────────────────────────
 
-query ListHorarios @auth(level: PUBLIC) {
+query ListHorariosEstadisticas @auth(level: PUBLIC) {
   horarios {
     horarioId
     fechaInicio

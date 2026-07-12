@@ -61,7 +61,7 @@ export default function ClasesView() {
         categoria: form.categoria,
         urlImagen: form.urlImagen,
         estado: form.estado,
-      instructorId: form.instructorId !== "" ? form.instructorId : undefined,
+        instructorId: form.instructorId !== "" ? form.instructorId : undefined,
       },
       {
         onSuccess: () => {

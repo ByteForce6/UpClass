@@ -1,0 +1,155 @@
+.ucv-modal-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #6B7280;
+}
+
+.ucv-field-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: -6px;
+}
+
+.ucv-modal-text {
+  color: #6B7280;
+  margin: 0;
+}
+
+.ucv-modal-text strong {
+  color: #111827;
+}
+
+.ucv-modal-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+  flex-shrink: 0; 
+}
+
+.ucv-btn-primary,
+.ucv-btn-secondary,
+.ucv-btn-danger {
+  flex: 1;
+   min-height: 36px;    /* 👈 nuevo: altura mínima, ya no se ven flacos */
+  padding: 12px 16px;  /* 👈 antes: 10px */
+  font-size: 15px; 
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ucv-btn-primary {
+  background: #0B4AA2;
+  color: #fff;
+}
+
+.ucv-btn-secondary {
+  background: #F3F4F6;
+  color: #374151;
+}
+
+.ucv-btn-danger {
+  background: #DC2626;
+  color: #fff;
+}
+
+/* Scroll único en el contenido del modal */
+.ucv-modal {
+  display: flex;
+  flex-direction: column;
+  max-height: 85vh;
+}
+
+.ucv-modal-body {
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.ucv-modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+.ucv-modal-body::-webkit-scrollbar-thumb {
+  background: #D1D5DB;
+  border-radius: 10px;
+}
+
+
+/* Bloques de día y horario, en tarjetas */
+.ucv-bloques-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.ucv-bloque-card {
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 12px;
+  background: #F9FAFB;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ucv-bloque-card__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ucv-bloque-card__num {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0B4AA2;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.ucv-field-label-sm {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6B7280;
+  margin-bottom: -4px;
+}
+
+.ucv-bloque-horas {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 10px;
+}
+
+.ucv-bloque-hora-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ucv-btn-add-bloque {
+  background: #EFF6FF;
+  color: #0B4AA2;
+  border: 1px solid #BFDBFE;
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ucv-btn-remove-bloque {
+  background: #FEF2F2;
+  color: #DC2626;
+  border: 1px solid #FECACA;
+  border-radius: 8px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}

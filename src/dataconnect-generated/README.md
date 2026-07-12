@@ -18,8 +18,13 @@ This README will guide you through the process of using the generated JavaScript
   - [*BuscarCursoPorNombre*](#buscarcursopornombre)
   - [*CursosPorCategoria*](#cursosporcategoria)
   - [*CursosPorEstado*](#cursosporestado)
-  - [*ListCursosEstadisticas*](#listcursosestadisticas)
   - [*ListHorarios*](#listhorarios)
+  - [*BuscarHorarioPorCurso*](#buscarhorarioporcurso)
+  - [*HorariosPorDia*](#horariospordia)
+  - [*HorariosPorEstado*](#horariosporestado)
+  - [*ListInscripcionesActivas*](#listinscripcionesactivas)
+  - [*ListCursosEstadisticas*](#listcursosestadisticas)
+  - [*ListHorariosEstadisticas*](#listhorariosestadisticas)
   - [*ListHorariosPorEstado*](#listhorariosporestado)
   - [*ListInscripciones*](#listinscripciones)
   - [*ListInscripcionesPorEstado*](#listinscripcionesporestado)
@@ -43,6 +48,9 @@ This README will guide you through the process of using the generated JavaScript
   - [*CreateCurso*](#createcurso)
   - [*UpdateCurso*](#updatecurso)
   - [*DeleteCurso*](#deletecurso)
+  - [*CreateHorario*](#createhorario)
+  - [*UpdateHorario*](#updatehorario)
+  - [*DeleteHorario*](#deletehorario)
   - [*CreateReporteEstadistica*](#createreporteestadistica)
   - [*UpdateReporteEstadistica*](#updatereporteestadistica)
   - [*InsscribirEstudiante*](#insscribirestudiante)
@@ -982,6 +990,579 @@ executeQuery(ref).then((response) => {
 });
 ```
 
+## ListHorarios
+You can execute the `ListHorarios` query using the following action shortcut function, or by calling `executeQuery()` after calling the following `QueryRef` function, both of which are defined in [dataconnect-generated/index.d.ts](./index.d.ts):
+```typescript
+listHorarios(options?: ExecuteQueryOptions): QueryPromise<ListHorariosData, undefined>;
+
+interface ListHorariosRef {
+  ...
+  /* Allow users to create refs without passing in DataConnect */
+  (): QueryRef<ListHorariosData, undefined>;
+}
+export const listHorariosRef: ListHorariosRef;
+```
+You can also pass in a `DataConnect` instance to the action shortcut function or `QueryRef` function.
+```typescript
+listHorarios(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListHorariosData, undefined>;
+
+interface ListHorariosRef {
+  ...
+  (dc: DataConnect): QueryRef<ListHorariosData, undefined>;
+}
+export const listHorariosRef: ListHorariosRef;
+```
+
+If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the listHorariosRef:
+```typescript
+const name = listHorariosRef.operationName;
+console.log(name);
+```
+
+### Variables
+The `ListHorarios` query has no variables.
+### Return Type
+Recall that executing the `ListHorarios` query returns a `QueryPromise` that resolves to an object with a `data` property.
+
+The `data` property is an object of type `ListHorariosData`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+```typescript
+export interface ListHorariosData {
+  horarios: ({
+    id: UUIDString;
+    horarioId: number;
+    curso: {
+      id: UUIDString;
+      cursoId: number;
+      nombre: string;
+    } & Curso_Key;
+    diaSemana: string;
+    fechaInicio: DateString;
+    fechaFin: DateString;
+    horaInicio: string;
+    horaFin: string;
+    cupoMaximo: number;
+    cupoActual: number;
+    estado?: string | null;
+  } & Horario_Key)[];
+}
+```
+### Using `ListHorarios`'s action shortcut function
+
+```typescript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, listHorarios } from '@dataconnect/generated';
+
+
+// Call the `listHorarios()` function to execute the query.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await listHorarios();
+
+// You can also pass in a `DataConnect` instance to the action shortcut function.
+const dataConnect = getDataConnect(connectorConfig);
+const { data } = await listHorarios(dataConnect);
+
+console.log(data.horarios);
+
+// Or, you can use the `Promise` API.
+listHorarios().then((response) => {
+  const data = response.data;
+  console.log(data.horarios);
+});
+```
+
+### Using `ListHorarios`'s `QueryRef` function
+
+```typescript
+import { getDataConnect, executeQuery } from 'firebase/data-connect';
+import { connectorConfig, listHorariosRef } from '@dataconnect/generated';
+
+
+// Call the `listHorariosRef()` function to get a reference to the query.
+const ref = listHorariosRef();
+
+// You can also pass in a `DataConnect` instance to the `QueryRef` function.
+const dataConnect = getDataConnect(connectorConfig);
+const ref = listHorariosRef(dataConnect);
+
+// Call `executeQuery()` on the reference to execute the query.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await executeQuery(ref);
+
+console.log(data.horarios);
+
+// Or, you can use the `Promise` API.
+executeQuery(ref).then((response) => {
+  const data = response.data;
+  console.log(data.horarios);
+});
+```
+
+## BuscarHorarioPorCurso
+You can execute the `BuscarHorarioPorCurso` query using the following action shortcut function, or by calling `executeQuery()` after calling the following `QueryRef` function, both of which are defined in [dataconnect-generated/index.d.ts](./index.d.ts):
+```typescript
+buscarHorarioPorCurso(vars: BuscarHorarioPorCursoVariables, options?: ExecuteQueryOptions): QueryPromise<BuscarHorarioPorCursoData, BuscarHorarioPorCursoVariables>;
+
+interface BuscarHorarioPorCursoRef {
+  ...
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: BuscarHorarioPorCursoVariables): QueryRef<BuscarHorarioPorCursoData, BuscarHorarioPorCursoVariables>;
+}
+export const buscarHorarioPorCursoRef: BuscarHorarioPorCursoRef;
+```
+You can also pass in a `DataConnect` instance to the action shortcut function or `QueryRef` function.
+```typescript
+buscarHorarioPorCurso(dc: DataConnect, vars: BuscarHorarioPorCursoVariables, options?: ExecuteQueryOptions): QueryPromise<BuscarHorarioPorCursoData, BuscarHorarioPorCursoVariables>;
+
+interface BuscarHorarioPorCursoRef {
+  ...
+  (dc: DataConnect, vars: BuscarHorarioPorCursoVariables): QueryRef<BuscarHorarioPorCursoData, BuscarHorarioPorCursoVariables>;
+}
+export const buscarHorarioPorCursoRef: BuscarHorarioPorCursoRef;
+```
+
+If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the buscarHorarioPorCursoRef:
+```typescript
+const name = buscarHorarioPorCursoRef.operationName;
+console.log(name);
+```
+
+### Variables
+The `BuscarHorarioPorCurso` query requires an argument of type `BuscarHorarioPorCursoVariables`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+
+```typescript
+export interface BuscarHorarioPorCursoVariables {
+  cursoId: number;
+}
+```
+### Return Type
+Recall that executing the `BuscarHorarioPorCurso` query returns a `QueryPromise` that resolves to an object with a `data` property.
+
+The `data` property is an object of type `BuscarHorarioPorCursoData`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+```typescript
+export interface BuscarHorarioPorCursoData {
+  horarios: ({
+    id: UUIDString;
+    horarioId: number;
+    curso: {
+      cursoId: number;
+      nombre: string;
+    };
+    diaSemana: string;
+    fechaInicio: DateString;
+    fechaFin: DateString;
+    horaInicio: string;
+    horaFin: string;
+    cupoMaximo: number;
+    cupoActual: number;
+    estado?: string | null;
+  } & Horario_Key)[];
+}
+```
+### Using `BuscarHorarioPorCurso`'s action shortcut function
+
+```typescript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, buscarHorarioPorCurso, BuscarHorarioPorCursoVariables } from '@dataconnect/generated';
+
+// The `BuscarHorarioPorCurso` query requires an argument of type `BuscarHorarioPorCursoVariables`:
+const buscarHorarioPorCursoVars: BuscarHorarioPorCursoVariables = {
+  cursoId: ..., 
+};
+
+// Call the `buscarHorarioPorCurso()` function to execute the query.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await buscarHorarioPorCurso(buscarHorarioPorCursoVars);
+// Variables can be defined inline as well.
+const { data } = await buscarHorarioPorCurso({ cursoId: ..., });
+
+// You can also pass in a `DataConnect` instance to the action shortcut function.
+const dataConnect = getDataConnect(connectorConfig);
+const { data } = await buscarHorarioPorCurso(dataConnect, buscarHorarioPorCursoVars);
+
+console.log(data.horarios);
+
+// Or, you can use the `Promise` API.
+buscarHorarioPorCurso(buscarHorarioPorCursoVars).then((response) => {
+  const data = response.data;
+  console.log(data.horarios);
+});
+```
+
+### Using `BuscarHorarioPorCurso`'s `QueryRef` function
+
+```typescript
+import { getDataConnect, executeQuery } from 'firebase/data-connect';
+import { connectorConfig, buscarHorarioPorCursoRef, BuscarHorarioPorCursoVariables } from '@dataconnect/generated';
+
+// The `BuscarHorarioPorCurso` query requires an argument of type `BuscarHorarioPorCursoVariables`:
+const buscarHorarioPorCursoVars: BuscarHorarioPorCursoVariables = {
+  cursoId: ..., 
+};
+
+// Call the `buscarHorarioPorCursoRef()` function to get a reference to the query.
+const ref = buscarHorarioPorCursoRef(buscarHorarioPorCursoVars);
+// Variables can be defined inline as well.
+const ref = buscarHorarioPorCursoRef({ cursoId: ..., });
+
+// You can also pass in a `DataConnect` instance to the `QueryRef` function.
+const dataConnect = getDataConnect(connectorConfig);
+const ref = buscarHorarioPorCursoRef(dataConnect, buscarHorarioPorCursoVars);
+
+// Call `executeQuery()` on the reference to execute the query.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await executeQuery(ref);
+
+console.log(data.horarios);
+
+// Or, you can use the `Promise` API.
+executeQuery(ref).then((response) => {
+  const data = response.data;
+  console.log(data.horarios);
+});
+```
+
+## HorariosPorDia
+You can execute the `HorariosPorDia` query using the following action shortcut function, or by calling `executeQuery()` after calling the following `QueryRef` function, both of which are defined in [dataconnect-generated/index.d.ts](./index.d.ts):
+```typescript
+horariosPorDia(vars: HorariosPorDiaVariables, options?: ExecuteQueryOptions): QueryPromise<HorariosPorDiaData, HorariosPorDiaVariables>;
+
+interface HorariosPorDiaRef {
+  ...
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: HorariosPorDiaVariables): QueryRef<HorariosPorDiaData, HorariosPorDiaVariables>;
+}
+export const horariosPorDiaRef: HorariosPorDiaRef;
+```
+You can also pass in a `DataConnect` instance to the action shortcut function or `QueryRef` function.
+```typescript
+horariosPorDia(dc: DataConnect, vars: HorariosPorDiaVariables, options?: ExecuteQueryOptions): QueryPromise<HorariosPorDiaData, HorariosPorDiaVariables>;
+
+interface HorariosPorDiaRef {
+  ...
+  (dc: DataConnect, vars: HorariosPorDiaVariables): QueryRef<HorariosPorDiaData, HorariosPorDiaVariables>;
+}
+export const horariosPorDiaRef: HorariosPorDiaRef;
+```
+
+If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the horariosPorDiaRef:
+```typescript
+const name = horariosPorDiaRef.operationName;
+console.log(name);
+```
+
+### Variables
+The `HorariosPorDia` query requires an argument of type `HorariosPorDiaVariables`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+
+```typescript
+export interface HorariosPorDiaVariables {
+  diaSemana: string;
+}
+```
+### Return Type
+Recall that executing the `HorariosPorDia` query returns a `QueryPromise` that resolves to an object with a `data` property.
+
+The `data` property is an object of type `HorariosPorDiaData`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+```typescript
+export interface HorariosPorDiaData {
+  horarios: ({
+    id: UUIDString;
+    horarioId: number;
+    curso: {
+      nombre: string;
+    };
+    diaSemana: string;
+    fechaInicio: DateString;
+    fechaFin: DateString;
+    horaInicio: string;
+    horaFin: string;
+    cupoMaximo: number;
+    cupoActual: number;
+    estado?: string | null;
+  } & Horario_Key)[];
+}
+```
+### Using `HorariosPorDia`'s action shortcut function
+
+```typescript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, horariosPorDia, HorariosPorDiaVariables } from '@dataconnect/generated';
+
+// The `HorariosPorDia` query requires an argument of type `HorariosPorDiaVariables`:
+const horariosPorDiaVars: HorariosPorDiaVariables = {
+  diaSemana: ..., 
+};
+
+// Call the `horariosPorDia()` function to execute the query.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await horariosPorDia(horariosPorDiaVars);
+// Variables can be defined inline as well.
+const { data } = await horariosPorDia({ diaSemana: ..., });
+
+// You can also pass in a `DataConnect` instance to the action shortcut function.
+const dataConnect = getDataConnect(connectorConfig);
+const { data } = await horariosPorDia(dataConnect, horariosPorDiaVars);
+
+console.log(data.horarios);
+
+// Or, you can use the `Promise` API.
+horariosPorDia(horariosPorDiaVars).then((response) => {
+  const data = response.data;
+  console.log(data.horarios);
+});
+```
+
+### Using `HorariosPorDia`'s `QueryRef` function
+
+```typescript
+import { getDataConnect, executeQuery } from 'firebase/data-connect';
+import { connectorConfig, horariosPorDiaRef, HorariosPorDiaVariables } from '@dataconnect/generated';
+
+// The `HorariosPorDia` query requires an argument of type `HorariosPorDiaVariables`:
+const horariosPorDiaVars: HorariosPorDiaVariables = {
+  diaSemana: ..., 
+};
+
+// Call the `horariosPorDiaRef()` function to get a reference to the query.
+const ref = horariosPorDiaRef(horariosPorDiaVars);
+// Variables can be defined inline as well.
+const ref = horariosPorDiaRef({ diaSemana: ..., });
+
+// You can also pass in a `DataConnect` instance to the `QueryRef` function.
+const dataConnect = getDataConnect(connectorConfig);
+const ref = horariosPorDiaRef(dataConnect, horariosPorDiaVars);
+
+// Call `executeQuery()` on the reference to execute the query.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await executeQuery(ref);
+
+console.log(data.horarios);
+
+// Or, you can use the `Promise` API.
+executeQuery(ref).then((response) => {
+  const data = response.data;
+  console.log(data.horarios);
+});
+```
+
+## HorariosPorEstado
+You can execute the `HorariosPorEstado` query using the following action shortcut function, or by calling `executeQuery()` after calling the following `QueryRef` function, both of which are defined in [dataconnect-generated/index.d.ts](./index.d.ts):
+```typescript
+horariosPorEstado(vars: HorariosPorEstadoVariables, options?: ExecuteQueryOptions): QueryPromise<HorariosPorEstadoData, HorariosPorEstadoVariables>;
+
+interface HorariosPorEstadoRef {
+  ...
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: HorariosPorEstadoVariables): QueryRef<HorariosPorEstadoData, HorariosPorEstadoVariables>;
+}
+export const horariosPorEstadoRef: HorariosPorEstadoRef;
+```
+You can also pass in a `DataConnect` instance to the action shortcut function or `QueryRef` function.
+```typescript
+horariosPorEstado(dc: DataConnect, vars: HorariosPorEstadoVariables, options?: ExecuteQueryOptions): QueryPromise<HorariosPorEstadoData, HorariosPorEstadoVariables>;
+
+interface HorariosPorEstadoRef {
+  ...
+  (dc: DataConnect, vars: HorariosPorEstadoVariables): QueryRef<HorariosPorEstadoData, HorariosPorEstadoVariables>;
+}
+export const horariosPorEstadoRef: HorariosPorEstadoRef;
+```
+
+If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the horariosPorEstadoRef:
+```typescript
+const name = horariosPorEstadoRef.operationName;
+console.log(name);
+```
+
+### Variables
+The `HorariosPorEstado` query requires an argument of type `HorariosPorEstadoVariables`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+
+```typescript
+export interface HorariosPorEstadoVariables {
+  estado: string;
+}
+```
+### Return Type
+Recall that executing the `HorariosPorEstado` query returns a `QueryPromise` that resolves to an object with a `data` property.
+
+The `data` property is an object of type `HorariosPorEstadoData`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+```typescript
+export interface HorariosPorEstadoData {
+  horarios: ({
+    id: UUIDString;
+    horarioId: number;
+    curso: {
+      nombre: string;
+    };
+    diaSemana: string;
+    fechaInicio: DateString;
+    fechaFin: DateString;
+    horaInicio: string;
+    horaFin: string;
+    cupoMaximo: number;
+    cupoActual: number;
+    estado?: string | null;
+  } & Horario_Key)[];
+}
+```
+### Using `HorariosPorEstado`'s action shortcut function
+
+```typescript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, horariosPorEstado, HorariosPorEstadoVariables } from '@dataconnect/generated';
+
+// The `HorariosPorEstado` query requires an argument of type `HorariosPorEstadoVariables`:
+const horariosPorEstadoVars: HorariosPorEstadoVariables = {
+  estado: ..., 
+};
+
+// Call the `horariosPorEstado()` function to execute the query.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await horariosPorEstado(horariosPorEstadoVars);
+// Variables can be defined inline as well.
+const { data } = await horariosPorEstado({ estado: ..., });
+
+// You can also pass in a `DataConnect` instance to the action shortcut function.
+const dataConnect = getDataConnect(connectorConfig);
+const { data } = await horariosPorEstado(dataConnect, horariosPorEstadoVars);
+
+console.log(data.horarios);
+
+// Or, you can use the `Promise` API.
+horariosPorEstado(horariosPorEstadoVars).then((response) => {
+  const data = response.data;
+  console.log(data.horarios);
+});
+```
+
+### Using `HorariosPorEstado`'s `QueryRef` function
+
+```typescript
+import { getDataConnect, executeQuery } from 'firebase/data-connect';
+import { connectorConfig, horariosPorEstadoRef, HorariosPorEstadoVariables } from '@dataconnect/generated';
+
+// The `HorariosPorEstado` query requires an argument of type `HorariosPorEstadoVariables`:
+const horariosPorEstadoVars: HorariosPorEstadoVariables = {
+  estado: ..., 
+};
+
+// Call the `horariosPorEstadoRef()` function to get a reference to the query.
+const ref = horariosPorEstadoRef(horariosPorEstadoVars);
+// Variables can be defined inline as well.
+const ref = horariosPorEstadoRef({ estado: ..., });
+
+// You can also pass in a `DataConnect` instance to the `QueryRef` function.
+const dataConnect = getDataConnect(connectorConfig);
+const ref = horariosPorEstadoRef(dataConnect, horariosPorEstadoVars);
+
+// Call `executeQuery()` on the reference to execute the query.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await executeQuery(ref);
+
+console.log(data.horarios);
+
+// Or, you can use the `Promise` API.
+executeQuery(ref).then((response) => {
+  const data = response.data;
+  console.log(data.horarios);
+});
+```
+
+## ListInscripcionesActivas
+You can execute the `ListInscripcionesActivas` query using the following action shortcut function, or by calling `executeQuery()` after calling the following `QueryRef` function, both of which are defined in [dataconnect-generated/index.d.ts](./index.d.ts):
+```typescript
+listInscripcionesActivas(options?: ExecuteQueryOptions): QueryPromise<ListInscripcionesActivasData, undefined>;
+
+interface ListInscripcionesActivasRef {
+  ...
+  /* Allow users to create refs without passing in DataConnect */
+  (): QueryRef<ListInscripcionesActivasData, undefined>;
+}
+export const listInscripcionesActivasRef: ListInscripcionesActivasRef;
+```
+You can also pass in a `DataConnect` instance to the action shortcut function or `QueryRef` function.
+```typescript
+listInscripcionesActivas(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListInscripcionesActivasData, undefined>;
+
+interface ListInscripcionesActivasRef {
+  ...
+  (dc: DataConnect): QueryRef<ListInscripcionesActivasData, undefined>;
+}
+export const listInscripcionesActivasRef: ListInscripcionesActivasRef;
+```
+
+If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the listInscripcionesActivasRef:
+```typescript
+const name = listInscripcionesActivasRef.operationName;
+console.log(name);
+```
+
+### Variables
+The `ListInscripcionesActivas` query has no variables.
+### Return Type
+Recall that executing the `ListInscripcionesActivas` query returns a `QueryPromise` that resolves to an object with a `data` property.
+
+The `data` property is an object of type `ListInscripcionesActivasData`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+```typescript
+export interface ListInscripcionesActivasData {
+  inscripcions: ({
+    inscripcionId: string;
+    horario: {
+      horarioId: number;
+    };
+  })[];
+}
+```
+### Using `ListInscripcionesActivas`'s action shortcut function
+
+```typescript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, listInscripcionesActivas } from '@dataconnect/generated';
+
+
+// Call the `listInscripcionesActivas()` function to execute the query.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await listInscripcionesActivas();
+
+// You can also pass in a `DataConnect` instance to the action shortcut function.
+const dataConnect = getDataConnect(connectorConfig);
+const { data } = await listInscripcionesActivas(dataConnect);
+
+console.log(data.inscripcions);
+
+// Or, you can use the `Promise` API.
+listInscripcionesActivas().then((response) => {
+  const data = response.data;
+  console.log(data.inscripcions);
+});
+```
+
+### Using `ListInscripcionesActivas`'s `QueryRef` function
+
+```typescript
+import { getDataConnect, executeQuery } from 'firebase/data-connect';
+import { connectorConfig, listInscripcionesActivasRef } from '@dataconnect/generated';
+
+
+// Call the `listInscripcionesActivasRef()` function to get a reference to the query.
+const ref = listInscripcionesActivasRef();
+
+// You can also pass in a `DataConnect` instance to the `QueryRef` function.
+const dataConnect = getDataConnect(connectorConfig);
+const ref = listInscripcionesActivasRef(dataConnect);
+
+// Call `executeQuery()` on the reference to execute the query.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await executeQuery(ref);
+
+console.log(data.inscripcions);
+
+// Or, you can use the `Promise` API.
+executeQuery(ref).then((response) => {
+  const data = response.data;
+  console.log(data.inscripcions);
+});
+```
+
 ## ListCursosEstadisticas
 You can execute the `ListCursosEstadisticas` query using the following action shortcut function, or by calling `executeQuery()` after calling the following `QueryRef` function, both of which are defined in [dataconnect-generated/index.d.ts](./index.d.ts):
 ```typescript
@@ -1086,43 +1667,43 @@ executeQuery(ref).then((response) => {
 });
 ```
 
-## ListHorarios
-You can execute the `ListHorarios` query using the following action shortcut function, or by calling `executeQuery()` after calling the following `QueryRef` function, both of which are defined in [dataconnect-generated/index.d.ts](./index.d.ts):
+## ListHorariosEstadisticas
+You can execute the `ListHorariosEstadisticas` query using the following action shortcut function, or by calling `executeQuery()` after calling the following `QueryRef` function, both of which are defined in [dataconnect-generated/index.d.ts](./index.d.ts):
 ```typescript
-listHorarios(options?: ExecuteQueryOptions): QueryPromise<ListHorariosData, undefined>;
+listHorariosEstadisticas(options?: ExecuteQueryOptions): QueryPromise<ListHorariosEstadisticasData, undefined>;
 
-interface ListHorariosRef {
+interface ListHorariosEstadisticasRef {
   ...
   /* Allow users to create refs without passing in DataConnect */
-  (): QueryRef<ListHorariosData, undefined>;
+  (): QueryRef<ListHorariosEstadisticasData, undefined>;
 }
-export const listHorariosRef: ListHorariosRef;
+export const listHorariosEstadisticasRef: ListHorariosEstadisticasRef;
 ```
 You can also pass in a `DataConnect` instance to the action shortcut function or `QueryRef` function.
 ```typescript
-listHorarios(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListHorariosData, undefined>;
+listHorariosEstadisticas(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListHorariosEstadisticasData, undefined>;
 
-interface ListHorariosRef {
+interface ListHorariosEstadisticasRef {
   ...
-  (dc: DataConnect): QueryRef<ListHorariosData, undefined>;
+  (dc: DataConnect): QueryRef<ListHorariosEstadisticasData, undefined>;
 }
-export const listHorariosRef: ListHorariosRef;
+export const listHorariosEstadisticasRef: ListHorariosEstadisticasRef;
 ```
 
-If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the listHorariosRef:
+If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the listHorariosEstadisticasRef:
 ```typescript
-const name = listHorariosRef.operationName;
+const name = listHorariosEstadisticasRef.operationName;
 console.log(name);
 ```
 
 ### Variables
-The `ListHorarios` query has no variables.
+The `ListHorariosEstadisticas` query has no variables.
 ### Return Type
-Recall that executing the `ListHorarios` query returns a `QueryPromise` that resolves to an object with a `data` property.
+Recall that executing the `ListHorariosEstadisticas` query returns a `QueryPromise` that resolves to an object with a `data` property.
 
-The `data` property is an object of type `ListHorariosData`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+The `data` property is an object of type `ListHorariosEstadisticasData`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
 ```typescript
-export interface ListHorariosData {
+export interface ListHorariosEstadisticasData {
   horarios: ({
     horarioId: number;
     fechaInicio: DateString;
@@ -1140,43 +1721,43 @@ export interface ListHorariosData {
   })[];
 }
 ```
-### Using `ListHorarios`'s action shortcut function
+### Using `ListHorariosEstadisticas`'s action shortcut function
 
 ```typescript
 import { getDataConnect } from 'firebase/data-connect';
-import { connectorConfig, listHorarios } from '@dataconnect/generated';
+import { connectorConfig, listHorariosEstadisticas } from '@dataconnect/generated';
 
 
-// Call the `listHorarios()` function to execute the query.
+// Call the `listHorariosEstadisticas()` function to execute the query.
 // You can use the `await` keyword to wait for the promise to resolve.
-const { data } = await listHorarios();
+const { data } = await listHorariosEstadisticas();
 
 // You can also pass in a `DataConnect` instance to the action shortcut function.
 const dataConnect = getDataConnect(connectorConfig);
-const { data } = await listHorarios(dataConnect);
+const { data } = await listHorariosEstadisticas(dataConnect);
 
 console.log(data.horarios);
 
 // Or, you can use the `Promise` API.
-listHorarios().then((response) => {
+listHorariosEstadisticas().then((response) => {
   const data = response.data;
   console.log(data.horarios);
 });
 ```
 
-### Using `ListHorarios`'s `QueryRef` function
+### Using `ListHorariosEstadisticas`'s `QueryRef` function
 
 ```typescript
 import { getDataConnect, executeQuery } from 'firebase/data-connect';
-import { connectorConfig, listHorariosRef } from '@dataconnect/generated';
+import { connectorConfig, listHorariosEstadisticasRef } from '@dataconnect/generated';
 
 
-// Call the `listHorariosRef()` function to get a reference to the query.
-const ref = listHorariosRef();
+// Call the `listHorariosEstadisticasRef()` function to get a reference to the query.
+const ref = listHorariosEstadisticasRef();
 
 // You can also pass in a `DataConnect` instance to the `QueryRef` function.
 const dataConnect = getDataConnect(connectorConfig);
-const ref = listHorariosRef(dataConnect);
+const ref = listHorariosEstadisticasRef(dataConnect);
 
 // Call `executeQuery()` on the reference to execute the query.
 // You can use the `await` keyword to wait for the promise to resolve.
@@ -3865,6 +4446,390 @@ console.log(data.curso_delete);
 executeMutation(ref).then((response) => {
   const data = response.data;
   console.log(data.curso_delete);
+});
+```
+
+## CreateHorario
+You can execute the `CreateHorario` mutation using the following action shortcut function, or by calling `executeMutation()` after calling the following `MutationRef` function, both of which are defined in [dataconnect-generated/index.d.ts](./index.d.ts):
+```typescript
+createHorario(vars: CreateHorarioVariables): MutationPromise<CreateHorarioData, CreateHorarioVariables>;
+
+interface CreateHorarioRef {
+  ...
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: CreateHorarioVariables): MutationRef<CreateHorarioData, CreateHorarioVariables>;
+}
+export const createHorarioRef: CreateHorarioRef;
+```
+You can also pass in a `DataConnect` instance to the action shortcut function or `MutationRef` function.
+```typescript
+createHorario(dc: DataConnect, vars: CreateHorarioVariables): MutationPromise<CreateHorarioData, CreateHorarioVariables>;
+
+interface CreateHorarioRef {
+  ...
+  (dc: DataConnect, vars: CreateHorarioVariables): MutationRef<CreateHorarioData, CreateHorarioVariables>;
+}
+export const createHorarioRef: CreateHorarioRef;
+```
+
+If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the createHorarioRef:
+```typescript
+const name = createHorarioRef.operationName;
+console.log(name);
+```
+
+### Variables
+The `CreateHorario` mutation requires an argument of type `CreateHorarioVariables`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+
+```typescript
+export interface CreateHorarioVariables {
+  horarioId: number;
+  cursoId: UUIDString;
+  diaSemana: string;
+  fechaInicio: DateString;
+  fechaFin: DateString;
+  horaInicio: string;
+  horaFin: string;
+  cupoMaximo: number;
+  cupoActual?: number | null;
+  estado?: string | null;
+}
+```
+### Return Type
+Recall that executing the `CreateHorario` mutation returns a `MutationPromise` that resolves to an object with a `data` property.
+
+The `data` property is an object of type `CreateHorarioData`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+```typescript
+export interface CreateHorarioData {
+  horario_insert: Horario_Key;
+}
+```
+### Using `CreateHorario`'s action shortcut function
+
+```typescript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, createHorario, CreateHorarioVariables } from '@dataconnect/generated';
+
+// The `CreateHorario` mutation requires an argument of type `CreateHorarioVariables`:
+const createHorarioVars: CreateHorarioVariables = {
+  horarioId: ..., 
+  cursoId: ..., 
+  diaSemana: ..., 
+  fechaInicio: ..., 
+  fechaFin: ..., 
+  horaInicio: ..., 
+  horaFin: ..., 
+  cupoMaximo: ..., 
+  cupoActual: ..., // optional
+  estado: ..., // optional
+};
+
+// Call the `createHorario()` function to execute the mutation.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await createHorario(createHorarioVars);
+// Variables can be defined inline as well.
+const { data } = await createHorario({ horarioId: ..., cursoId: ..., diaSemana: ..., fechaInicio: ..., fechaFin: ..., horaInicio: ..., horaFin: ..., cupoMaximo: ..., cupoActual: ..., estado: ..., });
+
+// You can also pass in a `DataConnect` instance to the action shortcut function.
+const dataConnect = getDataConnect(connectorConfig);
+const { data } = await createHorario(dataConnect, createHorarioVars);
+
+console.log(data.horario_insert);
+
+// Or, you can use the `Promise` API.
+createHorario(createHorarioVars).then((response) => {
+  const data = response.data;
+  console.log(data.horario_insert);
+});
+```
+
+### Using `CreateHorario`'s `MutationRef` function
+
+```typescript
+import { getDataConnect, executeMutation } from 'firebase/data-connect';
+import { connectorConfig, createHorarioRef, CreateHorarioVariables } from '@dataconnect/generated';
+
+// The `CreateHorario` mutation requires an argument of type `CreateHorarioVariables`:
+const createHorarioVars: CreateHorarioVariables = {
+  horarioId: ..., 
+  cursoId: ..., 
+  diaSemana: ..., 
+  fechaInicio: ..., 
+  fechaFin: ..., 
+  horaInicio: ..., 
+  horaFin: ..., 
+  cupoMaximo: ..., 
+  cupoActual: ..., // optional
+  estado: ..., // optional
+};
+
+// Call the `createHorarioRef()` function to get a reference to the mutation.
+const ref = createHorarioRef(createHorarioVars);
+// Variables can be defined inline as well.
+const ref = createHorarioRef({ horarioId: ..., cursoId: ..., diaSemana: ..., fechaInicio: ..., fechaFin: ..., horaInicio: ..., horaFin: ..., cupoMaximo: ..., cupoActual: ..., estado: ..., });
+
+// You can also pass in a `DataConnect` instance to the `MutationRef` function.
+const dataConnect = getDataConnect(connectorConfig);
+const ref = createHorarioRef(dataConnect, createHorarioVars);
+
+// Call `executeMutation()` on the reference to execute the mutation.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await executeMutation(ref);
+
+console.log(data.horario_insert);
+
+// Or, you can use the `Promise` API.
+executeMutation(ref).then((response) => {
+  const data = response.data;
+  console.log(data.horario_insert);
+});
+```
+
+## UpdateHorario
+You can execute the `UpdateHorario` mutation using the following action shortcut function, or by calling `executeMutation()` after calling the following `MutationRef` function, both of which are defined in [dataconnect-generated/index.d.ts](./index.d.ts):
+```typescript
+updateHorario(vars: UpdateHorarioVariables): MutationPromise<UpdateHorarioData, UpdateHorarioVariables>;
+
+interface UpdateHorarioRef {
+  ...
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: UpdateHorarioVariables): MutationRef<UpdateHorarioData, UpdateHorarioVariables>;
+}
+export const updateHorarioRef: UpdateHorarioRef;
+```
+You can also pass in a `DataConnect` instance to the action shortcut function or `MutationRef` function.
+```typescript
+updateHorario(dc: DataConnect, vars: UpdateHorarioVariables): MutationPromise<UpdateHorarioData, UpdateHorarioVariables>;
+
+interface UpdateHorarioRef {
+  ...
+  (dc: DataConnect, vars: UpdateHorarioVariables): MutationRef<UpdateHorarioData, UpdateHorarioVariables>;
+}
+export const updateHorarioRef: UpdateHorarioRef;
+```
+
+If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the updateHorarioRef:
+```typescript
+const name = updateHorarioRef.operationName;
+console.log(name);
+```
+
+### Variables
+The `UpdateHorario` mutation requires an argument of type `UpdateHorarioVariables`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+
+```typescript
+export interface UpdateHorarioVariables {
+  horarioInternalId: UUIDString;
+  horarioId: number;
+  cursoId: UUIDString;
+  diaSemana: string;
+  fechaInicio: DateString;
+  fechaFin: DateString;
+  horaInicio: string;
+  horaFin: string;
+  cupoMaximo: number;
+  cupoActual: number;
+  estado?: string | null;
+}
+```
+### Return Type
+Recall that executing the `UpdateHorario` mutation returns a `MutationPromise` that resolves to an object with a `data` property.
+
+The `data` property is an object of type `UpdateHorarioData`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+```typescript
+export interface UpdateHorarioData {
+  horario_update?: Horario_Key | null;
+}
+```
+### Using `UpdateHorario`'s action shortcut function
+
+```typescript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, updateHorario, UpdateHorarioVariables } from '@dataconnect/generated';
+
+// The `UpdateHorario` mutation requires an argument of type `UpdateHorarioVariables`:
+const updateHorarioVars: UpdateHorarioVariables = {
+  horarioInternalId: ..., 
+  horarioId: ..., 
+  cursoId: ..., 
+  diaSemana: ..., 
+  fechaInicio: ..., 
+  fechaFin: ..., 
+  horaInicio: ..., 
+  horaFin: ..., 
+  cupoMaximo: ..., 
+  cupoActual: ..., 
+  estado: ..., // optional
+};
+
+// Call the `updateHorario()` function to execute the mutation.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await updateHorario(updateHorarioVars);
+// Variables can be defined inline as well.
+const { data } = await updateHorario({ horarioInternalId: ..., horarioId: ..., cursoId: ..., diaSemana: ..., fechaInicio: ..., fechaFin: ..., horaInicio: ..., horaFin: ..., cupoMaximo: ..., cupoActual: ..., estado: ..., });
+
+// You can also pass in a `DataConnect` instance to the action shortcut function.
+const dataConnect = getDataConnect(connectorConfig);
+const { data } = await updateHorario(dataConnect, updateHorarioVars);
+
+console.log(data.horario_update);
+
+// Or, you can use the `Promise` API.
+updateHorario(updateHorarioVars).then((response) => {
+  const data = response.data;
+  console.log(data.horario_update);
+});
+```
+
+### Using `UpdateHorario`'s `MutationRef` function
+
+```typescript
+import { getDataConnect, executeMutation } from 'firebase/data-connect';
+import { connectorConfig, updateHorarioRef, UpdateHorarioVariables } from '@dataconnect/generated';
+
+// The `UpdateHorario` mutation requires an argument of type `UpdateHorarioVariables`:
+const updateHorarioVars: UpdateHorarioVariables = {
+  horarioInternalId: ..., 
+  horarioId: ..., 
+  cursoId: ..., 
+  diaSemana: ..., 
+  fechaInicio: ..., 
+  fechaFin: ..., 
+  horaInicio: ..., 
+  horaFin: ..., 
+  cupoMaximo: ..., 
+  cupoActual: ..., 
+  estado: ..., // optional
+};
+
+// Call the `updateHorarioRef()` function to get a reference to the mutation.
+const ref = updateHorarioRef(updateHorarioVars);
+// Variables can be defined inline as well.
+const ref = updateHorarioRef({ horarioInternalId: ..., horarioId: ..., cursoId: ..., diaSemana: ..., fechaInicio: ..., fechaFin: ..., horaInicio: ..., horaFin: ..., cupoMaximo: ..., cupoActual: ..., estado: ..., });
+
+// You can also pass in a `DataConnect` instance to the `MutationRef` function.
+const dataConnect = getDataConnect(connectorConfig);
+const ref = updateHorarioRef(dataConnect, updateHorarioVars);
+
+// Call `executeMutation()` on the reference to execute the mutation.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await executeMutation(ref);
+
+console.log(data.horario_update);
+
+// Or, you can use the `Promise` API.
+executeMutation(ref).then((response) => {
+  const data = response.data;
+  console.log(data.horario_update);
+});
+```
+
+## DeleteHorario
+You can execute the `DeleteHorario` mutation using the following action shortcut function, or by calling `executeMutation()` after calling the following `MutationRef` function, both of which are defined in [dataconnect-generated/index.d.ts](./index.d.ts):
+```typescript
+deleteHorario(vars: DeleteHorarioVariables): MutationPromise<DeleteHorarioData, DeleteHorarioVariables>;
+
+interface DeleteHorarioRef {
+  ...
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: DeleteHorarioVariables): MutationRef<DeleteHorarioData, DeleteHorarioVariables>;
+}
+export const deleteHorarioRef: DeleteHorarioRef;
+```
+You can also pass in a `DataConnect` instance to the action shortcut function or `MutationRef` function.
+```typescript
+deleteHorario(dc: DataConnect, vars: DeleteHorarioVariables): MutationPromise<DeleteHorarioData, DeleteHorarioVariables>;
+
+interface DeleteHorarioRef {
+  ...
+  (dc: DataConnect, vars: DeleteHorarioVariables): MutationRef<DeleteHorarioData, DeleteHorarioVariables>;
+}
+export const deleteHorarioRef: DeleteHorarioRef;
+```
+
+If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the deleteHorarioRef:
+```typescript
+const name = deleteHorarioRef.operationName;
+console.log(name);
+```
+
+### Variables
+The `DeleteHorario` mutation requires an argument of type `DeleteHorarioVariables`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+
+```typescript
+export interface DeleteHorarioVariables {
+  horarioInternalId: UUIDString;
+}
+```
+### Return Type
+Recall that executing the `DeleteHorario` mutation returns a `MutationPromise` that resolves to an object with a `data` property.
+
+The `data` property is an object of type `DeleteHorarioData`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+```typescript
+export interface DeleteHorarioData {
+  horario_delete?: Horario_Key | null;
+}
+```
+### Using `DeleteHorario`'s action shortcut function
+
+```typescript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, deleteHorario, DeleteHorarioVariables } from '@dataconnect/generated';
+
+// The `DeleteHorario` mutation requires an argument of type `DeleteHorarioVariables`:
+const deleteHorarioVars: DeleteHorarioVariables = {
+  horarioInternalId: ..., 
+};
+
+// Call the `deleteHorario()` function to execute the mutation.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await deleteHorario(deleteHorarioVars);
+// Variables can be defined inline as well.
+const { data } = await deleteHorario({ horarioInternalId: ..., });
+
+// You can also pass in a `DataConnect` instance to the action shortcut function.
+const dataConnect = getDataConnect(connectorConfig);
+const { data } = await deleteHorario(dataConnect, deleteHorarioVars);
+
+console.log(data.horario_delete);
+
+// Or, you can use the `Promise` API.
+deleteHorario(deleteHorarioVars).then((response) => {
+  const data = response.data;
+  console.log(data.horario_delete);
+});
+```
+
+### Using `DeleteHorario`'s `MutationRef` function
+
+```typescript
+import { getDataConnect, executeMutation } from 'firebase/data-connect';
+import { connectorConfig, deleteHorarioRef, DeleteHorarioVariables } from '@dataconnect/generated';
+
+// The `DeleteHorario` mutation requires an argument of type `DeleteHorarioVariables`:
+const deleteHorarioVars: DeleteHorarioVariables = {
+  horarioInternalId: ..., 
+};
+
+// Call the `deleteHorarioRef()` function to get a reference to the mutation.
+const ref = deleteHorarioRef(deleteHorarioVars);
+// Variables can be defined inline as well.
+const ref = deleteHorarioRef({ horarioInternalId: ..., });
+
+// You can also pass in a `DataConnect` instance to the `MutationRef` function.
+const dataConnect = getDataConnect(connectorConfig);
+const ref = deleteHorarioRef(dataConnect, deleteHorarioVars);
+
+// Call `executeMutation()` on the reference to execute the mutation.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await executeMutation(ref);
+
+console.log(data.horario_delete);
+
+// Or, you can use the `Promise` API.
+executeMutation(ref).then((response) => {
+  const data = response.data;
+  console.log(data.horario_delete);
 });
 ```
 
