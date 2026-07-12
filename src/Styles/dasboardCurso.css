@@ -1,0 +1,10 @@
+.ucv-modal textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px;
+  border: 1px solid #E5E7EB;
+  border-radius: 10px;
+  font-size: 14px;
+  resize: vertical;
+  font-family: inherit;
+}
