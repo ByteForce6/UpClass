@@ -67,14 +67,6 @@ export interface BuscarCursoPorNombreVariables {
   nombre: string;
 }
 
-<<<<<<< Updated upstream
-export interface CancelarInscripcionData {
-  inscripcion_update?: Inscripcion_Key | null;
-}
-
-export interface CancelarInscripcionVariables {
-  inscripcionInternalId: UUIDString;
-=======
 export interface BuscarHorarioPorCursoData {
   horarios: ({
     id: UUIDString;
@@ -96,7 +88,14 @@ export interface BuscarHorarioPorCursoData {
 
 export interface BuscarHorarioPorCursoVariables {
   cursoId: number;
->>>>>>> Stashed changes
+}
+
+export interface CancelarInscripcionData {
+  inscripcion_update?: Inscripcion_Key | null;
+}
+
+export interface CancelarInscripcionVariables {
+  inscripcionInternalId: UUIDString;
 }
 
 export interface CrearEstudianteData {

@@ -6,6 +6,7 @@ import {
   useUpdateCurso,
   useDeleteCurso,
 } from "../../dataconnect-generated/react";
+import "../../Styles/dasboardCurso.css"
 
 interface FormCurso {
   nombre: string;
@@ -211,27 +212,27 @@ export default function ClasesView() {
                       <td>{curso.instructor?.usuario?.nombreCompleto || "Sin instructor"}</td>
                       <td><span className="ucv-badge">{curso.estado}</span></td>
                       {/* CÓDIGO REEMPLAZADO EN TU FILA DE LA TABLA */}
-<td>
-  <div className="ucv-actions">
-    {/* Botón de Editar */}
-    <button 
-      className="ucv-action-btn ucv-action-btn--edit" 
-      title="Editar" 
-      onClick={() => handleOpenEdit(curso)}
-    >
-      <i className="ti ti-pencil" aria-hidden="true" />
-    </button>
+                      <td>
+                        <div className="ucv-actions">
+                          {/* Botón de Editar */}
+                          <button
+                            className="ucv-action-btn ucv-action-btn--edit"
+                            title="Editar"
+                            onClick={() => handleOpenEdit(curso)}
+                          >
+                            <i className="ti ti-pencil" aria-hidden="true" />
+                          </button>
 
-    {/* Botón de Eliminar */}
-    <button 
-      className="ucv-action-btn ucv-action-btn--delete" 
-      title="Eliminar" 
-      onClick={() => handleOpenDelete(curso)}
-    >
-      <i className="ti ti-trash" aria-hidden="true" />
-    </button>
-  </div>
-</td>
+                          {/* Botón de Eliminar */}
+                          <button
+                            className="ucv-action-btn ucv-action-btn--delete"
+                            title="Eliminar"
+                            onClick={() => handleOpenDelete(curso)}
+                          >
+                            <i className="ti ti-trash" aria-hidden="true" />
+                          </button>
+                        </div>
+                      </td>
                     </tr>
                   ))
                 )}
@@ -250,7 +251,13 @@ export default function ClasesView() {
               <button onClick={() => setOpenCreate(false)} style={{ background: "none", border: "none", fontSize: 20, cursor: "pointer", color: "#6B7280" }}>✕</button>
             </div>
             <input placeholder="Nombre" value={form.nombre} onChange={(e) => setForm({ ...form, nombre: e.target.value })} />
-            <input placeholder="Descripción" value={form.descripcion} onChange={(e) => setForm({ ...form, descripcion: e.target.value })} />
+            <textarea
+              placeholder="Descripción"
+              value={form.descripcion}
+              onChange={(e) => setForm({ ...form, descripcion: e.target.value })}
+              rows={4}
+            />
+
             <input placeholder="Categoría" value={form.categoria} onChange={(e) => setForm({ ...form, categoria: e.target.value })} />
             <input placeholder="URL Imagen" value={form.urlImagen} onChange={(e) => setForm({ ...form, urlImagen: e.target.value })} />
             <select value={form.estado} onChange={(e) => setForm({ ...form, estado: e.target.value })}>
@@ -284,7 +291,13 @@ export default function ClasesView() {
               <button onClick={() => setOpenEdit(false)} style={{ background: "none", border: "none", fontSize: 20, cursor: "pointer", color: "#6B7280" }}>✕</button>
             </div>
             <input placeholder="Nombre" value={form.nombre} onChange={(e) => setForm({ ...form, nombre: e.target.value })} />
-            <input placeholder="Descripción" value={form.descripcion} onChange={(e) => setForm({ ...form, descripcion: e.target.value })} />
+            <textarea
+              placeholder="Descripción"
+              value={form.descripcion}
+              onChange={(e) => setForm({ ...form, descripcion: e.target.value })}
+              rows={4}  
+            />
+
             <input placeholder="Categoría" value={form.categoria} onChange={(e) => setForm({ ...form, categoria: e.target.value })} />
             <input placeholder="URL Imagen" value={form.urlImagen} onChange={(e) => setForm({ ...form, urlImagen: e.target.value })} />
             <select value={form.estado} onChange={(e) => setForm({ ...form, estado: e.target.value })}>
