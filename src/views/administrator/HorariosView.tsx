@@ -49,6 +49,47 @@ const FORM_INICIAL: FormHorario = {
     bloques: [{ ...BLOQUE_INICIAL }],
 };
 
+// ─── Validaciones de fechas y horas ────────────────────────────
+
+// Compara strings "HH:MM" — funciona porque están en formato de 2 dígitos con cero a la izquierda
+function horaEsPosterior(horaInicio: string, horaFin: string): boolean {
+    return horaFin > horaInicio;
+}
+
+// Compara strings "YYYY-MM-DD" (el formato que entrega <input type="date">) — comparación lexicográfica válida
+function fechaEsPosteriorOIgual(fechaInicio: string, fechaFin: string): boolean {
+    return fechaFin >= fechaInicio;
+}
+
+// Valida el rango de fechas del curso. Retorna un mensaje de error o null si está bien.
+function validarFechas(fechaInicio: string, fechaFin: string): string | null {
+    if (!fechaInicio || !fechaFin) return null; // los campos vacíos los valida el required del form
+    if (!fechaEsPosteriorOIgual(fechaInicio, fechaFin)) {
+        return "La fecha de término no puede ser anterior a la fecha de inicio. Elige una fecha de término posterior.";
+    }
+    return null;
+}
+
+// Valida un arreglo de bloques (día + horaInicio + horaFin). Retorna un mensaje de error o null si todos están bien.
+function validarBloques(bloques: BloqueHorario[]): string | null {
+    for (const b of bloques) {
+        if (!b.horaInicio || !b.horaFin) continue;
+        if (!horaEsPosterior(b.horaInicio, b.horaFin)) {
+            return `En el día ${b.diaSemana || "seleccionado"}, la hora de término no puede ser antes ni igual a la hora de inicio. Elige una hora de término posterior.`;
+        }
+    }
+    return null;
+}
+
+// Valida un solo horario (usado en el modal de editar, que no usa bloques)
+function validarHorarioUnico(horaInicio: string, horaFin: string): string | null {
+    if (!horaInicio || !horaFin) return null;
+    if (!horaEsPosterior(horaInicio, horaFin)) {
+        return "La hora de término no puede ser antes ni igual a la hora de inicio. Elige una hora de término posterior.";
+    }
+    return null;
+}
+
 export default function HorariosView() {
     const [openCreate, setOpenCreate] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
@@ -58,6 +99,7 @@ export default function HorariosView() {
     const [busqueda, setBusqueda] = useState("");
     const [horariosLocal, setHorariosLocal] = useState<any[]>([]);
     const [cargaInicial, setCargaInicial] = useState(false);
+    const [formError, setFormError] = useState<string | null>(null);
 
     const { data: horariosData } = useListHorarios();
     const { data: cursosData } = useListCursos();
@@ -112,15 +154,34 @@ export default function HorariosView() {
             ...prev,
             bloques: prev.bloques.map((b, i) => (i === index ? { ...b, [campo]: valor } : b)),
         }));
+        setFormError(null);
     };
 
     const handleCreate = () => {
-        const cursoSeleccionado = cursos.find((c: any) => c.id === form.cursoId);
+        setFormError(null);
+
+        const errorFechas = validarFechas(form.fechaInicio, form.fechaFin);
+        if (errorFechas) {
+            setFormError(errorFechas);
+            return;
+        }
+
         const bloquesValidos = form.bloques.filter(
             (b) => b.diaSemana && b.horaInicio && b.horaFin
         );
 
-        if (bloquesValidos.length === 0) return;
+        if (bloquesValidos.length === 0) {
+            setFormError("Agrega al menos un día con hora de inicio y hora de término.");
+            return;
+        }
+
+        const errorBloques = validarBloques(bloquesValidos);
+        if (errorBloques) {
+            setFormError(errorBloques);
+            return;
+        }
+
+        const cursoSeleccionado = cursos.find((c: any) => c.id === form.cursoId);
 
         let completados = 0;
         const nuevosHorarios: any[] = [];
@@ -169,6 +230,7 @@ export default function HorariosView() {
 
     const handleOpenEdit = (horario: any) => {
         setSelectedHorario(horario);
+        setFormError(null);
         setForm({
             cursoId: horario.curso?.id ?? "",
             diaSemana: horario.diaSemana ?? "",
@@ -187,6 +249,20 @@ export default function HorariosView() {
 
     const handleUpdate = () => {
         if (!selectedHorario) return;
+        setFormError(null);
+
+        const errorFechas = validarFechas(form.fechaInicio, form.fechaFin);
+        if (errorFechas) {
+            setFormError(errorFechas);
+            return;
+        }
+
+        const errorHorario = validarHorarioUnico(form.horaInicio, form.horaFin);
+        if (errorHorario) {
+            setFormError(errorHorario);
+            return;
+        }
+
         updateHorario(
             {
                 horarioInternalId: selectedHorario.id,
@@ -277,7 +353,7 @@ export default function HorariosView() {
                         />
                         <button
                             className="ucv-btn-add"
-                            onClick={() => { setForm(FORM_INICIAL); setOpenCreate(true); }}
+                            onClick={() => { setForm(FORM_INICIAL); setFormError(null); setOpenCreate(true); }}
                         >
                             + Agregar horario
                         </button>
@@ -356,7 +432,7 @@ export default function HorariosView() {
 
                         <div className="ucv-modal-body">
                             <label className="ucv-field-label">Curso</label>
-                            <select value={form.cursoId} onChange={(e) => setForm({ ...form, cursoId: e.target.value })}>
+                            <select value={form.cursoId} onChange={(e) => { setForm({ ...form, cursoId: e.target.value }); setFormError(null); }}>
                                 <option value="">Selecciona un curso</option>
                                 {cursos.map((c: any) => (
                                     <option key={c.id} value={c.id}>{c.nombre}</option>
@@ -364,10 +440,19 @@ export default function HorariosView() {
                             </select><br/><br/>
 
                             <label className="ucv-field-label">Fecha de inicio del curso</label>
-                            <input type="date" value={form.fechaInicio} onChange={(e) => setForm({ ...form, fechaInicio: e.target.value })} /> <br/><br/>
+                            <input
+                                type="date"
+                                value={form.fechaInicio}
+                                onChange={(e) => { setForm({ ...form, fechaInicio: e.target.value }); setFormError(null); }}
+                            /> <br/><br/>
 
                             <label className="ucv-field-label">Fecha de término del curso</label>
-                            <input type="date" value={form.fechaFin} onChange={(e) => setForm({ ...form, fechaFin: e.target.value })} /><br/><br/>
+                            <input
+                                type="date"
+                                value={form.fechaFin}
+                                min={form.fechaInicio || undefined}
+                                onChange={(e) => { setForm({ ...form, fechaFin: e.target.value }); setFormError(null); }}
+                            /><br/><br/>
 
                             <label className="ucv-field-label">Cupo máximo de estudiantes</label>
                             <input type="number" placeholder="Cupo máximo" value={form.cupoMaximo} onChange={(e) => setForm({ ...form, cupoMaximo: e.target.value === "" ? "" : Number(e.target.value) })} /><br/><br/>
@@ -431,6 +516,7 @@ export default function HorariosView() {
                                     <input
                                         type="time"
                                         value={bloque.horaFin}
+                                        min={bloque.horaInicio || undefined}
                                         onChange={(e) => actualizarBloque(index, "horaFin", e.target.value)}
                                     />
                                 </div>
@@ -438,6 +524,12 @@ export default function HorariosView() {
                         </div>
                     ))}
                 </div>
+
+                            {formError && (
+                                <p style={{ color: "#c0392b", fontSize: 13, marginTop: 12, fontWeight: 500 }}>
+                                    {formError}
+                                </p>
+                            )}
                         </div>
 
                         <div className="ucv-modal-actions">
@@ -481,16 +573,34 @@ export default function HorariosView() {
                         </select>
 
                         <label className="ucv-field-label">Fecha de inicio del curso</label>
-                        <input type="date" value={form.fechaInicio} onChange={(e) => setForm({ ...form, fechaInicio: e.target.value })} />
+                        <input
+                            type="date"
+                            value={form.fechaInicio}
+                            onChange={(e) => { setForm({ ...form, fechaInicio: e.target.value }); setFormError(null); }}
+                        />
 
                         <label className="ucv-field-label">Fecha de término del curso</label>
-                        <input type="date" value={form.fechaFin} onChange={(e) => setForm({ ...form, fechaFin: e.target.value })} />
+                        <input
+                            type="date"
+                            value={form.fechaFin}
+                            min={form.fechaInicio || undefined}
+                            onChange={(e) => { setForm({ ...form, fechaFin: e.target.value }); setFormError(null); }}
+                        />
 
                         <label className="ucv-field-label">Hora en la que iniciará el curso</label>
-                        <input type="time" value={form.horaInicio} onChange={(e) => setForm({ ...form, horaInicio: e.target.value })} />
+                        <input
+                            type="time"
+                            value={form.horaInicio}
+                            onChange={(e) => { setForm({ ...form, horaInicio: e.target.value }); setFormError(null); }}
+                        />
 
                         <label className="ucv-field-label">Hora en la que terminará el curso</label>
-                        <input type="time" value={form.horaFin} onChange={(e) => setForm({ ...form, horaFin: e.target.value })} />
+                        <input
+                            type="time"
+                            value={form.horaFin}
+                            min={form.horaInicio || undefined}
+                            onChange={(e) => { setForm({ ...form, horaFin: e.target.value }); setFormError(null); }}
+                        />
 
                         <label className="ucv-field-label">Cupo máximo de estudiantes</label>
                         <input type="number" placeholder="Cupo máximo" value={form.cupoMaximo} onChange={(e) => setForm({ ...form, cupoMaximo: e.target.value === "" ? "" : Number(e.target.value) })} />
@@ -500,6 +610,12 @@ export default function HorariosView() {
                             <option value="Activo">Activo</option>
                             <option value="Inactivo">Inactivo</option>
                         </select>
+
+                        {formError && (
+                            <p style={{ color: "#c0392b", fontSize: 13, marginTop: 12, fontWeight: 500 }}>
+                                {formError}
+                            </p>
+                        )}
 
                         <div className="ucv-modal-actions">
                             <button disabled={actualizando} onClick={handleUpdate} className="ucv-btn-primary">

@@ -11,6 +11,15 @@ export type DateString = string;
 
 
 
+export interface ActualizarCupoHorarioData {
+  horario_update?: Horario_Key | null;
+}
+
+export interface ActualizarCupoHorarioVariables {
+  horarioInternalId: UUIDString;
+  cupoActual: number;
+}
+
 export interface ActualizarEstudianteData {
   usuario_update?: Usuario_Key | null;
 }
@@ -259,10 +268,24 @@ export interface GetCursoInternalIdVariables {
   cursoId: number;
 }
 
+export interface GetEstudianteByUsuarioInternalIdData {
+  estudiantes: ({
+    id: UUIDString;
+    matricula: string;
+  } & Estudiante_Key)[];
+}
+
+export interface GetEstudianteByUsuarioInternalIdVariables {
+  usuarioInternalId: UUIDString;
+}
+
 export interface GetHorariosDisponiblesData {
   horarios: ({
     id: UUIDString;
     horarioId: number;
+    diaSemana: string;
+    fechaInicio: DateString;
+    fechaFin: DateString;
     horaInicio: string;
     horaFin: string;
     cupoMaximo: number;
@@ -318,6 +341,46 @@ export interface GetInscripcionesByEstudianteData {
   })[];
 }
 
+export interface GetInscripcionesByEstudianteIdData {
+  inscripcions: ({
+    inscripcionId: string;
+    estadoInscripcion: string;
+    pagoEstado?: string | null;
+    fechaInscripcion: DateString;
+    horario: {
+      id: UUIDString;
+      horarioId: number;
+      diaSemana: string;
+      fechaInicio: DateString;
+      fechaFin: DateString;
+      horaInicio: string;
+      horaFin: string;
+      cupoMaximo: number;
+      cupoActual: number;
+      estado?: string | null;
+      curso: {
+        id: UUIDString;
+        cursoId: number;
+        nombre: string;
+        descripcion?: string | null;
+        categoria?: string | null;
+        urlImagen?: string | null;
+        estado?: string | null;
+        instructor?: {
+          instructorId: number;
+          usuario: {
+            nombreCompleto: string;
+          };
+        };
+      } & Curso_Key;
+    } & Horario_Key;
+  })[];
+}
+
+export interface GetInscripcionesByEstudianteIdVariables {
+  estudianteInternalId: UUIDString;
+}
+
 export interface GetInscripcionesByEstudianteVariables {
   matricula: string;
 }
@@ -336,6 +399,7 @@ export interface GetRolByNumeroVariables {
 
 export interface GetUsuarioByCorreoData {
   usuarios: ({
+    id: UUIDString;
     usuarioId: string;
     nombreCompleto: string;
     correo: string;
@@ -343,7 +407,7 @@ export interface GetUsuarioByCorreoData {
     rol: {
       nombre: string;
     };
-  })[];
+  } & Usuario_Key)[];
 }
 
 export interface GetUsuarioByCorreoVariables {
@@ -805,6 +869,18 @@ export const getUsuarioByCorreoRef: GetUsuarioByCorreoRef;
 export function getUsuarioByCorreo(vars: GetUsuarioByCorreoVariables, options?: ExecuteQueryOptions): QueryPromise<GetUsuarioByCorreoData, GetUsuarioByCorreoVariables>;
 export function getUsuarioByCorreo(dc: DataConnect, vars: GetUsuarioByCorreoVariables, options?: ExecuteQueryOptions): QueryPromise<GetUsuarioByCorreoData, GetUsuarioByCorreoVariables>;
 
+interface GetEstudianteByUsuarioInternalIdRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: GetEstudianteByUsuarioInternalIdVariables): QueryRef<GetEstudianteByUsuarioInternalIdData, GetEstudianteByUsuarioInternalIdVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: GetEstudianteByUsuarioInternalIdVariables): QueryRef<GetEstudianteByUsuarioInternalIdData, GetEstudianteByUsuarioInternalIdVariables>;
+  operationName: string;
+}
+export const getEstudianteByUsuarioInternalIdRef: GetEstudianteByUsuarioInternalIdRef;
+
+export function getEstudianteByUsuarioInternalId(vars: GetEstudianteByUsuarioInternalIdVariables, options?: ExecuteQueryOptions): QueryPromise<GetEstudianteByUsuarioInternalIdData, GetEstudianteByUsuarioInternalIdVariables>;
+export function getEstudianteByUsuarioInternalId(dc: DataConnect, vars: GetEstudianteByUsuarioInternalIdVariables, options?: ExecuteQueryOptions): QueryPromise<GetEstudianteByUsuarioInternalIdData, GetEstudianteByUsuarioInternalIdVariables>;
+
 interface ListarEstudiantesRef {
   /* Allow users to create refs without passing in DataConnect */
   (): QueryRef<ListarEstudiantesData, undefined>;
@@ -1117,6 +1193,18 @@ export const deleteHorarioRef: DeleteHorarioRef;
 export function deleteHorario(vars: DeleteHorarioVariables): MutationPromise<DeleteHorarioData, DeleteHorarioVariables>;
 export function deleteHorario(dc: DataConnect, vars: DeleteHorarioVariables): MutationPromise<DeleteHorarioData, DeleteHorarioVariables>;
 
+interface ActualizarCupoHorarioRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: ActualizarCupoHorarioVariables): MutationRef<ActualizarCupoHorarioData, ActualizarCupoHorarioVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: ActualizarCupoHorarioVariables): MutationRef<ActualizarCupoHorarioData, ActualizarCupoHorarioVariables>;
+  operationName: string;
+}
+export const actualizarCupoHorarioRef: ActualizarCupoHorarioRef;
+
+export function actualizarCupoHorario(vars: ActualizarCupoHorarioVariables): MutationPromise<ActualizarCupoHorarioData, ActualizarCupoHorarioVariables>;
+export function actualizarCupoHorario(dc: DataConnect, vars: ActualizarCupoHorarioVariables): MutationPromise<ActualizarCupoHorarioData, ActualizarCupoHorarioVariables>;
+
 interface ListCursosEstadisticasRef {
   /* Allow users to create refs without passing in DataConnect */
   (): QueryRef<ListCursosEstadisticasData, undefined>;
@@ -1284,6 +1372,18 @@ export const getInscripcionesByEstudianteRef: GetInscripcionesByEstudianteRef;
 
 export function getInscripcionesByEstudiante(vars: GetInscripcionesByEstudianteVariables, options?: ExecuteQueryOptions): QueryPromise<GetInscripcionesByEstudianteData, GetInscripcionesByEstudianteVariables>;
 export function getInscripcionesByEstudiante(dc: DataConnect, vars: GetInscripcionesByEstudianteVariables, options?: ExecuteQueryOptions): QueryPromise<GetInscripcionesByEstudianteData, GetInscripcionesByEstudianteVariables>;
+
+interface GetInscripcionesByEstudianteIdRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: GetInscripcionesByEstudianteIdVariables): QueryRef<GetInscripcionesByEstudianteIdData, GetInscripcionesByEstudianteIdVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: GetInscripcionesByEstudianteIdVariables): QueryRef<GetInscripcionesByEstudianteIdData, GetInscripcionesByEstudianteIdVariables>;
+  operationName: string;
+}
+export const getInscripcionesByEstudianteIdRef: GetInscripcionesByEstudianteIdRef;
+
+export function getInscripcionesByEstudianteId(vars: GetInscripcionesByEstudianteIdVariables, options?: ExecuteQueryOptions): QueryPromise<GetInscripcionesByEstudianteIdData, GetInscripcionesByEstudianteIdVariables>;
+export function getInscripcionesByEstudianteId(dc: DataConnect, vars: GetInscripcionesByEstudianteIdVariables, options?: ExecuteQueryOptions): QueryPromise<GetInscripcionesByEstudianteIdData, GetInscripcionesByEstudianteIdVariables>;
 
 interface GetHorariosDisponiblesRef {
   /* Allow users to create refs without passing in DataConnect */

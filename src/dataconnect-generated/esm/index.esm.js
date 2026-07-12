@@ -23,6 +23,19 @@ export function getUsuarioByCorreo(dcOrVars, varsOrOptions, options) {
   return executeQuery(getUsuarioByCorreoRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
 }
 
+export const getEstudianteByUsuarioInternalIdRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'GetEstudianteByUsuarioInternalId', inputVars);
+}
+getEstudianteByUsuarioInternalIdRef.operationName = 'GetEstudianteByUsuarioInternalId';
+
+export function getEstudianteByUsuarioInternalId(dcOrVars, varsOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  return executeQuery(getEstudianteByUsuarioInternalIdRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+
 export const listarEstudiantesRef = (dc) => {
   const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
   dcInstance._useGeneratedSdk();
@@ -347,6 +360,18 @@ export function deleteHorario(dcOrVars, vars) {
   return executeMutation(deleteHorarioRef(dcInstance, inputVars));
 }
 
+export const actualizarCupoHorarioRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'ActualizarCupoHorario', inputVars);
+}
+actualizarCupoHorarioRef.operationName = 'ActualizarCupoHorario';
+
+export function actualizarCupoHorario(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(actualizarCupoHorarioRef(dcInstance, inputVars));
+}
+
 export const listCursosEstadisticasRef = (dc) => {
   const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
   dcInstance._useGeneratedSdk();
@@ -525,6 +550,19 @@ export function getInscripcionesByEstudiante(dcOrVars, varsOrOptions, options) {
   
   const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
   return executeQuery(getInscripcionesByEstudianteRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+
+export const getInscripcionesByEstudianteIdRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'GetInscripcionesByEstudianteId', inputVars);
+}
+getInscripcionesByEstudianteIdRef.operationName = 'GetInscripcionesByEstudianteId';
+
+export function getInscripcionesByEstudianteId(dcOrVars, varsOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  return executeQuery(getInscripcionesByEstudianteIdRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
 }
 
 export const getHorariosDisponiblesRef = (dc) => {

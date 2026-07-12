@@ -1,4 +1,4 @@
-const { getUsuarioByCorreoRef, listarEstudiantesRef, crearEstudianteRef, actualizarEstudianteRef, actualizarEstudianteSinCorreoRef, actualizarPasswordUsuarioRef, eliminarEstudianteRef, listInstructorsRef, getRolByNumeroRef, createInstructorRef, updateInstructorRef, deleteInstructorRef, listCursosRef, buscarCursoPorNombreRef, cursosPorCategoriaRef, cursosPorEstadoRef, createCursoRef, updateCursoRef, deleteCursoRef, listHorariosRef, buscarHorarioPorCursoRef, horariosPorDiaRef, horariosPorEstadoRef, listInscripcionesActivasRef, createHorarioRef, updateHorarioRef, deleteHorarioRef, listCursosEstadisticasRef, listHorariosEstadisticasRef, listHorariosPorEstadoRef, listInscripcionesRef, listInscripcionesPorEstadoRef, listAsistenciasRef, listAsistenciasPorEstadoRef, listReportesEstadisticasRef, listReportesPorPeriodoRef, listReportesPorCursoRef, getCursoInternalIdRef, createReporteEstadisticaRef, updateReporteEstadisticaRef, getInscripcionesByEstudianteRef, getHorariosDisponiblesRef, insscribirEstudianteRef, cancelarInscripcionRef, connectorConfig } = require('../index.cjs.js');
+const { getUsuarioByCorreoRef, getEstudianteByUsuarioInternalIdRef, listarEstudiantesRef, crearEstudianteRef, actualizarEstudianteRef, actualizarEstudianteSinCorreoRef, actualizarPasswordUsuarioRef, eliminarEstudianteRef, listInstructorsRef, getRolByNumeroRef, createInstructorRef, updateInstructorRef, deleteInstructorRef, listCursosRef, buscarCursoPorNombreRef, cursosPorCategoriaRef, cursosPorEstadoRef, createCursoRef, updateCursoRef, deleteCursoRef, listHorariosRef, buscarHorarioPorCursoRef, horariosPorDiaRef, horariosPorEstadoRef, listInscripcionesActivasRef, createHorarioRef, updateHorarioRef, deleteHorarioRef, actualizarCupoHorarioRef, listCursosEstadisticasRef, listHorariosEstadisticasRef, listHorariosPorEstadoRef, listInscripcionesRef, listInscripcionesPorEstadoRef, listAsistenciasRef, listAsistenciasPorEstadoRef, listReportesEstadisticasRef, listReportesPorPeriodoRef, listReportesPorCursoRef, getCursoInternalIdRef, createReporteEstadisticaRef, updateReporteEstadisticaRef, getInscripcionesByEstudianteRef, getInscripcionesByEstudianteIdRef, getHorariosDisponiblesRef, insscribirEstudianteRef, cancelarInscripcionRef, connectorConfig } = require('../index.cjs.js');
 const { validateArgs, CallerSdkTypeEnum } = require('firebase/data-connect');
 const { useDataConnectQuery, useDataConnectMutation, validateReactArgs } = require('@tanstack-query-firebase/react/data-connect');
 
@@ -6,6 +6,12 @@ const { useDataConnectQuery, useDataConnectMutation, validateReactArgs } = requi
 exports.useGetUsuarioByCorreo = function useGetUsuarioByCorreo(dcOrVars, varsOrOptions, options) {
   const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateReactArgs(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
   const ref = getUsuarioByCorreoRef(dcInstance, inputVars);
+  return useDataConnectQuery(ref, inputOpts, CallerSdkTypeEnum.GeneratedReact);
+}
+
+exports.useGetEstudianteByUsuarioInternalId = function useGetEstudianteByUsuarioInternalId(dcOrVars, varsOrOptions, options) {
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateReactArgs(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  const ref = getEstudianteByUsuarioInternalIdRef(dcInstance, inputVars);
   return useDataConnectQuery(ref, inputOpts, CallerSdkTypeEnum.GeneratedReact);
 }
 
@@ -192,6 +198,14 @@ exports.useDeleteHorario = function useDeleteHorario(dcOrOptions, options) {
   return useDataConnectMutation(refFactory, inputOpts, CallerSdkTypeEnum.GeneratedReact);
 }
 
+exports.useActualizarCupoHorario = function useActualizarCupoHorario(dcOrOptions, options) {
+  const { dc: dcInstance, vars: inputOpts } = validateArgs(connectorConfig, dcOrOptions, options);
+  function refFactory(vars) {
+    return actualizarCupoHorarioRef(dcInstance, vars);
+  }
+  return useDataConnectMutation(refFactory, inputOpts, CallerSdkTypeEnum.GeneratedReact);
+}
+
 
 exports.useListCursosEstadisticas = function useListCursosEstadisticas(dcOrOptions, options) {
   const { dc: dcInstance, options: inputOpts } = validateReactArgs(connectorConfig, dcOrOptions, options);
@@ -278,6 +292,12 @@ exports.useUpdateReporteEstadistica = function useUpdateReporteEstadistica(dcOrO
 exports.useGetInscripcionesByEstudiante = function useGetInscripcionesByEstudiante(dcOrVars, varsOrOptions, options) {
   const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateReactArgs(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
   const ref = getInscripcionesByEstudianteRef(dcInstance, inputVars);
+  return useDataConnectQuery(ref, inputOpts, CallerSdkTypeEnum.GeneratedReact);
+}
+
+exports.useGetInscripcionesByEstudianteId = function useGetInscripcionesByEstudianteId(dcOrVars, varsOrOptions, options) {
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateReactArgs(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  const ref = getInscripcionesByEstudianteIdRef(dcInstance, inputVars);
   return useDataConnectQuery(ref, inputOpts, CallerSdkTypeEnum.GeneratedReact);
 }
 

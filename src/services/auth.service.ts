@@ -1,7 +1,12 @@
 import { type LoginCredentials, type AuthResponse } from '../Types/auth.types';
 import { dataConnect } from '../../firebase';
 import { executeQuery } from 'firebase/data-connect';
-import { getUsuarioByCorreoRef, type GetUsuarioByCorreoVariables } from '@dataconnect/generated';
+import {
+  getUsuarioByCorreoRef,
+  getEstudianteByUsuarioInternalIdRef,
+  type GetUsuarioByCorreoVariables,
+  type GetEstudianteByUsuarioInternalIdVariables,
+} from '@dataconnect/generated';
 import bcrypt from 'bcryptjs';
 
 export const loginAPI = async (credentials: LoginCredentials): Promise<AuthResponse> => {
@@ -71,7 +76,16 @@ export const loginAPI = async (credentials: LoginCredentials): Promise<AuthRespo
     if (!esPasswordValido) {
       throw new Error('La contraseña es incorrecta.');
     }
+     let estudianteInternalId: string | undefined;
 
+    if (usuarioFirebase.rol.nombre === 'student') {
+      const resultadoEstudiante = await executeQuery(
+        getEstudianteByUsuarioInternalIdRef(dataConnect, {
+          usuarioInternalId: usuarioFirebase.id,
+        }),
+      );
+      estudianteInternalId = resultadoEstudiante.data?.estudiantes?.[0]?.id;
+    }
     // 5. Retornamos los datos DINÁMICOS mapeando el rol real de la BD ("admin", "teacher", "student")
     return {
       token: `firebase_session_token_${usuarioFirebase.usuarioId}`,
@@ -80,6 +94,7 @@ export const loginAPI = async (credentials: LoginCredentials): Promise<AuthRespo
         nombre: usuarioFirebase.nombreCompleto,
         correo: usuarioFirebase.correo,
         rol: usuarioFirebase.rol.nombre,
+        estudianteInternalId,
       },
     };
   } catch (error: unknown) {
@@ -89,3 +104,4 @@ export const loginAPI = async (credentials: LoginCredentials): Promise<AuthRespo
     throw new Error('Error al conectar con el servicio de autenticación de Firebase.', { cause: error });
   }
 };
+

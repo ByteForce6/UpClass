@@ -28,6 +28,21 @@ exports.getUsuarioByCorreo = function getUsuarioByCorreo(dcOrVars, varsOrOptions
 }
 ;
 
+const getEstudianteByUsuarioInternalIdRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'GetEstudianteByUsuarioInternalId', inputVars);
+}
+getEstudianteByUsuarioInternalIdRef.operationName = 'GetEstudianteByUsuarioInternalId';
+exports.getEstudianteByUsuarioInternalIdRef = getEstudianteByUsuarioInternalIdRef;
+
+exports.getEstudianteByUsuarioInternalId = function getEstudianteByUsuarioInternalId(dcOrVars, varsOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  return executeQuery(getEstudianteByUsuarioInternalIdRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
 const listarEstudiantesRef = (dc) => {
   const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
   dcInstance._useGeneratedSdk();
@@ -404,6 +419,20 @@ exports.deleteHorario = function deleteHorario(dcOrVars, vars) {
 }
 ;
 
+const actualizarCupoHorarioRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'ActualizarCupoHorario', inputVars);
+}
+actualizarCupoHorarioRef.operationName = 'ActualizarCupoHorario';
+exports.actualizarCupoHorarioRef = actualizarCupoHorarioRef;
+
+exports.actualizarCupoHorario = function actualizarCupoHorario(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(actualizarCupoHorarioRef(dcInstance, inputVars));
+}
+;
+
 const listCursosEstadisticasRef = (dc) => {
   const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
   dcInstance._useGeneratedSdk();
@@ -609,6 +638,21 @@ exports.getInscripcionesByEstudiante = function getInscripcionesByEstudiante(dcO
   
   const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
   return executeQuery(getInscripcionesByEstudianteRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const getInscripcionesByEstudianteIdRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'GetInscripcionesByEstudianteId', inputVars);
+}
+getInscripcionesByEstudianteIdRef.operationName = 'GetInscripcionesByEstudianteId';
+exports.getInscripcionesByEstudianteIdRef = getInscripcionesByEstudianteIdRef;
+
+exports.getInscripcionesByEstudianteId = function getInscripcionesByEstudianteId(dcOrVars, varsOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  return executeQuery(getInscripcionesByEstudianteIdRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
 }
 ;
 

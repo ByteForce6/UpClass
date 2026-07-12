@@ -1,280 +1,265 @@
-/**
- * MisCursos.tsx
- * Lee inscripciones reales del estudiante logueado desde Firebase Data Connect.
- */
-
-import { useState, useEffect } from "react";
-import { executeQuery } from "firebase/data-connect";
-import { dataConnect } from "../../../firebase";
-import {
-  getInscripcionesByEstudianteRef,
-  type GetInscripcionesByEstudianteData,
-} from "../../dataconnect-generated";
-
-// ─── Tipos ────────────────────────────────────────────────────────────────────
+import { useState } from "react";
 
 interface CursoInscrito {
-  inscripcionId:     string;
+  inscripcionId: string;
   estadoInscripcion: string;
-  pagoEstado:        string | null;
-  cursoId:           number;
-  nombre:            string;
-  categoria:         string;
-  instructor:        string;
-  horario:           string;
-  cupoActual:        number;
-  cupoMaximo:        number;
-  urlImagen:         string | null;
+  pagoEstado: string;
+  cursoId: number;
+  nombre: string;
+  categoria: string;
+  instructor: string;
+  horario: string;
+  cupoActual: number;
+  cupoMaximo: number;
 }
 
-type InscripcionRow = GetInscripcionesByEstudianteData["inscripcions"][number];
+// Datos temporales mientras se conecta DataConnect
+const cursosMock: CursoInscrito[] = [
+  {
+    inscripcionId: "INS001",
+    estadoInscripcion: "activa",
+    pagoEstado: "pagado",
+    cursoId: 1,
+    nombre: "Desarrollo Web Full Stack",
+    categoria: "Programación",
+    instructor: "Ana López",
+    horario: "Lunes y Miércoles 10:00 - 12:00",
+    cupoActual: 18,
+    cupoMaximo: 25,
+  },
+  {
+    inscripcionId: "INS002",
+    estadoInscripcion: "activa",
+    pagoEstado: "pendiente",
+    cursoId: 2,
+    nombre: "Bases de Datos SQL",
+    categoria: "Tecnología",
+    instructor: "Carlos Ramírez",
+    horario: "Martes y Jueves 14:00 - 16:00",
+    cupoActual: 20,
+    cupoMaximo: 30,
+  },
+  {
+    inscripcionId: "INS003",
+    estadoInscripcion: "completada",
+    pagoEstado: "pagado",
+    cursoId: 3,
+    nombre: "Fundamentos de Programación",
+    categoria: "Programación",
+    instructor: "María González",
+    horario: "Viernes 09:00 - 12:00",
+    cupoActual: 25,
+    cupoMaximo: 25,
+  },
+  {
+    inscripcionId: "INS004",
+    estadoInscripcion: "pendiente",
+    pagoEstado: "pendiente",
+    cursoId: 4,
+    nombre: "Diseño de Interfaces UX/UI",
+    categoria: "Diseño",
+    instructor: "Luis Hernández",
+    horario: "Sábado 10:00 - 13:00",
+    cupoActual: 12,
+    cupoMaximo: 20,
+  },
+];
 
-// ─── Helpers de estilo ────────────────────────────────────────────────────────
 
-const PromedioBg = (n: number) =>
-  n >= 9 ? "#f0faf5" : n >= 7.5 ? "#fefce8" : "#fff5f5";
-
-const eLabel: Record<string, string> = {
-  activa:     "En curso",
+const estadoTexto: Record<string, string> = {
+  activa: "En curso",
   completada: "Completado",
-  baja:       "Baja",
-  pendiente:  "Por iniciar",
+  pendiente: "Por iniciar",
 };
 
-const eStyle: Record<string, { bg: string; color: string }> = {
-  activa:     { bg: "#111",    color: "#fff"    },
-  completada: { bg: "#f0faf5", color: "#1a6b3c" },
-  baja:       { bg: "#fff5f5", color: "#9b1c1c" },
-  pendiente:  { bg: "#f5f2ed", color: "#888"    },
-};
-
-// ─── Componente ───────────────────────────────────────────────────────────────
 
 export default function MisCursos() {
-  const [cursos,  setCursos]  = useState<CursoInscrito[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error,   setError]   = useState<string | null>(null);
-  const [filtro,  setFiltro]  = useState<"todos" | "activa" | "completada" | "baja">("todos");
 
-  useEffect(() => {
-    const cargar = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const savedUser = localStorage.getItem("user");
-        if (!savedUser) throw new Error("No hay sesión activa");
-        const user = JSON.parse(savedUser);
-        const matricula: string = user.matricula ?? user.usuarioId ?? "";
-        if (!matricula) throw new Error("No se encontró la matrícula del estudiante");
+  const [filtro, setFiltro] = useState<
+    "todos" | "activa" | "completada" | "pendiente"
+  >("todos");
 
-        const res = await executeQuery(
-          getInscripcionesByEstudianteRef(dataConnect, { matricula })
+
+  const cursos =
+    filtro === "todos"
+      ? cursosMock
+      : cursosMock.filter(
+          (curso) => curso.estadoInscripcion === filtro
         );
 
-        const inscripciones: InscripcionRow[] = res.data?.inscripcions ?? [];
 
-        const mapped: CursoInscrito[] = inscripciones.map((i: InscripcionRow) => {
-          const curso   = i.horario.curso;
-          const diaHora = `${i.horario.horaInicio ?? ""} - ${i.horario.horaFin ?? ""}`.trim();
-          return {
-            inscripcionId:     i.inscripcionId,
-            estadoInscripcion: i.estadoInscripcion,
-            pagoEstado:        i.pagoEstado ?? null,
-            cursoId:           curso.cursoId,
-            nombre:            curso.nombre,
-            categoria:         curso.categoria ?? "Sin categoría",
-            instructor:        curso.instructor?.usuario?.nombreCompleto ?? "Sin asignar",
-            horario:           diaHora || "Sin horario",
-            cupoActual:        i.horario.cupoActual,
-            cupoMaximo:        i.horario.cupoMaximo,
-            urlImagen:         curso.urlImagen ?? null,
-          };
-        });
-
-        setCursos(mapped);
-      } catch (err) {
-        console.error("[MisCursos]", err);
-        setError("No se pudieron cargar tus cursos. Intenta de nuevo.");
-      } finally {
-        setLoading(false);
-      }
-    };
-    cargar();
-  }, []);
-
-  // ── Estado: cargando ────────────────────────────────────────────────────────
-  if (loading) {
-    return (
-      <div className="uc-stack-lg">
-        <div className="uc-section-header">
-          <p className="uc-kicker">Mi formación</p>
-          <h2 className="uc-page-title">Cursos inscritos</h2>
-        </div>
-        {[1,2,3].map((i) => (
-          <div key={i} style={{
-            height: 120, borderRadius: 8, marginBottom: 12,
-            background: "linear-gradient(90deg,#f0f4f8 25%,#e2e8f0 50%,#f0f4f8 75%)",
-            backgroundSize: "200% 100%", animation: "uc-shimmer 1.4s infinite",
-          }} />
-        ))}
-        <style>{`@keyframes uc-shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}`}</style>
-      </div>
-    );
-  }
-
-  // ── Estado: error ───────────────────────────────────────────────────────────
-  if (error) {
-    return (
-      <div className="uc-stack-lg">
-        <div className="uc-section-header">
-          <p className="uc-kicker">Mi formación</p>
-          <h2 className="uc-page-title">Cursos inscritos</h2>
-        </div>
-        <div style={{
-          padding: 32, textAlign: "center", border: "1px solid #e2e8f0",
-          borderRadius: 12, background: "#fff",
-        }}>
-          <p style={{ color: "#9b1c1c", marginBottom: 16 }}>{error}</p>
-          <button
-            onClick={() => window.location.reload()}
-            style={{
-              border: "none", borderRadius: 8, padding: "9px 20px",
-              background: "#111", color: "#fff", cursor: "pointer",
-            }}
-          >
-            Reintentar
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  // ── Sin inscripciones ───────────────────────────────────────────────────────
-  if (cursos.length === 0) {
-    return (
-      <div className="uc-stack-lg">
-        <div className="uc-section-header">
-          <p className="uc-kicker">Mi formación</p>
-          <h2 className="uc-page-title">Cursos inscritos</h2>
-        </div>
-        <div style={{
-          padding: 48, textAlign: "center", border: "1px solid #e2e8f0",
-          borderRadius: 12, background: "#fff",
-        }}>
-          <p style={{ fontSize: 32, marginBottom: 12 }}>📚</p>
-          <p style={{ fontWeight: 600, marginBottom: 8, color: "#111" }}>
-            Aún no tienes cursos inscritos
-          </p>
-          <p style={{ color: "#888", fontSize: 13 }}>
-            Explora el catálogo de cursos disponibles para inscribirte.
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  const filtrados = filtro === "todos"
-    ? cursos
-    : cursos.filter((c) => c.estadoInscripcion === filtro);
-
-  // ── Render ──────────────────────────────────────────────────────────────────
   return (
     <div className="uc-stack-lg">
+
       <div className="uc-section-header">
-        <p className="uc-kicker">Mi formación</p>
-        <h2 className="uc-page-title">Cursos inscritos</h2>
+        <p className="uc-kicker">
+          Mi formación
+        </p>
+
+        <h2 className="uc-page-title">
+          Cursos inscritos
+        </h2>
       </div>
+
 
       <div className="uc-filters">
-        {(["todos", "activa", "completada", "baja"] as const).map((f) => (
+
+        {(["todos","activa","completada","pendiente"] as const)
+          .map((estado)=>(
+
           <button
-            key={f}
-            onClick={() => setFiltro(f)}
-            className={`uc-filter-btn${filtro === f ? " active" : ""}`}
+            key={estado}
+            className={`uc-filter-btn ${
+              filtro === estado ? "active" : ""
+            }`}
+            onClick={()=>setFiltro(estado)}
           >
-            {f === "todos" ? "Todos" : eLabel[f]}
+            {
+              estado === "todos"
+              ? "Todos"
+              : estadoTexto[estado]
+            }
+
           </button>
+
         ))}
+
       </div>
 
-      {filtrados.length === 0 && (
-        <p style={{ color: "#aaa", textAlign: "center", padding: 32 }}>
-          No tienes cursos en este estado.
-        </p>
-      )}
 
-      {filtrados.map((c) => {
-        const s = eStyle[c.estadoInscripcion] ?? eStyle["pendiente"];
-        return (
-          <div key={c.inscripcionId} className="uc-curso-card">
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 8 }}>
-                <span className="uc-tag-cat">{c.categoria}</span>
-                <span style={{
-                  fontFamily: "var(--ds)", fontSize: 10, fontWeight: 600,
-                  letterSpacing: ".07em", textTransform: "uppercase",
-                  background: s.bg, color: s.color, padding: "3px 9px",
-                }}>
-                  {eLabel[c.estadoInscripcion] ?? c.estadoInscripcion}
-                </span>
-                {c.pagoEstado && c.pagoEstado !== "pagado" && (
-                  <span style={{
-                    fontFamily: "var(--ds)", fontSize: 10, fontWeight: 600,
-                    letterSpacing: ".07em", textTransform: "uppercase",
-                    background: "#fff8ed", color: "#7a3c00", padding: "3px 9px",
-                  }}>
-                    Pago: {c.pagoEstado}
-                  </span>
-                )}
-              </div>
 
-              <h3 className="uc-curso-title">{c.nombre}</h3>
-              <p className="uc-curso-inst">{c.instructor}</p>
+      {cursos.map((curso)=>(
 
-              <p style={{ fontFamily: "var(--ds)", fontSize: 12, color: "#888", margin: "6px 0 0" }}>
-                ◷ {c.horario}
-              </p>
+        <div
+          key={curso.inscripcionId}
+          className="uc-curso-card"
+        >
 
-              {c.estadoInscripcion === "activa" && (
-                <div className="uc-progress-row" style={{ marginTop: 12 }}>
-                  <div className="uc-progress-track">
-                    <div
-                      className="uc-progress-fill"
-                      style={{
-                        width: `${Math.round((c.cupoActual / c.cupoMaximo) * 100)}%`,
-                        background: "#111",
-                      }}
-                    />
-                  </div>
-                  <span className="uc-progress-label">
-                    {c.cupoActual}/{c.cupoMaximo} inscritos
-                  </span>
-                </div>
-              )}
+
+          <div style={{flex:1}}>
+
+            <div style={{
+              display:"flex",
+              gap:8,
+              marginBottom:8
+            }}>
+
+              <span className="uc-tag-cat">
+                {curso.categoria}
+              </span>
+
+
+              <span style={{
+                background:
+                  curso.estadoInscripcion==="activa"
+                  ? "#111"
+                  : "#eee",
+
+                color:
+                  curso.estadoInscripcion==="activa"
+                  ? "#fff"
+                  : "#555",
+
+                padding:"4px 10px",
+                fontSize:12
+              }}>
+
+                {estadoTexto[curso.estadoInscripcion]}
+
+              </span>
+
             </div>
 
-            <div className="uc-curso-side">
-              <div className="uc-Promedio-big" style={{ background: PromedioBg(0) }}>
-                <p style={{ fontFamily: "var(--ds)", fontSize: 11, color: "#ccc", margin: 0 }}>
-                  Sin calif.
-                </p>
+
+
+            <h3 className="uc-curso-title">
+              {curso.nombre}
+            </h3>
+
+
+            <p className="uc-curso-inst">
+              Instructor: {curso.instructor}
+            </p>
+
+
+            <p style={{
+              marginTop:10,
+              color:"#777"
+            }}>
+              🕒 {curso.horario}
+            </p>
+
+
+
+            <div style={{
+              marginTop:12
+            }}>
+
+              <small>
+                Cupo: {curso.cupoActual}/{curso.cupoMaximo}
+              </small>
+
+              <div style={{
+                height:6,
+                background:"#eee",
+                marginTop:5
+              }}>
+
+                <div
+                  style={{
+                    width:
+                    `${(curso.cupoActual /
+                    curso.cupoMaximo)*100}%`,
+
+                    height:"100%",
+                    background:"#111"
+                  }}
+                />
+
               </div>
 
-              {c.estadoInscripcion === "activa" && (
-                <button className="uc-action-btn uc-action-btn--solid">Ir al aula →</button>
-              )}
-              {c.estadoInscripcion === "completada" && (
-                <button className="uc-action-btn uc-action-btn--outline">Ver constancia</button>
-              )}
-              {c.estadoInscripcion === "baja" && (
-                <button className="uc-action-btn uc-action-btn--disabled" disabled>
-                  Dado de baja
-                </button>
-              )}
             </div>
+
+
           </div>
-        );
-      })}
+
+
+
+          <div className="uc-curso-side">
+
+
+            {
+              curso.estadoInscripcion==="activa" &&
+              <button className="uc-action-btn uc-action-btn--solid">
+                Ir al aula →
+              </button>
+            }
+
+
+            {
+              curso.estadoInscripcion==="completada" &&
+              <button className="uc-action-btn uc-action-btn--outline">
+                Ver constancia
+              </button>
+            }
+
+
+            {
+              curso.estadoInscripcion==="pendiente" &&
+              <button className="uc-action-btn uc-action-btn--disabled">
+                Próximamente
+              </button>
+            }
+
+
+          </div>
+
+
+        </div>
+
+      ))}
+
+
     </div>
   );
 }

@@ -1,184 +1,330 @@
-import { useState } from "react";
-import type { CursoCatalogo } from "../../Types/index";
+import { useState, useMemo } from "react";
 import {
-  CURSOS_CATALOGO,
-  CATEGORIAS_CATALOGO,
-  MODALIDADES_CATALOGO,
-} from "../../Data/mockCatalogo";
+  useGetHorariosDisponibles,
+  useInsscribirEstudiante,
+  useGetInscripcionesByEstudianteId,
+  useActualizarCupoHorario,
+} from "../../dataconnect-generated/react";
 import "../../Styles/Catalogo.css";
 
 // ─── Helpers ──────────────────────────────────────────────────
-function cupoLibre(c: CursoCatalogo): number {
-  return c.cupoTotal - c.cupoOcupado;
+
+function cupoLibre(h: any): number {
+  return h.cupoMaximo - h.cupoActual;
 }
 
-function getCupoStatus(c: CursoCatalogo) {
-  const libre = cupoLibre(c);
-  const pct   = libre / c.cupoTotal;
-  if (libre === 0) return { label: "Sin cupo",  bg: "#fff5f5", color: "#9b1c1c", bar: "#e53e3e" };
-  if (pct <= 0.2)  return { label: `${libre} lugar${libre > 1 ? "es" : ""}`, bg: "#fff8ed", color: "#7a3c00", bar: "#f59e0b" };
-  return               { label: `${libre} lugares`, bg: "#f0faf5", color: "#1a6b3c", bar: "#22c55e" };
+function getCupoStatus(libre: number, cupoMaximo: number) {
+  const pct = libre / cupoMaximo;
+
+  if (libre === 0)
+    return { label: "Sin cupo", bg: "#fff5f5", color: "#9b1c1c", bar: "#e53e3e" };
+
+  if (pct <= 0.2)
+    return {
+      label: `${libre} lugar${libre > 1 ? "es" : ""}`,
+      bg: "#fff8ed",
+      color: "#7a3c00",
+      bar: "#f59e0b",
+    };
+
+  return { label: `${libre} lugares`, bg: "#f0faf5", color: "#1a6b3c", bar: "#22c55e" };
 }
 
-function getModalidadStyle(m: string): { bg: string; color: string } {
-  if (m === "Presencial") return { bg: "#111",    color: "#fff" };
-  if (m === "En línea")   return { bg: "#f0faf5", color: "#1a6b3c" };
-  return                         { bg: "#f5f2ed", color: "#555" };
+function agruparPorCursoYBloque(horarios: any[]) {
+  const mapa = new Map<string, { curso: any; horarios: any[] }>();
+
+  horarios.forEach((h) => {
+    const clave = `${h.curso.id}_${h.fechaInicio}_${h.fechaFin}`;
+    if (!mapa.has(clave)) {
+      mapa.set(clave, { curso: h.curso, horarios: [] });
+    }
+    mapa.get(clave)!.horarios.push(h);
+  });
+
+  const ordenDias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+  mapa.forEach((grupo) => {
+    grupo.horarios.sort(
+      (a, b) => ordenDias.indexOf(a.diaSemana) - ordenDias.indexOf(b.diaSemana)
+    );
+  });
+
+  return Array.from(mapa.values());
 }
 
-// ─── Subcomponentes ───────────────────────────────────────────
-
-function BadgeModalidad({ tipo }: { tipo: string }) {
-  const s = getModalidadStyle(tipo);
-  return (
-    <span className="cat-badge" style={{ background: s.bg, color: s.color }}>
-      {tipo}
-    </span>
-  );
+// TODO: ajusta esto a cómo realmente guardas la sesión del estudiante
+function obtenerEstudianteId(): string | null {
+  return localStorage.getItem("estudianteInternalId");
 }
 
-function BarraCupo({ curso }: { curso: CursoCatalogo }) {
-  const st  = getCupoStatus(curso);
-  const pct = (curso.cupoOcupado / curso.cupoTotal) * 100;
-  return (
-    <div className="cat-cupo-wrap">
-      <div className="cat-cupo-header">
-        <span className="cat-cupo-count">{curso.cupoOcupado}/{curso.cupoTotal} inscritos</span>
-        <span className="cat-cupo-label" style={{ background: st.bg, color: st.color }}>
-          {st.label}
-        </span>
-      </div>
-      <div className="cat-progress-track">
-        <div className="cat-progress-fill" style={{ width: `${pct}%`, background: st.bar }} />
-      </div>
-    </div>
-  );
-}
+// ─── Tarjeta de Curso (con su horario tipo "clase de escuela") ─
 
-// Tarjeta grid
-function TarjetaCursoGrid({ curso }: { curso: CursoCatalogo }) {
-  const libre = cupoLibre(curso);
+function TarjetaCurso({
+  curso,
+  horarios,
+  yaInscrito,
+  onInscribir,
+}: {
+  curso: any;
+  horarios: any[];
+  yaInscrito: boolean;
+  onInscribir: (curso: any, horarios: any[]) => void;
+}) {
+  const cupoMaximo = horarios[0].cupoMaximo;
+  const libreMinimo = Math.min(...horarios.map((h) => cupoLibre(h)));
+  const st = getCupoStatus(libreMinimo, cupoMaximo);
+  const sinCupo = libreMinimo === 0;
+  const deshabilitado = sinCupo || yaInscrito;
+
   return (
     <div className="cat-card">
+      {curso.urlImagen && (
+        <img
+          src={curso.urlImagen}
+          alt={curso.nombre}
+          className="cat-card-img"
+          style={{
+            width: "100%",
+            height: 140,
+            objectFit: "cover",
+            borderRadius: 8,
+            marginBottom: 12,
+          }}
+        />
+      )}
+
       <div className="cat-card-badges">
-        <span className="cat-badge cat-badge--outline">{curso.categoria}</span>
-        <BadgeModalidad tipo={curso.modalidad} />
-        <span className="cat-badge cat-badge--muted">{curso.nivel}</span>
-      </div>
-
-      <div>
-        <h3 className="cat-card-nombre">{curso.nombre}</h3>
-        <p className="cat-card-instructor">{curso.instructor}</p>
-      </div>
-
-      <p className="cat-card-desc">{curso.descripcion}</p>
-
-      <div className="cat-card-meta">
-        {[
-          { icon: "◷", val: curso.horario },
-          { icon: "◎", val: curso.sala },
-          { icon: "◈", val: curso.duracion },
-          { icon: "→", val: `Inicio: ${curso.inicio}` },
-        ].map((d) => (
-          <span key={d.val} className="cat-card-meta-item">
-            <span className="cat-card-meta-icon">{d.icon}</span>
-            {d.val}
+        {curso.categoria && (
+          <span className="cat-badge cat-badge--outline">{curso.categoria}</span>
+        )}
+        {yaInscrito && (
+          <span
+            className="cat-badge"
+            style={{ background: "#eafaf0", color: "#1a6b3c", fontWeight: 600 }}
+          >
+            ✓ Ya inscrito
           </span>
+        )}
+      </div>
+
+      <h3 className="cat-card-nombre">{curso.nombre}</h3>
+
+      {curso.instructor?.usuario?.nombreCompleto && (
+        <p className="cat-card-instructor">{curso.instructor.usuario.nombreCompleto}</p>
+      )}
+
+      {curso.descripcion && <p className="cat-card-desc">{curso.descripcion}</p>}
+
+      <div className="cat-horario-semana">
+        {horarios.map((h) => (
+          <div key={h.id} className="cat-dia-badge">
+            <span className="cat-dia-nombre">{h.diaSemana}</span>
+            <span className="cat-dia-hora">{h.horaInicio} - {h.horaFin}</span>
+          </div>
         ))}
       </div>
 
-      <div className="cat-tags">
-        {curso.tags.map((t) => <span key={t} className="cat-tag">{t}</span>)}
+      <div className="cat-cupo-wrap">
+        <div className="cat-cupo-header">
+          <span className="cat-cupo-count">
+            {cupoMaximo - libreMinimo}/{cupoMaximo} inscritos
+          </span>
+          <span className="cat-cupo-label" style={{ background: st.bg, color: st.color }}>
+            {st.label}
+          </span>
+        </div>
+        <div className="cat-progress-track">
+          <div
+            className="cat-progress-fill"
+            style={{
+              width: `${((cupoMaximo - libreMinimo) / cupoMaximo) * 100}%`,
+              background: st.bar,
+            }}
+          />
+        </div>
       </div>
-
-      <BarraCupo curso={curso} />
 
       <div className="cat-card-footer">
-        <p className="cat-precio">{curso.precio}</p>
         <button
-          className={`cat-btn ${libre === 0 ? "cat-btn--disabled" : "cat-btn--primary"}`}
-          disabled={libre === 0}
+          type="button"
+          className={`cat-btn ${deshabilitado ? "cat-btn--disabled" : "cat-btn--primary"}`}
+          disabled={deshabilitado}
           style={{ width: "auto", padding: "9px 16px" }}
+          onClick={() => onInscribir(curso, horarios)}
         >
-          {libre === 0 ? "Sin cupo" : "Inscribirme →"}
+          {yaInscrito ? "Ya inscrito" : sinCupo ? "Sin cupo" : "Inscribirme →"}
         </button>
       </div>
     </div>
   );
 }
 
-// Fila lista
-function FilaCursoLista({ curso }: { curso: CursoCatalogo }) {
-  const libre = cupoLibre(curso);
-  const st    = getCupoStatus(curso);
-  const pct   = (curso.cupoOcupado / curso.cupoTotal) * 100;
-
-  return (
-    <div className="cat-list-item">
-      <div className="cat-list-info">
-        <div className="cat-card-badges" style={{ marginBottom: 10 }}>
-          <span className="cat-badge cat-badge--outline">{curso.categoria}</span>
-          <BadgeModalidad tipo={curso.modalidad} />
-          <span className="cat-badge cat-badge--muted">{curso.nivel}</span>
-        </div>
-        <h3 className="cat-list-nombre">{curso.nombre}</h3>
-        <p className="cat-list-instructor">{curso.instructor}</p>
-        <p className="cat-list-desc">{curso.descripcion}</p>
-        <div className="cat-list-metas">
-          {[
-            { icon: "◷", val: curso.horario },
-            { icon: "◎", val: curso.sala },
-            { icon: "◈", val: curso.duracion },
-            { icon: "→", val: `Inicio: ${curso.inicio}` },
-          ].map((d) => (
-            <span key={d.val} className="cat-list-meta-item">
-              <span style={{ marginRight: 4, opacity: .6 }}>{d.icon}</span>{d.val}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      <div className="cat-list-side">
-        <div className="cat-cupo-box">
-          <p className="cat-cupo-box-num">{libre === 0 ? "—" : libre}</p>
-          <p className="cat-cupo-box-sub">{libre === 0 ? "Sin cupo" : "lugares libres"}</p>
-          <div className="cat-progress-track">
-            <div className="cat-progress-fill" style={{ width: `${pct}%`, background: st.bar }} />
-          </div>
-        </div>
-        <p className="cat-precio" style={{ textAlign: "right" }}>{curso.precio}</p>
-        <button
-          className={`cat-btn ${libre === 0 ? "cat-btn--disabled" : "cat-btn--primary"}`}
-          disabled={libre === 0}
-        >
-          {libre === 0 ? "Lista de espera" : "Inscribirme →"}
-        </button>
-      </div>
-    </div>
-  );
-}
-
-// ─── Vista principal ──────────────────────────────────────────
+// ─── Vista Principal ──────────────────────────────────────────
 
 export default function CatalogoCursos() {
-  const [categoria,  setCategoria]  = useState<string>("Todos");
-  const [modalidad,  setModalidad]  = useState<string>("Todas");
-  const [soloDispon, setSoloDispon] = useState<boolean>(false);
-  const [vistaGrid,  setVistaGrid]  = useState<boolean>(true);
+  const [categoria, setCategoria] = useState("Todos");
+  const [soloDispon, setSoloDispon] = useState(false);
 
-  const filtrados = CURSOS_CATALOGO.filter((c) => {
-    if (categoria !== "Todos" && c.categoria !== categoria) return false;
-    if (modalidad !== "Todas" && c.modalidad !== modalidad) return false;
-    if (soloDispon && cupoLibre(c) === 0)                   return false;
-    return true;
+  const [cursoSeleccionado, setCursoSeleccionado] = useState<any>(null);
+  const [horariosSeleccionados, setHorariosSeleccionados] = useState<any[]>([]);
+  const [mostrarModal, setMostrarModal] = useState(false);
+  const [mensajeExito, setMensajeExito] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [inscribiendo, setInscribiendo] = useState(false);
+
+  const estudianteInternalId = obtenerEstudianteId();
+
+  const { data, isLoading, isError, refetch: refetchHorarios } = useGetHorariosDisponibles();
+  const { mutateAsync: inscribir } = useInsscribirEstudiante();
+  const { mutateAsync: actualizarCupo } = useActualizarCupoHorario();
+
+  const { data: dataInscripciones, refetch: refetchInscripciones } =
+    useGetInscripcionesByEstudianteId(
+      { estudianteInternalId: estudianteInternalId ?? "" },
+      { enabled: !!estudianteInternalId }
+    );
+
+  const cursosInscritos = useMemo(() => {
+    const set = new Set<string>();
+    (dataInscripciones?.inscripcions ?? []).forEach((i: any) => {
+      const cursoId = i.horario?.curso?.id;
+      if (cursoId) set.add(cursoId);
+    });
+    return set;
+  }, [dataInscripciones]);
+
+  const horarios = (data?.horarios ?? []).filter(
+    (h: any) => h.estado?.toLowerCase() === "activo"
+  );
+
+  const categorias = [
+    "Todos",
+    ...Array.from(
+      new Set(horarios.map((h: any) => h.curso.categoria).filter((c: any) => !!c))
+    ),
+  ];
+
+  const cursosAgrupados = agruparPorCursoYBloque(horarios).filter(({ curso, horarios }) => {
+    const pasaCategoria = categoria === "Todos" || curso.categoria === categoria;
+    const libreMinimo = Math.min(...horarios.map((h) => cupoLibre(h)));
+    const pasaCupo = !soloDispon || libreMinimo > 0;
+    return pasaCategoria && pasaCupo;
   });
 
-  const totalLibres = filtrados.reduce((acc, c) => acc + cupoLibre(c), 0);
-  const sinCupo     = filtrados.filter((c) => cupoLibre(c) === 0).length;
+  const totalLibres = cursosAgrupados.reduce(
+    (acc, { horarios }) => acc + Math.min(...horarios.map((h) => cupoLibre(h))),
+    0
+  );
+  const sinCupo = cursosAgrupados.filter(
+    ({ horarios }) => Math.min(...horarios.map((h) => cupoLibre(h))) === 0
+  ).length;
+
+  function handleInscribir(curso: any, horariosDelCurso: any[]) {
+    if (cursosInscritos.has(curso.id)) {
+      setError("Ya estás inscrito en este curso.");
+      return;
+    }
+
+    const libreMinimo = Math.min(...horariosDelCurso.map((h) => cupoLibre(h)));
+    if (libreMinimo === 0) {
+      setError("Este curso ya no tiene cupo disponible.");
+      return;
+    }
+
+    setCursoSeleccionado(curso);
+    setHorariosSeleccionados(horariosDelCurso);
+    setMostrarModal(true);
+    setMensajeExito(false);
+    setError(null);
+  }
+
+  async function confirmarInscripcion() {
+    if (!estudianteInternalId) {
+      setError("No se encontró tu sesión de estudiante. Inicia sesión de nuevo.");
+      return;
+    }
+
+    if (cursoSeleccionado && cursosInscritos.has(cursoSeleccionado.id)) {
+      setError("Ya estás inscrito en este curso.");
+      return;
+    }
+
+    setInscribiendo(true);
+    setError(null);
+
+    try {
+      // Traemos el cupo más reciente justo antes de inscribir
+      const horariosFrescos = await refetchHorarios();
+      const listaFresca = (horariosFrescos.data?.horarios ?? []) as any[];
+
+      const horariosDelGrupoFrescos = horariosSeleccionados
+        .map((hSel) => listaFresca.find((hFresco: any) => hFresco.id === hSel.id))
+        .filter(Boolean) as any[];
+
+      const libreMinimoFresco =
+        horariosDelGrupoFrescos.length > 0
+          ? Math.min(...horariosDelGrupoFrescos.map((h) => cupoLibre(h)))
+          : Math.min(...horariosSeleccionados.map((h) => cupoLibre(h)));
+
+      if (libreMinimoFresco === 0) {
+        setError("Este curso ya no tiene cupo disponible.");
+        setInscribiendo(false);
+        return;
+      }
+
+      // Inscribe en TODOS los días/horarios de este curso, y para cada uno
+      // incrementa cupoActual — esto es lo que faltaba antes.
+      for (const horario of horariosSeleccionados) {
+        const horarioFresco =
+          horariosDelGrupoFrescos.find((h) => h.id === horario.id) ?? horario;
+
+        await inscribir({
+          inscripcionId: crypto.randomUUID(),
+          estudianteInternalId,
+          horarioInternalId: horario.id,
+        });
+
+        await actualizarCupo({
+          horarioInternalId: horario.id,
+          cupoActual: horarioFresco.cupoActual + 1,
+        });
+      }
+
+      await refetchHorarios();
+      await refetchInscripciones();
+      setMensajeExito(true);
+    } catch (e) {
+      setError("No se pudo completar la inscripción. Intenta de nuevo.");
+    } finally {
+      setInscribiendo(false);
+    }
+  }
+
+  function cerrarModal() {
+    setMostrarModal(false);
+    setCursoSeleccionado(null);
+    setHorariosSeleccionados([]);
+    setMensajeExito(false);
+    setError(null);
+  }
+
+  if (isLoading) {
+    return (
+      <div className="cat-page">
+        <p className="cat-empty">Cargando cursos...</p>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="cat-page">
+        <p className="cat-empty">Ocurrió un error al cargar los cursos.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="cat-page">
-
       <div className="cat-header">
         <p className="cat-kicker">Oferta académica</p>
         <h2 className="cat-title">Cursos disponibles</h2>
@@ -186,9 +332,9 @@ export default function CatalogoCursos() {
 
       <div className="cat-stats">
         {[
-          { val: String(filtrados.length), label: "Cursos",         sub: "en esta selección" },
-          { val: String(totalLibres),       label: "Lugares libres", sub: "en total" },
-          { val: String(sinCupo),           label: "Sin cupo",       sub: "lista de espera" },
+          { val: String(cursosAgrupados.length), label: "Cursos", sub: "disponibles" },
+          { val: String(totalLibres), label: "Lugares libres", sub: "en total" },
+          { val: String(sinCupo), label: "Sin cupo", sub: "lista de espera" },
         ].map((s) => (
           <div key={s.label} className="cat-stat-card">
             <p className="cat-stat-val">{s.val}</p>
@@ -200,60 +346,96 @@ export default function CatalogoCursos() {
 
       <div className="cat-toolbar">
         <div className="cat-filters">
-          {CATEGORIAS_CATALOGO.map((cat) => (
+          {categorias.map((cat: any) => (
             <button
               key={cat}
+              type="button"
               className={`cat-filter-btn${categoria === cat ? " active" : ""}`}
               onClick={() => setCategoria(cat)}
             >
-              <span>{cat}</span>
-            </button>
-          ))}
-          <span className="cat-divider" />
-          {MODALIDADES_CATALOGO.map((m) => (
-            <button
-              key={m}
-              className={`cat-filter-btn secondary${modalidad === m ? " active" : ""}`}
-              onClick={() => setModalidad(m)}
-            >
-              <span>{m}</span>
+              {cat}
             </button>
           ))}
         </div>
 
-        <div className="cat-filters">
-          <label className="cat-check-label">
-            <input
-              type="checkbox"
-              checked={soloDispon}
-              onChange={(e) => setSoloDispon(e.target.checked)}
-            />
-            Solo con cupo
-          </label>
-          <div className="cat-toggle-vista">
-            <button
-              className={`cat-toggle-btn${vistaGrid ? " active" : ""}`}
-              onClick={() => setVistaGrid(true)}
-              title="Cuadrícula"
-            >⊞</button>
-            <button
-              className={`cat-toggle-btn${!vistaGrid ? " active" : ""}`}
-              onClick={() => setVistaGrid(false)}
-              title="Lista"
-            >≡</button>
-          </div>
-        </div>
+        <label className="cat-check-label">
+          <input
+            type="checkbox"
+            checked={soloDispon}
+            onChange={(e) => setSoloDispon(e.target.checked)}
+          />
+          Solo con cupo
+        </label>
       </div>
 
-      {filtrados.length === 0 ? (
-        <p className="cat-empty">No hay cursos con los filtros seleccionados.</p>
-      ) : vistaGrid ? (
-        <div className="cat-grid">
-          {filtrados.map((c) => <TarjetaCursoGrid key={c.id} curso={c} />)}
-        </div>
+      {cursosAgrupados.length === 0 ? (
+        <p className="cat-empty">No hay cursos disponibles.</p>
       ) : (
-        <div>
-          {filtrados.map((c) => <FilaCursoLista key={c.id} curso={c} />)}
+        <div className="cat-grid">
+          {cursosAgrupados.map(({ curso, horarios }, i) => (
+            <TarjetaCurso
+              key={`${curso.id}_${i}`}
+              curso={curso}
+              horarios={horarios}
+              yaInscrito={cursosInscritos.has(curso.id)}
+              onInscribir={handleInscribir}
+            />
+          ))}
+        </div>
+      )}
+
+      {mostrarModal && cursoSeleccionado && (
+        <div className="cat-modal-overlay" onClick={cerrarModal}>
+          <div className="cat-modal" onClick={(e) => e.stopPropagation()}>
+            {!mensajeExito ? (
+              <>
+                <h3>Confirmar inscripción</h3>
+                <p>
+                  ¿Deseas inscribirte en <strong>{cursoSeleccionado.nombre}</strong>?
+                </p>
+                <ul style={{ margin: "0 0 16px", paddingLeft: 18, fontSize: 14, color: "#444" }}>
+                  {horariosSeleccionados.map((h) => (
+                    <li key={h.id}>
+                      {h.diaSemana}: {h.horaInicio} - {h.horaFin}
+                    </li>
+                  ))}
+                </ul>
+                {error && <p className="cat-error">{error}</p>}
+                <div className="cat-modal-actions">
+                  <button
+                    type="button"
+                    className="cat-btn"
+                    onClick={cerrarModal}
+                    disabled={inscribiendo}
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="button"
+                    className="cat-btn cat-btn--primary"
+                    onClick={confirmarInscripcion}
+                    disabled={inscribiendo}
+                  >
+                    {inscribiendo ? "Inscribiendo..." : "Confirmar"}
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <h3>Has sido inscrito</h3>
+                <p>
+                  Quedaste registrado en <strong>{cursoSeleccionado.nombre}</strong>.
+                </p>
+                <button
+                  type="button"
+                  className="cat-btn cat-btn--primary"
+                  onClick={cerrarModal}
+                >
+                  Cerrar
+                </button>
+              </>
+            )}
+          </div>
         </div>
       )}
     </div>

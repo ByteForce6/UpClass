@@ -1,6 +1,7 @@
 #1. QUERY DE LOGIN: Pública para verificar credenciales
 query GetUsuarioByCorreo($correo: String!) @auth(level: PUBLIC) {
   usuarios(where: { correo: { eq: $correo } }) {
+    id                # ← nuevo: UUID interno
     usuarioId
     nombreCompleto
     correo
@@ -10,7 +11,12 @@ query GetUsuarioByCorreo($correo: String!) @auth(level: PUBLIC) {
     }
   }
 }
-
+query GetEstudianteByUsuarioInternalId($usuarioInternalId: UUID!) @auth(level: PUBLIC) {
+  estudiantes(where: { usuario: { id: { eq: $usuarioInternalId } } }) {
+    id
+    matricula
+  }
+}
 # ====================================================
 # OPERACIONES DE ESTUDIANTES
 # ====================================================
@@ -467,6 +473,16 @@ mutation DeleteHorario($horarioInternalId: UUID!) @auth(level: PUBLIC) {
   horario_delete(key: { id: $horarioInternalId })
 
 }
+# Incrementa cupoActual de un horario (se llama justo después de insertar la inscripción)
+mutation ActualizarCupoHorario(
+  $horarioInternalId: UUID!
+  $cupoActual: Int!
+) @auth(level: PUBLIC) {
+  horario_update(
+    key: { id: $horarioInternalId }
+    data: { cupoActual: $cupoActual }
+  )
+}
 
 
 # ── Cursos (estadísticas) ──────────────────────────────────────────────────────
@@ -765,12 +781,58 @@ query GetInscripcionesByEstudiante($matricula: String!) @auth(level: PUBLIC) {
     }
   }
 }
+# Trae las inscripciones activas de un estudiante por su ID interno (UUID) —
+# útil cuando solo tienes estudianteInternalId guardado (ej. en localStorage)
+query GetInscripcionesByEstudianteId($estudianteInternalId: UUID!) @auth(level: PUBLIC) {
+  inscripcions(
+    where: {
+      estudiante: { id: { eq: $estudianteInternalId } }
+      estadoInscripcion: { eq: "activa" }
+    }
+  ) {
+    inscripcionId
+    estadoInscripcion
+    pagoEstado
+    fechaInscripcion
+    horario {
+      id
+      horarioId
+      diaSemana
+      fechaInicio
+      fechaFin
+      horaInicio
+      horaFin
+      cupoMaximo
+      cupoActual
+      estado
+      curso {
+        id
+        cursoId
+        nombre
+        descripcion
+        categoria
+        urlImagen
+        estado
+        instructor {
+          instructorId
+          usuario {
+            nombreCompleto
+          }
+        }
+      }
+    }
+  }
+}
 
 # Trae todos los horarios disponibles con cupo para el catálogo
+# Trae todos los horarios disponibles con cupo para el catálogo
 query GetHorariosDisponibles @auth(level: PUBLIC) {
-  horarios(where: { estado: { eq: "activo" } }) {
+  horarios {
     id
     horarioId
+    diaSemana
+    fechaInicio
+    fechaFin
     horaInicio
     horaFin
     cupoMaximo
@@ -786,9 +848,7 @@ query GetHorariosDisponibles @auth(level: PUBLIC) {
       estado
       instructor {
         instructorId
-        usuario {
-          nombreCompleto
-        }
+        usuario { nombreCompleto }
       }
     }
   }

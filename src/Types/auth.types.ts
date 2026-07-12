@@ -10,5 +10,6 @@ export interface AuthResponse {
     nombre: string;
     correo: string;
     rol: string;
+     estudianteInternalId?: string;
   };
 }

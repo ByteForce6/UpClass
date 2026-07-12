@@ -20,6 +20,9 @@ export const useAuth = () => {
       localStorage.setItem("user", JSON.stringify(data.usuario));
       localStorage.setItem("rol", data.usuario.rol);
 
+      if (data.usuario.estudianteInternalId) {
+        localStorage.setItem("estudianteInternalId", data.usuario.estudianteInternalId);
+      }
       // 👇 replace: true evita que el login quede en el historial
       if (data.usuario.rol === "admin") navigate("/admin", { replace: true });
       else if (data.usuario.rol === "student") navigate("/students", { replace: true });
