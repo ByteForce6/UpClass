@@ -880,3 +880,226 @@ mutation CancelarInscripcion(
     data: { estadoInscripcion: "baja" }
   )
 }
+
+# ====================================================
+# MÓDULO DE ASISTENCIAS DEL PROFESOR
+# ====================================================
+
+# Buscar al instructor por el correo de la sesión
+query TeacherGetInstructorByCorreo(
+  $correo: String!
+) @auth(level: PUBLIC) {
+  instructors(
+    where: {
+      usuario: {
+        correo: { eq: $correo }
+      }
+    }
+  ) {
+    id
+    instructorId
+    especialidad
+    usuario {
+      id
+      usuarioId
+      nombreCompleto
+      correo
+      activo
+    }
+  }
+}
+
+# Obtener los cursos asignados al profesor
+query TeacherListCursosPorCorreo(
+  $correo: String!
+) @auth(level: PUBLIC) {
+  cursos(
+    where: {
+      instructor: {
+        usuario: {
+          correo: { eq: $correo }
+        }
+      }
+    }
+  ) {
+    id
+    cursoId
+    nombre
+    descripcion
+    categoria
+    estado
+    instructor {
+      id
+      instructorId
+      usuario {
+        id
+        nombreCompleto
+        correo
+      }
+    }
+  }
+}
+
+# Obtener horarios del curso seleccionado
+query TeacherListHorariosPorCurso(
+  $cursoId: Int!
+) @auth(level: PUBLIC) {
+  horarios(
+    where: {
+      curso: {
+        cursoId: { eq: $cursoId }
+      }
+    }
+  ) {
+    id
+    horarioId
+    diaSemana
+    fechaInicio
+    fechaFin
+    horaInicio
+    horaFin
+    cupoMaximo
+    cupoActual
+    estado
+    curso {
+      id
+      cursoId
+      nombre
+      categoria
+    }
+  }
+}
+
+# Obtener estudiantes inscritos en un horario específico
+query TeacherListEstudiantesPorHorario(
+  $horarioInternalId: UUID!
+) @auth(level: PUBLIC) {
+  inscripcions(
+    where: {
+      horario: {
+        id: { eq: $horarioInternalId }
+      }
+      estadoInscripcion: {
+        eq: "activa"
+      }
+    }
+  ) {
+    id
+    inscripcionId
+    estadoInscripcion
+    pagoEstado
+    estudiante {
+      id
+      matricula
+      usuario {
+        id
+        usuarioId
+        nombreCompleto
+        correo
+        activo
+      }
+    }
+    horario {
+      id
+      horarioId
+      curso {
+        id
+        cursoId
+        nombre
+      }
+    }
+  }
+}
+
+# Historial de asistencias registradas por el profesor
+query TeacherListAsistenciasPorCorreo(
+  $correo: String!
+) @auth(level: PUBLIC) {
+  asistencias(
+    where: {
+      instructor: {
+        usuario: {
+          correo: { eq: $correo }
+        }
+      }
+    }
+  ) {
+    id
+    asistenciaId
+    materiaId
+    fecha
+    estadoAsistencia
+    observaciones
+    estudiante {
+      id
+      matricula
+      usuario {
+        id
+        nombreCompleto
+        correo
+      }
+    }
+    instructor {
+      id
+      instructorId
+      usuario {
+        id
+        nombreCompleto
+        correo
+      }
+    }
+  }
+}
+
+# Crear una asistencia
+mutation TeacherCreateAsistencia(
+  $asistenciaId: Int!
+  $instructorInternalId: UUID!
+  $estudianteInternalId: UUID!
+  $materiaId: Int!
+  $fecha: Date!
+  $estadoAsistencia: String!
+  $observaciones: String
+) @auth(level: PUBLIC) {
+  asistencia_insert(
+    data: {
+      asistenciaId: $asistenciaId
+      instructorId: $instructorInternalId
+      estudianteId: $estudianteInternalId
+      materiaId: $materiaId
+      fecha: $fecha
+      estadoAsistencia: $estadoAsistencia
+      observaciones: $observaciones
+    }
+  )
+}
+
+# Actualizar una asistencia
+mutation TeacherUpdateAsistencia(
+  $asistenciaInternalId: UUID!
+  $fecha: Date!
+  $estadoAsistencia: String!
+  $observaciones: String
+) @auth(level: PUBLIC) {
+  asistencia_update(
+    key: {
+      id: $asistenciaInternalId
+    }
+    data: {
+      fecha: $fecha
+      estadoAsistencia: $estadoAsistencia
+      observaciones: $observaciones
+    }
+  )
+}
+
+# Eliminar una asistencia
+mutation TeacherDeleteAsistencia(
+  $asistenciaInternalId: UUID!
+) @auth(level: PUBLIC) {
+  asistencia_delete(
+    key: {
+      id: $asistenciaInternalId
+    }
+  )
+}

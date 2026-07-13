@@ -791,6 +791,173 @@ export interface Rol_Key {
   __typename?: 'Rol_Key';
 }
 
+export interface TeacherCreateAsistenciaData {
+  asistencia_insert: Asistencia_Key;
+}
+
+export interface TeacherCreateAsistenciaVariables {
+  asistenciaId: number;
+  instructorInternalId: UUIDString;
+  estudianteInternalId: UUIDString;
+  materiaId: number;
+  fecha: DateString;
+  estadoAsistencia: string;
+  observaciones?: string | null;
+}
+
+export interface TeacherDeleteAsistenciaData {
+  asistencia_delete?: Asistencia_Key | null;
+}
+
+export interface TeacherDeleteAsistenciaVariables {
+  asistenciaInternalId: UUIDString;
+}
+
+export interface TeacherGetInstructorByCorreoData {
+  instructors: ({
+    id: UUIDString;
+    instructorId: number;
+    especialidad?: string | null;
+    usuario: {
+      id: UUIDString;
+      usuarioId: string;
+      nombreCompleto: string;
+      correo: string;
+      activo: boolean;
+    } & Usuario_Key;
+  } & Instructor_Key)[];
+}
+
+export interface TeacherGetInstructorByCorreoVariables {
+  correo: string;
+}
+
+export interface TeacherListAsistenciasPorCorreoData {
+  asistencias: ({
+    id: UUIDString;
+    asistenciaId: number;
+    materiaId: number;
+    fecha: DateString;
+    estadoAsistencia: string;
+    observaciones?: string | null;
+    estudiante: {
+      id: UUIDString;
+      matricula: string;
+      usuario: {
+        id: UUIDString;
+        nombreCompleto: string;
+        correo: string;
+      } & Usuario_Key;
+    } & Estudiante_Key;
+    instructor: {
+      id: UUIDString;
+      instructorId: number;
+      usuario: {
+        id: UUIDString;
+        nombreCompleto: string;
+        correo: string;
+      } & Usuario_Key;
+    } & Instructor_Key;
+  } & Asistencia_Key)[];
+}
+
+export interface TeacherListAsistenciasPorCorreoVariables {
+  correo: string;
+}
+
+export interface TeacherListCursosPorCorreoData {
+  cursos: ({
+    id: UUIDString;
+    cursoId: number;
+    nombre: string;
+    descripcion?: string | null;
+    categoria?: string | null;
+    estado?: string | null;
+    instructor?: {
+      id: UUIDString;
+      instructorId: number;
+      usuario: {
+        id: UUIDString;
+        nombreCompleto: string;
+        correo: string;
+      } & Usuario_Key;
+    } & Instructor_Key;
+  } & Curso_Key)[];
+}
+
+export interface TeacherListCursosPorCorreoVariables {
+  correo: string;
+}
+
+export interface TeacherListEstudiantesPorHorarioData {
+  inscripcions: ({
+    id: UUIDString;
+    inscripcionId: string;
+    estadoInscripcion: string;
+    pagoEstado?: string | null;
+    estudiante: {
+      id: UUIDString;
+      matricula: string;
+      usuario: {
+        id: UUIDString;
+        usuarioId: string;
+        nombreCompleto: string;
+        correo: string;
+        activo: boolean;
+      } & Usuario_Key;
+    } & Estudiante_Key;
+    horario: {
+      id: UUIDString;
+      horarioId: number;
+      curso: {
+        id: UUIDString;
+        cursoId: number;
+        nombre: string;
+      } & Curso_Key;
+    } & Horario_Key;
+  } & Inscripcion_Key)[];
+}
+
+export interface TeacherListEstudiantesPorHorarioVariables {
+  horarioInternalId: UUIDString;
+}
+
+export interface TeacherListHorariosPorCursoData {
+  horarios: ({
+    id: UUIDString;
+    horarioId: number;
+    diaSemana: string;
+    fechaInicio: DateString;
+    fechaFin: DateString;
+    horaInicio: string;
+    horaFin: string;
+    cupoMaximo: number;
+    cupoActual: number;
+    estado?: string | null;
+    curso: {
+      id: UUIDString;
+      cursoId: number;
+      nombre: string;
+      categoria?: string | null;
+    } & Curso_Key;
+  } & Horario_Key)[];
+}
+
+export interface TeacherListHorariosPorCursoVariables {
+  cursoId: number;
+}
+
+export interface TeacherUpdateAsistenciaData {
+  asistencia_update?: Asistencia_Key | null;
+}
+
+export interface TeacherUpdateAsistenciaVariables {
+  asistenciaInternalId: UUIDString;
+  fecha: DateString;
+  estadoAsistencia: string;
+  observaciones?: string | null;
+}
+
 export interface UpdateCursoData {
   curso_update?: Curso_Key | null;
 }
@@ -1420,4 +1587,100 @@ export const cancelarInscripcionRef: CancelarInscripcionRef;
 
 export function cancelarInscripcion(vars: CancelarInscripcionVariables): MutationPromise<CancelarInscripcionData, CancelarInscripcionVariables>;
 export function cancelarInscripcion(dc: DataConnect, vars: CancelarInscripcionVariables): MutationPromise<CancelarInscripcionData, CancelarInscripcionVariables>;
+
+interface TeacherGetInstructorByCorreoRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: TeacherGetInstructorByCorreoVariables): QueryRef<TeacherGetInstructorByCorreoData, TeacherGetInstructorByCorreoVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: TeacherGetInstructorByCorreoVariables): QueryRef<TeacherGetInstructorByCorreoData, TeacherGetInstructorByCorreoVariables>;
+  operationName: string;
+}
+export const teacherGetInstructorByCorreoRef: TeacherGetInstructorByCorreoRef;
+
+export function teacherGetInstructorByCorreo(vars: TeacherGetInstructorByCorreoVariables, options?: ExecuteQueryOptions): QueryPromise<TeacherGetInstructorByCorreoData, TeacherGetInstructorByCorreoVariables>;
+export function teacherGetInstructorByCorreo(dc: DataConnect, vars: TeacherGetInstructorByCorreoVariables, options?: ExecuteQueryOptions): QueryPromise<TeacherGetInstructorByCorreoData, TeacherGetInstructorByCorreoVariables>;
+
+interface TeacherListCursosPorCorreoRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: TeacherListCursosPorCorreoVariables): QueryRef<TeacherListCursosPorCorreoData, TeacherListCursosPorCorreoVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: TeacherListCursosPorCorreoVariables): QueryRef<TeacherListCursosPorCorreoData, TeacherListCursosPorCorreoVariables>;
+  operationName: string;
+}
+export const teacherListCursosPorCorreoRef: TeacherListCursosPorCorreoRef;
+
+export function teacherListCursosPorCorreo(vars: TeacherListCursosPorCorreoVariables, options?: ExecuteQueryOptions): QueryPromise<TeacherListCursosPorCorreoData, TeacherListCursosPorCorreoVariables>;
+export function teacherListCursosPorCorreo(dc: DataConnect, vars: TeacherListCursosPorCorreoVariables, options?: ExecuteQueryOptions): QueryPromise<TeacherListCursosPorCorreoData, TeacherListCursosPorCorreoVariables>;
+
+interface TeacherListHorariosPorCursoRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: TeacherListHorariosPorCursoVariables): QueryRef<TeacherListHorariosPorCursoData, TeacherListHorariosPorCursoVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: TeacherListHorariosPorCursoVariables): QueryRef<TeacherListHorariosPorCursoData, TeacherListHorariosPorCursoVariables>;
+  operationName: string;
+}
+export const teacherListHorariosPorCursoRef: TeacherListHorariosPorCursoRef;
+
+export function teacherListHorariosPorCurso(vars: TeacherListHorariosPorCursoVariables, options?: ExecuteQueryOptions): QueryPromise<TeacherListHorariosPorCursoData, TeacherListHorariosPorCursoVariables>;
+export function teacherListHorariosPorCurso(dc: DataConnect, vars: TeacherListHorariosPorCursoVariables, options?: ExecuteQueryOptions): QueryPromise<TeacherListHorariosPorCursoData, TeacherListHorariosPorCursoVariables>;
+
+interface TeacherListEstudiantesPorHorarioRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: TeacherListEstudiantesPorHorarioVariables): QueryRef<TeacherListEstudiantesPorHorarioData, TeacherListEstudiantesPorHorarioVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: TeacherListEstudiantesPorHorarioVariables): QueryRef<TeacherListEstudiantesPorHorarioData, TeacherListEstudiantesPorHorarioVariables>;
+  operationName: string;
+}
+export const teacherListEstudiantesPorHorarioRef: TeacherListEstudiantesPorHorarioRef;
+
+export function teacherListEstudiantesPorHorario(vars: TeacherListEstudiantesPorHorarioVariables, options?: ExecuteQueryOptions): QueryPromise<TeacherListEstudiantesPorHorarioData, TeacherListEstudiantesPorHorarioVariables>;
+export function teacherListEstudiantesPorHorario(dc: DataConnect, vars: TeacherListEstudiantesPorHorarioVariables, options?: ExecuteQueryOptions): QueryPromise<TeacherListEstudiantesPorHorarioData, TeacherListEstudiantesPorHorarioVariables>;
+
+interface TeacherListAsistenciasPorCorreoRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: TeacherListAsistenciasPorCorreoVariables): QueryRef<TeacherListAsistenciasPorCorreoData, TeacherListAsistenciasPorCorreoVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: TeacherListAsistenciasPorCorreoVariables): QueryRef<TeacherListAsistenciasPorCorreoData, TeacherListAsistenciasPorCorreoVariables>;
+  operationName: string;
+}
+export const teacherListAsistenciasPorCorreoRef: TeacherListAsistenciasPorCorreoRef;
+
+export function teacherListAsistenciasPorCorreo(vars: TeacherListAsistenciasPorCorreoVariables, options?: ExecuteQueryOptions): QueryPromise<TeacherListAsistenciasPorCorreoData, TeacherListAsistenciasPorCorreoVariables>;
+export function teacherListAsistenciasPorCorreo(dc: DataConnect, vars: TeacherListAsistenciasPorCorreoVariables, options?: ExecuteQueryOptions): QueryPromise<TeacherListAsistenciasPorCorreoData, TeacherListAsistenciasPorCorreoVariables>;
+
+interface TeacherCreateAsistenciaRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: TeacherCreateAsistenciaVariables): MutationRef<TeacherCreateAsistenciaData, TeacherCreateAsistenciaVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: TeacherCreateAsistenciaVariables): MutationRef<TeacherCreateAsistenciaData, TeacherCreateAsistenciaVariables>;
+  operationName: string;
+}
+export const teacherCreateAsistenciaRef: TeacherCreateAsistenciaRef;
+
+export function teacherCreateAsistencia(vars: TeacherCreateAsistenciaVariables): MutationPromise<TeacherCreateAsistenciaData, TeacherCreateAsistenciaVariables>;
+export function teacherCreateAsistencia(dc: DataConnect, vars: TeacherCreateAsistenciaVariables): MutationPromise<TeacherCreateAsistenciaData, TeacherCreateAsistenciaVariables>;
+
+interface TeacherUpdateAsistenciaRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: TeacherUpdateAsistenciaVariables): MutationRef<TeacherUpdateAsistenciaData, TeacherUpdateAsistenciaVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: TeacherUpdateAsistenciaVariables): MutationRef<TeacherUpdateAsistenciaData, TeacherUpdateAsistenciaVariables>;
+  operationName: string;
+}
+export const teacherUpdateAsistenciaRef: TeacherUpdateAsistenciaRef;
+
+export function teacherUpdateAsistencia(vars: TeacherUpdateAsistenciaVariables): MutationPromise<TeacherUpdateAsistenciaData, TeacherUpdateAsistenciaVariables>;
+export function teacherUpdateAsistencia(dc: DataConnect, vars: TeacherUpdateAsistenciaVariables): MutationPromise<TeacherUpdateAsistenciaData, TeacherUpdateAsistenciaVariables>;
+
+interface TeacherDeleteAsistenciaRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: TeacherDeleteAsistenciaVariables): MutationRef<TeacherDeleteAsistenciaData, TeacherDeleteAsistenciaVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: TeacherDeleteAsistenciaVariables): MutationRef<TeacherDeleteAsistenciaData, TeacherDeleteAsistenciaVariables>;
+  operationName: string;
+}
+export const teacherDeleteAsistenciaRef: TeacherDeleteAsistenciaRef;
+
+export function teacherDeleteAsistencia(vars: TeacherDeleteAsistenciaVariables): MutationPromise<TeacherDeleteAsistenciaData, TeacherDeleteAsistenciaVariables>;
+export function teacherDeleteAsistencia(dc: DataConnect, vars: TeacherDeleteAsistenciaVariables): MutationPromise<TeacherDeleteAsistenciaData, TeacherDeleteAsistenciaVariables>;
 

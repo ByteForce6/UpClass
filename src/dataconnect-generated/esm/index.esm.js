@@ -602,3 +602,104 @@ export function cancelarInscripcion(dcOrVars, vars) {
   return executeMutation(cancelarInscripcionRef(dcInstance, inputVars));
 }
 
+export const teacherGetInstructorByCorreoRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'TeacherGetInstructorByCorreo', inputVars);
+}
+teacherGetInstructorByCorreoRef.operationName = 'TeacherGetInstructorByCorreo';
+
+export function teacherGetInstructorByCorreo(dcOrVars, varsOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  return executeQuery(teacherGetInstructorByCorreoRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+
+export const teacherListCursosPorCorreoRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'TeacherListCursosPorCorreo', inputVars);
+}
+teacherListCursosPorCorreoRef.operationName = 'TeacherListCursosPorCorreo';
+
+export function teacherListCursosPorCorreo(dcOrVars, varsOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  return executeQuery(teacherListCursosPorCorreoRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+
+export const teacherListHorariosPorCursoRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'TeacherListHorariosPorCurso', inputVars);
+}
+teacherListHorariosPorCursoRef.operationName = 'TeacherListHorariosPorCurso';
+
+export function teacherListHorariosPorCurso(dcOrVars, varsOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  return executeQuery(teacherListHorariosPorCursoRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+
+export const teacherListEstudiantesPorHorarioRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'TeacherListEstudiantesPorHorario', inputVars);
+}
+teacherListEstudiantesPorHorarioRef.operationName = 'TeacherListEstudiantesPorHorario';
+
+export function teacherListEstudiantesPorHorario(dcOrVars, varsOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  return executeQuery(teacherListEstudiantesPorHorarioRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+
+export const teacherListAsistenciasPorCorreoRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'TeacherListAsistenciasPorCorreo', inputVars);
+}
+teacherListAsistenciasPorCorreoRef.operationName = 'TeacherListAsistenciasPorCorreo';
+
+export function teacherListAsistenciasPorCorreo(dcOrVars, varsOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  return executeQuery(teacherListAsistenciasPorCorreoRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+
+export const teacherCreateAsistenciaRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'TeacherCreateAsistencia', inputVars);
+}
+teacherCreateAsistenciaRef.operationName = 'TeacherCreateAsistencia';
+
+export function teacherCreateAsistencia(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(teacherCreateAsistenciaRef(dcInstance, inputVars));
+}
+
+export const teacherUpdateAsistenciaRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'TeacherUpdateAsistencia', inputVars);
+}
+teacherUpdateAsistenciaRef.operationName = 'TeacherUpdateAsistencia';
+
+export function teacherUpdateAsistencia(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(teacherUpdateAsistenciaRef(dcInstance, inputVars));
+}
+
+export const teacherDeleteAsistenciaRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'TeacherDeleteAsistencia', inputVars);
+}
+teacherDeleteAsistenciaRef.operationName = 'TeacherDeleteAsistencia';
+
+export function teacherDeleteAsistencia(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(teacherDeleteAsistenciaRef(dcInstance, inputVars));
+}
+
