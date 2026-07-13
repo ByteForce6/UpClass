@@ -1,8 +1,7 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import {
     useListHorarios,
     useListCursos,
-    useListInscripcionesActivas,
     useCreateHorario,
     useUpdateHorario,
     useDeleteHorario,
@@ -47,6 +46,30 @@ const FORM_INICIAL: FormHorario = {
     estado: "Activo",
     horarioId: "",
     bloques: [{ ...BLOQUE_INICIAL }],
+};
+
+// ─── Estilos del toast de éxito/error ──────────────────────────
+
+const toastStyle: React.CSSProperties = {
+    position: "fixed",
+    bottom: 24,
+    right: 24,
+    background: "#0B4AA2",
+    color: "#fff",
+    padding: "14px 20px",
+    borderRadius: 10,
+    fontSize: 14,
+    fontWeight: 500,
+    boxShadow: "0 4px 14px rgba(0,0,0,0.2)",
+    zIndex: 2000,
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
+};
+
+const toastErrorStyle: React.CSSProperties = {
+    ...toastStyle,
+    background: "#DC2626",
 };
 
 // ─── Validaciones de fechas y horas ────────────────────────────
@@ -101,9 +124,18 @@ export default function HorariosView() {
     const [cargaInicial, setCargaInicial] = useState(false);
     const [formError, setFormError] = useState<string | null>(null);
 
+    // ─ toast de éxito/error ─
+    const [toast, setToast] = useState<string | null>(null);
+    const [toastTipo, setToastTipo] = useState<"exito" | "error">("exito");
+
+    const mostrarToast = (mensaje: string, tipo: "exito" | "error" = "exito") => {
+        setToast(mensaje);
+        setToastTipo(tipo);
+        setTimeout(() => setToast(null), 3000);
+    };
+
     const { data: horariosData } = useListHorarios();
     const { data: cursosData } = useListCursos();
-    const { data: inscripcionesData } = useListInscripcionesActivas();
 
     const { mutate: createHorario, isPending: creando } = useCreateHorario();
     const { mutate: updateHorario, isPending: actualizando } = useUpdateHorario();
@@ -117,17 +149,6 @@ export default function HorariosView() {
     }, [horariosData, cargaInicial]);
 
     const cursos = cursosData?.cursos ?? [];
-
-    const inscripcionesPorHorario = useMemo(() => {
-        const map: Record<number, number> = {};
-        inscripcionesData?.inscripcions?.forEach((i: any) => {
-            const hid = i.horario?.horarioId;
-            if (hid != null) {
-                map[hid] = (map[hid] ?? 0) + 1;
-            }
-        });
-        return map;
-    }, [inscripcionesData]);
 
     const horariosFiltrados = horariosLocal.filter((h: any) =>
         h.curso?.nombre?.toLowerCase().includes(busqueda.toLowerCase()) ||
@@ -183,7 +204,9 @@ export default function HorariosView() {
 
         const cursoSeleccionado = cursos.find((c: any) => c.id === form.cursoId);
 
-        let completados = 0;
+        let procesados = 0;
+        let huboError = false;
+        const total = bloquesValidos.length;
         const nuevosHorarios: any[] = [];
 
         bloquesValidos.forEach((bloque) => {
@@ -215,12 +238,30 @@ export default function HorariosView() {
                             estado: form.estado,
                             curso: cursoSeleccionado ?? null,
                         });
-                        completados++;
+                        procesados++;
 
-                        if (completados === bloquesValidos.length) {
+                        if (procesados === total) {
                             setHorariosLocal((prev) => [...prev, ...nuevosHorarios]);
                             setOpenCreate(false);
                             setForm(FORM_INICIAL);
+                            mostrarToast(
+                                huboError
+                                    ? "Algunos horarios no se pudieron crear"
+                                    : "Horario creado exitosamente",
+                                huboError ? "error" : "exito"
+                            );
+                        }
+                    },
+                    onError: () => {
+                        huboError = true;
+                        procesados++;
+
+                        if (procesados === total) {
+                            if (nuevosHorarios.length > 0) {
+                                setHorariosLocal((prev) => [...prev, ...nuevosHorarios]);
+                            }
+                            setOpenCreate(false);
+                            mostrarToast("Ocurrió un error al crear el horario", "error");
                         }
                     },
                 }
@@ -300,6 +341,11 @@ export default function HorariosView() {
                     setOpenEdit(false);
                     setSelectedHorario(null);
                     setForm(FORM_INICIAL);
+                    mostrarToast("Horario actualizado exitosamente");
+                },
+                onError: () => {
+                    setOpenEdit(false);
+                    mostrarToast("Ocurrió un error al actualizar el horario", "error");
                 },
             }
         );
@@ -319,6 +365,11 @@ export default function HorariosView() {
                     setHorariosLocal((prev) => prev.filter((h) => h.id !== selectedHorario.id));
                     setOpenDelete(false);
                     setSelectedHorario(null);
+                    mostrarToast("Horario eliminado exitosamente");
+                },
+                onError: () => {
+                    setOpenDelete(false);
+                    mostrarToast("Ocurrió un error al eliminar el horario", "error");
                 },
             }
         );
@@ -392,7 +443,7 @@ export default function HorariosView() {
                                             <td>{horario.fechaInicio}</td>
                                             <td>{horario.fechaFin}</td>
                                             <td>{horario.horaInicio} - {horario.horaFin}</td>
-                                            <td>{inscripcionesPorHorario[horario.horarioId] ?? 0}/{horario.cupoMaximo}</td>
+                                            <td>{horario.cupoActual ?? 0}/{horario.cupoMaximo}</td>
                                             <td><span className="ucv-badge">{horario.estado}</span></td>
                                             <td>
                                                 <div className="ucv-actions">
@@ -650,6 +701,13 @@ export default function HorariosView() {
                             </button>
                         </div>
                     </div>
+                </div>
+            )}
+
+            {toast && (
+                <div style={toastTipo === "error" ? toastErrorStyle : toastStyle}>
+                    <span>{toastTipo === "error" ? "✕" : "✓"}</span>
+                    {toast}
                 </div>
             )}
         </>
