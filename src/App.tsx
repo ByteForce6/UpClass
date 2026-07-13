@@ -3,6 +3,7 @@ import UpClassDashboard from "./views/administrator/UpClassDashboard";
 import UpClassDashAlunmo from "./views/students/UpClassDashAlunmo";
 import { ProfesorIndex } from "./views/teachers/ProfesorIndex";
 import { CalificacionesView } from "./views/teachers/CalificacionesView";
+import { AsistenciasView } from "./views/teachers/AsistenciasView";
 import Home from "./views/home";
 import Login from "./views/login";
 import NotFound from "./views/NotFound";
@@ -17,6 +18,8 @@ function App() {
 
       <Route path="/teacher" element={<ProfesorIndex />} />
       <Route path="/teacher/calificaciones" element={<CalificacionesView />} />
+
+      <Route path="/teacher/asistencias" element={<AsistenciasView />} />
 
       <Route path="/login" element={<Login />} />
 

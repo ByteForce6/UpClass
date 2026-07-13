@@ -63,6 +63,9 @@ export const ProfesorIndex = () => {
           <Link to="/teacher/calificaciones" className="menu-item" onClick={() => setMenuOpen(false)}>
             📝 Registrar Calificaciones
           </Link>
+          <Link to="/teacher/asistencias" className="menu-item" onClick={() => setMenuOpen(false)}>
+          📋 Registrar Asistencias
+          </Link>
           <hr className="sidebar-divider" />
           <button type="button" className="menu-item logout" onClick={() => handleLogout()}>
             🚪 Cerrar Sesión
