@@ -8,3 +8,13 @@
   resize: vertical;
   font-family: inherit;
 }
+.ucv-modal-header {
+  background: #0B4AA2;
+  color: #000000;
+  border-radius: 14px 14px 0 0;
+}
+
+.ucv-modal-header h3 {
+  color: #1f1d1d;
+  margin: 0;
+}

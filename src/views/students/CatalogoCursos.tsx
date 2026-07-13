@@ -171,6 +171,9 @@ export default function CatalogoCursos() {
   const [error, setError] = useState<string | null>(null);
   const [inscribiendo, setInscribiendo] = useState(false);
 
+  // NUEVO: modal específico para cupo lleno
+  const [modalSinCupo, setModalSinCupo] = useState(false);
+
   const estudianteInternalId = obtenerEstudianteId();
 
   const { data, isLoading, isError, refetch: refetchHorarios } = useGetHorariosDisponibles();
@@ -226,7 +229,9 @@ export default function CatalogoCursos() {
 
     const libreMinimo = Math.min(...horariosDelCurso.map((h) => cupoLibre(h)));
     if (libreMinimo === 0) {
-      setError("Este curso ya no tiene cupo disponible.");
+      // Cupo lleno: no dejamos avanzar al modal de confirmación, mostramos aviso
+      setCursoSeleccionado(curso);
+      setModalSinCupo(true);
       return;
     }
 
@@ -266,7 +271,9 @@ export default function CatalogoCursos() {
           : Math.min(...horariosSeleccionados.map((h) => cupoLibre(h)));
 
       if (libreMinimoFresco === 0) {
-        setError("Este curso ya no tiene cupo disponible.");
+        // Alguien más se quedó con el último lugar mientras confirmabas
+        setMostrarModal(false);
+        setModalSinCupo(true);
         setInscribiendo(false);
         return;
       }
@@ -305,6 +312,11 @@ export default function CatalogoCursos() {
     setHorariosSeleccionados([]);
     setMensajeExito(false);
     setError(null);
+  }
+
+  function cerrarModalSinCupo() {
+    setModalSinCupo(false);
+    setCursoSeleccionado(null);
   }
 
   if (isLoading) {
@@ -435,6 +447,27 @@ export default function CatalogoCursos() {
                 </button>
               </>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* NUEVO: modal cuando el curso ya no tiene cupo */}
+      {modalSinCupo && cursoSeleccionado && (
+        <div className="cat-modal-overlay" onClick={cerrarModalSinCupo}>
+          <div className="cat-modal" onClick={(e) => e.stopPropagation()}>
+            <h3>Sin cupo disponible</h3>
+            <p>
+              Lo sentimos, <strong>{cursoSeleccionado.nombre}</strong> ya no tiene cupo disponible.
+            </p>
+            <div className="cat-modal-actions">
+              <button
+                type="button"
+                className="cat-btn cat-btn--primary"
+                onClick={cerrarModalSinCupo}
+              >
+                Entendido
+              </button>
+            </div>
           </div>
         </div>
       )}

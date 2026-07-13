@@ -5,7 +5,7 @@ import {
   getUsuarioByCorreoRef,
   getEstudianteByUsuarioInternalIdRef,
   type GetUsuarioByCorreoVariables,
-  type GetEstudianteByUsuarioInternalIdVariables,
+  
 } from '@dataconnect/generated';
 import bcrypt from 'bcryptjs';
 
