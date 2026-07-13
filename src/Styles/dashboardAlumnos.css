@@ -321,7 +321,7 @@ button {
 .ds-topbar-avatar {
   width: 30px;
   height: 30px;
-  background: #111;
+  background: var(--uc-brand-blue);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -490,6 +490,8 @@ button {
   transition: width 0.6s;
 }
 
+
+
 .uc-progress-label {
   font-family: var(--ds);
   font-size: 11px;
@@ -585,10 +587,13 @@ button {
 }
 
 .uc-filter-btn.active {
-  background: #111;
-  color: var(--uc-text);
-  border-color: #111;
+  background: var(--uc-brand-blue) !important;
+  color: #fff !important;
+  border-color: var(--uc-brand-blue) !important;
 }
+
+
+
 
 /* Tabla calificaciones */
 .uc-cal-table-wrap {
@@ -599,10 +604,16 @@ button {
 .uc-table-header {
   display: grid;
   grid-template-columns: 90px 1fr 130px 70px 60px;
-  background: #111;
+  background: var(--uc-brand-blue);
   padding: 11px 16px;
   align-items: center;
 }
+
+.uc-table-header p {
+  color: #fff !important;
+}
+
+
 
 .uc-table-row {
   display: grid;
@@ -656,9 +667,12 @@ button {
 }
 
 .uc-day-card--hoy {
-  border-color: #111;
-  background: #111;
+  border-color: var(--uc-brand-blue);
+  background: var(--uc-brand-blue);
 }
+
+
+
 
 .uc-day-header {
   padding: 10px 12px;
@@ -669,10 +683,12 @@ button {
   align-items: center;
 }
 
+
 .uc-day-card--hoy .uc-day-header {
-  background: #000;
-  border-bottom-color: rgba(255, 255, 255, 0.1);
+  background: var(--uc-brand-blue);
+  border-bottom-color: rgba(255, 255, 255, 0.12);
 }
+
 
 .uc-day-name {
   font-family: var(--ds);
@@ -685,8 +701,9 @@ button {
 }
 
 .uc-day-card--hoy .uc-day-name {
-  color: rgba(255, 255, 255, 0.5);
+  color: #fff;
 }
+
 
 .uc-hoy-badge {
   font-family: var(--ds);
@@ -735,8 +752,9 @@ button {
 }
 
 .uc-bloque--hoy .uc-bloque-hora {
-  color: rgba(255, 255, 255, 0.4);
+  color: #fff;
 }
+
 
 .uc-bloque-nombre {
   font-family: var(--dr);
@@ -815,11 +833,12 @@ button {
   font-weight: 600;
   letter-spacing: 0.07em;
   text-transform: uppercase;
-  background: #111;
+  background: var(--uc-brand-blue);
   color: #fff;
   padding: 4px 10px;
   white-space: nowrap;
 }
+
 
 /* Cards cursos */
 .uc-curso-card {
@@ -878,12 +897,12 @@ button {
 }
 
 .uc-action-btn--solid {
-  background: #111;
+  background: var(--uc-brand-blue);
   color: #fff;
 }
 
 .uc-action-btn--solid:hover {
-  background: #333;
+  background: var(--uc-brand-blue-hover);
 }
 
 .uc-action-btn--outline {
@@ -1326,7 +1345,9 @@ button {
   .uc-table-tipo {
     grid-column: 1;
     grid-row: 1;
+     color: #fff;
   }
+
 
   .uc-table-act {
     grid-column: 1;
@@ -1411,4 +1432,758 @@ button {
     grid-template-columns: 1fr;
   }
 }
+
+
+
+/* Estilos para MisCalificaciones */
+
+.mc-stack-lg {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mc-section-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mc-kicker {
+  font-family: var(--ds);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin: 0;
+}
+
+.mc-page-title {
+  margin: 0;
+  font-family: var(--dr);
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.mc-cal-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.mc-cal-sum-card {
+  padding: 16px;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 1px 0 rgba(0,0,0,.04);
+}
+
+.mc-cal-sum-card.dark {
+  background: #111;
+}
+
+.mc-cal-sum-value {
+  font-family: var(--dr);
+  font-size: 34px;
+  font-weight: 700;
+  margin: 0 0 4px;
+  color: #111;
+}
+
+.mc-cal-sum-card.dark .mc-cal-sum-value {
+  color: #fff;
+}
+
+.mc-cal-sum-label {
+  font-family: var(--ds);
+  font-size: 12px;
+  font-weight: 600;
+  margin: 0;
+  color: #555;
+}
+
+.mc-cal-sum-card.dark .mc-cal-sum-label {
+  color: rgba(255, 255, 255, .7);
+}
+
+.mc-cal-sum-sub {
+  font-family: var(--ds);
+  font-size: 11px;
+  margin: 0;
+  color: #aaa;
+}
+
+.mc-cal-sum-card.dark .mc-cal-sum-sub {
+  color: rgba(255, 255, 255, .4);
+}
+
+.mc-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mc-filter-btn {
+  border: 1px solid rgba(0,0,0,.08);
+  background: #fff;
+  border-radius: 999px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-family: var(--ds);
+  font-size: 13px;
+  font-weight: 700;
+  color: #333;
+  transition: background .15s ease, border-color .15s ease, transform .05s ease;
+}
+
+.mc-filter-btn:active {
+  transform: scale(0.99);
+}
+
+.mc-filter-btn.active {
+  border-color: rgba(0,0,0,.2);
+  background: #f2f2f2;
+}
+
+.mc-cal-table-wrap {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.mc-table-header {
+  background: #111;
+  padding: 14px 16px;
+  display: grid;
+  grid-template-columns: 160px 1fr 1fr 110px 140px;
+  align-items: center;
+  column-gap: 12px;
+}
+
+.mc-table-header-cell {
+  font-family: var(--ds);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.5);
+  margin: 0;
+}
+
+.mc-table-row {
+  padding: 14px 16px;
+  display: grid;
+  grid-template-columns: 160px 1fr 1fr 110px 140px;
+  align-items: center;
+  column-gap: 12px;
+}
+
+.mc-table-row.even {
+  background: #fff;
+}
+
+.mc-table-row.odd {
+  background: #fafaf9;
+}
+
+.mc-table-tipo {
+  display: flex;
+}
+
+.mc-table-act {
+  margin: 0;
+  font-family: var(--ds);
+  font-size: 14px;
+  font-weight: 700;
+  color: #111;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mc-table-curso {
+  margin: 0;
+  font-family: var(--ds);
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mc-table-fecha {
+  margin: 0;
+  font-family: var(--ds);
+  font-size: 14px;
+  font-weight: 600;
+  color: #666;
+}
+
+.mc-Promedio-chip {
+  border-radius: 999px;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.mc-Promedio-chip-value {
+  font-family: var(--dr);
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1;
+}
+
+.mc-badge-tipo {
+  font-family: var(--ds);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  white-space: nowrap;
+  border-radius: 999px;
+}
+
+@media (max-width: 900px) {
+  .mc-cal-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .mc-table-header,
+  .mc-table-row {
+    grid-template-columns: 1fr 1fr;
+    row-gap: 10px;
+  }
+
+  .mc-table-header {
+    padding: 12px 14px;
+  }
+}
+
+/* Estilos para MisCalificaciones */
+
+.mc-stack-lg {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mc-section-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mc-kicker {
+  font-family: var(--ds);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin: 0;
+}
+
+.mc-page-title {
+  margin: 0;
+  font-family: var(--dr);
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.mc-cal-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.mc-cal-sum-card {
+  padding: 16px;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 1px 0 rgba(0,0,0,.04);
+}
+
+.mc-cal-sum-card.dark {
+  background: #111;
+}
+
+.mc-cal-sum-value {
+  font-family: var(--dr);
+  font-size: 34px;
+  font-weight: 700;
+  margin: 0 0 4px;
+  color: #111;
+}
+
+.mc-cal-sum-card.dark .mc-cal-sum-value {
+  color: #fff;
+}
+
+.mc-cal-sum-label {
+  font-family: var(--ds);
+  font-size: 12px;
+  font-weight: 600;
+  margin: 0;
+  color: #555;
+}
+
+.mc-cal-sum-card.dark .mc-cal-sum-label {
+  color: rgba(255, 255, 255, .7);
+}
+
+.mc-cal-sum-sub {
+  font-family: var(--ds);
+  font-size: 11px;
+  margin: 0;
+  color: #aaa;
+}
+
+.mc-cal-sum-card.dark .mc-cal-sum-sub {
+  color: rgba(255, 255, 255, .4);
+}
+
+.mc-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mc-filter-btn {
+  border: 1px solid rgba(0,0,0,.08);
+  background: #fff;
+  border-radius: 999px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-family: var(--ds);
+  font-size: 13px;
+  font-weight: 700;
+  color: #333;
+  transition: background .15s ease, border-color .15s ease, transform .05s ease;
+}
+
+.mc-filter-btn:active {
+  transform: scale(0.99);
+}
+
+.mc-filter-btn.active {
+  border-color: rgba(0,0,0,.2);
+  background: #f2f2f2;
+}
+
+.mc-cal-table-wrap {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.mc-table-header {
+  background: #111;
+  padding: 14px 16px;
+  display: grid;
+  grid-template-columns: 160px 1fr 1fr 110px 140px;
+  align-items: center;
+  column-gap: 12px;
+}
+
+.mc-table-header-cell {
+  font-family: var(--ds);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.5);
+  margin: 0;
+}
+
+.mc-table-row {
+  padding: 14px 16px;
+  display: grid;
+  grid-template-columns: 160px 1fr 1fr 110px 140px;
+  align-items: center;
+  column-gap: 12px;
+}
+
+.mc-table-row.even {
+  background: #fff;
+}
+
+.mc-table-row.odd {
+  background: #fafaf9;
+}
+
+.mc-table-tipo {
+  display: flex;
+}
+
+.mc-table-act {
+  margin: 0;
+  font-family: var(--ds);
+  font-size: 14px;
+  font-weight: 700;
+  color: #111;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mc-table-curso {
+  margin: 0;
+  font-family: var(--ds);
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mc-table-fecha {
+  margin: 0;
+  font-family: var(--ds);
+  font-size: 14px;
+  font-weight: 600;
+  color: #666;
+}
+
+.mc-Promedio-chip {
+  border-radius: 999px;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.mc-Promedio-chip-value {
+  font-family: var(--dr);
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1;
+}
+
+.mc-badge-tipo {
+  font-family: var(--ds);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  white-space: nowrap;
+  border-radius: 999px;
+}
+
+@media (max-width: 900px) {
+  .mc-cal-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .mc-table-header,
+  .mc-table-row {
+    grid-template-columns: 1fr 1fr;
+    row-gap: 10px;
+  }
+
+  .mc-table-header {
+    padding: 12px 14px;
+  }
+}
+
+/* Estilos para Catalogo */
+/* styles/catalogo.css */
+
+.cat-page { display:flex; flex-direction:column; gap:28px; }
+
+.cat-header { border-bottom:1px solid #e0dbd4; padding-bottom:20px; }
+
+.cat-kicker {
+  font-family:var(--ds); font-size:11px; font-weight:600;
+  letter-spacing:.12em; text-transform:uppercase; color:#999; margin:0 0 8px;
+}
+
+.cat-title {
+  font-family:var(--dr); font-size:clamp(24px,4vw,36px); font-weight:700;
+  letter-spacing:-.02em; color:#111; margin:0 0 6px; line-height:1.1;
+}
+.cat-title em { font-weight:400; font-style:italic; }
+
+.cat-subtitle-text { font-family:var(--ds); font-size:13px; color:#999; margin:0; }
+
+/* Stats */
+.cat-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+.cat-stat-card {
+  border:1px solid #e0dbd4; padding:16px 18px; background:#fff;
+  display:flex; flex-direction:column; gap:3px;
+}
+.cat-stat-val  { font-family:var(--dr); font-size:28px; font-weight:700; color:#111; margin:0; letter-spacing:-.02em; }
+.cat-stat-label{ font-family:var(--ds); font-size:12px; font-weight:600; color:#111; margin:0; }
+.cat-stat-sub  { font-family:var(--ds); font-size:11px; color:#999; margin:0; }
+
+/* Toolbar */
+.cat-toolbar {
+  display:flex; flex-wrap:wrap; gap:10px;
+  justify-content:space-between; align-items:center;
+}
+.cat-filters { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+
+.cat-filter-btn {
+  font-family:var(--ds); font-size:11px; font-weight:600; letter-spacing:.07em;
+  text-transform:uppercase; border:1px solid #d8d4cf; background:transparent;
+  color:#888; padding:6px 14px; cursor:pointer; transition:all .2s;
+}
+.cat-filter-btn:hover:not(.active) { border-color:#111; color:#111; }
+.cat-filter-btn.active             { background:#111; color:#fff; border-color:#111; }
+.cat-filter-btn.secondary.active   { background:#555; border-color:#555; }
+
+.cat-divider { width:1px; height:28px; background:#e0dbd4; align-self:center; }
+
+.cat-toggle-vista { display:flex; border:1px solid #d8d4cf; }
+.cat-toggle-btn {
+  font-family:var(--ds); font-size:12px; font-weight:600;
+  background:transparent; color:#aaa; border:none; padding:6px 12px;
+  cursor:pointer; transition:all .2s;
+}
+.cat-toggle-btn.active { background:#111; color:#fff; }
+
+.cat-check-label {
+  display:flex; align-items:center; gap:7px; cursor:pointer;
+  font-family:var(--ds); font-size:11px; color:#666;
+}
+.cat-check-label input[type="checkbox"] { accent-color:#111; width:14px; height:14px; cursor:pointer; }
+
+/* Grid de cursos */
+.cat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:14px; }
+
+.cat-card {
+  border:1px solid #e0dbd4; background:#fff; display:flex;
+  flex-direction:column; padding:20px; gap:10px; transition:border-color .2s;
+}
+.cat-card:hover { border-color:#bbb; }
+
+.cat-card-badges { display:flex; gap:6px; flex-wrap:wrap; }
+
+.cat-badge {
+  font-family:var(--ds); font-size:10px; font-weight:600;
+  letter-spacing:.1em; text-transform:uppercase; padding:3px 8px;
+}
+.cat-badge--outline { border:1px solid #e0dbd4; color:#888; background:transparent; }
+.cat-badge--dark    { background:#111; color:#fff; }
+.cat-badge--green   { background:#f0faf5; color:#1a6b3c; }
+.cat-badge--muted   { background:#f5f2ed; color:#555; }
+
+.cat-card-nombre     { font-family:var(--dr); font-size:16px; font-weight:700; color:#111; margin:0 0 3px; line-height:1.25; }
+.cat-card-instructor { font-family:var(--ds); font-size:12px; color:#888; margin:0; }
+.cat-card-desc       { font-family:var(--ds); font-size:12px; color:#666; margin:0; line-height:1.45; flex:1; }
+
+.cat-card-meta      { display:flex; flex-direction:column; gap:4px; }
+.cat-card-meta-item { font-family:var(--ds); font-size:11px; color:#999; }
+.cat-card-meta-item span { margin-right:5px; }
+
+.cat-tags { display:flex; flex-wrap:wrap; gap:5px; }
+.cat-tag  { font-family:var(--ds); font-size:10px; color:#777; background:#f5f2ed; padding:2px 8px; }
+
+/* Barra de cupo */
+.cat-cupo-wrap   { margin-top:4px; }
+.cat-cupo-header { display:flex; justify-content:space-between; margin-bottom:5px; }
+.cat-cupo-count  { font-family:var(--ds); font-size:11px; color:#aaa; }
+.cat-cupo-label  { font-family:var(--ds); font-size:11px; font-weight:700; padding:2px 8px; }
+.cat-progress-track { height:4px; background:#ece9e4; width:100%; }
+.cat-progress-fill  { height:100%; transition:width .6s; }
+
+/* Footer tarjeta */
+.cat-card-footer { display:flex; justify-content:space-between; align-items:center; padding-top:4px; }
+.cat-precio { font-family:var(--dr); font-size:20px; font-weight:700; color:#111; margin:0; }
+
+/* Lista de cursos */
+.cat-list-item  { display:flex; gap:20px; padding:20px 0; border-bottom:1px solid #ece9e4; align-items:flex-start; flex-wrap:wrap; }
+.cat-list-info  { flex:1; min-width:220px; }
+.cat-list-nombre     { font-family:var(--dr); font-size:17px; font-weight:700; color:#111; margin:0 0 3px; }
+.cat-list-instructor { font-family:var(--ds); font-size:12px; color:#888; margin:0 0 6px; }
+.cat-list-desc       { font-family:var(--ds); font-size:13px; color:#555; margin:0 0 10px; line-height:1.4; }
+.cat-list-metas      { display:flex; gap:16px; flex-wrap:wrap; }
+.cat-list-meta-item  { font-family:var(--ds); font-size:11px; color:#999; }
+
+.cat-list-side { display:flex; flex-direction:column; gap:10px; align-items:flex-end; min-width:160px; flex-shrink:0; }
+
+.cat-cupo-box     { border:1px solid #e0dbd4; padding:12px 16px; background:#fff; text-align:right; width:100%; }
+.cat-cupo-box-num { font-family:var(--dr); font-size:26px; font-weight:700; color:#111; margin:0 0 2px; line-height:1; }
+.cat-cupo-box-sub { font-family:var(--ds); font-size:10px; color:#aaa; margin:0 0 8px; }
+
+/* Botón */
+.cat-btn {
+  font-family:var(--ds); font-size:11px; font-weight:700; letter-spacing:.08em;
+  text-transform:uppercase; padding:10px 18px; border:none; cursor:pointer;
+  transition:all .2s; width:100%;
+}
+.cat-btn--primary          { background:#111; color:#fff; }
+.cat-btn--primary:hover    { background:#333; }
+.cat-btn--disabled         { background:#f5f2ed; color:#bbb; cursor:not-allowed; }
+
+/* Calendario */
+.cal-layout  { display:flex; gap:16px; align-items:flex-start; }
+.cal-grid    { flex:1; display:grid; gap:8px; min-width:0; }
+.cal-day-col { display:flex; flex-direction:column; }
+
+.cal-day-header { background:#111; padding:8px 10px; margin-bottom:8px; text-align:center; }
+.cal-day-name   {
+  font-family:var(--ds); font-size:9px; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; color:rgba(255,255,255,.5); margin:0;
+}
+.cal-empty { font-family:var(--ds); font-size:10px; color:#d8d4cf; font-style:italic; padding:4px 0; }
+
+.cal-bloque {
+  padding:7px 9px; margin-bottom:6px; cursor:pointer; transition:all .15s;
+  border-left:3px solid; outline:1px solid transparent;
+}
+.cal-bloque:hover       { filter:brightness(.97); }
+.cal-bloque--lleno      { opacity:.5; cursor:default; }
+.cal-bloque-hora   { font-family:var(--ds); font-size:9px; color:#bbb; margin:0 0 2px; }
+.cal-bloque-nombre { font-family:var(--dr); font-size:11px; font-weight:700; color:#111; margin:0 0 2px; line-height:1.2; }
+.cal-bloque-sala   { font-family:var(--ds); font-size:9px; color:#aaa; margin:0 0 3px; }
+.cal-bloque-cupo   { font-family:var(--ds); font-size:8px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
+
+/* Panel detalle */
+.cal-panel {
+  width:240px; flex-shrink:0; border:1px solid #e0dbd4; background:#fff;
+  padding:20px; display:flex; flex-direction:column; gap:14px;
+  position:sticky; top:0;
+}
+.cal-panel-top   { display:flex; justify-content:space-between; align-items:flex-start; }
+.cal-panel-close { background:none; border:none; font-size:18px; color:#bbb; cursor:pointer; line-height:1; padding:0; }
+.cal-panel-nombre     { font-family:var(--dr); font-size:17px; font-weight:700; color:#111; margin:0 0 4px; line-height:1.2; }
+.cal-panel-instructor { font-family:var(--ds); font-size:12px; color:#888; margin:0; }
+.cal-panel-divider    { border:none; border-top:1px solid #e0dbd4; margin:0; }
+
+.cal-panel-rows { display:flex; flex-direction:column; gap:7px; }
+.cal-panel-row  { display:flex; justify-content:space-between; gap:8px; }
+.cal-panel-row-label { font-family:var(--ds); font-size:11px; color:#aaa; }
+.cal-panel-row-val   { font-family:var(--ds); font-size:11px; font-weight:600; color:#333; text-align:right; }
+
+/* Lista horarios */
+.cal-list-wrap { border:1px solid #e0dbd4; overflow:hidden; }
+.cal-list-header {
+  display:grid; grid-template-columns:120px 1fr 130px 72px;
+  background:#111; padding:10px 16px; gap:16px;
+}
+.cal-list-th {
+  font-family:var(--ds); font-size:9px; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; color:rgba(255,255,255,.5); margin:0;
+}
+.cal-list-row {
+  display:grid; grid-template-columns:120px 1fr 130px 72px;
+  padding:16px; gap:16px; border-bottom:1px solid #ece9e4;
+  cursor:pointer; align-items:center; transition:background .15s;
+}
+.cal-list-row:hover    { background:#fafaf9; }
+.cal-list-row.selected { background:#f5f2ed; }
+.cal-list-row:last-child { border-bottom:none; }
+
+.cal-list-dia        { font-family:var(--ds); font-size:11px; font-weight:600; color:#888; letter-spacing:.07em; text-transform:uppercase; margin:0 0 2px; }
+.cal-list-hora       { font-family:var(--dr); font-size:15px; font-weight:700; color:#111; margin:0; }
+.cal-list-nombre     { font-family:var(--dr); font-size:15px; font-weight:700; color:#111; margin:0 0 2px; }
+.cal-list-instructor { font-family:var(--ds); font-size:12px; color:#999; margin:0; }
+.cal-list-precio     { font-family:var(--dr); font-size:16px; font-weight:700; color:#111; margin:0; text-align:right; }
+
+.cat-empty { font-family:var(--ds); font-size:14px; color:#aaa; padding:32px 0; text-align:center; font-style:italic; }
+/* ─── Modal de inscripción ────────────────────────────────── */
+
+.cat-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.cat-modal {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  animation: cat-modal-in 0.15s ease-out;
+}
+
+@keyframes cat-modal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.cat-modal h3 {
+  margin: 0 0 12px;
+  font-size: 1.1rem;
+}
+
+.cat-modal p {
+  margin: 0 0 20px;
+  color: #333;
+}
+
+.cat-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.cat-horario-semana {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.cat-dia-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: #f3f4f6;
+  padding: 6px 10px;
+  border-radius: 6px;
+  min-width: 70px;
+}
+
+.cat-dia-nombre {
+  font-size: 12px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.cat-dia-hora {
+  font-size: 11px;
+  color: #6b7280;
+}
+/* Responsive */
+@media (max-width:1023px) { .cat-stats { grid-template-columns:repeat(2,1fr); } }
+
+@media (max-width:767px) {
+  .cat-stats    { grid-template-columns:1fr 1fr; gap:10px; }
+  .cat-grid     { grid-template-columns:1fr; }
+  .cat-toolbar  { flex-direction:column; align-items:flex-start; }
+  .cat-filters  { flex-wrap:nowrap; overflow-x:auto; padding-bottom:4px; -webkit-overflow-scrolling:touch; }
+  .cat-filter-btn { flex-shrink:0; }
+  .cat-list-item  { flex-direction:column; }
+  .cat-list-side  { align-items:flex-start; width:100%; min-width:unset; }
+  .cal-layout     { flex-direction:column; }
+  .cal-panel      { width:100%; position:static; }
+  .cal-list-header,
+  .cal-list-row   { grid-template-columns:100px 1fr 90px; }
+  .cal-list-precio { display:none; }
+}
+
+@media (max-width:399px) { .cat-stats { grid-template-columns:1fr; } }
+
+
+
 

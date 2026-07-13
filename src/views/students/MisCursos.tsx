@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useGetInscripcionesByEstudianteId } from "../../dataconnect-generated/react";
+import "../../Styles/MisCursos.css";
 
 interface CursoInscrito {
   inscripcionId: string;
@@ -83,32 +84,34 @@ export default function MisCursos() {
         <p>Aún no tienes cursos activos.</p>
       ) : (
         cursos.map((curso) => (
-          <div key={curso.inscripcionId} className="uc-curso-card">
-            <div style={{ flex: 1 }}>
-              <div style={{ display: "flex", gap: 8, marginBottom: 8 }}>
+            <div key={curso.inscripcionId} className="uc-curso-card">
+            <div className="uc-da-mis-cursos-main">
+              <div className="uc-da-mis-cursos-badges">
                 <span className="uc-tag-cat">{curso.categoria}</span>
-                <span style={{ background: "#111", color: "#fff", padding: "4px 10px", fontSize: 12 }}>
+                <span className="uc-da-mis-cursos-estado">
                   {estadoTexto[curso.estadoInscripcion] ?? curso.estadoInscripcion}
                 </span>
               </div>
 
               <h3 className="uc-curso-title">{curso.nombre}</h3>
               <p className="uc-curso-inst">Instructor: {curso.instructor}</p>
-              <p style={{ marginTop: 10, color: "#777" }}>🕒 {curso.horario}</p>
+              <p className="uc-da-mis-cursos-horario">🕒 {curso.horario}</p>
 
-              <div style={{ marginTop: 12 }}>
-                <small>Cupo: {curso.cupoActual}/{curso.cupoMaximo}</small>
-                <div style={{ height: 6, background: "#eee", marginTop: 5 }}>
+              <div className="uc-da-mis-cursos-cupo">
+                <small>
+                  Cupo: {curso.cupoActual}/{curso.cupoMaximo}
+                </small>
+                <div className="uc-da-mis-cursos-progress-track">
                   <div
+                    className="uc-da-mis-cursos-progress-fill"
                     style={{
                       width: `${(curso.cupoActual / curso.cupoMaximo) * 100}%`,
-                      height: "100%",
-                      background: "#111",
                     }}
                   />
                 </div>
               </div>
             </div>
+
 
             <div className="uc-curso-side">
               <button className="uc-action-btn uc-action-btn--solid">Ir al aula →</button>

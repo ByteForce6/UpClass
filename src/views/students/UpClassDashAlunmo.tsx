@@ -135,7 +135,7 @@ function BadgeTipo({ tipo }: { tipo: string }) {
   const m: Record<string, { bg: string; color: string }> = {
     Proyecto: { bg: "#f0f0f0", color: "#333" },
     Tarea: { bg: "#f5f2ed", color: "#555" },
-    Evaluación: { bg: "#111", color: "#fff" },
+    Evaluación: { bg: "#0F4C8A", color: "#fff" },
     Participación: { bg: "#e8ede8", color: "#2a5c2a" },
   };
   const s = m[tipo] || { bg: "#eee", color: "#333" };
@@ -528,7 +528,7 @@ export default function Dashboard() {
 
         <div className="ds-main">
           <div className="ds-topbar">
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <div className="ds-topbar-left">
               <button className="ds-hamburger" onClick={() => setSidebar(true)}>
                 ☰
               </button>
@@ -543,6 +543,7 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
+
 
           <main className="ds-content">
             {/* Inyección de sub-vistas condicionales */}

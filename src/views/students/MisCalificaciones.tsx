@@ -17,8 +17,8 @@ const CALIFICACIONES: Calificacion[] = [
 ];
 
 // ── Helpers ────────────────────────────────────────────
-const PromedioColor = (n: number) => n >= 9 ? "#1a6b3c" : n >= 7.5 ? "#7a5c00" : "#9b1c1c";
-const PromedioBg    = (n: number) => n >= 9 ? "#f0faf5" : n >= 7.5 ? "#fefce8" : "#fff5f5";
+const PromedioBg    = (n: number) => n >= 9 ? "var(--uc-green-light)" : n >= 7.5 ? "var(--uc-amber-light)" : "var(--uc-red-light)";
+
 
 const promedio = (cals: Calificacion[]) => {
   const avg = cals.reduce((a, c) => a + (c.Promedio / c.maximo) * 10, 0) / cals.length;
@@ -27,12 +27,13 @@ const promedio = (cals: Calificacion[]) => {
 
 function BadgeTipo({ tipo }: { tipo: string }) {
   const m: Record<string, { bg: string; color: string }> = {
-    Proyecto:      { bg: "#f0f0f0", color: "#333" },
-    Tarea:         { bg: "#f5f2ed", color: "#555" },
-    Evaluación:    { bg: "#111",    color: "#fff" },
-    Participación: { bg: "#e8ede8", color: "#2a5c2a" },
+    Proyecto:      { bg: "var(--uc-surface)", color: "var(--uc-text)" },
+    Tarea:         { bg: "var(--uc-surface-muted)", color: "var(--uc-text-muted)" },
+    Evaluación:    { bg: "var(--uc-brand-blue)", color: "#fff" },
+    Participación: { bg: "var(--uc-green-light)", color: "var(--uc-green)" },
   };
-  const s = m[tipo] || { bg: "#eee", color: "#333" };
+
+  const s = m[tipo] || { bg: "var(--uc-surface)", color: "var(--uc-text)" };
   return (
     <span style={{
       fontFamily: "var(--ds)", fontSize: 10, fontWeight: 600,
@@ -65,14 +66,14 @@ export default function MisCalificaciones() {
           { val: `${prom}`,                                          label: "Promedio",        sub: "General",   dark: true  },
           { val: String(Math.max(...filtradas.map(c => c.Promedio))), label: "Mejor Promedio", sub: "Sobre 100", dark: false },
         ].map((s, i) => (
-          <div key={i} className="uc-cal-sum-card" style={{ background: s.dark ? "#111" : "#fff" }}>
-            <p style={{ fontFamily: "var(--dr)", fontSize: 34, fontWeight: 700, color: s.dark ? "#fff" : "#111", margin: "0 0 4px" }}>
+          <div key={i} className="uc-cal-sum-card" style={{ background: s.dark ? "var(--uc-brand-blue)" : "var(--uc-surface)" }}>
+            <p style={{ fontFamily: "var(--dr)", fontSize: 34, fontWeight: 700, color: s.dark ? "#fff" : "var(--uc-text)", margin: "0 0 4px" }}>
               {s.val}
             </p>
-            <p style={{ fontFamily: "var(--ds)", fontSize: 12, fontWeight: 600, color: s.dark ? "rgba(255,255,255,.7)" : "#555", margin: 0 }}>
+            <p style={{ fontFamily: "var(--ds)", fontSize: 12, fontWeight: 600, color: s.dark ? "#fff" : "var(--uc-text-muted)", margin: 0 }}>
               {s.label}
             </p>
-            <p style={{ fontFamily: "var(--ds)", fontSize: 11, color: s.dark ? "rgba(255,255,255,.4)" : "#aaa", margin: 0 }}>
+            <p style={{ fontFamily: "var(--ds)", fontSize: 11, color: s.dark ? "rgba(255,255,255,.7)" : "var(--uc-text-muted)", margin: 0 }}>
               {s.sub}
             </p>
           </div>
@@ -93,11 +94,11 @@ export default function MisCalificaciones() {
 
       <div className="uc-cal-table-wrap">
         <div className="uc-table-header">
-          {["Tipo", "Actividad", "Curso", "Fecha", "Promedio"].map(h => (
+          {["Tipo", "Curso", "Fecha", "Promedio"].map(h => (
             <p key={h} style={{
               fontFamily: "var(--ds)", fontSize: 10, fontWeight: 600,
               letterSpacing: ".1em", textTransform: "uppercase",
-              color: "rgba(255,255,255,.5)", margin: 0,
+              color: "#fff", margin: 0,
             }}>
               {h}
             </p>
@@ -105,18 +106,17 @@ export default function MisCalificaciones() {
         </div>
 
         {filtradas.map((c, i) => (
-          <div key={i} className="uc-table-row" style={{ background: i % 2 === 0 ? "#fff" : "#fafaf9" }}>
-            <div className="uc-table-tipo">
+          <div key={i} className="uc-table-row" style={{ background: i % 2 === 0 ? "var(--uc-surface)" : "var(--uc-surface-muted)" }}>
+            <div className="uc-table-tipo" style={{ background: "var(--uc-brand-blue)" }}>
               <BadgeTipo tipo="Evaluación" />
             </div>
-            <p className="uc-table-act">{c.materia}</p>
             <p className="uc-table-curso" style={{ fontWeight: 500 }}>{c.materia}</p>
             <p className="uc-table-fecha">{c.fecha}</p>
             <div className="uc-Promedio-chip" style={{ background: PromedioBg(c.Promedio) }}>
-              <p style={{
-                fontFamily: "var(--dr)", fontSize: 18, fontWeight: 700,
-                color: PromedioColor(c.Promedio), margin: 0, lineHeight: 1,
-              }}>
+            <p style={{
+              fontFamily: "var(--dr)", fontSize: 18, fontWeight: 700,
+              color: "#fff", margin: 0, lineHeight: 1,
+            }}>
                 {c.Promedio}
               </p>
             </div>
