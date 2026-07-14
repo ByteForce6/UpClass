@@ -400,7 +400,11 @@ const NAV: { key: View; label: string; icon: string }[] = [
 
 // ── COMPONENTE PRINCIPAL EXPORTADO ──
 export default function Dashboard() {
-  const [view, setView] = useState<View>("inicio");
+  const [view, setView] = useState<View>(() => {
+    const stored = localStorage.getItem("uc_dash_view_students");
+    if (!stored) return "inicio";
+    return (stored as View) ?? "inicio";
+  });
   const [sidebar, setSidebar] = useState(false);
 
   // Estado local seguro para guardar la información del usuario autenticado
@@ -413,21 +417,33 @@ export default function Dashboard() {
     const savedUser = localStorage.getItem("user");
     const storedRol = localStorage.getItem("rol");
 
-    if (!token || !savedUser || !storedRol) {
-      // navigate("/");
+    if (!token || !savedUser || !storedRol) return;
+
+    let parsed: unknown = null;
+    try {
+      parsed = JSON.parse(savedUser);
+    } catch {
       return;
     }
 
-    const parsed = JSON.parse(savedUser);
-    // Si el rol en user/localStorage no coincide con student => /home
-    if (parsed?.rol !== "student" || storedRol !== "student") {
+    const rolParsed = String(((parsed as { rol?: string })?.rol ?? "")).toLowerCase();
+    const rolStored = String(storedRol ?? "").toLowerCase();
+
+    // Normalizamos comparación para evitar problemas por mayúsculas/minúsculas
+    if (rolParsed !== "student" || rolStored !== "student") {
       navigate("/");
       return;
     }
 
     // setState after checks
-    queueMicrotask(() => setUserData(parsed));
+    queueMicrotask(() => setUserData(parsed as UserSession));
   }, [navigate]);
+
+  // Persistir vista actual en cada cambio
+  useEffect(() => {
+    localStorage.setItem("uc_dash_view_students", view);
+  }, [view]);
+
 
   // Función manejadora para romper la sesión actual
   const handleLogout = () => {

@@ -44,7 +44,7 @@
 .cat-filter-btn.secondary.active   { background:#555; border-color:#555; }
 
 .cat-divider { width:1px; height:28px; background:#e0dbd4; align-self:center; }
-
+ 
 .cat-toggle-vista { display:flex; border:1px solid #d8d4cf; }
 .cat-toggle-btn {
   font-family:var(--ds); font-size:12px; font-weight:600;

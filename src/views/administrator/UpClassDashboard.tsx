@@ -219,7 +219,10 @@ function StudentsCard() {
 // ── Componente principal ──────────────────────────────────────────────────────
 
 export default function UpClassDashboard() {
-  const [activeNav, setActiveNav] = useState("inicio");
+  const [activeNav, setActiveNav] = useState(() => {
+    const stored = localStorage.getItem("uc_dash_view_admin");
+    return (stored as string) || "inicio";
+  });
   const [collapsed, setCollapsed] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const navigate = useNavigate();
@@ -234,6 +237,11 @@ export default function UpClassDashboard() {
     const parsed = JSON.parse(savedUser);
     if (parsed?.rol !== "admin" || storedRol !== "admin") { navigate("/"); return; }
   }, [navigate]);
+
+  // Persistir vista actual en cada cambio
+  useEffect(() => {
+    localStorage.setItem("uc_dash_view_admin", activeNav);
+  }, [activeNav]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");

@@ -6,6 +6,37 @@ export const ProfesorIndex = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
 
+  // Persistimos qué sección interna estaba viendo (opcional)
+  const [teacherTab, setTeacherTab] = useState<string>(() => {
+    return localStorage.getItem("uc_dash_view_teacher") ?? "inicio";
+  });
+
+  const setTeacherTabAndPersist = (next: string) => {
+    setTeacherTab(next);
+    localStorage.setItem("uc_dash_view_teacher", next);
+  };
+
+  useEffect(() => {
+    localStorage.setItem("uc_dash_view_teacher", teacherTab);
+  }, [teacherTab]);
+
+  // Si recargas una ruta interna del teacher, mantenemos el tab correspondiente
+  useEffect(() => {
+    const path = window.location.pathname;
+    if (path === "/teacher/calificaciones") {
+      localStorage.setItem("uc_dash_view_teacher", "calificaciones");
+      return;
+    }
+    if (path === "/teacher/asistencias") {
+      localStorage.setItem("uc_dash_view_teacher", "asistencias");
+      return;
+    }
+    if (path === "/teacher") {
+      localStorage.setItem("uc_dash_view_teacher", "inicio");
+    }
+  }, []);
+
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     const savedUser = localStorage.getItem("user");
@@ -22,6 +53,10 @@ export const ProfesorIndex = () => {
       return;
     }
   }, [navigate]);
+
+  useEffect(() => {
+    localStorage.setItem("uc_dash_view_teacher", teacherTab);
+  }, [teacherTab]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -57,14 +92,35 @@ export const ProfesorIndex = () => {
           <h3>UpClass Profe</h3>
         </div>
         <nav className="sidebar-menu">
-          <Link to="/teacher" className="menu-item active" onClick={() => setMenuOpen(false)}>
+          <Link
+            to="/teacher"
+            className="menu-item active"
+            onClick={() => {
+              setTeacherTabAndPersist("inicio");
+              setMenuOpen(false);
+            }}
+          >
             🏠 Inicio (Dashboard)
           </Link>
-          <Link to="/teacher/calificaciones" className="menu-item" onClick={() => setMenuOpen(false)}>
+          <Link
+            to="/teacher/calificaciones"
+            className="menu-item"
+            onClick={() => {
+              setTeacherTabAndPersist("calificaciones");
+              setMenuOpen(false);
+            }}
+          >
             📝 Registrar Calificaciones
           </Link>
-          <Link to="/teacher/asistencias" className="menu-item" onClick={() => setMenuOpen(false)}>
-          📋 Registrar Asistencias
+          <Link
+            to="/teacher/asistencias"
+            className="menu-item"
+            onClick={() => {
+              setTeacherTabAndPersist("asistencias");
+              setMenuOpen(false);
+            }}
+          >
+            📋 Registrar Asistencias
           </Link>
           <hr className="sidebar-divider" />
           <button type="button" className="menu-item logout" onClick={() => handleLogout()}>
