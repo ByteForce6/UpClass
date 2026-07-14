@@ -1,38 +1,51 @@
-
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+import { useGetHorariosDisponibles } from "../dataconnect-generated/react";
 import "../Styles/home.css";
 import { Link } from "react-router-dom";
 
 export default function Home() {
     const [menuOpen, setMenuOpen] = useState(false);
-    useEffect(() => {
 
+    const { data: horariosData, isLoading } = useGetHorariosDisponibles();
+
+    const cursosPopulares = useMemo(() => {
+        const horarios = horariosData?.horarios ?? [];
+
+        const mapa = new Map<string, { curso: any, totalInscritos: number, totalClases: number }>();
+        horarios.forEach((h: any) => {
+            if (h.estado?.toLowerCase() !== "activo") return;
+
+            const cursoId = h.curso.id;
+            if (!mapa.has(cursoId)) {
+                mapa.set(cursoId, { curso: h.curso, totalInscritos: 0, totalClases: 0 });
+            }
+            const entry = mapa.get(cursoId)!;
+            entry.totalInscritos += h.cupoActual ?? 0;
+            entry.totalClases += 1;
+        });
+
+        return Array.from(mapa.values())
+            .sort((a, b) => b.totalInscritos - a.totalInscritos)
+            .slice(0, 8);
+    }, [horariosData]);
+
+    useEffect(() => {
         const cards = document.querySelectorAll(".testimonial-card");
 
         const observer = new IntersectionObserver(
-
             (entries) => {
-
                 entries.forEach((entry) => {
-
                     if (entry.isIntersecting) {
-
                         entry.target.classList.add("show");
-
                     }
-
                 });
-
             },
-
             {
                 threshold: 0.2,
             }
-
         );
 
         cards.forEach((card) => observer.observe(card));
-
     }, []);
 
     return (
@@ -132,7 +145,6 @@ export default function Home() {
 
             {/* CURSOS */}
             <section className="courses-section" id="cursos">
-
                 <div className="courses-header">
                     <h2>Cursos populares</h2>
 
@@ -158,119 +170,42 @@ export default function Home() {
                 </div>
 
                 <div className="courses-track" id="courses-track">
+                    {isLoading ? (
+                        <p>Cargando cursos...</p>
+                    ) : cursosPopulares.length === 0 ? (
+                        <p>No hay cursos disponibles todavía.</p>
+                    ) : (
+                        cursosPopulares.map(({ curso, totalInscritos, totalClases }) => (
+                            <div className="course-card" key={curso.id}>
+                                {curso.urlImagen && (
+                                    <img src={curso.urlImagen} alt={curso.nombre} />
+                                )}
 
-                    {/* CARD */}
-                    <div className="course-card">
+                                <div className="course-content">
+                                    <div className="course-top">
+                                        <h3>{curso.nombre}</h3>
+                                        {curso.categoria && <span>{curso.categoria}</span>}
+                                    </div>
 
-                        <img
-                            src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop"
-                            alt="curso"
-                        />
+                                    <div className="course-info">
+                                        {curso.instructor?.usuario?.nombreCompleto && (
+                                            <p>👨‍🏫 {curso.instructor.usuario.nombreCompleto}</p>
+                                        )}
+                                        <p>⏰ {totalClases} clase{totalClases !== 1 ? "s" : ""}</p>
+                                    </div>
 
-                        <div className="course-content">
+                                    {curso.descripcion && (
+                                        <p className="course-description">{curso.descripcion}</p>
+                                    )}
 
-                            <div className="course-top">
-                                <h3>Programación Web</h3>
-                                <span>⭐ 4.9</span>
+                                    <p className="course-info">👥 {totalInscritos} inscritos</p>
+                                </div>
                             </div>
-
-                            <div className="course-info">
-                                <p>👨‍🏫 Juan Pérez</p>
-                                <p>⏰ 24 clases</p>
-                            </div>
-
-                            <p className="course-description">
-                                Aprende HTML, CSS, JavaScript y React
-                                desde cero con proyectos reales.
-                            </p>
-
-                        </div>
-                    </div>
-
-                    {/* CARD */}
-                    <div className="course-card">
-
-                        <img
-                            src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop"
-                            alt="curso"
-                        />
-
-                        <div className="course-content">
-
-                            <div className="course-top">
-                                <h3>Diseño UX/UI</h3>
-                                <span>⭐ 4.8</span>
-                            </div>
-
-                            <div className="course-info">
-                                <p>👩‍🏫 Sofía López</p>
-                                <p>⏰ 18 clases</p>
-                            </div>
-
-                            <p className="course-description">
-                                Domina Figma y diseño de interfaces
-                                modernas para apps y web.
-                            </p>
-
-                        </div>
-                    </div>
-
-                    {/* CARD */}
-                    <div className="course-card">
-
-                        <img
-                            src="https://images.unsplash.com/photo-1513258496099-48168024aec0?q=80&w=1200&auto=format&fit=crop"
-                            alt="curso"
-                        />
-
-                        <div className="course-content">
-
-                            <div className="course-top">
-                                <h3>Marketing Digital</h3>
-                                <span>⭐ 5.0</span>
-                            </div>
-
-                            <div className="course-info">
-                                <p>👨‍🏫 Carlos Ruiz</p>
-                                <p>⏰ 20 clases</p>
-                            </div>
-
-                            <p className="course-description">
-                                Aprende redes sociales, anuncios y
-                                estrategias digitales modernas.
-                            </p>
-
-                        </div>
-                    </div>
-                    <div className="course-card">
-
-                        <img
-                            src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop"
-                            alt="curso"
-                        />
-
-                        <div className="course-content">
-
-                            <div className="course-top">
-                                <h3>Base de Datos</h3>
-                                <span>⭐ 4.7</span>
-                            </div>
-
-                            <div className="course-info">
-                                <p>👨‍🏫 María López</p>
-                                <p>⏰ 16 clases</p>
-                            </div>
-
-                            <p className="course-description">
-                                Aprende MySQL, Firebase y MongoDB
-                                desde cero.
-                            </p>
-
-                        </div>
-                    </div>
-
+                        ))
+                    )}
                 </div>
             </section>
+
             {/* TESTIMONIOS */}
             <section className="testimonials-section" id="testimonios">
 
@@ -292,7 +227,6 @@ export default function Home() {
 
                 <div className="testimonials-grid">
 
-                    {/* CARD */}
                     <div className="testimonial-card">
 
                         <div className="testimonial-top">
@@ -310,14 +244,13 @@ export default function Home() {
                         </div>
 
                         <p>
-                            “La plataforma es increíblemente intuitiva.
+                            "La plataforma es increíblemente intuitiva.
                             Puedo acceder a mis clases y tareas desde
-                            cualquier dispositivo.”
+                            cualquier dispositivo."
                         </p>
 
                     </div>
 
-                    {/* CARD */}
                     <div className="testimonial-card">
 
                         <div className="testimonial-top">
@@ -335,13 +268,12 @@ export default function Home() {
                         </div>
 
                         <p>
-                            “UpClass hizo que administrar cursos y
-                            aprender fuera muchísimo más fácil y moderno.”
+                            "UpClass hizo que administrar cursos y
+                            aprender fuera muchísimo más fácil y moderno."
                         </p>
 
                     </div>
 
-                    {/* CARD */}
                     <div className="testimonial-card">
 
                         <div className="testimonial-top">
@@ -359,8 +291,8 @@ export default function Home() {
                         </div>
 
                         <p>
-                            “El diseño es hermoso y la experiencia
-                            móvil funciona perfecto como aplicación.”
+                            "El diseño es hermoso y la experiencia
+                            móvil funciona perfecto como aplicación."
                         </p>
 
                     </div>
@@ -368,6 +300,7 @@ export default function Home() {
                 </div>
 
             </section>
+
             {/* FAQ SECTION */}
             <section className="faq-section" id="preguntas">
 
@@ -389,7 +322,6 @@ export default function Home() {
                         para que aproveches al máximo la plataforma.
                     </p>
 
-                    {/* ITEM */}
                     <div className="faq-item">
                         <input type="checkbox" id="q1" />
                         <label htmlFor="q1">
@@ -401,7 +333,6 @@ export default function Home() {
                         </div>
                     </div>
 
-                    {/* ITEM */}
                     <div className="faq-item">
                         <input type="checkbox" id="q2" />
                         <label htmlFor="q2">
@@ -413,7 +344,6 @@ export default function Home() {
                         </div>
                     </div>
 
-                    {/* ITEM */}
                     <div className="faq-item">
                         <input type="checkbox" id="q3" />
                         <label htmlFor="q3">
@@ -425,7 +355,6 @@ export default function Home() {
                         </div>
                     </div>
 
-                    {/* ITEM */}
                     <div className="faq-item">
                         <input type="checkbox" id="q4" />
                         <label htmlFor="q4">
@@ -446,7 +375,6 @@ export default function Home() {
 
                 <div className="footer-top">
 
-                    {/* Marca */}
                     <div className="footer-brand">
 
                         <h2>UpClass</h2>
@@ -479,7 +407,6 @@ export default function Home() {
 
                     </div>
 
-                    {/* Links */}
                     <div className="footer-links">
 
                         <div className="footer-column">
@@ -521,8 +448,5 @@ export default function Home() {
             </footer>
 
         </div>
-
-
     );
-
 }
