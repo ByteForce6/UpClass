@@ -6,8 +6,11 @@ import {
   useActualizarCupoHorario,
 } from "../../dataconnect-generated/react";
 import "../../Styles/Catalogo.css";
+import "../../Styles/dashboardAlumnos.css";
 
-// ─── Helpers ──────────────────────────────────────────────────
+// Filtros reutilizan estilos de dashboard (MisCalificaciones)
+
+// ─── Helpers
 
 function cupoLibre(h: any): number {
   return h.cupoMaximo - h.cupoActual;
@@ -177,6 +180,7 @@ export default function CatalogoCursos() {
   const estudianteInternalId = obtenerEstudianteId();
 
   const { data, isLoading, isError, refetch: refetchHorarios } = useGetHorariosDisponibles();
+
   const { mutateAsync: inscribir } = useInsscribirEstudiante();
   const { mutateAsync: actualizarCupo } = useActualizarCupoHorario();
 
@@ -362,8 +366,9 @@ export default function CatalogoCursos() {
             <button
               key={cat}
               type="button"
-              className={`cat-filter-btn${categoria === cat ? " active" : ""}`}
+className={`uc-filter-btn${categoria === cat ? " active" : ""}`}
               onClick={() => setCategoria(cat)}
+
             >
               {cat}
             </button>

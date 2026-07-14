@@ -127,7 +127,42 @@ export default function Login() {
                       showClave ? "Ocultar contraseña" : "Mostrar contraseña"
                     }
                   >
-                    {showClave ? "🙈" : "👁️"}
+                    {showClave ? (
+                      // OJO CERRADO
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="22"
+                        height="22"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M17.94 17.94A10.97 10.97 0 0 1 12 19c-5 0-9.27-3.11-11-7 1.17-2.65 3.56-4.78 6.62-5.77" />
+                        <path d="M1.5 1.5l21 21" />
+                        <path d="M9.9 9.9A3 3 0 0 0 12 15a3 3 0 0 0 2.1-.84" />
+                        <path d="M14.12 14.12A3 3 0 0 1 9.88 9.88" />
+                        <path d="M14.5 5.5C15.99 6.13 17.35 7.03 18.5 8.2c1.18 1.2 2.06 2.62 2.5 3.8-.66 1.73-2.01 3.52-3.94 4.7" />
+                      </svg>
+                    ) : (
+                      // OJO ABIERTO
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="22"
+                        height="22"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>
+                    )}
                   </button>
                 </div>
               </div>

@@ -35,13 +35,49 @@
 .cat-filters { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
 
 .cat-filter-btn {
-  font-family:var(--ds); font-size:11px; font-weight:600; letter-spacing:.07em;
-  text-transform:uppercase; border:1px solid #d8d4cf; background:transparent;
-  color:#888; padding:6px 14px; cursor:pointer; transition:all .2s;
+  font-family: var(--ds);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  border: 1px solid #cfe5ff;
+  background: #ffffff;
+  color: #0F4C8A;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: all .2s;
 }
-.cat-filter-btn:hover:not(.active) { border-color:#111; color:#111; }
-.cat-filter-btn.active             { background:#111; color:#fff; border-color:#111; }
-.cat-filter-btn.secondary.active   { background:#555; border-color:#555; }
+
+/* Estado activo (botón seleccionado) */
+.cat-filter-btn.active {
+  background: #0F4C8A;
+  color: #fff;
+  border-color: #0F4C8A;
+}
+
+/* Hover para no-activos */
+.cat-filter-btn:hover:not(.active) {
+  border-color: #0F4C8A;
+  color: #0b3b6c;
+  background: #f5fbff;
+}
+
+/* Por si se usa una variante */
+.cat-filter-btn.secondary.active {
+  background: #0b3b6c;
+  border-color: #0b3b6c;
+}
+
+/* Asegurar texto azul/blanco incluso si otro CSS pisa */
+.cat-filters .cat-filter-btn {
+  color: #0F4C8A;
+}
+
+.cat-filters .cat-filter-btn.active {
+  color: #fff;
+}
+
+
 
 .cat-divider { width:1px; height:28px; background:#e0dbd4; align-self:center; }
  
@@ -132,7 +168,12 @@
 .cal-grid    { flex:1; display:grid; gap:8px; min-width:0; }
 .cal-day-col { display:flex; flex-direction:column; }
 
-.cal-day-header { background:#111; padding:8px 10px; margin-bottom:8px; text-align:center; }
+.cal-day-header {
+  background:#0F4C8A;
+  padding:8px 10px;
+  margin-bottom:8px;
+  text-align:center;
+}
 .cal-day-name   {
   font-family:var(--ds); font-size:9px; font-weight:700; letter-spacing:.1em;
   text-transform:uppercase; color:rgba(255,255,255,.5); margin:0;

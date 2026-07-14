@@ -6,6 +6,8 @@ import {
   DIAS_SEMANA,
 } from "../../Data/mockCatalogo";
 import "../../Styles/Catalogo.css";
+import "../../Styles/dashboardAlumnos.css";
+
 
 // ─── Helpers ──────────────────────────────────────────────────
 
@@ -234,7 +236,8 @@ export default function CatalogoHorarios() {
           {categoriasFiltro.map((cat) => (
             <button
               key={cat}
-              className={`cat-filter-btn${categoria === cat ? " active" : ""}`}
+              className={`uc-filter-btn${categoria === cat ? " active" : ""}`}
+
               onClick={() => { setCategoria(cat); setSeleccionado(null); }}
             >
               <span>{cat}</span>
