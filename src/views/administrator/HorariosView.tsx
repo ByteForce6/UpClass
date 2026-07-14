@@ -488,14 +488,14 @@ export default function HorariosView() {
                                 {cursos.map((c: any) => (
                                     <option key={c.id} value={c.id}>{c.nombre}</option>
                                 ))}
-                            </select><br/><br/>
+                            </select><br /><br />
 
                             <label className="ucv-field-label">Fecha de inicio del curso</label>
                             <input
                                 type="date"
                                 value={form.fechaInicio}
                                 onChange={(e) => { setForm({ ...form, fechaInicio: e.target.value }); setFormError(null); }}
-                            /> <br/><br/>
+                            /> <br /><br />
 
                             <label className="ucv-field-label">Fecha de término del curso</label>
                             <input
@@ -503,16 +503,16 @@ export default function HorariosView() {
                                 value={form.fechaFin}
                                 min={form.fechaInicio || undefined}
                                 onChange={(e) => { setForm({ ...form, fechaFin: e.target.value }); setFormError(null); }}
-                            /><br/><br/>
+                            /><br /><br />
 
                             <label className="ucv-field-label">Cupo máximo de estudiantes</label>
-                            <input type="number" placeholder="Cupo máximo" value={form.cupoMaximo} onChange={(e) => setForm({ ...form, cupoMaximo: e.target.value === "" ? "" : Number(e.target.value) })} /><br/><br/>
+                            <input type="number" placeholder="Cupo máximo" value={form.cupoMaximo} onChange={(e) => setForm({ ...form, cupoMaximo: e.target.value === "" ? "" : Number(e.target.value) })} /><br /><br />
 
                             <label className="ucv-field-label">Estado del curso</label>
-                            <select value={form.estado} onChange={(e) => setForm({ ...form, estado: e.target.value })}><br/><br/>
+                            <select value={form.estado} onChange={(e) => setForm({ ...form, estado: e.target.value })}><br /><br />
                                 <option value="Activo">Activo</option>
                                 <option value="Inactivo">Inactivo</option>
-                            </select><br/><br/>
+                            </select><br /><br />
 
                             <div className="ucv-bloques-header">
                                 <label className="ucv-field-label">Días y horarios de clase</label>
@@ -521,60 +521,60 @@ export default function HorariosView() {
                                 </button>
                             </div>
 
-                <div className="ucv-bloques-list">
-                    {form.bloques.map((bloque, index) => (
-                        <div key={index} className="ucv-bloque-card">
-                            <div className="ucv-bloque-card__top">
-                                <span className="ucv-bloque-card__num">Día {index + 1}</span>
-                                {form.bloques.length > 1 && (
-                                    <button
-                                        type="button"
-                                        className="ucv-btn-remove-bloque"
-                                        onClick={() => eliminarBloque(index)}
-                                        title="Quitar este día"
-                                    >
-                                        <i className="ti ti-trash" aria-hidden="true" />
-                                    </button>
-                                )}
-                            </div>
+                            <div className="ucv-bloques-list">
+                                {form.bloques.map((bloque, index) => (
+                                    <div key={index} className="ucv-bloque-card">
+                                        <div className="ucv-bloque-card__top">
+                                            <span className="ucv-bloque-card__num">Día {index + 1}</span>
+                                            {form.bloques.length > 1 && (
+                                                <button
+                                                    type="button"
+                                                    className="ucv-btn-remove-bloque"
+                                                    onClick={() => eliminarBloque(index)}
+                                                    title="Quitar este día"
+                                                >
+                                                    <i className="ti ti-trash" aria-hidden="true" />
+                                                </button>
+                                            )}
+                                        </div>
 
-                            <label className="ucv-field-label-sm">Día de la semana</label>
-                            <select
-                                value={bloque.diaSemana}
-                                onChange={(e) => actualizarBloque(index, "diaSemana", e.target.value)}
-                            >
-                                <option value="">Selecciona un día</option>
-                                <option value="Lunes">Lunes</option>
-                                <option value="Martes">Martes</option>
-                                <option value="Miércoles">Miércoles</option>
-                                <option value="Jueves">Jueves</option>
-                                <option value="Viernes">Viernes</option>
-                                <option value="Sábado">Sábado</option>
-                                <option value="Domingo">Domingo</option>
-                            </select>
+                                        <label className="ucv-field-label-sm">Día de la semana</label>
+                                        <select
+                                            value={bloque.diaSemana}
+                                            onChange={(e) => actualizarBloque(index, "diaSemana", e.target.value)}
+                                        >
+                                            <option value="">Selecciona un día</option>
+                                            <option value="Lunes">Lunes</option>
+                                            <option value="Martes">Martes</option>
+                                            <option value="Miércoles">Miércoles</option>
+                                            <option value="Jueves">Jueves</option>
+                                            <option value="Viernes">Viernes</option>
+                                            <option value="Sábado">Sábado</option>
+                                            <option value="Domingo">Domingo</option>
+                                        </select>
 
-                            <div className="ucv-bloque-horas">
-                                <div className="ucv-bloque-hora-field">
-                                    <label className="ucv-field-label-sm">Hora de inicio</label>
-                                    <input
-                                        type="time"
-                                        value={bloque.horaInicio}
-                                        onChange={(e) => actualizarBloque(index, "horaInicio", e.target.value)}
-                                    />
-                                </div>
-                                <div className="ucv-bloque-hora-field">
-                                    <label className="ucv-field-label-sm">Hora de término</label>
-                                    <input
-                                        type="time"
-                                        value={bloque.horaFin}
-                                        min={bloque.horaInicio || undefined}
-                                        onChange={(e) => actualizarBloque(index, "horaFin", e.target.value)}
-                                    />
-                                </div>
+                                        <div className="ucv-bloque-horas">
+                                            <div className="ucv-bloque-hora-field">
+                                                <label className="ucv-field-label-sm">Hora de inicio</label>
+                                                <input
+                                                    type="time"
+                                                    value={bloque.horaInicio}
+                                                    onChange={(e) => actualizarBloque(index, "horaInicio", e.target.value)}
+                                                />
+                                            </div>
+                                            <div className="ucv-bloque-hora-field">
+                                                <label className="ucv-field-label-sm">Hora de término</label>
+                                                <input
+                                                    type="time"
+                                                    value={bloque.horaFin}
+                                                    min={bloque.horaInicio || undefined}
+                                                    onChange={(e) => actualizarBloque(index, "horaFin", e.target.value)}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
-                        </div>
-                    ))}
-                </div>
 
                             {formError && (
                                 <p style={{ color: "#c0392b", fontSize: 13, marginTop: 12, fontWeight: 500 }}>
@@ -594,6 +594,7 @@ export default function HorariosView() {
                     </div>
                 </div>
             )}
+
             {/* MODAL EDITAR */}
             {openEdit && (
                 <div className="ucv-modal-overlay">
@@ -603,70 +604,72 @@ export default function HorariosView() {
                             <button className="ucv-modal-close" onClick={() => setOpenEdit(false)}>✕</button>
                         </div>
 
-                        <label className="ucv-field-label">Curso</label>
-                        <select value={form.cursoId} onChange={(e) => setForm({ ...form, cursoId: e.target.value })}>
-                            <option value="">Selecciona un curso</option>
-                            {cursos.map((c: any) => (
-                                <option key={c.id} value={c.id}>{c.nombre}</option>
-                            ))}
-                        </select>
+                        <div className="ucv-modal-body">
+                            <label className="ucv-field-label">Curso</label>
+                            <select value={form.cursoId} onChange={(e) => setForm({ ...form, cursoId: e.target.value })}>
+                                <option value="">Selecciona un curso</option>
+                                {cursos.map((c: any) => (
+                                    <option key={c.id} value={c.id}>{c.nombre}</option>
+                                ))}
+                            </select><br /><br />
 
-                        <label className="ucv-field-label">Día de la semana</label>
-                        <select value={form.diaSemana} onChange={(e) => setForm({ ...form, diaSemana: e.target.value })}>
-                            <option value="">Selecciona un día</option>
-                            <option value="Lunes">Lunes</option>
-                            <option value="Martes">Martes</option>
-                            <option value="Miércoles">Miércoles</option>
-                            <option value="Jueves">Jueves</option>
-                            <option value="Viernes">Viernes</option>
-                            <option value="Sábado">Sábado</option>
-                            <option value="Domingo">Domingo</option>
-                        </select>
+                            <label className="ucv-field-label">Día de la semana</label>
+                            <select value={form.diaSemana} onChange={(e) => setForm({ ...form, diaSemana: e.target.value })}>
+                                <option value="">Selecciona un día</option>
+                                <option value="Lunes">Lunes</option>
+                                <option value="Martes">Martes</option>
+                                <option value="Miércoles">Miércoles</option>
+                                <option value="Jueves">Jueves</option>
+                                <option value="Viernes">Viernes</option>
+                                <option value="Sábado">Sábado</option>
+                                <option value="Domingo">Domingo</option>
+                            </select><br /><br />
 
-                        <label className="ucv-field-label">Fecha de inicio del curso</label>
-                        <input
-                            type="date"
-                            value={form.fechaInicio}
-                            onChange={(e) => { setForm({ ...form, fechaInicio: e.target.value }); setFormError(null); }}
-                        />
+                            <label className="ucv-field-label">Fecha de inicio del curso</label>
+                            <input
+                                type="date"
+                                value={form.fechaInicio}
+                                onChange={(e) => { setForm({ ...form, fechaInicio: e.target.value }); setFormError(null); }}
+                            /><br /><br />
 
-                        <label className="ucv-field-label">Fecha de término del curso</label>
-                        <input
-                            type="date"
-                            value={form.fechaFin}
-                            min={form.fechaInicio || undefined}
-                            onChange={(e) => { setForm({ ...form, fechaFin: e.target.value }); setFormError(null); }}
-                        />
+                            <label className="ucv-field-label">Fecha de término del curso</label>
+                            <input
+                                type="date"
+                                value={form.fechaFin}
+                                min={form.fechaInicio || undefined}
+                                onChange={(e) => { setForm({ ...form, fechaFin: e.target.value }); setFormError(null); }}
+                            /><br /><br />
 
-                        <label className="ucv-field-label">Hora en la que iniciará el curso</label>
-                        <input
-                            type="time"
-                            value={form.horaInicio}
-                            onChange={(e) => { setForm({ ...form, horaInicio: e.target.value }); setFormError(null); }}
-                        />
+                            <label className="ucv-field-label">Hora en la que iniciará el curso</label>
+                            <input
+                                type="time"
+                                value={form.horaInicio}
+                                onChange={(e) => { setForm({ ...form, horaInicio: e.target.value }); setFormError(null); }}
+                            /><br /><br />
 
-                        <label className="ucv-field-label">Hora en la que terminará el curso</label>
-                        <input
-                            type="time"
-                            value={form.horaFin}
-                            min={form.horaInicio || undefined}
-                            onChange={(e) => { setForm({ ...form, horaFin: e.target.value }); setFormError(null); }}
-                        />
+                            <label className="ucv-field-label">Hora en la que terminará el curso</label>
+                            <input
+                                type="time"
+                                value={form.horaFin}
+                                min={form.horaInicio || undefined}
+                                onChange={(e) => { setForm({ ...form, horaFin: e.target.value }); setFormError(null); }}
+                            /><br /><br />
 
-                        <label className="ucv-field-label">Cupo máximo de estudiantes</label>
-                        <input type="number" placeholder="Cupo máximo" value={form.cupoMaximo} onChange={(e) => setForm({ ...form, cupoMaximo: e.target.value === "" ? "" : Number(e.target.value) })} />
+                            <label className="ucv-field-label">Cupo máximo de estudiantes</label>
+                            <input type="number" placeholder="Cupo máximo" value={form.cupoMaximo} onChange={(e) => setForm({ ...form, cupoMaximo: e.target.value === "" ? "" : Number(e.target.value) })} /><br /><br />
 
-                        <label className="ucv-field-label">Estado del curso</label>
-                        <select value={form.estado} onChange={(e) => setForm({ ...form, estado: e.target.value })}>
-                            <option value="Activo">Activo</option>
-                            <option value="Inactivo">Inactivo</option>
-                        </select>
+                            <label className="ucv-field-label">Estado del curso</label>
+                            <select value={form.estado} onChange={(e) => setForm({ ...form, estado: e.target.value })}>
+                                <option value="Activo">Activo</option>
+                                <option value="Inactivo">Inactivo</option>
+                            </select>
 
-                        {formError && (
-                            <p style={{ color: "#c0392b", fontSize: 13, marginTop: 12, fontWeight: 500 }}>
-                                {formError}
-                            </p>
-                        )}
+                            {formError && (
+                                <p style={{ color: "#c0392b", fontSize: 13, marginTop: 12, fontWeight: 500 }}>
+                                    {formError}
+                                </p>
+                            )}
+                        </div>
 
                         <div className="ucv-modal-actions">
                             <button disabled={actualizando} onClick={handleUpdate} className="ucv-btn-primary">
@@ -679,7 +682,6 @@ export default function HorariosView() {
                     </div>
                 </div>
             )}
-
             {/* MODAL ELIMINAR */}
             {openDelete && (
                 <div className="ucv-modal-overlay">
